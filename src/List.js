@@ -5,11 +5,11 @@ export default function list() {
     <body className="main">
 
       <div className="byline">
-      <p>Cook together from anywhere</p>
+        <p>Cook together from anywhere</p>
       </div>
 
       <div>
-      <Item />
+        <Item />
       </div>
 
     </body>

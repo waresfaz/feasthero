@@ -33,16 +33,22 @@
 /* Styles appied to list */
 
 .main {
-  display: flex;
-  justify-content: center;
+  /* display: flex;
+  justify-content: center; */
   padding: 5%;
   border: 5px dashed black;
 }
 
 .byline {
   border: 4px dotted green;
+  display: flex;
+  justify-content: center;
 }
+
+/* Styles applied to item */
 
 .item {
   border: 4px dotted green;
+  display: flex;
+  justify-content: center;
 }
