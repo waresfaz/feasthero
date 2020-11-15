@@ -33,8 +33,9 @@
 /* Styles appied to list */
 
 .main {
-  /* display: flex;
-  justify-content: center; */
+  display: flex;
+  /* justify-content: center; */
+  flex-direction: column;
   padding: 5%;
   border: 5px dashed black;
 }
@@ -51,4 +52,36 @@
   border: 4px dotted green;
   display: flex;
   justify-content: center;
+  margin-top: 15%;
+  padding: 2%;
+}
+
+.item-image {
+  max-height: 200px;
+  max-width: 200px;
+  display: flex;
+  align-items: center;
+  /* margin: 16px 0; */
+}
+
+.thumbnail {
+  width: 100%;
+  height: auto;
+}
+
+.item-details {
+  display: flex;
+  flex-direction: column;
+}
+
+.item-button {
+  display: flex;
+  align-items: center;
+}
+
+.select-item {
+  background-color: transparent;
+  border-radius: 15px;
+  border: 1px solid black;
+  height: 10%;
 }
