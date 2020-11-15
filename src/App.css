@@ -61,17 +61,32 @@
   max-width: 200px;
   display: flex;
   align-items: center;
+  /* flex-direction: column; */
   /* margin: 16px 0; */
+}
+
+.chef-info {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
 }
 
 .thumbnail {
   width: 100%;
   height: auto;
+  border-radius: 5%;
+}
+
+.chef-thumbnail {
+  width: 35%;
+  height: 35%;
+  border-radius: 50%;
 }
 
 .item-details {
   display: flex;
   flex-direction: column;
+  margin: 0 1%
 }
 
 .item-button {
