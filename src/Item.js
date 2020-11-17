@@ -1,6 +1,6 @@
 
 
-export default function item() {
+export default function item(props) {
   return (
     <main>
 
@@ -24,10 +24,10 @@ export default function item() {
 
         <div className="item-details">
           <div className="item-header">
-            <p className="title">Qabuli Palaw Palooza</p>
-            <p>$45/ person</p>
+            <p className="title">{props.title}</p>
+            <p>${props.price}/ person</p>
           </div>
-          <p className="description">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non laoreet ipsum, id rutrum dui. Donec pretium lacus libero, at pretium justo consectetur ornare. Integer at dolor nibh.</p>
+          <p className="description">{props.description}</p>
         </div>
 
         <div className="item-button">
