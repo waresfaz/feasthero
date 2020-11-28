@@ -25,7 +25,7 @@ export default function item(props) {
         <div className="item-details">
           <div className="item-header">
             <p className="title">{props.title}</p>
-            <p>${props.price}/ person</p>
+            <p>${props.cost}/ person</p>
           </div>
           <p className="description">{props.description}</p>
         </div>

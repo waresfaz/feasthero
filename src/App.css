@@ -44,6 +44,12 @@
   border: 4px dotted green;
   display: flex;
   justify-content: center;
+  margin-bottom: 10%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-style: italic;
+  font-size: 64px;
+  color: rgb(128, 50, 50);
 }
 
 /* Styles applied to item */
@@ -52,7 +58,7 @@
   border: 4px dotted green;
   display: flex;
   justify-content: center;
-  margin-top: 15%;
+  margin-top: 5%;
   padding: 2%;
 }
 
