@@ -1,6 +1,10 @@
+import Modal from "./Modal";
+import useModal from './useModal';
 
+export default function Item(props) {
 
-export default function item(props) {
+  const {isShowing, toggle} = useModal();
+
   return (
     <main>
 
@@ -31,7 +35,13 @@ export default function item(props) {
         </div>
 
         <div className="item-button">
-          <button className="select-item">Select</button>
+          <button className="select-item" onClick={toggle}>
+            Select
+          </button>
+          <Modal
+            isShowing={isShowing}
+            hide={toggle}
+          />
         </div>
 
       </div>
