@@ -12,9 +12,9 @@ const Modal = ({ isShowing, hide }) => isShowing ? ReactDOM.createPortal(
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
-        <form>
-          <input type="text" name="firstName" placeholder="First Name" />
-        </form>
+        <div className="modal-content">
+          
+        </div>
       </div>
     </div>
   </React.Fragment>, document.body
