@@ -45,3 +45,9 @@
   cursor: pointer;
   border: none;
 }
+
+.chefPhoto {
+  max-width: 150px;
+  max-height: auto;
+  border-radius: 5px;
+}

@@ -30,6 +30,7 @@ export default function Item(props) {
           <div className="item-header">
             <p className="title">{props.title}</p>
             <p>${props.cost}/ person</p>
+            <p>Duration: {props.duration} hours</p> 
           </div>
           <p className="description">{props.description}</p>
         </div>
@@ -41,6 +42,8 @@ export default function Item(props) {
           <Modal
             isShowing={isShowing}
             hide={toggle}
+            duration = {props.duration}
+            chef = {props.chef}
           />
         </div>
 
