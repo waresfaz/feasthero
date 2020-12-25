@@ -20,6 +20,16 @@ const Modal = ({ isShowing, hide, chef }) => isShowing ? ReactDOM.createPortal(
           <form>
             <p>How many people are you booking for?
               <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" />
+              <select className="booking-date">
+                Select a date
+                <option>Tuesday, January 5, 2020</option>
+                <option>Thursday, January 7, 2020</option>
+              </select>
+              <select className="booking time">
+                Select a time
+                <option>10am-12pm</option>
+                <option>4pm-6pm</option>
+              </select>
               <input type="button" className="submit-form" value="Submit" />
             </p>
           </form>
