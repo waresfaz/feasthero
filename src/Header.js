@@ -1,4 +1,4 @@
-
+// the header portion of the page
 export default function header() {
   return (
     <header className="header">

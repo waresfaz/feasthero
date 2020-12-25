@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
 
-//object destrcutring used here to access props
+//object destrcutring used here to access props that passed in on Item.js
 const Modal = ({ isShowing, hide, chef }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
     <div className="modal-overlay"/>

@@ -1,3 +1,7 @@
+# About the App
+
+FeastHero is an online platform to book cooking classes that are run by chefs. To run the app from your CLI, navigate to the feasthero directory and run 'npm start'. It will run on port 3000.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).

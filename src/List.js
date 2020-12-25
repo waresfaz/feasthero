@@ -1,7 +1,7 @@
 import Item from "./Item"
-
+// list() returns the list of classes offered by feasthero
 export default function list() {
-
+  // hardcorded data -- each object contains info about a given cooking class and an the chef running the class.
   const data = {
     content: [
       {
@@ -29,14 +29,13 @@ export default function list() {
     ]
   }
 
+  // this function loops over the hardcoded data returns an Item component for each class that's offered
   const classesList = data.content.map(classes => {
     const title = classes.title;
     const cost = classes.cost;
     const description = classes.description;
     const duration = classes.duration;
     const chef = classes.chef;
-
-    // console.log(`this is the chef objcettt:`, typeof chef.photo)
 
 
     return (
@@ -57,9 +56,9 @@ export default function list() {
       <div className="byline">
         <p>Cook together from anywhere</p>
       </div>
-
+      
       <div>
-        {classesList}
+        {classesList} {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
       </div>
 
     </body>
