@@ -12,7 +12,7 @@ export default function header() {
       </section>
 
       <section className="header--links">
-        <button className="aboutus" type="button">About Us</button>
+        <button className="aboutus" type="button">About Us!</button>
 
       </section>
     </header>
