@@ -13,7 +13,36 @@ export default function list() {
           name: 'Wares Fazelyar',
           photo: 'images/wares.png',
           bio: "Wares' expertise as a chef draw from his extensive experience in the consumption sector. He has over 25 years of first hand experience in gustation processing and is excited to share his knowledge with you!"
-        }
+        },
+        // datetime : {
+        //   date: ['Tuesday, January, 5, 2020', '10am', '4pm'], 'Tuesday, January, 12, 2020', 'Tuesday, January, 19, 2020', 'Tuesday, January, 5, 2020']
+        // }
+        schedule : [
+          {
+            date : 'Tuesday, January 5, 2020',
+            time: ['10am', '4pm']
+          },
+          {
+            date: 'Thursday, January 7, 2020',
+            time: ['4pm']
+          },
+          {
+            date : 'Tuesday, January 12, 2020',
+            time: ['10am', '4pm']
+          },
+          {
+            date: 'Thursday, January 14, 2020',
+            time: ['4pm']
+          },
+          {
+            date : 'Tuesday, January 19, 2020',
+            time: ['10am', '4pm']
+          },
+          {
+            date: 'Thursday, January 21, 2020',
+            time: ['4pm']
+          }
+        ],
       },
       {
         title: 'Pizza Palooza',
@@ -24,7 +53,33 @@ export default function list() {
           name: 'Nazir Amir',
           photo: 'images/nazir.png',
           bio: "Nazir has spent over a decade crafting culinary experiences for groups ranging from 2 - 150. He studied at the famous Toronto based Faculty of Culinary Creation. He was awarded with the coveted Taste Trophy in 2019, reocngizing him for his top notch ability to craft tasty dishes for all sorts."
-        }
+        },
+        schedule : [
+          {
+            date : 'Monday, January 4, 2020',
+            time: ['12pm', '4pm']
+          },
+          {
+            date: 'Wednesday, January 6, 2020',
+            time: ['1pm','4pm']
+          },
+          {
+            date : 'Monday, January 11, 2020',
+            time: ['12pm', '4pm']
+          },
+          {
+            date: 'Wednesday, January 13, 2020',
+            time: ['1pm','4pm']
+          },
+          {
+            date : 'Monday, January 18, 2020',
+            time: ['12pm', '4pm']
+          },
+          {
+            date: 'Wednesday, January 20, 2020',
+            time: ['4pm']
+          }
+        ],
       }
     ]
   }
@@ -36,6 +91,9 @@ export default function list() {
     const description = classes.description;
     const duration = classes.duration;
     const chef = classes.chef;
+    const schedule = classes.schedule
+
+    console.log('here is tehd atteime', schedule)
 
 
     return (
@@ -45,6 +103,7 @@ export default function list() {
         description = {description}
         duration = {duration}
         chef = {chef}
+        schedule = {schedule}
       />
     )
   });

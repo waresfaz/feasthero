@@ -37,6 +37,7 @@ export default function Item(props) {
             hide={toggle}
             duration = {props.duration}
             chef = {props.chef}
+            schedule = {props.schedule}
           />
         </div>
 

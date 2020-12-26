@@ -1,9 +1,10 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
+import scheduleHelper from './ScheduleHelper'
 
 //object destrcutring used here to access props that passed in on Item.js
-const Modal = ({ isShowing, hide, chef }) => isShowing ? ReactDOM.createPortal(
+const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
     <div className="modal-overlay"/>
     <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
@@ -20,6 +21,8 @@ const Modal = ({ isShowing, hide, chef }) => isShowing ? ReactDOM.createPortal(
           <form>
             <p>How many people are you booking for?
               <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" />
+              {scheduleHelper(schedule)}
+              {/* next steps: take the values from the helper function and make each an option tag */}
               <select className="booking-date">
                 Select a date
                 <option>Tuesday, January 5, 2020</option>
