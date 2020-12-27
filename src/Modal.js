@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
-import scheduleHelper from './ScheduleHelper'
+import scheduleHelper from './helpers/ScheduleHelper'
+import handleSubmit from './helpers/HandleSubmit'
 
 //object destrcutring used here to access props that passed in on Item.js
 const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.createPortal(
@@ -18,15 +19,15 @@ const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.crea
           <img className="chefPhoto" src={chef.photo} alt="" />
           <p>Chef: {chef.name} </p>
           <p>{chef.bio} </p> 
-          <form>
+          <form onSubmit={handleSubmit}>
             <p>How many people are you booking for?
-              <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" />
-              {/* next steps: take the values from the helper function and make each an option tag */}
-              <select className="booking-datetimes">
-                Select a date
+              <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" required />
+              <select className="booking-datetimes" required>
+                {/* scheduleHelper making option tags from the available dates and times in schedule */}
+                {/* <option>-- Please select a date and time --</option> */}
                 {scheduleHelper(schedule)}
               </select>
-              <input type="button" className="submit-form" value="Submit" />
+              <input type="submit" className="submit-form" value="Proceed to Payment" />
             </p>
           </form>
         </div>

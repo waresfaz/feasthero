@@ -1,5 +1,4 @@
-import List from "./List.js"
-import Item from "./Item.js"
+
 export default function scheduleHelper(array){
   let datetimesArray = [];
     for (let elem of array){
