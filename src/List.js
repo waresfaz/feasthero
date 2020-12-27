@@ -93,7 +93,7 @@ export default function list() {
     const chef = classes.chef;
     const schedule = classes.schedule
 
-    console.log('here is tehd atteime', schedule)
+    // console.log('here is tehd atteime', schedule)
 
 
     return (

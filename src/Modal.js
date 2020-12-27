@@ -21,17 +21,10 @@ const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.crea
           <form>
             <p>How many people are you booking for?
               <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" />
-              {scheduleHelper(schedule)}
               {/* next steps: take the values from the helper function and make each an option tag */}
-              <select className="booking-date">
+              <select className="booking-datetimes">
                 Select a date
-                <option>Tuesday, January 5, 2020</option>
-                <option>Thursday, January 7, 2020</option>
-              </select>
-              <select className="booking time">
-                Select a time
-                <option>10am-12pm</option>
-                <option>4pm-6pm</option>
+                {scheduleHelper(schedule)}
               </select>
               <input type="button" className="submit-form" value="Submit" />
             </p>
