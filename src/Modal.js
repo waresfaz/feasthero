@@ -1,13 +1,18 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
+import BookingForm from "./BookingForm"
+
 import scheduleHelper from './helpers/ScheduleHelper'
 import handleSubmit from './helpers/HandleSubmit'
+import handleChange from './helpers/HandleSubmit';
+import formReducer from './helpers/HandleSubmit';
+import { useReducer } from 'react';
 
 //object destrcutring used here to access props that passed in on Item.js
 const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
-    <div className="modal-overlay"/>
+    <div className="modal-overlay" />
     <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
       <div className="modal">
         <div className="modal-header">
@@ -18,18 +23,11 @@ const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.crea
         <div className="modal-content">
           <img className="chefPhoto" src={chef.photo} alt="" />
           <p>Chef: {chef.name} </p>
-          <p>{chef.bio} </p> 
-          <form onSubmit={handleSubmit}>
-            <p>How many people are you booking for?
-              <input type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" required />
-              <select className="booking-datetimes" required>
-                {/* scheduleHelper making option tags from the available dates and times in schedule */}
-                {/* <option>-- Please select a date and time --</option> */}
-                {scheduleHelper(schedule)}
-              </select>
-              <input type="submit" className="submit-form" value="Proceed to Payment" />
-            </p>
-          </form>
+          <p>{chef.bio} </p>
+          <BookingForm 
+            schedule={schedule}
+          />
+          
         </div>
       </div>
     </div>
