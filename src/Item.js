@@ -14,7 +14,7 @@ export default function Item(props) {
         <div className="item-image">
           <img 
             className="thumbnail"
-            src="images/qabuli.png"
+            src={props.thumbnail}
             alt=""
           />
         </div>

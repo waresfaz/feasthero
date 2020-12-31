@@ -2,21 +2,22 @@
 
 .header{
   font-weight: bold;
-  border-bottom: 1px solid grey;
+  border-bottom: 1px solid #B48A42;
   padding: 0.4rem;
-  border: 5px dashed red;
+  /* border: 5px dashed red; */
   display: flex;
   align-items: center;
+  background-color: #426CB4;
 }
 
 .logo {
-  border: 3px dotted orange;
+  /* border: 3px dotted orange; */
   max-width:20%;
   height:auto;
 }
 
 .header--links {
-  border: 3px dotted greenyellow;
+  /* border: 3px dotted greenyellow; */
   width: 50%;
   height: auto;
   display: flex;
@@ -25,9 +26,14 @@
 
 .aboutus {
   background-color: transparent;
-  border-radius: 15px;
-  border: 1px solid black;
-  padding: 3%;
+  border-radius: 5px;
+  border: 1px solid #4d6da0;
+  padding: 8% 14%;
+  color: #ffffff;
+  background-color: #587cb4;
+}
+.aboutus:hover {
+  background-color: #6792d6;
 }
 
 /* Styles appied to list */
@@ -37,11 +43,11 @@
   /* justify-content: center; */
   flex-direction: column;
   padding: 5%;
-  border: 5px dashed black;
+  /* border: 5px dashed black; */
 }
 
 .byline {
-  border: 4px dotted green;
+  /* border: 4px dotted green; */
   display: flex;
   justify-content: center;
   margin-bottom: 10%;
@@ -49,17 +55,20 @@
   font-weight: 700;
   font-style: italic;
   font-size: 64px;
-  color: rgb(128, 50, 50);
+  color: #B48A42;
 }
 
 /* Styles applied to item */
 
 .item {
-  border: 4px dotted green;
+  border: 2px solid #B48A4228;
   display: flex;
   justify-content: center;
   margin-top: 5%;
   padding: 2%;
+  background-color: #ee822f42;
+  border-radius: 12px;
+  color:rgb(68, 68, 68);
 }
 
 .item-image {
@@ -69,6 +78,7 @@
   align-items: center;
   /* flex-direction: column; */
   /* margin: 16px 0; */
+  padding-right: 1%;
 }
 
 .chef-info {

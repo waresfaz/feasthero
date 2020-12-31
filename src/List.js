@@ -7,6 +7,7 @@ export default function list() {
       {
         title: 'Empanada Extravaganza',
         cost: 40,
+        thumbnail: 'images/empanadas.png',
         description: 'TESTING Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non laoreet ipsum, id rutrum dui. Donec pretium lacus libero, at pretium justo consectetur ornare. Integer at dolor nibh.',
         duration: 2,
         chef: {
@@ -47,6 +48,7 @@ export default function list() {
       {
         title: 'Pizza Palooza',
         cost: 45,
+        thumbnail: 'images/pizza.png',
         description: 'TESTING 2 Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non laoreet ipsum, id rutrum dui. Donec pretium lacus libero, at pretium justo consectetur ornare. Integer at dolor nibh.',
         duration: 1.5,
         chef: {
@@ -87,6 +89,7 @@ export default function list() {
   // this function loops over the hardcoded data returns an Item component for each class that's offered
   const classesList = data.content.map(classes => {
     const title = classes.title;
+    const thumbnail = classes.thumbnail;
     const cost = classes.cost;
     const description = classes.description;
     const duration = classes.duration;
@@ -99,6 +102,7 @@ export default function list() {
     return (
       <Item 
         title = {title}
+        thumbnail = {thumbnail}
         cost = {cost}
         description = {description}
         duration = {duration}
