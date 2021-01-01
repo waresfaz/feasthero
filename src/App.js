@@ -1,4 +1,5 @@
 import Header from './Header';
+import Landing from './Landing';
 import List from './List';
 import './App.css';
 
@@ -6,7 +7,8 @@ import './App.css';
 function App() {
   return (
     <main>
-      <Header />
+      {/* <Header /> */}
+      <Landing />
       <List />
     </main>
   );

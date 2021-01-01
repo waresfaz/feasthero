@@ -6,7 +6,7 @@ export default function header() {
       <section className="header--logo">
         <img 
           className="logo"
-          src="images/white_logo_color_background.png"
+          src="images/white_logo_transparent_background.png"
           alt=""
         />
       </section>
