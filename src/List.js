@@ -115,10 +115,6 @@ export default function list() {
 
   return (
     <body className="main">
-
-      <div className="byline">
-        <p>Cook together from anywhere</p>
-      </div>
       
       <div>
         {classesList} {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}

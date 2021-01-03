@@ -3,18 +3,26 @@ export default function Landing() {
   return (
     <body>
       <div className="landing">
+      
+        <section className="landing--front">
+          <img 
+            className="logo"
+            src="images/logo_transparent_background.png"
+            alt=""
+          />
 
-      <section className="landing--logo">
-        <img 
-          className="logo"
-          src="images/logo_transparent_background.png"
-          alt=""
-        />
-      </section>
+          <div className="landing--front--byline">
+            <p>Cook together from anywhere</p>
+          </div>
 
-        <video className="landing--video" autoPlay loop muted>
-          <source src="images/pexels_salt_hd.mp4" type="video/mp4" />
-        </video>
+        </section>
+
+        <div className="landing--video">
+          <div className="landing--color-overlay"></div>
+          <video autoPlay loop muted>
+            <source src="images/pexels_stir.mp4" type="video/mp4" />
+          </video>
+        </div>
 
       </div>
     </body>
