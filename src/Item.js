@@ -20,12 +20,12 @@ export default function Item(props) {
         </div>
 
         <div className="item-details">
-          <div className="item-header">
-            <p className="title">{props.title}</p>
-            <p>${props.cost}/ person</p>
-            <p>Duration: {props.duration} hours</p> 
+          <div className="item--header">
+            <h2 className="item--title">{props.title}</h2>
+            <p>${props.cost}/ device</p>
+            <p>Class Duration: {props.duration} hours</p> 
           </div>
-          <p className="description">{props.description}</p>
+          <p className="item--description">{props.description}</p>
         </div>
 
         <div className="item-button">
@@ -38,6 +38,7 @@ export default function Item(props) {
             duration = {props.duration}
             chef = {props.chef}
             schedule = {props.schedule}
+            title = {props.title}
           />
         </div>
 

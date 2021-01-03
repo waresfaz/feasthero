@@ -8,7 +8,7 @@ export default function list() {
         title: 'Empanada Extravaganza',
         cost: 40,
         thumbnail: 'images/empanadas.png',
-        description: 'TESTING Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non laoreet ipsum, id rutrum dui. Donec pretium lacus libero, at pretium justo consectetur ornare. Integer at dolor nibh.',
+        description: 'TESTING Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam non laoreet ipsum, id rutrum dui. Donec pretium lacus libero, at pretium justo consectetur ornare. Integer at dolor nibh.Lorem ipsum dolor sit amet, consectetur adipiscing elit. ',
         duration: 2,
         chef: {
           name: 'Wares Fazelyar',

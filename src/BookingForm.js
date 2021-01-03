@@ -22,14 +22,20 @@ export default function BookingForm({schedule}) {
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <p>How many people are you booking for?
-        <input onChange={handleChange} name="bookingSize" type="number" className="booking-size" min="8" max="20" placeholder="Limit 8-20" required />
-        <select onChange={handleChange} name="bookingDatetime" className="booking-datetimes" required>
+    <form className="modal-form" onSubmit={handleSubmit}>
+      <div className="booking-input-section">
+        <h4>How many people are you booking for?</h4>
+        <input onChange={handleChange} name="bookingSize" type="number" id="booking-size-input" className="booking-input" min="8" max="20" placeholder="8-20" required />
+      </div>
+
+      <div className="booking-input-section">
+        <h4>Select a booking date &amp; time:</h4>
+        <select onChange={handleChange} name="bookingDatetime" id="booking-datetime-input" className="booking-input" required>
           {scheduleHelper(schedule)}
         </select>
-        <input type="submit" className="submit-form" value="Proceed to Payment" />
-      </p>
+      </div>
+
+      <input type="submit" className="submit-booking-form" value="Proceed to Payment" />
     </form>
   )
 }

@@ -46,8 +46,55 @@
   border: none;
 }
 
-.chefPhoto {
-  max-width: 150px;
+.chef-photo {
+  max-width: 12vw;
   max-height: auto;
   border-radius: 5px;
+}
+
+.modal-form {
+  display: flex;
+  flex-direction: column;
+}
+.booking-input-section {
+  display: flex;
+  align-items: center;
+}
+
+#booking-size-input {
+  border: 1px gray solid;
+  border-radius: 5px;
+  width: 3vw;
+  height: 2vh;
+  margin-left: 5%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+
+#booking-datetime-input {
+  border: 1px gray solid;
+  border-radius: 5px;
+  width: 16vw;
+  height: 2vh;
+  margin-left: 5%;
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+}
+
+.submit-booking-form {
+  border: 1px gray solid;
+  border-radius: 10px;
+  height: 5vh;
+  margin-top: 3vh;
+  background-color: rgb(10, 124, 10);
+  color: aliceblue;
+
+  
+  font-family: 'Raleway', sans-serif;
+  font-weight: 500;
+  font-size: 2vh;
+}
+
+.submit-booking-form:hover {
+  background-color: rgb(38, 177, 165)
 }

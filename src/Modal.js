@@ -10,7 +10,7 @@ import formReducer from './helpers/HandleSubmit';
 import { useReducer } from 'react';
 
 //object destrcutring used here to access props that passed in on Item.js
-const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.createPortal(
+const Modal = ({ isShowing, hide, chef, schedule, title }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
     <div className="modal-overlay" />
     <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
@@ -21,9 +21,9 @@ const Modal = ({ isShowing, hide, chef, schedule }) => isShowing ? ReactDOM.crea
           </button>
         </div>
         <div className="modal-content">
-          <img className="chefPhoto" src={chef.photo} alt="" />
-          <p>Chef: {chef.name} </p>
-          <p>{chef.bio} </p>
+          <img className="chef-photo" src={chef.photo} alt="" />
+          <h2>{title} with Chef {chef.name} </h2>
+          <h4>{chef.bio} </h4>
           <BookingForm 
             schedule={schedule}
           />

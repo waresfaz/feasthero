@@ -118,7 +118,7 @@
 }
 
 .instruction--card-icon {
-  max-width: 70px;
+  max-width: 9vh;
   height: auto;
   align-self: center;
   margin-bottom: 15%;
@@ -132,10 +132,10 @@
   justify-content: center;
   margin-top: 5%;
   padding: 2%;
-  /* background-color: rgb(231, 231, 231); */
   background-color: #ececec;
   border-radius: 12px;
   color:rgb(68, 68, 68);
+  box-shadow: 0.5vh 1vh #9292921e;
 }
 
 .item-image {
@@ -148,28 +148,22 @@
   padding-right: 1%;
 }
 
-.chef-info {
-  display: flex;
-  align-items: center;
-  justify-content: space-around;
-}
-
 .thumbnail {
   width: 100%;
   height: auto;
   border-radius: 5%;
 }
 
-.chef-thumbnail {
-  width: 35%;
-  height: 35%;
-  border-radius: 50%;
-}
-
 .item-details {
   display: flex;
   flex-direction: column;
   margin: 0 1%
+}
+
+.item-description {
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .item-button {
@@ -182,8 +176,18 @@
   border-radius: 15px;
   border: 1px solid black;
   height: 10%; */
-  background-color: #B48A42;
-  border: 1px solid #B48A42
+  background-color: #b48a42ec;
+  /* border: 1px solid #B48A42; */
+  border: none;
+  color: #ececec;
+  border-radius: 8px;
+  width: 8vw;
+  height: 3.5vh;
+  font-size: 1.2rem;
+}
+
+.select-item:hover {
+  background-color: #b48a4280;
 }
 
 /* global styles */
@@ -195,6 +199,13 @@ h1 {
   font-size: 4vw;
   color: rgb(98, 98, 98);
   align-self: center;
+  text-shadow: 1.5px 1.5px #4b4b4b4b;
+}
+
+h2 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  color: #4b4b4b;
 }
 
 h3 {
@@ -203,6 +214,11 @@ h3 {
   font-style: bold;
   font-size: 2vw;
   color: rgb(238, 238, 238);
-  /* max-width: fit-content; */
   text-align: center;
+}
+
+h4 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 400;
+  font-size: 1vw;
 }
