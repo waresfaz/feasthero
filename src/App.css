@@ -40,11 +40,11 @@
 
 .main {
   display: flex;
-  /* justify-content: center; */
   flex-direction: column;
   padding: 5%;
   /* border: 5px dashed black; */
-  background-color: #a8d0e6;
+  /* background-color: #a8d0e6; */
+  background-color: #a8d0e66b
 }
 
 .landing {
@@ -71,10 +71,11 @@
   /* display: flex;
   justify-content: center;
   margin-bottom: 10%; */
+  /* max-width: 90%; */
   font-family: 'Raleway', sans-serif;
   font-weight: 700;
   font-style: italic;
-  font-size: 4rem;
+  font-size: 4vw;
   color: rgb(216, 216, 216);
 }
 
@@ -96,16 +97,43 @@
   opacity: 0.15;
 }
 
+/* styles applied to instructions section */
+
+.instructions {
+  display: flex;
+  justify-content: space-around;
+  margin-bottom: 15%;
+}
+
+.instruction--card {
+  border: 3px #ee822f2d solid;
+  padding: 3% 2%;
+  width: 20%;
+  box-shadow: 5px 8px #426cb43d;
+  background-color: #426CB4;
+  border-radius: 3%;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+}
+
+.instruction--card-icon {
+  max-width: 70px;
+  height: auto;
+  align-self: center;
+  margin-bottom: 15%;
+}
 
 /* Styles applied to item */
 
 .item {
-  border: 2px solid #B48A4228;
+  border: 2px solid #b48a423b;
   display: flex;
   justify-content: center;
   margin-top: 5%;
   padding: 2%;
-  background-color: rgb(231, 231, 231);
+  /* background-color: rgb(231, 231, 231); */
+  background-color: #ececec;
   border-radius: 12px;
   color:rgb(68, 68, 68);
 }
@@ -150,8 +178,31 @@
 }
 
 .select-item {
-  background-color: transparent;
+  /* background-color: transparent;
   border-radius: 15px;
   border: 1px solid black;
-  height: 10%;
+  height: 10%; */
+  background-color: #B48A42;
+  border: 1px solid #B48A42
+}
+
+/* global styles */
+
+h1 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-style: bold;
+  font-size: 4vw;
+  color: rgb(98, 98, 98);
+  align-self: center;
+}
+
+h3 {
+  font-family: 'Raleway', sans-serif;
+  font-weight: 700;
+  font-style: bold;
+  font-size: 2vw;
+  color: rgb(238, 238, 238);
+  /* max-width: fit-content; */
+  text-align: center;
 }

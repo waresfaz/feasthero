@@ -30,7 +30,7 @@ export default function Item(props) {
 
         <div className="item-button">
           <button className="select-item" onClick={toggle}>
-            Select
+            Book Now
           </button>
           <Modal 
             isShowing={isShowing}

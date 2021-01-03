@@ -18,9 +18,9 @@ export default function list() {
         // datetime : {
         //   date: ['Tuesday, January, 5, 2020', '10am', '4pm'], 'Tuesday, January, 12, 2020', 'Tuesday, January, 19, 2020', 'Tuesday, January, 5, 2020']
         // }
-        schedule : [
+        schedule: [
           {
-            date : 'Tuesday, January 5, 2020',
+            date: 'Tuesday, January 5, 2020',
             time: ['10am', '4pm']
           },
           {
@@ -28,7 +28,7 @@ export default function list() {
             time: ['4pm']
           },
           {
-            date : 'Tuesday, January 12, 2020',
+            date: 'Tuesday, January 12, 2020',
             time: ['10am', '4pm']
           },
           {
@@ -36,7 +36,7 @@ export default function list() {
             time: ['4pm']
           },
           {
-            date : 'Tuesday, January 19, 2020',
+            date: 'Tuesday, January 19, 2020',
             time: ['10am', '4pm']
           },
           {
@@ -56,25 +56,25 @@ export default function list() {
           photo: 'images/nazir.png',
           bio: "Nazir has spent over a decade crafting culinary experiences for groups ranging from 2 - 150. He studied at the famous Toronto based Faculty of Culinary Creation. He was awarded with the coveted Taste Trophy in 2019, reocngizing him for his top notch ability to craft tasty dishes for all sorts."
         },
-        schedule : [
+        schedule: [
           {
-            date : 'Monday, January 4, 2020',
+            date: 'Monday, January 4, 2020',
             time: ['12pm', '4pm']
           },
           {
             date: 'Wednesday, January 6, 2020',
-            time: ['1pm','4pm']
+            time: ['1pm', '4pm']
           },
           {
-            date : 'Monday, January 11, 2020',
+            date: 'Monday, January 11, 2020',
             time: ['12pm', '4pm']
           },
           {
             date: 'Wednesday, January 13, 2020',
-            time: ['1pm','4pm']
+            time: ['1pm', '4pm']
           },
           {
-            date : 'Monday, January 18, 2020',
+            date: 'Monday, January 18, 2020',
             time: ['12pm', '4pm']
           },
           {
@@ -100,14 +100,14 @@ export default function list() {
 
 
     return (
-      <Item 
-        title = {title}
-        thumbnail = {thumbnail}
-        cost = {cost}
-        description = {description}
-        duration = {duration}
-        chef = {chef}
-        schedule = {schedule}
+      <Item
+        title={title}
+        thumbnail={thumbnail}
+        cost={cost}
+        description={description}
+        duration={duration}
+        chef={chef}
+        schedule={schedule}
       />
     )
   });
@@ -115,7 +115,36 @@ export default function list() {
 
   return (
     <body className="main">
-      
+      <h1 style={{marginBottom: "12%"}} >How it works</h1>
+      <section className="instructions">
+        <div className="instruction--card">
+          <img
+            className="instruction--card-icon"
+            src="images/card-select.svg"
+            alt=""
+          />
+          <h3>Select a class</h3>
+        </div>
+        <div className="instruction--card">
+          <img
+            className="instruction--card-icon"
+            src="images/card-list.svg"
+            alt=""
+          />
+          <h3>Enter booking details</h3>
+        </div>
+        <div className="instruction--card">
+          <img
+            className="instruction--card-icon"
+            src="images/card-pay.svg"
+            alt=""
+          />
+          <h3>Review and Pay</h3>
+        </div>
+      </section>
+
+      <h1>Select a class</h1>
+
       <div>
         {classesList} {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
       </div>
