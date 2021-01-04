@@ -44,7 +44,8 @@
   padding: 5%;
   /* border: 5px dashed black; */
   /* background-color: #a8d0e6; */
-  background-color: #a8d0e66b
+  /* background-color: #a8d0e66b */
+  background-color: #a8d0e66b;
 }
 
 .landing {
@@ -123,11 +124,15 @@
   padding: 3% 2%;
   width: 20%;
   box-shadow: 5px 8px #426cb43d;
-  background-color: #426CB4;
+  background-color: #4d6da0;
   border-radius: 3%;
   display: flex;
   justify-content: center;
   flex-direction: column;
+}
+.instruction--card:hover {
+  /* background-color: #4d6da0; */
+  background-color: #587cb4;
 }
 
 .instruction--card-icon {
@@ -140,7 +145,7 @@
 /* Styles applied to item */
 
 .item {
-  border: 2px solid #b48a423b;
+  /* border: 2px solid #b48a423b; */
   display: flex;
   justify-content: center;
   margin-top: 5%;
@@ -149,6 +154,10 @@
   border-radius: 12px;
   color:rgb(68, 68, 68);
   box-shadow: 0.5vh 1vh #9292921e;
+}
+.item:hover {
+  border: 1px solid #b48a423b;
+  box-shadow: 0.5vh 1vh #92929285;
 }
 
 .item-image {
@@ -210,7 +219,7 @@ h1 {
   font-weight: 700;
   font-style: bold;
   font-size: 4vw;
-  color: rgb(98, 98, 98);
+  color: #4b4b4b;
   align-self: center;
   text-shadow: 1.5px 1.5px #4b4b4b4b;
 }
