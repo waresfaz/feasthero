@@ -23,7 +23,7 @@ const Modal = ({ isShowing, hide, chef, schedule, title }) => isShowing ? ReactD
         <div className="modal-content">
           <img className="chef-photo" src={chef.photo} alt="" />
           <h2>{title} with Chef {chef.name} </h2>
-          <h4>{chef.bio} </h4>
+          <h5>{chef.bio} </h5>
           <BookingForm 
             schedule={schedule}
           />
