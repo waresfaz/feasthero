@@ -24,6 +24,12 @@ export default function Landing() {
           </video>
         </div>
 
+        <img 
+          id="scrolldown"
+          src="images/scroll.gif"
+          alt=""
+        />
+
       </div>
     </body>
   )

@@ -54,16 +54,29 @@
   display: flex;
   align-content: center;
   justify-content: center;
+  flex-direction: column;
   overflow: hidden;
+}
+
+#scrolldown {
+  z-index: 1;
+  align-self: center;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0s, opacity 0.5s ,linear;
+  margin-top: 10%;
+  width: 10%;
+}
+.landing:hover > #scrolldown {
+  visibility: visible;
+  opacity: 1;
 }
 
 .landing--front {
   align-self: center;
   text-align: center;
   z-index: 1;
-  /* display: flex;
-  align-items: center;
-  flex-direction: column; */
+  margin-top: 10%;
 }
 
 .landing--front--byline {
