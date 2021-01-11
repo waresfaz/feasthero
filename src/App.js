@@ -7,7 +7,6 @@ import './App.css';
 function App() {
   return (
     <main>
-      {/* <Header /> */}
       <Landing />
       <List />
     </main>
