@@ -39,6 +39,7 @@ export default function Item(props) {
             chef = {props.chef}
             schedule = {props.schedule}
             title = {props.title}
+            cost = {props.cost}
           />
         </div>
 

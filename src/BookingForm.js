@@ -1,10 +1,11 @@
 import { useState } from 'react';
 import scheduleHelper from './helpers/ScheduleHelper'
 
-export default function BookingForm({schedule}) {
+export default function BookingForm({schedule, cost}) {
   const [bookingInfo, setBookingInfo] = useState({
     bookingSize : 0,
-    bookingDatetime : ''
+    bookingDatetime : '',
+    cost
   })
 
   const handleSubmit = event => {
@@ -21,6 +22,10 @@ export default function BookingForm({schedule}) {
     console.log('bookingInfo state in handleChange:', bookingInfo)
   }
 
+  const totalCost = function() {
+    return cost * bookingInfo.bookingSize
+  }
+
   return (
     <form className="modal-form" onSubmit={handleSubmit}>
       <div className="booking-input-section">
@@ -35,7 +40,15 @@ export default function BookingForm({schedule}) {
         </select>
       </div>
 
+      <input type="text" className="first-name" placeholder="First Name" required />
+      <input type="text" className="last-name" placeholder="Last Name" required />
+      <input type="text" className="company-name" placeholder="Company Name" required />
+      <input type="email" className="email-address" placeholder="Email Address" required />
+
+      <h2>Total cost: ${totalCost()}</h2>
+
       <input type="submit" className="submit-booking-form" value="Proceed to Payment" />
+
     </form>
   )
 }

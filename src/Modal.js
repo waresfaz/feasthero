@@ -1,7 +1,8 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import './Modal.css';
-import BookingForm from "./BookingForm"
+import BookingForm from "./BookingForm";
+import PaymentForm from "./PaymentForm";
 
 import scheduleHelper from './helpers/ScheduleHelper'
 import handleSubmit from './helpers/HandleSubmit'
@@ -10,7 +11,7 @@ import formReducer from './helpers/HandleSubmit';
 import { useReducer } from 'react';
 
 //object destrcutring used here to access props that passed in on Item.js
-const Modal = ({ isShowing, hide, chef, schedule, title }) => isShowing ? ReactDOM.createPortal(
+const Modal = ({ isShowing, hide, chef, schedule, title, cost }) => isShowing ? ReactDOM.createPortal(
   <React.Fragment>
     <div className="modal-overlay" />
     <div className="modal-wrapper" aria-modal aria-hidden tabIndex={-1} role="dialog">
@@ -25,8 +26,12 @@ const Modal = ({ isShowing, hide, chef, schedule, title }) => isShowing ? ReactD
           <h2>{title} with Chef {chef.name} </h2>
           <h5>{chef.bio} </h5>
           <BookingForm 
-            schedule={schedule}
+            schedule = {schedule}
+            cost = {cost}
           />
+          {/* <PaymentForm 
+            cost={cost}
+          /> */}
           
         </div>
       </div>
