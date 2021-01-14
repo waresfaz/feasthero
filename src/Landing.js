@@ -19,7 +19,7 @@ export default function Landing() {
 
         <div className="landing--video">
           <div className="landing--color-overlay"></div>
-          <video autoPlay loop muted>
+          <video autoPlay loop muted id="video">
             <source src="images/pexels_stir.mp4" type="video/mp4" />
           </video>
         </div>
