@@ -235,20 +235,17 @@ const processPayment = async (req, res) => {
     let bank_transaction_id = req.body.bank_transaction_id;
 
     let orderDetails = await Booking.find({ _id: order_id });
-
     if (Number(response_code) >= 50) {
       await updateSlot(
-        orderDetails.class_id,
-        orderDetails.booking_datetime,
+        orderDetails[0].class_id,
+        orderDetails[0].booking_datetime,
         true
       );
       await updateBookingStatus(order_id, "failed");
-      console.log(req.body);
       return;
       // response.redirect to failure page
     } else {
       await updateBookingStatus(order_id, "success");
-      console.log(req.body);
       return;
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
