@@ -228,23 +228,31 @@ const getSchedule = async (req, res) => {
 
 // api which will be requested by moneris after transaction
 const processPayment = async (req, res) => {
-  let order_id = req.body.response_order_id;
-  let response_code = req.body.response_code;
-  let iso_code = req.body.iso_code;
-  let bank_transaction_id = req.body.bank_transaction_id;
-  let class_id = req.body.class_id;
-  let booked_date = moment
-    .tz(req.body.booked_date, "dddd, MMMM D,YYYY,hh:mm a", "US/Eastern")
-    .utc();
+  try {
+    let order_id = req.body.response_order_id;
+    let response_code = req.body.response_code;
+    let iso_code = req.body.iso_code;
+    let bank_transaction_id = req.body.bank_transaction_id;
+    let class_id = req.body.class_id;
+    let booked_date = moment
+      .tz(req.body.booked_date, "dddd, MMMM D,YYYY,hh:mm a", "US/Eastern")
+      .utc();
 
-  if (Number(response_code) >= 50) {
-    await updateSlot(class_id, booked_date, true);
-    await updateBookingStatus(order_id, "failed");
-    // response.redirect to failure page
-  } else {
-    await updateBookingStatus(order_id, "success");
-
-    // return res.json({ response_code: response_code, booked_date: booked_date });
+    if (Number(response_code) >= 50) {
+      await updateSlot(class_id, booked_date, true);
+      await updateBookingStatus(order_id, "failed");
+      console.log(req.body);
+      return;
+      // response.redirect to failure page
+    } else {
+      await updateBookingStatus(order_id, "success");
+      console.log(req.body);
+      return;
+      // return res.json({ response_code: response_code, booked_date: booked_date });
+    }
+  } catch (e) {
+    console.log(req.body);
+    return res.redirect("https://www.feasthero.com/");
   }
 };
 
