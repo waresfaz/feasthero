@@ -256,7 +256,7 @@ const processPayment = async (req, res) => {
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
   } catch (e) {
-    console.log(e, orderDetails);
+    console.log(e);
     return res.redirect("https://www.feasthero.com/");
   }
 };
