@@ -234,10 +234,7 @@ const processPayment = async (req, res) => {
     let iso_code = req.body.iso_code;
     let bank_transaction_id = req.body.bank_transaction_id;
 
-    let orderDetails = await Booking.find(
-      { _id: order_id },
-      { _id: 0, booking_datetime, class_id }
-    );
+    let orderDetails = await Booking.find({ _id: order_id });
 
     if (Number(response_code) >= 50) {
       await updateSlot(
