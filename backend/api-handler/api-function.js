@@ -233,13 +233,18 @@ const processPayment = async (req, res) => {
     let response_code = req.body.response_code;
     let iso_code = req.body.iso_code;
     let bank_transaction_id = req.body.bank_transaction_id;
-    let class_id = req.body.class_id;
-    let booked_date = moment
-      .tz(req.body.booked_date, "dddd, MMMM D,YYYY,hh:mm a", "US/Eastern")
-      .utc();
+
+    let orderDetails = await Booking.find(
+      { _id: order_id },
+      { _id: 0, booking_datetime, class_id }
+    );
 
     if (Number(response_code) >= 50) {
-      await updateSlot(class_id, booked_date, true);
+      await updateSlot(
+        orderDetails.class_id,
+        orderDetails.booking_datetime,
+        true
+      );
       await updateBookingStatus(order_id, "failed");
       console.log(req.body);
       return;
@@ -251,7 +256,7 @@ const processPayment = async (req, res) => {
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
   } catch (e) {
-    console.log(req.body);
+    console.log(e, orderDetails);
     return res.redirect("https://www.feasthero.com/");
   }
 };
