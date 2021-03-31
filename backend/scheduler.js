@@ -15,7 +15,7 @@ const sendReminder = async () => {
     booking_status: "success",
     $and: [
       {
-        booking_datetime: { $gte: new Date() },
+        booking_datetime: { $gte: moment.utc() },
       },
       {
         booking_datetime: {
@@ -24,7 +24,7 @@ const sendReminder = async () => {
       },
     ],
   });
-
+  console.log(reminder_list, moment.utc());
   for (var data in reminder_list) {
     let classes = await Class.aggregate([
       {
