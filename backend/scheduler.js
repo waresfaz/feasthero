@@ -24,7 +24,6 @@ const sendReminder = async () => {
       },
     ],
   });
-  console.log(reminder_list, moment.utc());
   for (var data in reminder_list) {
     let classes = await Class.aggregate([
       {
@@ -57,7 +56,7 @@ const sendReminder = async () => {
         reminder_list[data].customer_first_name
       }</b>, this is a reminder mail about your cooking class scheduled for tomorrow.
        <p>
-        Here’s everything you need to know for you class with <b>${
+        Here’s everything you need to know for your class with <b>${
           classes.chefs[0].name
         }</b>:<p>
 
