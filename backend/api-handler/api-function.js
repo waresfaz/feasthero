@@ -22,6 +22,8 @@ const getClasses = async (req, res) => {
           description: 1,
           duration: 1,
           chef_id: 1,
+          has_mealkit: 1,
+          mealkit_price: 1,
         },
       },
       {
@@ -231,21 +233,43 @@ const processPayment = async (req, res) => {
   try {
     let order_id = req.body.response_order_id;
     let response_code = req.body.response_code;
-    let iso_code = req.body.iso_code;
-    let bank_transaction_id = req.body.bank_transaction_id;
+    let is_cancelled = req.body.is_cancelled;
+    let transaction_details = {
+      bank_transaction_id: req.body.bank_transaction_id,
+      bank_approval_code: req.body.bank_approval_code,
+      cardholder: req.body.cardholder,
+      response_code: response_code,
+      response_message: req.body.message,
+      booking_status: "",
+      lastUpdatedTimeStamp: new Date(),
+    };
 
     let orderDetails = await Booking.find({ _id: order_id });
-    if (Number(response_code) >= 50) {
+    if (is_cancelled) {
       await updateSlot(
         orderDetails[0].class_id,
         orderDetails[0].booking_datetime,
         true
       );
-      await updateBookingStatus(order_id, "failed");
+      await updateBookingStatus(order_id, {
+        booking_status: "cancelled",
+        lastUpdatedTimeStamp: new Date(),
+      });
+      return res.json({ error: false });
+    }
+    if (Number(response_code) >= 50) {
+      transaction_details.booking_status = "failed";
+      await updateSlot(
+        orderDetails[0].class_id,
+        orderDetails[0].booking_datetime,
+        true
+      );
+      await updateBookingStatus(order_id, transaction_details);
       return;
       // response.redirect to failure page
     } else {
-      await updateBookingStatus(order_id, "success");
+      transaction_details.booking_status = "success";
+      await updateBookingStatus(order_id, transaction_details);
       return;
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
@@ -280,7 +304,7 @@ const updateBookingStatus = async (order_id, status) => {
     {
       _id: ObjectId(order_id),
     },
-    { booking_status: status, lastUpdatedTimeStamp: new Date() }
+    status
   );
 
   return;

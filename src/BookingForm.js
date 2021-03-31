@@ -8,6 +8,7 @@ export default function BookingForm({ class_id, cost, chef }) {
   let data = useSelector((state) => state.class);
   data = data.state.filter((classes) => classes._id == class_id);
 
+  const [checked, setChecked] = useState(false);
   // state to store schedule dates
   const [schedule, setschedule] = useState([]);
   async function getSchedule() {
@@ -35,9 +36,11 @@ export default function BookingForm({ class_id, cost, chef }) {
     booking_size: 0,
     booking_datetime: "",
     cost: 0,
+    mealkit_price: 1,
     chef_id: chef._id,
     chef_zoom_link: chef.zoom,
     chef_email: chef.email,
+    has_mealkit: false,
   });
 
   // submit the form , will redirect to moneris
@@ -54,6 +57,7 @@ export default function BookingForm({ class_id, cost, chef }) {
   };
 
   const handleChange = (event) => {
+    console.log(event.target.value);
     const value = event.target.value;
     console.log(value);
     setBookingInfo({
@@ -90,7 +94,7 @@ export default function BookingForm({ class_id, cost, chef }) {
             setBookingInfo({
               ...bookingInfo,
               booking_size: e.target.value,
-              cost: cost * e.target.value,
+              cost: bookingInfo.mealkit_price * cost * e.target.value,
             });
           }}
           name="booking_size"
@@ -103,7 +107,6 @@ export default function BookingForm({ class_id, cost, chef }) {
           required
         />
       </div>
-
       <div className="booking-input-section">
         <h4>Select a booking date &amp; time:</h4>
 
@@ -120,7 +123,6 @@ export default function BookingForm({ class_id, cost, chef }) {
 
         {orderError && <span style={{ color: "red" }}> {orderError}</span>}
       </div>
-
       <input
         type="text"
         className="first-name"
@@ -153,9 +155,36 @@ export default function BookingForm({ class_id, cost, chef }) {
         placeholder="Email Address"
         required
       />
-
+      {data[0].has_mealkit && (
+        <h4>
+          {" "}
+          Do you want to purchase meal kit? (${data[0].mealkit_price}/person) :
+          <input
+            type="checkbox"
+            name="has_mealkit"
+            value={!checked}
+            onChange={(e) => {
+              setChecked((old) => !old);
+              console.log(e.target.value);
+              let price = bookingInfo.cost * data[0].mealkit_price;
+              let meal = data[0].mealkit_price;
+              if (e.target.value == "false") {
+                price = bookingInfo.cost / data[0].mealkit_price;
+                meal = 1;
+              }
+              console.log(price);
+              setBookingInfo({
+                ...bookingInfo,
+                has_mealkit: e.target.value,
+                cost: price,
+                mealkit_price: meal,
+              });
+            }}
+          />{" "}
+          Yes
+        </h4>
+      )}
       <h2>Total cost: ${bookingInfo.cost}</h2>
-
       <input
         type="button"
         onClick={handleSubmit}

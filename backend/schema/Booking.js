@@ -19,5 +19,10 @@ let Booking = new Schema({
     type: Date,
     default: new Date(),
   },
+  bank_transaction_id: String,
+  bank_approval_code: String,
+  cardholder: String,
+  response_code: String,
+  response_message: String,
 });
 module.exports = mongoose.model("Booking", Booking);

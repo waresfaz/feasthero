@@ -9,5 +9,7 @@ let Class = new Schema({
   description: String,
   duration: Number,
   chef_id: ObjectId,
+  has_mealkit: Boolean,
+  mealkit_price: Number,
 });
 module.exports = mongoose.model("Class", Class);
