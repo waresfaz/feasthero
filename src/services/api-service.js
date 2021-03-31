@@ -40,4 +40,20 @@ const getScheduleAPI = async (class_id) => {
   return data;
 };
 
-export { getClassAPi, bookClassAPI, cancelBookingAPI, getScheduleAPI };
+const getOrderAPI = async (order_id) => {
+  const data = await axios
+    .get(`https://feasthero.herokuapp.com/order/` + order_id)
+    .then((res) => {
+      return res.data;
+    });
+
+  return data;
+};
+
+export {
+  getClassAPi,
+  bookClassAPI,
+  cancelBookingAPI,
+  getScheduleAPI,
+  getOrderAPI,
+};

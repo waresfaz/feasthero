@@ -24,5 +24,6 @@ let Booking = new Schema({
   cardholder: String,
   response_code: String,
   response_message: String,
+  has_mealkit: Boolean,
 });
 module.exports = mongoose.model("Booking", Booking);

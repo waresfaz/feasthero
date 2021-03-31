@@ -31,6 +31,10 @@ api.post(
   "/payment",
   async (req, res) => await apiHandler.processPayment(req, res)
 );
+api.get(
+  "/order/:order_id",
+  async (req, res) => await apiHandler.getOrderDetails(req, res)
+);
 api.listen(process.env.PORT || 3001, () =>
   console.log("Server is running on 3001")
 );

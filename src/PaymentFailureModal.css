@@ -4,7 +4,7 @@
   border-radius: 20px;
 }
 .payment_header {
-  background: rgb(18, 187, 69);
+  background: rgba(192, 26, 26, 0.884);
   padding: 40px;
 }
 .container {
@@ -43,7 +43,7 @@
   color: #fff;
   border-radius: 30px;
   padding: 5px 10px;
-  background: rgb(31, 182, 51);
+  background: rgb(189, 29, 29);
   transition: all ease-in-out 0.3s;
 }
 

@@ -9,6 +9,7 @@ import {
   Redirect,
   Switch,
 } from "react-router-dom";
+import PaymentFailureModal from "./PaymentFailureModal";
 // main app function. Everything in the return is what is rendered on the screen
 function App() {
   return (
@@ -25,6 +26,7 @@ function App() {
           )}
         ></Route>
         <Route path="/payment_success" component={PaymentSuccessModal}></Route>
+        <Route path="/payment_failure" component={PaymentFailureModal}></Route>
       </Switch>
     </Router>
   );

@@ -1,4 +1,9 @@
 const { connect, close } = require("../db-connect");
+const {
+  updateSlot,
+  updateBookingStatus,
+  sendMail,
+} = require("./api-helper.js");
 const Class = require("../schema/Class");
 const Chef = require("../schema/Chef");
 const Schedule = require("../schema/Schedule");
@@ -110,6 +115,7 @@ const bookClass = async (req, res) => {
       booking_size: requestData.booking_size,
       zoom_link: requestData.chef_zoom_link,
       chef_email: requestData.chef_email,
+      has_mealkit: requestData.has_mealkit,
       booking_datetime: moment
         .tz(
           requestData.booking_datetime,
@@ -265,12 +271,17 @@ const processPayment = async (req, res) => {
         true
       );
       await updateBookingStatus(order_id, transaction_details);
-      return;
+      return res.redirect(
+        "https://www.feasthero.com/payment_failed/?order_id=" + order_id
+      );
       // response.redirect to failure page
     } else {
       transaction_details.booking_status = "success";
       await updateBookingStatus(order_id, transaction_details);
-      return;
+      await sendMail(orderDetails);
+      return res.redirect(
+        "https://www.feasthero.com/payment_success/?order_id=" + order_id
+      );
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
   } catch (e) {
@@ -279,35 +290,11 @@ const processPayment = async (req, res) => {
   }
 };
 
-const updateSlot = async (class_id, date, value) => {
-  let BookSlot = await Schedule.updateOne(
-    {
-      class_id: ObjectId(class_id),
-      $and: [
-        {
-          date: { $gte: new Date(date) },
-        },
-        {
-          date: {
-            $lt: new Date(moment(date).add(1, "hour")),
-          },
-        },
-      ],
-    },
-    { available: value }
-  );
-  return;
-};
-
-const updateBookingStatus = async (order_id, status) => {
-  let updatedStatus = await Booking.updateOne(
-    {
-      _id: ObjectId(order_id),
-    },
-    status
-  );
-
-  return;
+// api to fetch order details based on the passed order_id
+const getOrderDetails = async (req, res) => {
+  let order_id = req.params.order_id;
+  let order = await Booking.find({ _id: order_id });
+  return res.json({ error: false, data: order });
 };
 
 module.exports = {
@@ -318,4 +305,5 @@ module.exports = {
   addSchedule,
   getSchedule,
   processPayment,
+  getOrderDetails,
 };
