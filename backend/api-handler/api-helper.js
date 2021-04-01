@@ -12,6 +12,7 @@ const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
+// updates the date-time slot  in schedules collection to available = true/ false
 const updateSlot = async (class_id, date, value) => {
   let BookSlot = await Schedule.updateOne(
     {
@@ -32,6 +33,7 @@ const updateSlot = async (class_id, date, value) => {
   return;
 };
 
+// updates the booking_status in bookings collection to success/failed/cancelled
 const updateBookingStatus = async (order_id, status) => {
   let updatedStatus = await Booking.updateOne(
     {
@@ -44,6 +46,7 @@ const updateBookingStatus = async (order_id, status) => {
 };
 
 const sendMail = async (order) => {
+  //fetching the class details to send the email
   let classes = await Class.aggregate([
     {
       $match: { _id: order[0].class_id },
@@ -55,6 +58,7 @@ const sendMail = async (order) => {
         duration: 1,
         chef_id: 1,
         description: 1,
+        recipe: 1,
       },
     },
     {
@@ -67,9 +71,13 @@ const sendMail = async (order) => {
     },
   ]);
   classes = classes[0];
+
+  // message template
   const msg = {
     to: order[0].customer_email,
     from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
+    bcc: process.env.SENDGRID_MAIL,
+    bcc: order[0].chef_email,
     subject: "FeastHero Class Booking Confirmation",
     html: `Hi <b>${
       order[0].customer_first_name
@@ -90,7 +98,7 @@ const sendMail = async (order) => {
         Time: <b>${moment
           .utc(order[0].booking_datetime)
           .tz("US/Eastern")
-          .format("hh:mm a")}EST </b></p>
+          .format("hh:mm a")} EST </b></p>
           <h3>
         Join with this link: <a href=${order[0].zoom_link}> ${
       order[0].zoom_link
@@ -99,7 +107,7 @@ const sendMail = async (order) => {
         <p>
         ${classes.description}
   </p>
-       <p> Remember for this class you will need [recipes]. </p>
+       <p> Remember for this class you will need ${classes.recipe.toString()}. </p>
   
       <h4>  We look forward to having you join!</h4>
        `,

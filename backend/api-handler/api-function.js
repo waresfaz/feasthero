@@ -1,17 +1,21 @@
-const { connect, close } = require("../db-connect");
 const {
   updateSlot,
   updateBookingStatus,
   sendMail,
 } = require("./api-helper.js");
+
+const { connect, close } = require("../db-connect");
 const Class = require("../schema/Class");
 const Chef = require("../schema/Chef");
 const Schedule = require("../schema/Schedule");
 const Booking = require("../schema/Booking");
+var ObjectId = require("mongoose").Types.ObjectId;
+
 const moment = require("moment");
 const { utc } = require("moment");
-var ObjectId = require("mongoose").Types.ObjectId;
 require("moment-timezone");
+
+// connection to the db
 connect();
 
 // query to get the data of all classes
@@ -230,7 +234,7 @@ const getSchedule = async (req, res) => {
   let schedule = await Schedule.find(
     { class_id: class_id, available: true },
     { _id: 0, class_id: 0, chef_id: 0, available: 0, __v: 0 }
-  );
+  ).sort("date");
   return res.json({ error: false, data: schedule });
 };
 
@@ -263,7 +267,7 @@ const processPayment = async (req, res) => {
       });
       return res.json({ error: false });
     }
-    if (Number(response_code) >= 50) {
+    if (Number(response_code) >= 50 || response_code == "") {
       transaction_details.booking_status = "failed";
       await updateSlot(
         orderDetails[0].class_id,
@@ -272,7 +276,7 @@ const processPayment = async (req, res) => {
       );
       await updateBookingStatus(order_id, transaction_details);
       return res.redirect(
-        "https://www.feasthero.com/payment_failed/?order_id=" + order_id
+        "https://www.feasthero.com/payment_failure/?order_id=" + order_id
       );
       // response.redirect to failure page
     } else {

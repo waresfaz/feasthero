@@ -65,7 +65,16 @@ export default function BookingForm({ class_id, cost, chef }) {
       [event.target.name]: value,
     });
   };
-
+  /* Moneris test environment 
+  action="https://esqa.moneris.com/HPPDP/index.php"
+   ps_store_id =CVQNQtore1
+  hpp_key= hpB9RYVYPULN
+  */
+  /* Moneris Prod environment 
+  action="https://www3.moneris.com/HPPDP/index.php"
+   ps_store_id =GT3RZ41539
+  hpp_key= hpEOUYV1I652
+  */
   return (
     <form
       ref={inputEl}

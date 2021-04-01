@@ -11,5 +11,6 @@ let Class = new Schema({
   chef_id: ObjectId,
   has_mealkit: Boolean,
   mealkit_price: Number,
+  recipe: Array,
 });
 module.exports = mongoose.model("Class", Class);

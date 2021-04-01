@@ -11,6 +11,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 const sendReminder = async () => {
   await connect();
+  // fetching all bookings which are scheduled for the next day
   let reminder_list = await Booking.find({
     booking_status: "success",
     $and: [
@@ -24,6 +25,7 @@ const sendReminder = async () => {
       },
     ],
   });
+  // looping over this list , getting the class details and sending a reminder mail to the recipient
   for (var data in reminder_list) {
     let classes = await Class.aggregate([
       {
@@ -36,6 +38,7 @@ const sendReminder = async () => {
           duration: 1,
           chef_id: 1,
           description: 1,
+          recipe: 1,
         },
       },
       {
@@ -51,39 +54,41 @@ const sendReminder = async () => {
     const msg = {
       to: reminder_list[data].customer_email,
       from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
+      bcc: process.env.SENDGRID_MAIL,
+      //   bcc: order[0].chef_email,
       subject: "Reminder - FeastHero Class Scheduled for tomorrow  ",
       html: `Hi <b>${
         reminder_list[data].customer_first_name
       }</b>, this is a reminder mail about your cooking class scheduled for tomorrow.
-       <p>
-        Here’s everything you need to know for your class with <b>${
-          classes.chefs[0].name
-        }</b>:<p>
+         <p>
+          Here’s everything you need to know for your class with <b>${
+            classes.chefs[0].name
+          }</b>:<p>
 
-        <p>
-        Class name: <b>${classes.title}</b></p>
-        <p>
-        Date: <b> ${moment
-          .utc(reminder_list[data].booking_datetime)
-          .tz("US/Eastern")
-          .format("dddd, MMMM D,YYYY")} </b></p>
           <p>
-        Time: <b>${moment
-          .utc(reminder_list[data].booking_datetime)
-          .tz("US/Eastern")
-          .format("hh:mm a")} EST </b></p>
-          <h3>
-        Join with this link: <a href=${reminder_list[data].zoom_link}> ${
+          Class name: <b>${classes.title}</b></p>
+          <p>
+          Date: <b> ${moment
+            .utc(reminder_list[data].booking_datetime)
+            .tz("US/Eastern")
+            .format("dddd, MMMM D,YYYY")} </b></p>
+            <p>
+          Time: <b>${moment
+            .utc(reminder_list[data].booking_datetime)
+            .tz("US/Eastern")
+            .format("hh:mm a")} EST </b></p>
+            <h3>
+          Join with this link: <a href=${reminder_list[data].zoom_link}> ${
         reminder_list[data].zoom_link
       } </a> </h3>
-  <br>
-        <p>
-        ${classes.description}
-  </p>
-       <p> Remember for this class you will need [recipes]. </p>
+    <br>
+          <p>
+          ${classes.description}
+    </p>
+         <p> Remember for this class you will need  ${classes.recipe.toString()}. </p>
 
-      <h4>  We look forward to having you join!</h4>
-       `,
+        <h4>  We look forward to having you join!</h4>
+         `,
     };
     //ES6
     sgMail.send(msg).then(

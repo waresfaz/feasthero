@@ -2,7 +2,7 @@ import React from "react";
 import { useEffect, useState } from "react";
 import { useLocation, useHistory } from "react-router-dom";
 import { getOrderAPI } from "./services/api-service";
-import "./PaymentSuccessModal.css";
+import "./PaymentModal.css";
 import moment from "moment";
 import "moment-timezone";
 
@@ -14,6 +14,9 @@ const PaymentSuccessModal = () => {
   useEffect(() => {
     const getOrderDetails = async (order_id) => {
       let data = await getOrderAPI(order_id);
+      if (data.data[0].booking_status == "failed") {
+        return history.push("/payment_failure/?order_id=" + order_id);
+      }
       setOrder(data.data[0]);
     };
     let params = location.search.split("=");
