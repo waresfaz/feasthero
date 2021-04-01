@@ -77,7 +77,7 @@ const sendMail = async (order) => {
     to: order[0].customer_email,
     from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
     bcc: process.env.SENDGRID_MAIL,
-    bcc: order[0].chef_email,
+    //   bcc: order[0].chef_email,
     subject: "FeastHero Class Booking Confirmation",
     html: `Hi <b>${
       order[0].customer_first_name
