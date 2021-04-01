@@ -4,7 +4,7 @@ import axios from "axios";
 export function getClasses() {
   return (dispatch) => {
     return axios
-      .get(`http://localhost:3001/classes`)
+      .get(`https://feasthero.herokuapp.com/classes`)
       .then((json) => {
         dispatch(fetchClasses(json.data.data));
         return json.data.data;
