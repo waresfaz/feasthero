@@ -85,7 +85,9 @@ const PaymentFailureModal = () => {
                   {" "}
                   <b> Payment Failure reason :</b> {order.response_message}
                 </p>
-                <a href="/">Go to Home</a>
+                <a className="failure" href="/">
+                  Go to Home
+                </a>
               </div>
             )}
           </div>

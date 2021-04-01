@@ -37,7 +37,7 @@
   padding-top: 25px;
 }
 
-.content a {
+.failure {
   width: 200px;
   height: 35px;
   color: #fff;
@@ -47,6 +47,15 @@
   transition: all ease-in-out 0.3s;
 }
 
+.success {
+  width: 200px;
+  height: 35px;
+  color: #fff;
+  border-radius: 30px;
+  padding: 5px 10px;
+  background: rgb(29, 189, 42);
+  transition: all ease-in-out 0.3s;
+}
 .content a:hover {
   text-decoration: none;
   background: #000;

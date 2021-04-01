@@ -48,8 +48,8 @@ const PaymentSuccessModal = () => {
               <div className="content">
                 <h1>Class Booked Successfully !</h1>
                 <p>
-                  You will recieve a mail on {order.customer_email} with the
-                  details of the scheduled class{" "}
+                  You will recieve a mail on <b>{order.customer_email}</b> with
+                  the details of the scheduled class{" "}
                 </p>
                 <h2>Here are the Class details :</h2>
                 <p>
@@ -76,7 +76,9 @@ const PaymentSuccessModal = () => {
                 </p>
                 <p>
                   <b> Class Zoom link :</b>
-                  <a href={order.zoom_link}>{order.zoom_link}</a>
+                  <a className="success" href={order.zoom_link}>
+                    {order.zoom_link}
+                  </a>
                 </p>
                 <p>
                   <b> Class Date and Time :</b>
@@ -85,11 +87,18 @@ const PaymentSuccessModal = () => {
                     .tz("US/Eastern")
                     .format("dddd, MMMM D,YYYY,hh:mm a")}
                 </p>
+                {order.has_mealkit && (
+                  <p>
+                    <b> Opted for meal kit : </b>YES
+                  </p>
+                )}
                 <p>
                   {" "}
                   <b> Payment transaction id :</b> {order.bank_transaction_id}
                 </p>
-                <a href="/">Go to Home</a>
+                <a className="success" href="/">
+                  Go to Home
+                </a>
               </div>
             )}
           </div>
