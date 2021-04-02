@@ -44,12 +44,7 @@ const getClasses = async (req, res) => {
         },
       },
     ]);
-
-    if (classes.length > 0) {
-      return res.json({ success: true, data: classes });
-    } else {
-      return res.json({ success: true, data: classes });
-    }
+    return res.json({ success: true, data: classes });
   } catch (e) {
     console.log(e);
     return res.json({ success: false, data: [] });
@@ -76,12 +71,7 @@ const setClass = async (req, res) => {
 const getChefs = async (req, res) => {
   try {
     let chef = await Chef.find({});
-
-    if (chef) {
-      return res.json({ success: true, data: chef });
-    } else {
-      return res.json({ success: true, data: [] });
-    }
+    return res.json({ success: true, data: chef });
   } catch (e) {
     console.log(e);
     return res.json({ success: false, data: [] });
@@ -208,7 +198,9 @@ const bookClass = async (req, res) => {
         });
       });
   } catch (e) {
-    return res.status(200).send({ error: true, data: "Class Booking Failed" });
+    return res
+      .status(200)
+      .send({ error: true, data: "Class Booking Failed , please try again" });
   }
 };
 
@@ -230,12 +222,17 @@ const addSchedule = async (req, res) => {
 
 // query to get timings of a class
 const getSchedule = async (req, res) => {
-  let class_id = req.params.class_id;
-  let schedule = await Schedule.find(
-    { class_id: class_id, available: true },
-    { _id: 0, class_id: 0, chef_id: 0, available: 0, __v: 0 }
-  ).sort("date");
-  return res.json({ error: false, data: schedule });
+  try {
+    let class_id = req.params.class_id;
+    let schedule = await Schedule.find(
+      { class_id: class_id, available: true },
+      { _id: 0, class_id: 0, chef_id: 0, available: 0, __v: 0 }
+    ).sort("date");
+    return res.json({ error: false, data: schedule });
+  } catch (e) {
+    console.log(e);
+    return res.json({ error: true, data: [] });
+  }
 };
 
 // api which will be requested by moneris after transaction
@@ -282,7 +279,7 @@ const processPayment = async (req, res) => {
     } else {
       transaction_details.booking_status = "success";
       await updateBookingStatus(order_id, transaction_details);
-      await sendMail(orderDetails);
+      await sendMailToRecipient(orderDetails);
       return res.redirect(
         "https://www.feasthero.com/payment_success/?order_id=" + order_id
       );
@@ -296,9 +293,13 @@ const processPayment = async (req, res) => {
 
 // api to fetch order details based on the passed order_id
 const getOrderDetails = async (req, res) => {
-  let order_id = req.params.order_id;
-  let order = await Booking.find({ _id: order_id });
-  return res.json({ error: false, data: order });
+  try {
+    let order_id = req.params.order_id;
+    let order = await Booking.find({ _id: order_id });
+    return res.json({ error: false, data: order });
+  } catch (e) {
+    return res.json({ error: true, data: [] });
+  }
 };
 
 module.exports = {

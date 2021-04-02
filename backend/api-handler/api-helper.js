@@ -45,7 +45,7 @@ const updateBookingStatus = async (order_id, status) => {
   return;
 };
 
-const sendMail = async (order) => {
+const sendMailToRecipient = async (order) => {
   //fetching the class details to send the email
   let classes = await Class.aggregate([
     {
@@ -77,7 +77,6 @@ const sendMail = async (order) => {
     to: order[0].customer_email,
     from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
     bcc: process.env.SENDGRID_MAIL,
-    //   bcc: order[0].chef_email,
     subject: "FeastHero Class Booking Confirmation",
     html: `Hi <b>${
       order[0].customer_first_name
@@ -123,10 +122,48 @@ const sendMail = async (order) => {
       }
     }
   );
+
+  sendMailToChef(classes, order[0]);
+};
+
+const sendMailToChef = async (classes, order) => {
+  // message template
+  const msg = {
+    to: classes.chefs[0].email,
+    from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
+    bcc: process.env.SENDGRID_MAIL,
+    subject: ` FeastHero Class ${classes.title}  Slot Booked`,
+    html: `Hi <b>${classes.chefs[0].name}</b>, Your class <b>${
+      classes.title
+    }</b>  has been booked  for the slot 
+    <p>
+    Date: <b> ${moment
+      .utc(order[0].booking_datetime)
+      .tz("US/Eastern")
+      .format("dddd, MMMM D,YYYY")} </b></p>
+      <p>
+    Time: <b>${moment
+      .utc(order[0].booking_datetime)
+      .tz("US/Eastern")
+      .format("hh:mm a")} EST </b></p> 
+       `,
+  };
+  //ES6
+  sgMail.send(msg).then(
+    () => {},
+    (error) => {
+      console.error(error);
+
+      if (error.response) {
+        console.error(error.response.body);
+      }
+    }
+  );
 };
 
 module.exports = {
-  sendMail,
+  sendMailToRecipient,
+  sendMailToChef,
   updateSlot,
   updateBookingStatus,
 };

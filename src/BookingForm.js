@@ -57,24 +57,12 @@ export default function BookingForm({ class_id, cost, chef }) {
   };
 
   const handleChange = (event) => {
-    console.log(event.target.value);
     const value = event.target.value;
-    console.log(value);
     setBookingInfo({
       ...bookingInfo,
       [event.target.name]: value,
     });
   };
-  /* Moneris test environment 
-  action="https://esqa.moneris.com/HPPDP/index.php"
-   ps_store_id =CVQNQtore1
-  hpp_key= hpB9RYVYPULN
-  */
-  /* Moneris Prod environment 
-  action="https://www3.moneris.com/HPPDP/index.php"
-   ps_store_id =GT3RZ41539
-  hpp_key= hpEOUYV1I652
-  */
   return (
     <form
       ref={inputEl}
@@ -174,14 +162,12 @@ export default function BookingForm({ class_id, cost, chef }) {
             value={!checked}
             onChange={(e) => {
               setChecked((old) => !old);
-              console.log(e.target.value);
               let price = bookingInfo.cost * data[0].mealkit_price;
               let meal = data[0].mealkit_price;
               if (e.target.value == "false") {
                 price = bookingInfo.cost / data[0].mealkit_price;
                 meal = 1;
               }
-              console.log(price);
               setBookingInfo({
                 ...bookingInfo,
                 has_mealkit: e.target.value,
