@@ -9,7 +9,10 @@ let Class = new Schema({
   description: String,
   duration: Number,
   chef_id: ObjectId,
-  has_mealkit: Boolean,
+  has_mealkit: {
+    type: Boolean,
+    default: false,
+  },
   mealkit_price: Number,
   recipe: Array,
 });
