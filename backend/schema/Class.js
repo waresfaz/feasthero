@@ -13,7 +13,10 @@ let Class = new Schema({
     type: Boolean,
     default: false,
   },
-  mealkit_price: Number,
+  mealkit_price: {
+    type: Number,
+    default: 0,
+  },
   recipe: Array,
 });
 module.exports = mongoose.model("Class", Class);

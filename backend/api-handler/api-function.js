@@ -1,7 +1,7 @@
 const {
   updateSlot,
   updateBookingStatus,
-  sendMail,
+  sendMailToRecipient,
 } = require("./api-helper.js");
 
 const { connect, close } = require("../db-connect");
