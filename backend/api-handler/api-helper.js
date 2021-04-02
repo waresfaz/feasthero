@@ -138,12 +138,12 @@ const sendMailToChef = async (classes, order) => {
     }</b>  has been booked  for the slot 
     <p>
     Date: <b> ${moment
-      .utc(order[0].booking_datetime)
+      .utc(order.booking_datetime)
       .tz("US/Eastern")
       .format("dddd, MMMM D,YYYY")} </b></p>
       <p>
     Time: <b>${moment
-      .utc(order[0].booking_datetime)
+      .utc(order.booking_datetime)
       .tz("US/Eastern")
       .format("hh:mm a")} EST </b></p> 
        `,
