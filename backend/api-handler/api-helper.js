@@ -123,7 +123,7 @@ const sendMailToRecipient = async (order) => {
     }
   );
 
-  sendMailToChef(classes, order[0]);
+  await sendMailToChef(classes, order[0]);
 };
 
 const sendMailToChef = async (classes, order) => {
