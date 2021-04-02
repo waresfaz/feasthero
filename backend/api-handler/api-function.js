@@ -90,18 +90,18 @@ const getChefs = async (req, res) => {
 
 // query to add chef ==>not currently used
 const setChefs = async (req, res) => {
-  try {
-    let chef = await Chef.find({});
-
-    if (chef) {
-      return res.json({ success: true, data: chef });
-    } else {
-      return res.json({ success: true, data: [] });
-    }
-  } catch (e) {
-    console.log(e);
-    return res.json({ success: false, data: [] });
-  }
+  let chefData = new Chef(req.body);
+  return chefData
+    .save()
+    .then((chefData) => {
+      return res.status(200).json({ error: false, data: chefData._id });
+    })
+    .catch(async (err) => {
+      return res.status(200).send({
+        error: true,
+        data: "chef data insert Failed , please try again",
+      });
+    });
 };
 
 // query to save booked class data
@@ -305,6 +305,7 @@ module.exports = {
   getClasses,
   setClass,
   getChefs,
+  setChefs,
   bookClass,
   addSchedule,
   getSchedule,

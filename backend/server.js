@@ -18,6 +18,7 @@ api.use(function (req, res, next) {
 api.get("/classes", async (req, res) => await apiHandler.getClasses(req, res));
 api.post("/class", async (req, res) => await apiHandler.setClass(req, res));
 api.get("/chefs", async (req, res) => await apiHandler.getChefs(req, res));
+api.post("/chefs", async (req, res) => await apiHandler.setChefs(req, res));
 api.post("/booking", async (req, res) => await apiHandler.bookClass(req, res));
 api.get(
   "/schedule/:class_id",

@@ -11,7 +11,6 @@ let Booking = new Schema({
   booking_size: Number,
   booking_datetime: Date,
   cost: Number,
-  chef_id: ObjectId,
   zoom_link: String,
   chef_email: String,
   booking_status: String,
