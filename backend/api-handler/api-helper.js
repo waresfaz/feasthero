@@ -8,6 +8,15 @@ const moment = require("moment");
 const { utc } = require("moment");
 require("moment-timezone");
 
+// basic email template which is repeated.
+let msg = {
+  to: null,
+  from: process.env.SENDGRID_MAIL,
+  bcc: process.env.SENDGRID_MAIL,
+  subject: null,
+  html: null,
+};
+
 const sgMail = require("@sendgrid/mail");
 require("dotenv").config();
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
@@ -45,6 +54,7 @@ const updateBookingStatus = async (order_id, status) => {
   return;
 };
 
+//sends the mail to customer upon booking confirmation
 const sendMailToRecipient = async (order) => {
   //fetching the class details to send the email
   let classes = await Class.aggregate([
@@ -73,14 +83,12 @@ const sendMailToRecipient = async (order) => {
   classes = classes[0];
 
   // message template
-  const msg = {
-    to: order[0].customer_email,
-    from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
-    bcc: process.env.SENDGRID_MAIL,
-    subject: "FeastHero Class Booking Confirmation",
-    html: `Hi <b>${
-      order[0].customer_first_name
-    }</b>, thanks for booking with FeastHero!.
+
+  msg.to = order[0].customer_email;
+  msg.subject = "FeastHero Class Booking Confirmation";
+  msg.html = `Hi <b>${
+    order[0].customer_first_name
+  }</b>, thanks for booking with FeastHero!.
        <p>
         Here’s everything you need to know for you class with ${
           classes.chefs[0].name
@@ -100,8 +108,8 @@ const sendMailToRecipient = async (order) => {
           .format("hh:mm a")} EST </b></p>
           <h3>
         Join with this link: <a href=${order[0].zoom_link}> ${
-      order[0].zoom_link
-    } </a> </h3>
+    order[0].zoom_link
+  } </a> </h3>
   <br>
         <p>
         ${classes.description}
@@ -109,8 +117,14 @@ const sendMailToRecipient = async (order) => {
        <p> Remember for this class you will need ${classes.recipe.toString()}. </p>
   
       <h4>  We look forward to having you join!</h4>
-       `,
-  };
+       `;
+
+  await mailSender(msg);
+  await sendMailToChef(classes, order[0]);
+};
+
+// Main mail sender function of sendgrid
+const mailSender = async (msg) => {
   //ES6
   sgMail.send(msg).then(
     () => {},
@@ -122,20 +136,16 @@ const sendMailToRecipient = async (order) => {
       }
     }
   );
-
-  await sendMailToChef(classes, order[0]);
 };
 
+//function to send a slot booked mail to the chef
 const sendMailToChef = async (classes, order) => {
   // message template
-  const msg = {
-    to: classes.chefs[0].email,
-    from: process.env.SENDGRID_MAIL, // Use the email address or domain you verified above
-    bcc: process.env.SENDGRID_MAIL,
-    subject: ` FeastHero Class ${classes.title}  Slot Booked`,
-    html: `Hi <b>${classes.chefs[0].name}</b>, Your class <b>${
-      classes.title
-    }</b>  has been booked  for the slot 
+  msg.to = classes.chefs[0].email;
+  msg.subject = ` FeastHero Class ${classes.title}  Slot Booked`;
+  msg.html = `Hi <b>${classes.chefs[0].name}</b>, Your class <b>${
+    classes.title
+  }</b>  has been booked  for the slot 
     <p>
     Date: <b> ${moment
       .utc(order.booking_datetime)
@@ -146,19 +156,9 @@ const sendMailToChef = async (classes, order) => {
       .utc(order.booking_datetime)
       .tz("US/Eastern")
       .format("hh:mm a")} EST </b></p> 
-       `,
-  };
-  //ES6
-  sgMail.send(msg).then(
-    () => {},
-    (error) => {
-      console.error(error);
+       `;
 
-      if (error.response) {
-        console.error(error.response.body);
-      }
-    }
-  );
+  await mailSender(msg);
 };
 
 module.exports = {
@@ -166,4 +166,5 @@ module.exports = {
   sendMailToChef,
   updateSlot,
   updateBookingStatus,
+  mailSender,
 };
