@@ -13,6 +13,7 @@ sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 let msg = {
   to: null,
   from: process.env.SENDGRID_MAIL,
+  bcc: process.env.SENDGRID_MAIL,
   subject: "Reminder - FeastHero Class Scheduled for tomorrow  ",
   html: null,
 };
