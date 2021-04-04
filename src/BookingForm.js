@@ -172,7 +172,7 @@ export default function BookingForm({ class_id, cost, chef }) {
                 price =
                   bookingInfo.cost -
                   bookingInfo.booking_size * data[0].mealkit_price;
-                meal = 1;
+                meal = 0;
               }
               setBookingInfo({
                 ...bookingInfo,
