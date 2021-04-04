@@ -36,7 +36,7 @@ export default function BookingForm({ class_id, cost, chef }) {
     booking_size: 0,
     booking_datetime: "",
     cost: 0,
-    mealkit_price: 1,
+    mealkit_price: 0,
     chef_id: chef._id,
     chef_zoom_link: chef.zoom,
     chef_email: chef.email,
@@ -91,7 +91,9 @@ export default function BookingForm({ class_id, cost, chef }) {
             setBookingInfo({
               ...bookingInfo,
               booking_size: e.target.value,
-              cost: bookingInfo.mealkit_price * cost * e.target.value,
+              cost:
+                bookingInfo.mealkit_price * e.target.value +
+                cost * e.target.value,
             });
           }}
           name="booking_size"
@@ -162,10 +164,14 @@ export default function BookingForm({ class_id, cost, chef }) {
             value={!checked}
             onChange={(e) => {
               setChecked((old) => !old);
-              let price = bookingInfo.cost * data[0].mealkit_price;
+              let price =
+                bookingInfo.cost +
+                bookingInfo.booking_size * data[0].mealkit_price;
               let meal = data[0].mealkit_price;
               if (e.target.value == "false") {
-                price = bookingInfo.cost / data[0].mealkit_price;
+                price =
+                  bookingInfo.cost -
+                  bookingInfo.booking_size * data[0].mealkit_price;
                 meal = 1;
               }
               setBookingInfo({
