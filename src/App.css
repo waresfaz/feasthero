@@ -1,19 +1,19 @@
 /* Styles applied to header */
 
-.header{
+.header {
   font-weight: bold;
   /* border-bottom: 1px solid #77A6F7; */
   padding: 0.4rem;
   /* border: 5px dashed red; */
   display: flex;
   align-items: center;
-  background-color: #A8D0E6;
+  background-color: #a8d0e6;
 }
 
 .logo {
   /* border: 3px dotted orange; */
   max-width: 40%;
-  height:auto;
+  height: auto;
 }
 
 .header--links {
@@ -47,7 +47,6 @@
   /* background-color: #a8d0e66b */
   background-color: #a8d0e66b;
 }
-
 .landing {
   position: relative;
   width: 100%;
@@ -64,7 +63,7 @@
   align-self: center;
   visibility: hidden;
   opacity: 0;
-  transition: visibility 0s, opacity 0.5s ,linear;
+  transition: visibility 0s, opacity 0.5s, linear;
   margin-top: 10%;
   width: 10%;
 }
@@ -86,7 +85,7 @@
   justify-content: center;
   margin-bottom: 10%; */
   /* max-width: 90%; */
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 700;
   font-style: italic;
   font-size: 4vw;
@@ -156,7 +155,7 @@
   padding: 2%;
   background-color: #ececec;
   border-radius: 12px;
-  color:rgb(68, 68, 68);
+  color: rgb(68, 68, 68);
   box-shadow: 0.5vh 1vh #9292921e;
 }
 .item:hover {
@@ -183,7 +182,7 @@
 .item-details {
   display: flex;
   flex-direction: column;
-  margin: 0 1%
+  margin: 0 1%;
 }
 
 .item-description {
@@ -219,7 +218,7 @@
 /* global styles */
 
 h1 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 700;
   font-style: bold;
   font-size: 4vw;
@@ -229,13 +228,13 @@ h1 {
 }
 
 h2 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 700;
   color: #4b4b4b;
 }
 
 h3 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 700;
   font-style: bold;
   font-size: 2vw;
@@ -244,14 +243,14 @@ h3 {
 }
 
 h4 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   /* font-weight: 400; */
   font-size: 1vw;
   font-weight: bold;
 }
 
 h5 {
-  font-family: 'Raleway', sans-serif;
+  font-family: "Raleway", sans-serif;
   font-weight: 400;
   font-size: 1vw;
 }
