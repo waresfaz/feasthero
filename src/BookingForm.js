@@ -68,10 +68,10 @@ export default function BookingForm({ class_id, cost, chef }) {
       ref={inputEl}
       className="modal-form"
       method="post"
-      action="https://esqa.moneris.com/HPPDP/index.php"
+      action="https://www3.moneris.com/HPPDP/index.php"
     >
-      <input type="hidden" name="ps_store_id" value="CVQNQtore1"></input>
-      <input type="hidden" name="hpp_key" value="hpB9RYVYPULN"></input>
+      <input type="hidden" name="ps_store_id" value="GT3RZ41539"></input>
+      <input type="hidden" name="hpp_key" value="hpEOUYV1I652"></input>
       <input
         type="hidden"
         name="charge_total"
