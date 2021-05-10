@@ -20,26 +20,23 @@ export default function Landing() {
 
   return (
     <div className="landing">
-      <section className="landing--front">
-        <img
-          className="logo"
-          src="images/logo_transparent_background.png"
-          alt=""
-        />
+      <section className="landing--left">
 
-        <div className="landing--front--byline">
-          <p>Cook together from anywhere</p>
+        <p className="landing--left--slogan">Cook together from anywhere</p>
+        <p className="landing--left--byline">Learn to cook like a pro with others in the comfort of your own kitchen.</p>  
+        <div className="landing--left--buttons"> 
+          <button id="book-now">Book Now</button>
+          <button id="contact-us">Contact Us</button>
         </div>
+
       </section>
 
-      <div className="landing--video">
-        <div className="landing--color-overlay"></div>
-        <video autoPlay loop muted id="video">
-          <source src="images/pexels_stir.mp4" type="video/mp4" />
-        </video>
-      </div>
+      <img
+        className="landing--image"
+        src="rebrand/chef-illustration.png"
+        alt=""
+      />
 
-      <img id="scrolldown" src="images/scroll.gif" alt="" />
     </div>
   );
 }

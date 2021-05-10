@@ -1,4 +1,5 @@
 import Header from "./Header";
+import Navbar from "./Navbar";
 import Landing from "./Landing";
 import List from "./List";
 import "./App.css";
@@ -20,6 +21,7 @@ function App() {
           path="/"
           render={() => (
             <main>
+              <Navbar />
               <Landing />
               <List />
             </main>

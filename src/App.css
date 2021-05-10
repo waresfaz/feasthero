@@ -1,5 +1,6 @@
-/* Styles applied to header */
+/* Global styles defined in this doc */
 
+/* .header is not being used. To be deleted */
 .header {
   font-weight: bold;
   /* border-bottom: 1px solid #77A6F7; */
@@ -10,14 +11,103 @@
   background-color: #a8d0e6;
 }
 
+/* #region start: navbar */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 10vh;
+}
+
 .logo {
   /* border: 3px dotted orange; */
-  max-width: 40%;
+  max-width: auto;
+  height: 7vh;
+  margin-left: 5vw;
+}
+
+.navbar--list {
+  list-style-type: none;
+  display: flex;
+  width: 50vw;
+  justify-content: space-around;
+}
+/* #region end: navbar */
+
+/* #region start: landing */
+
+.landing {
+  position: relative;
+  width: 100%;
+  height: 80vh;
+  display: flex;
+  justify-content: center;
+  /* align-content: center;
+  flex-direction: column;
+  overflow: hidden; */
+  background-color: #F4FFFF;
+}
+
+.landing--left {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  width: 50%;
+  padding: 3%;
+}
+
+.landing--left--slogan {
+  /* border: 4px dotted green; */
+  /* display: flex;
+  justify-content: center;
+  margin-bottom: 10%; */
+  /* max-width: 90%; */
+  font-family: "Raleway", sans-serif;
+  font-weight: 700;
+  font-size: 4vw;
+  color: #003D4A;
+  margin: 0;
+}
+
+.landing--left--byline {
+  color: #003D4A;
+  font-size: 2vw;
+}
+
+.landing--left--buttons {
+  display: flex;
+  justify-content: space-between;
+}
+
+#book-now {
+  height: 8vh;
+  width: 20vw;
+  background: #2EBBAC;
+  box-shadow: 0px 7px 0px #00B09D;
+  border-radius: 8px;
+  border: none;
+}
+
+#contact-us {
+  height: 8vh;
+  width: 20vw;
+  background: #FA7580;
+  box-shadow: 0px 7px 0px #FF5966;
+  border-radius: 8px;
+  border: none;
+}
+
+.landing--image {
+  padding: 3%;
+  max-width: 50%;
   height: auto;
 }
 
-.header--links {
-  /* border: 3px dotted greenyellow; */
+/* #region end: landing */
+
+
+/* .header--links {
+  border: 3px dotted greenyellow;
   width: 50%;
   height: auto;
   display: flex;
@@ -30,11 +120,11 @@
   border: 1px solid #4d6da0;
   padding: 8% 14%;
   color: #4b4b4b;
-  /* background-color: #587cb4; */
+  background-color: #587cb4;
 }
 .aboutus:hover {
   background-color: #6792d6;
-}
+} */
 
 /* Styles appied to list */
 
@@ -47,72 +137,7 @@
   /* background-color: #a8d0e66b */
   background-color: #a8d0e66b;
 }
-.landing {
-  position: relative;
-  width: 100%;
-  height: 100vh;
-  display: flex;
-  align-content: center;
-  justify-content: center;
-  flex-direction: column;
-  overflow: hidden;
-}
 
-#scrolldown {
-  z-index: 1;
-  align-self: center;
-  visibility: hidden;
-  opacity: 0;
-  transition: visibility 0s, opacity 0.5s, linear;
-  margin-top: 10%;
-  width: 10%;
-}
-.landing:hover > #scrolldown {
-  visibility: visible;
-  opacity: 1;
-}
-
-.landing--front {
-  align-self: center;
-  text-align: center;
-  z-index: 1;
-  margin-top: 10%;
-}
-
-.landing--front--byline {
-  /* border: 4px dotted green; */
-  /* display: flex;
-  justify-content: center;
-  margin-bottom: 10%; */
-  /* max-width: 90%; */
-  font-family: "Raleway", sans-serif;
-  font-weight: 700;
-  font-style: italic;
-  font-size: 4vw;
-  color: rgb(216, 216, 216);
-}
-
-.landing--video {
-  position: absolute;
-  top: 0;
-  left: 0;
-}
-
-/* #video {
-  max-width: 100vw;
-  min-width: 85vw;
-  height: auto;
-} */
-
-.landing--color-overlay {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100vh;
-  background-color: rgb(0, 0, 0);
-  opacity: 0.15;
-}
 
 /* styles applied to instructions section */
 

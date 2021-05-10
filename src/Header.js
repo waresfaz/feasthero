@@ -1,4 +1,4 @@
-// the header portion of the page
+// the header portion of the page NOT USED
 export default function header() {
   return (
     <header className="header">
