@@ -48,8 +48,19 @@ const List = () => {
     });
   return (
     <div className="main">
-      <h1 style={{ marginBottom: "12%" }}>How it works</h1>
+      <h1 style={{ marginBottom: "5%" }}>Hands-on cooking classes taught by world class chefs</h1>
+      <div className="classesList">
+        {classesList}{" "}
+        {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
+      </div>
+
       <section className="instructions">
+        <div>
+          
+        </div>
+      </section>
+
+      {/* <section className="instructions">
         <div className="instruction--card">
           <img
             className="instruction--card-icon"
@@ -74,14 +85,8 @@ const List = () => {
           />
           <h3>Review and Pay</h3>
         </div>
-      </section>
+      </section> */}
 
-      <h1>Select a class</h1>
-
-      <div>
-        {classesList}{" "}
-        {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
-      </div>
     </div>
   );
 };

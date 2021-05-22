@@ -6,13 +6,31 @@ export default function Item(props) {
 
   // HTML structure for the Item component
   return (
-    <main>
-      <div className="item">
-        <div className="item-image">
-          <img className="thumbnail" src={props.thumbnail} alt="" />
+
+    <div className="item-card">
+      <div className="item-card-image">
+        <img className="thumbnail" src={props.thumbnail} alt="" />
+      </div>
+
+      <div className="item-card-details">
+        <div className="chef-image">
+          <img className="chef-thumbnail" src={props.chef.photo} alt="" />
         </div>
 
-        <div className="item-details">
+        <div className="item-card-details-description">
+          <p className="item-title">{props.title}</p>
+          <p className="item-cost">${props.cost} per device | {props.duration} hr</p>
+        </div>
+
+        <div className="item-card-details-button">
+          <button className="select-item" onClick={toggle}>
+            Book Now
+          </button>
+        </div>
+
+      </div>
+
+      {/* <div className="item-details">
           <div className="item--header">
             <h2 className="item--title">{props.title}</h2>
             <p>${props.cost}/ device</p>
@@ -34,8 +52,8 @@ export default function Item(props) {
             title={props.title}
             cost={props.cost}
           />
-        </div>
-      </div>
-    </main>
+        </div> */}
+    </div>
+
   );
 }
