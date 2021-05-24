@@ -1,7 +1,13 @@
 import Header from "./Header";
+import Nav from './Nav';
 import Landing from "./Landing";
 import List from "./List";
 import "./App.css";
+import "./css/style.css";
+import "./css/nice-select.css";
+// import "./css/jquery-ui.css";
+import "./css/bootstrap.min.css";
+import "./css/all.min.css";
 import PaymentSuccessModal from "./PaymentSuccessModal";
 import {
   BrowserRouter as Router,
@@ -20,8 +26,9 @@ function App() {
           path="/"
           render={() => (
             <main>
-              <Landing />
-              <List />
+              <Nav />
+              {/* <Landing />
+              <List /> */}
             </main>
           )}
         ></Route>
