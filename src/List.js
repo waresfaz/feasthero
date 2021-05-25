@@ -29,6 +29,7 @@ const List = () => {
       const chef = classes.chefs[0];
       const schedule = classes.schedule;
       const chef_id = classes.chef_id;
+      const mealkitPrice = classes.mealkit_price;
 
       // console.log('here is tehd atteime', schedule)
 
@@ -43,6 +44,7 @@ const List = () => {
           description={description}
           duration={duration}
           chef={chef}
+          mealkitPrice={mealkitPrice}
         />
       );
     });

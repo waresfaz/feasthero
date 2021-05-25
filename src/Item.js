@@ -38,7 +38,17 @@ export default function Item(props) {
           <h6 className="chefs-clasdetaisltext"><span>{props.duration} Hrs | ${props.cost}</span> per device</h6>
         </div>
       </div>
-      <a href="bookingPage-1.html" className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
+      <a onClick={toggle} className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
+      <Modal 
+      class_id={props.class_id}
+              isShowing={isShowing}
+              hide={toggle}
+              duration={props.duration}
+              chef={props.chef}
+              title={props.title}
+              cost={props.cost}
+              mealkitPrice={props.mealkitPrice}
+              />
     </div>
   </div>
 </div>

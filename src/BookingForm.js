@@ -195,3 +195,141 @@ export default function BookingForm({ class_id, cost, chef }) {
     </form>
   );
 }
+
+
+/*
+<div class="paymentbooking-detailsprocess-box">
+
+            <div class="row">
+
+              <div class="col-xl-6 col-lg-6 col-md-6">
+
+                <div class="booking-detailsbox">
+
+                  <div class="bookingprocess-title">
+
+                    <h2>Booking Details</h2>
+                  </div>
+
+                  <div class="info-andselct-box d-flex mb-20">
+                    <a href="#" class="inforitems" data-tooltip="The number of screens 
+                      that will be attending 
+                      the class" data-position="top">
+                      <img src="img/Vector.png" alt="" />
+                    </a><span>Number of devices for booking:</span>
+                    <select class="custom-select mr-sm-2" id="inlineFormCustomSelect">
+
+                      <option selected="selected">1</option>
+
+                      <option value="2">2</option>
+
+                      <option value="3">3</option>
+
+                      <option value="4">4</option>
+                    </select>
+                  </div>
+
+                  <div class="bilinr-addres-box">
+                    <form action="" class="bilings-addresboc-content">
+
+                      <div class="row">
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bilings-group date_times">
+                            <input type="text" id="datepicker" class="bilings-control " placeholder="Select Date &amp; Time" />
+                          </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bilings-group">
+                            <input type="text" class="bilings-control" placeholder="First Name" />
+                          </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bilings-group">
+                            <input type="text" class="bilings-control" placeholder="Last Name" />
+                          </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bilings-group">
+                            <input type="text" class="bilings-control" placeholder="Company Name" />
+                          </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bilings-group">
+                            <input type="text" class="bilings-control" placeholder="Email Address" />
+                          </div>
+                        </div>
+
+                        <div class="col-xl-12 col-lg-12 col-md-12">
+
+                          <div class="bookingbtn-group mt-20">
+                            <a href="bookingPage-2.html" class="booking-btn btn-str">Proceed to Payment</a>
+                          </div>
+                        </div>
+                      </div>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+              <div class="col-xl-6 col-lg-6 col-md-6">
+
+                <div class="selingpriceboxdetails">
+
+                  <div class="bookingprocess-title">
+
+                    <h2>{title}</h2>
+                  </div>
+
+                  <p class="set-price">${cost} per device</p>
+
+                  <p class="requer-text"><input type="checkbox" name="" id="" /> Include pre-portioned ingredient kit for
+                      class. (4 servings per kit) <span> Additional ${mealkitPrice}/device.</span></p>
+                  <form action="" class="applying-form">
+                    <input type="text" class="apply-control" placeholder="Discount Code" />
+                    <label for=""><a href="#" class="submite-btn">Apply</a></label>
+                  </form>
+
+                  <div class="price-table-box">
+
+                    <ul class="pricetable">
+
+                      <li class="price-listof-text">
+
+                        <h6>Ingredient Kit</h6> <span>$0.00</span>
+                      </li>
+
+                      <li class="price-listof-text">
+
+                        <h6>Items Subtotal</h6> <span>$45.00</span>
+                      </li>
+
+                      <li class="price-listof-text">
+
+                        <h6>HST</h6> <span>$5.00</span>
+                      </li>
+                    </ul>
+
+                    <ul class="price-input-total">
+
+                      <li class="pricetotal-link">
+
+                        <h6>Total</h6> <span>$45.00</span>
+                      </li>
+                    </ul>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+*/
