@@ -1,4 +1,26 @@
+import { useEffect } from "react";
+import { useLocation } from "react-router-dom";
+import { cancelBookingAPI } from "./services/api-service";
+import List from './List';
+
 export default function Nav() {
+
+    // Moneris will redirect to the home page if a transaction is "cancelled" , and will pass the order_id in the url query string
+    let location = useLocation();
+    useEffect(() => {
+      const cancelBooking = async (order_id) => {
+        let result = await cancelBookingAPI(order_id);
+      };
+  
+      let params = location.search.split("&");
+      params = params[0].split("=")[1]; // fetching the cancelled order_id from query string
+      if (params !== undefined) {
+        // order_id will only be passed in query string if the transaction is cancelled.
+        cancelBooking(params);
+      }
+    }, []);
+
+
   return (
 
     <body>
@@ -76,187 +98,9 @@ export default function Nav() {
         {/* <!--===================================================================
                      class chefs section     [-START-]
   =====================================================================--> */}
-        <section className="classchefsDetails-section" id="classlist">
+ 
+  <List />
 
-          <div className="row">
-
-            <div className="col-xl-12">
-
-              <div className="section-title text-center">
-
-                <h2>Hands-on cooking classes taught by world class chefs</h2>
-              </div>
-            </div>
-          </div>
-
-          <div className="chefs-classdetails-box">
-
-            <div className="row">
-              {/* <!-- ______________________________________________ --> */}
-
-              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                <div className="classDetails-contentitem mb-30">
-                  <a href="#" className="classdetaisl-itemmodel"><img src="img/image1.png" alt="" width="100%" /></a>
-
-                  <div className="chefsclass-contentbox">
-
-                    <div className="clasdetailsbox d-flex align-items-center justify-content-between">
-
-                      <div className="chefs-avatrdetails d-flex align-items-center">
-                        <a href="#" className="chefs-img"><img src="img/ChefImage.png" alt="" />
-                        </a>
-                        <div className="chefs-claseshover-overflow d-flex"><a href="#" className="chefs-img">
-                        </a><a href="#" className="avatar-hoveroverly"><img src="img/hover-img1.png" alt="" /></a>
-
-                          <div className="hover-overlyntextChefs">
-
-                            <h3>Wares</h3>
-
-                            <p>Wares' expertise as a chef draw from his extensive experience in the consumption sector. He has over 25 years of first hand experience in gustation processing and is excited to share his knowledge with you!
-                    </p>
-                          </div>
-                        </div>
-
-
-                        <div className="chefs-svadetiltext">
-
-                          <h5 className="chefs-clasname">Empanada Extravaganza </h5>
-
-                          <h6 className="chefs-clasdetaisltext"><span>2 Hrs | $40</span> per device</h6>
-                        </div>
-                      </div>
-                      <a href="bookingPage-1.html" className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- ______________________________________________ --> */}
-              {/* <!-- ______________________________________________ --> */}
-
-              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                <div className="classDetails-contentitem mb-30">
-                  <a href="#" className="classdetaisl-itemmodel"><img src="img/image2.png" alt="" width="100%" /></a>
-
-                  <div className="chefsclass-contentbox">
-
-                    <div className="clasdetailsbox d-flex align-items-center justify-content-between">
-
-                      <div className="chefs-avatrdetails d-flex align-items-center">
-                        <a href="#" className="chefs-img"><img src="img/febrian-zakaria-SiQgni-cqFg-unsplash1.png" alt="" />
-                        </a>
-                        <div className="chefs-claseshover-overflow d-flex"><a href="#" className="chefs-img">
-                        </a><a href="bookingPage-1.html" className="avatar-hoveroverly"><img src="img/hover-img1.png" alt="" /></a>
-
-                          <div className="hover-overlyntextChefs">
-
-                            <h3>Wares</h3>
-
-                            <p>Wares' expertise as a chef draw from his extensive experience in the consumption sector. He has over 25 years of first hand experience in gustation processing and is excited to share his knowledge with you!
-                        </p>
-                          </div>
-                        </div>
-
-
-                        <div className="chefs-svadetiltext">
-
-                          <h5 className="chefs-clasname">Empanada Extravaganza </h5>
-
-                          <h6 className="chefs-clasdetaisltext"><span>2 Hrs | $40</span> per device</h6>
-                        </div>
-                      </div>
-                      <a href="bookingPage-1.html" className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              {/* <!-- ______________________________________________ --> */}
-              {/* <!-- ______________________________________________ --> */}
-
-              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                <div className="classDetails-contentitem mb-30">
-                  <a href="#" className="classdetaisl-itemmodel"><img src="img/eaters-collective-pLKgCsBOiw4-unsplash1.png" alt="" width="100%" /></a>
-
-                  <div className="chefsclass-contentbox">
-
-                    <div className="clasdetailsbox d-flex align-items-center justify-content-between">
-
-                      <div className="chefs-avatrdetails d-flex align-items-center">
-                        <a href="#" className="chefs-img"><img src="img/febrian-zakaria-SiQgni-cqFg-unsplash 1.png" alt="" />
-                        </a>
-                        <div className="chefs-claseshover-overflow d-flex"><a href="#" className="chefs-img">
-                        </a><a href="#" className="avatar-hoveroverly"><img src="img/hover-img1.png" alt="" /></a>
-
-                          <div className="hover-overlyntextChefs">
-
-                            <h3>Wares</h3>
-
-                            <p>Wares' expertise as a chef draw from his extensive experience in the consumption sector. He has over 25 years of first hand experience in gustation processing and is excited to share his knowledge with you!
-                    </p>
-                          </div>
-                        </div>
-
-
-                        <div className="chefs-svadetiltext">
-
-                          <h5 className="chefs-clasname">Empanada Extravaganza </h5>
-
-                          <h6 className="chefs-clasdetaisltext"><span>2 Hrs | $40</span> per device</h6>
-                        </div>
-                      </div>
-                      <a href="bookingPage-1.html" className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
-                    </div>
-
-                  </div>
-
-                </div>
-              </div>
-              {/* <!-- ______________________________________________ --> */}
-              {/* <!-- ______________________________________________ --> */}
-
-              <div className="col-xl-6 col-lg-6 col-md-6 col-12">
-
-                <div className="classDetails-contentitem mb-30">
-                  <a href="#" className="classdetaisl-itemmodel"><img src="img/eaters-collective-12eHC6FxPyg-unsplash1.png" alt="" width="100%" /></a>
-
-                  <div className="chefsclass-contentbox">
-
-                    <div className="clasdetailsbox d-flex align-items-center justify-content-between">
-
-                      <div className="chefs-avatrdetails d-flex align-items-center">
-                        <a href="#" className="chefs-img"><img src="img/Chef Image.png" alt="" />
-                        </a>
-                        <div className="chefs-claseshover-overflow d-flex"><a href="#" className="chefs-img">
-                        </a><a href="#" className="avatar-hoveroverly"><img src="img/hover-img1.png" alt="" /></a>
-
-                          <div className="hover-overlyntextChefs">
-
-                            <h3>Wares</h3>
-
-                            <p>Wares' expertise as a chef draw from his extensive experience in the consumption sector. He has over 25 years of first hand experience in gustation processing and is excited to share his knowledge with you!
-                        </p>
-                          </div>
-                        </div>
-
-
-                        <div className="chefs-svadetiltext">
-
-                          <h5 className="chefs-clasname">Empanada Extravaganza </h5>
-
-                          <h6 className="chefs-clasdetaisltext"><span>2 Hrs | $40</span> per device</h6>
-                        </div>
-                      </div>
-                      <a href="bookingPage-1.html" className="booking-btn chefs-btn">Book Now <span><img src="img/Vector2.png" alt="" /></span></a>
-                    </div>
-
-                  </div>
-                </div>
-              </div>
-              {/* <!-- ______________________________________________ --> */}
-            </div>
-          </div></section>
         {/* <!--===================================================================
                      class chefs section     [-END-]
   =====================================================================--> */}
@@ -382,7 +226,7 @@ export default function Nav() {
 
                     <div className="features-chefscontenttext">
 
-                      <h2>.feature-itemcont.item-two</h2>
+                      <h2>Create Connections Virtually</h2>
 
                       <p>Connecting virtually can be hard. Creating together<br /> allows teams and groups to enjoy a fun evening.</p>
                     </div>

@@ -47,42 +47,70 @@ const List = () => {
       );
     });
   return (
-    <div className="main">
-      <h1 style={{ marginBottom: "12%" }}>How it works</h1>
-      <section className="instructions">
-        <div className="instruction--card">
-          <img
-            className="instruction--card-icon"
-            src="images/card-select.svg"
-            alt=""
-          />
-          <h3>Select a class</h3>
-        </div>
-        <div className="instruction--card">
-          <img
-            className="instruction--card-icon"
-            src="images/card-list.svg"
-            alt=""
-          />
-          <h3>Enter booking details</h3>
-        </div>
-        <div className="instruction--card">
-          <img
-            className="instruction--card-icon"
-            src="images/card-pay.svg"
-            alt=""
-          />
-          <h3>Review and Pay</h3>
-        </div>
-      </section>
+    <section className="classchefsDetails-section" id="classlist">
 
-      <h1>Select a class</h1>
+    <div className="row">
 
-      <div>
-        {classesList}{" "}
-        {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
+      <div className="col-xl-12">
+
+        <div className="section-title text-center">
+
+          <h2>Hands-on cooking classes taught by world class chefs</h2>
+        </div>
       </div>
     </div>
+
+    <div className="chefs-classdetails-box">
+
+      <div className="row">
+        {/* <!-- ______________________________________________ --> */}
+
+        {/* copied this out and pasted in Item.js*/}
+        {classesList}
+
+        {/* <!-- ______________________________________________ --> */}
+
+      </div>
+    </div></section>
+
+
+    //=================================
+    // <div className="main">
+    //   <h1 style={{ marginBottom: "12%" }}>How it works</h1>
+    //   <section className="instructions">
+    //     <div className="instruction--card">
+    //       <img
+    //         className="instruction--card-icon"
+    //         src="images/card-select.svg"
+    //         alt=""
+    //       />
+    //       <h3>Select a class</h3>
+    //     </div>
+    //     <div className="instruction--card">
+    //       <img
+    //         className="instruction--card-icon"
+    //         src="images/card-list.svg"
+    //         alt=""
+    //       />
+    //       <h3>Enter booking details</h3>
+    //     </div>
+    //     <div className="instruction--card">
+    //       <img
+    //         className="instruction--card-icon"
+    //         src="images/card-pay.svg"
+    //         alt=""
+    //       />
+    //       <h3>Review and Pay</h3>
+    //     </div>
+    //   </section>
+
+    //   <h1>Select a class</h1>
+
+    //   <div>
+    //     {classesList}{" "}
+    //     {/* curly braces used to render the classesList function from above which renders each class as an 'Item' component */}
+    //   </div>
+    // </div>
   );
 };
 export default List;
