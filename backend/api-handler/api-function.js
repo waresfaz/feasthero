@@ -273,7 +273,7 @@ const processPayment = async (req, res) => {
       );
       await updateBookingStatus(order_id, transaction_details);
       return res.redirect(
-        "https://www.feasthero.com/payment_failure/?order_id=" + order_id
+        "https://www.feasthero.com/payment_failure?order_id=" + order_id
       );
       // response.redirect to failure page
     } else {
@@ -281,7 +281,7 @@ const processPayment = async (req, res) => {
       await updateBookingStatus(order_id, transaction_details);
       await sendMailToRecipient(orderDetails);
       return res.redirect(
-        "https://www.feasthero.com/payment_success/?order_id=" + order_id
+        "https://www.feasthero.com/payment_success?order_id=" + order_id
       );
       // return res.json({ response_code: response_code, booked_date: booked_date });
     }
