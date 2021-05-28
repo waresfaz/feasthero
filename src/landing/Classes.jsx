@@ -2,7 +2,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { getClasses } from "../redux";
-import { Link, useHistory } from "react-router-dom";
+import { useHistory } from "react-router-dom";
 import Vector2 from "../img/Vector (2).png";
 
 const Classes = () => {
@@ -83,7 +83,7 @@ const Classes = () => {
                       state: { ...classes },
                     })
                   }
-                  style={{cursor:"pointer"}}
+                  style={{ cursor: "pointer" }}
                   className="booking-btn chefs-btn"
                 >
                   Book Now
@@ -108,7 +108,9 @@ const Classes = () => {
         </div>
       </div>
       <div className="chefs-classdetails-box">
-        <div className="row">{classesList}</div>
+        <div className="row">
+          {classesList ? classesList : <h1>Loading classes ...</h1>}
+        </div>
       </div>
     </section>
   );

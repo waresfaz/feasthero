@@ -60,7 +60,7 @@ function App() {
           <Route path="/booking" component={BookingView} />
           <Route path="/contact" component={ContactUs} />
           <Route path="/payment_success" component={PaymentSuccessView} />
-          <Route path="/payment_failure" component={PaymentSuccessView} />
+          <Route path="/payment_failure" component={PaymentFailureView} />
         </Switch>
       </div>
       <Footer />

@@ -3,6 +3,7 @@ import moment from "moment";
 import { Link } from "react-router-dom";
 
 export default function BookingFailed({ order }) {
+  console.log("order :>> ", order);
   return (
     <>
       <div className="text-center">
@@ -39,15 +40,6 @@ export default function BookingFailed({ order }) {
                 <div className="lebel-confirmationsendmsg">
                   <ul className="confirmation-detailstable">
                     <li className="confirmation-detailsLink">
-                      <h6>Number of Devices: </h6>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <h6>Number of Ingredient Kits: </h6>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <h6>Date and Time:</h6>
-                    </li>
-                    <li className="confirmation-detailsLink">
                       <h6>First Name:</h6>
                     </li>
                     <li className="confirmation-detailsLink">
@@ -57,11 +49,31 @@ export default function BookingFailed({ order }) {
                       <h6>Company Name:</h6>
                     </li>
                     <li className="confirmation-detailsLink">
+                      <h6>Number of Devices: </h6>
+                    </li>
+                    <li className="confirmation-detailsLink">
+                      <h6>Opted for meal kit : </h6>
+                    </li>
+                    <li className="confirmation-detailsLink">
+                      <h6>Date and Time:</h6>
+                    </li>
+                    <li className="confirmation-detailsLink">
                       <h6>Payment transaction id:</h6>
+                    </li>
+                    <li className="confirmation-detailsLink">
                       <h6>Payment Failure reason:</h6>
                     </li>
                   </ul>
                   <ul className="confirmation-detailstable confirm-tablebox">
+                    <li className="confirmation-detailsLink">
+                      <span>{order.customer_first_name || "/"}</span>
+                    </li>
+                    <li className="confirmation-detailsLink">
+                      <span>{order.customer_last_name || "/"}</span>
+                    </li>
+                    <li className="confirmation-detailsLink">
+                      <span>{order.company_name || "/"}</span>
+                    </li>
                     <li className="confirmation-detailsLink">
                       <span>{order.booking_size}</span>
                     </li>
@@ -76,20 +88,12 @@ export default function BookingFailed({ order }) {
                           .format("dddd, MMMM D,YYYY,hh:mm a")}
                       </span>
                     </li>
+
                     <li className="confirmation-detailsLink">
-                      <span>{order.customer_first_name}</span>
+                      <span>{order.bank_transaction_id || "/"}</span>
                     </li>
                     <li className="confirmation-detailsLink">
-                      <span>{order.customer_last_name}</span>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <span>{order.company_name}</span>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <span>{order.bank_transaction_id}</span>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <span>{order.response_message}</span>
+                      <span>{order.response_message || "/"}</span>
                     </li>
                   </ul>
                 </div>
