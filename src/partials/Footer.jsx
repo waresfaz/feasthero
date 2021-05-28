@@ -37,7 +37,7 @@ export default function Footer() {
             <h2 className="footer-widgets-title">Discover</h2>
             <ul className="footer-linkwedg">
               <li className="footerlink-items">
-                <a href="#">All ClassNamees</a>
+                <a href="#">All Classes</a>
               </li>
               <li className="footerlink-items">
                 <a href="#">About Us</a>

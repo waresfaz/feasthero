@@ -23,24 +23,24 @@ export default function Navbar() {
         <div className="navbar-collapse collapse" id="navbarNav">
           <ul className="navbar-nav ml-auto show">
             <li className="nav-item">
-              <Link to="#classlist" className="nav-link active">
+              <Link to="/#classlist" className="nav-link">
                 Classes
               </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#howitwork">
+              <Link to="/#howitwork" className="nav-link">
                 How It Works
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="#feature">
+              <Link to="/#feature" className="nav-link active">
                 Features
-              </a>
+              </Link>
             </li>
             <li className="nav-item">
-              <a className="nav-link" href="contactpage.html">
+              <Link className="nav-link" to="/contact">
                 Contact Us
-              </a>
+              </Link>
             </li>
           </ul>
         </div>

@@ -1,26 +1,60 @@
-import React, { useState, useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useState, useEffect, useRef, createRef } from "react";
 import { useSelector } from "react-redux";
-import { getScheduleAPI } from "../services/api-service";
+import { bookClassAPI, getScheduleAPI } from "../services/api-service";
 import scheduleHelper from "../helpers/ScheduleHelper";
+import Vector from "../img/Vector.png";
 const places = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
-export default function BookingDetails({ classBooking }) {
+export default function BookingDetails({
+  bookingInfo,
+  handleChange,
+  handleCheckbox,
+  setorderError,
+  setorderId,
+  nextStep,
+  orderId,
+}) {
   //fetching the classes data from redux
   let data = useSelector((state) => state.class);
-  data = data.state.filter((classes) => classes._id === classBooking._id);
+  data = data.state.filter((classes) => classes._id === bookingInfo.class_id);
 
   const [checked, setChecked] = useState(false);
   // state to store schedule dates
   const [schedule, setschedule] = useState([]);
+
+  const inputEl = useRef(null);
+
   async function getSchedule() {
-    let sched = await getScheduleAPI(classBooking._id);
-    setschedule(sched.data.data);
-    console.log("sched.data.data :>> ", sched.data.data);
+    getScheduleAPI(bookingInfo.class_id).then((res) =>
+      setschedule(res.data.data)
+    );
+    // setschedule(sched.data.data);
+    // console.log("sched.data.data :>> ", sched.data.data);
   }
 
   useEffect(() => {
+    console.log(window.monerisCheckout);
     getSchedule();
   }, []);
+
+  const handleSubmit = async (event) => {
+    setorderError("");
+    const bookingStatus = await bookClassAPI(bookingInfo);
+    if (bookingStatus.error === true) {
+      console.log(`bookingStatus.data`, bookingStatus.data);
+      setorderError(bookingStatus.data);
+      getSchedule(bookingInfo.class_id);
+      return false;
+    } else {
+      setorderId(bookingStatus.data);
+      console.log("bookingStatus.data :>> ", bookingStatus.data);
+      // nextStep(2);
+      inputEl.current.submit();
+      // console.log("inputEl.current :>> ", inputEl.current);
+    }
+  };
+
   return (
     <>
       <div className="step-progressContentBox">
@@ -31,13 +65,13 @@ export default function BookingDetails({ classBooking }) {
                 <a href="#" className="stepProgressimg">
                   <img
                     style={{ height: 47, width: 47 }}
-                    src={classBooking.chefs[0].photo}
+                    src={bookingInfo.chef_photo}
                     alt=""
                   />
                 </a>
                 <div className="top-model-textbox">
-                  <h2>{classBooking.title}</h2>
-                  <p>{classBooking.description}</p>
+                  <h2>{bookingInfo.title}</h2>
+                  <p>{bookingInfo.description}</p>
                   <a href="#" className="top-modelinklearn">
                     Learn More
                   </a>
@@ -55,39 +89,74 @@ export default function BookingDetails({ classBooking }) {
                 <h2>Booking Details</h2>
               </div>
               <div className="info-andselct-box d-flex mb-20">
-                <a
-                  href="#"
+                {/* <a
                   className="inforitems"
                   data-tooltip="The number of screens 
             that will be attending 
             the class"
                   data-position="top"
                 >
-                  <img src="img/Vector.png" alt="" />
-                </a>
+                  <img src={Vector} alt="" />
+                </a> */}
                 <span>Number of devices for booking: </span>
                 <select
                   className="custom-select mr-sm-2"
                   id="inlineFormCustomSelect"
+                  name="booking_size"
+                  value={bookingInfo.booking_size}
+                  onChange={handleChange}
+                  required
                 >
-                  <option selected value=""></option>
                   {places.map((x, i) => (
-                    <option value={x}>{x}</option>
+                    <option key={i} value={x}>
+                      {x}
+                    </option>
                   ))}
                 </select>
               </div>
               <div className="bilinr-addres-box">
-                <form action="" className="bilings-addresboc-content">
+                <form
+                  ref={inputEl}
+                  className="modal-form"
+                  method="post"
+                  action="https://www3.moneris.com/HPPDP/index.php"
+                >
+                  <input type="hidden" name="ps_store_id" value="GT3RZ41539" />
+                  <input type="hidden" name="hpp_key" value="hpEOUYV1I652" />
+                  <input
+                    type="hidden"
+                    name="charge_total"
+                    value={
+                      bookingInfo.mealkit_checked
+                        ? (bookingInfo.mealkit_price + bookingInfo.cost) *
+                          bookingInfo.booking_size
+                        : bookingInfo.cost * bookingInfo.booking_size
+                    }
+                  />
+                  <input type="hidden" name="order_id" value={orderId} />
+                  <input
+                    type="hidden"
+                    name="class_id"
+                    value={bookingInfo.class_id}
+                  />
+                  <input
+                    type="hidden"
+                    name="booked_date"
+                    value={bookingInfo.booking_datetime}
+                  />
                   <div className="row">
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="bilings-group ">
                         <select
+                          name="booking_datetime"
                           type="text"
                           className="bilings-control custom-select"
-                          placeholder="Select Date &amp; Time"
-                          defaultValue=""
+                          value={bookingInfo.booking_datetime}
+                          onChange={handleChange}
                         >
-                          <option value=""></option>
+                          <option disabled value="">
+                            Select Date &amp; Time
+                          </option>
                           {schedule.length > 0 && scheduleHelper(schedule)}
                         </select>
                       </div>
@@ -96,6 +165,7 @@ export default function BookingDetails({ classBooking }) {
                       <div className="bilings-group">
                         <input
                           type="text"
+                          name="customer_first_name"
                           className="bilings-control"
                           placeholder="First Name"
                         />
@@ -104,6 +174,7 @@ export default function BookingDetails({ classBooking }) {
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="bilings-group">
                         <input
+                          name="customer_last_name"
                           type="text"
                           className="bilings-control"
                           placeholder="Last Name"
@@ -113,6 +184,7 @@ export default function BookingDetails({ classBooking }) {
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="bilings-group">
                         <input
+                          name="company_name"
                           type="text"
                           className="bilings-control"
                           placeholder="Company Name"
@@ -122,16 +194,20 @@ export default function BookingDetails({ classBooking }) {
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="bilings-group">
                         <input
-                          type="text"
+                          name="customer_email"
+                          type="email"
                           className="bilings-control"
                           placeholder="Email Address"
+                          required
                         />
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12 col-md-12">
                       <div className="bookingbtn-group mt-20">
                         <a
-                          href="bookingPage-2.html"
+                          // href="bookingPage-2.html"
+                          style={{ cursor: "pointer" }}
+                          onClick={handleSubmit}
                           className="booking-btn btn-str"
                         >
                           Proceed to Payment
@@ -146,14 +222,20 @@ export default function BookingDetails({ classBooking }) {
           <div className="col-xl-6 col-lg-6 col-md-6">
             <div className="selingpriceboxdetails">
               <div className="bookingprocess-title">
-                <h2>{classBooking.title}</h2>
+                <h2>{bookingInfo.title}</h2>
               </div>
-              <p className="set-price">${classBooking.cost} per device</p>
-              {classBooking.has_mealkit && (
+              <p className="set-price">${bookingInfo.cost} per device</p>
+              {bookingInfo.has_mealkit && (
                 <p className="requer-text">
-                  <input type="checkbox" name="" id="" /> Include pre-portioned
-                  ingredient kit for class. (4 servings per kit){" "}
-                  <span> Additional ${classBooking.mealkit_price}/device.</span>
+                  <input
+                    type="checkbox"
+                    onChange={handleCheckbox}
+                    checked={bookingInfo.mealkit_checked}
+                    name="mealkit_checked"
+                  />{" "}
+                  Include pre-portioned ingredient kit for class. (4 servings
+                  per kit){" "}
+                  <span> Additional ${bookingInfo.mealkit_price}/device.</span>
                 </p>
               )}
               <form action="" className="applying-form">
@@ -171,18 +253,27 @@ export default function BookingDetails({ classBooking }) {
               <div className="price-table-box">
                 <ul className="pricetable">
                   <li className="price-listof-text">
-                    <h6>Ingredient Kit</h6> <span>$0.00</span>
-                  </li>
-                  <li className="price-listof-text">
-                    <h6>Ingredient Kit</h6> <span>$45.00</span>
-                  </li>
-                  <li className="price-listof-text">
-                    <h6>Ingredient Kit</h6> <span>$5.00</span>
+                    <h6>Ingredient Kit</h6>{" "}
+                    <span>
+                      $
+                      {bookingInfo.mealkit_checked
+                        ? bookingInfo.mealkit_price * bookingInfo.booking_size
+                        : "0"}
+                      .00
+                    </span>
                   </li>
                 </ul>
                 <ul className="price-input-total">
                   <li className="pricetotal-link">
-                    <h6>Total</h6> <span>$45.00</span>
+                    <h6>Total</h6>{" "}
+                    <span>
+                      $
+                      {bookingInfo.mealkit_checked
+                        ? (bookingInfo.mealkit_price + bookingInfo.cost) *
+                          bookingInfo.booking_size
+                        : bookingInfo.cost * bookingInfo.booking_size}
+                      .00
+                    </span>
                   </li>
                 </ul>
               </div>

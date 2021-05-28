@@ -6,6 +6,7 @@ import {
   Route,
   Redirect,
   Switch,
+  useLocation,
 } from "react-router-dom";
 import PaymentFailureModal from "./PaymentFailureModal";
 import Navbar from "./partials/Navbar";
@@ -18,14 +19,25 @@ import BookingView from "./booking/BookingView";
 import Subscribe from "./landing/Subscribe";
 
 import { AppendScript } from "./helpers/AppendScript";
+import ContactUs from "./contact/ContactUs";
 
 // main app function. Everything in the return is what is rendered on the screen
 function App() {
+  const location = useLocation();
+  console.log(location);
   React.useEffect(() => {
     AppendScript("js/main.js");
   }, []);
+  React.useEffect(() => {
+    if (location.hash) {
+      let elmnt = document.getElementById(
+        location.hash.substring(1, location.hash.length)
+      );
+      elmnt.scrollIntoView();
+    }
+  }, [location]);
   return (
-    <Router className="main">
+    <>
       <Navbar />
       <div className="minWrapper-box">
         <Switch>
@@ -39,18 +51,17 @@ function App() {
                 <HowItWorks />
                 <ClassFeature />
                 <Subscribe />
-                {/* <Landing /> */}
-                {/* <List /> */}
               </>
             )}
           />
           <Route path="/booking" component={BookingView} />
+          <Route path="/contact" component={ContactUs} />
           <Route path="/payment_success" component={PaymentSuccessModal} />
           <Route path="/payment_failure" component={PaymentFailureModal} />
         </Switch>
       </div>
       <Footer />
-    </Router>
+    </>
   );
 }
 

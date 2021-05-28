@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 import ChefIllustration from "../img/Chef Illustration.png";
 
 export default function Banner() {
@@ -17,9 +18,9 @@ export default function Banner() {
               <br />
               the comfort of your own kitchen.
             </p>
-            <a href="bookingPage-1.html" className="benner-bookbtn btn-str">
+            <Link className="benner-bookbtn btn-str" to="/#classlist">
               Book Class
-            </a>
+            </Link>
             <a
               href="contactpage.html"
               className="benner-contectbtn btn-strbrand"
