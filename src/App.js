@@ -20,11 +20,12 @@ import Subscribe from "./landing/Subscribe";
 
 import { AppendScript } from "./helpers/AppendScript";
 import ContactUs from "./contact/ContactUs";
+import PaymentFailureView from "./booking/PaymentFailureView";
+import PaymentSuccessView from "./booking/PaymentSuccessView";
 
 // main app function. Everything in the return is what is rendered on the screen
 function App() {
   const location = useLocation();
-  console.log(location);
   React.useEffect(() => {
     AppendScript("js/main.js");
   }, []);
@@ -33,7 +34,9 @@ function App() {
       let elmnt = document.getElementById(
         location.hash.substring(1, location.hash.length)
       );
-      elmnt.scrollIntoView();
+      if (elmnt) {
+        elmnt.scrollIntoView();
+      }
     }
   }, [location]);
   return (
@@ -56,8 +59,8 @@ function App() {
           />
           <Route path="/booking" component={BookingView} />
           <Route path="/contact" component={ContactUs} />
-          <Route path="/payment_success" component={PaymentSuccessModal} />
-          <Route path="/payment_failure" component={PaymentFailureModal} />
+          <Route path="/payment_success" component={PaymentSuccessView} />
+          <Route path="/payment_failure" component={PaymentSuccessView} />
         </Switch>
       </div>
       <Footer />

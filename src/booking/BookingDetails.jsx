@@ -30,11 +30,9 @@ export default function BookingDetails({
       setschedule(res.data.data)
     );
     // setschedule(sched.data.data);
-    // console.log("sched.data.data :>> ", sched.data.data);
   }
 
   useEffect(() => {
-    console.log(window.monerisCheckout);
     getSchedule();
   }, []);
 
@@ -42,16 +40,13 @@ export default function BookingDetails({
     setorderError("");
     const bookingStatus = await bookClassAPI(bookingInfo);
     if (bookingStatus.error === true) {
-      console.log(`bookingStatus.data`, bookingStatus.data);
       setorderError(bookingStatus.data);
       getSchedule(bookingInfo.class_id);
       return false;
     } else {
       setorderId(bookingStatus.data);
-      console.log("bookingStatus.data :>> ", bookingStatus.data);
       // nextStep(2);
       inputEl.current.submit();
-      // console.log("inputEl.current :>> ", inputEl.current);
     }
   };
 

@@ -1,43 +1,9 @@
 import React, { useState } from "react";
 import { useRef } from "react";
-import { useLocation, useParams } from "react-router";
+import { useHistory, useLocation, useParams } from "react-router";
 import { bookClassAPI } from "../services/api-service";
 import BookingDetails from "./BookingDetails";
-import Confirmation from "./Confirmation";
-import PaymentDetails from "./PaymentDetails";
 
-const Steps = ({
-  step,
-  bookingInfo,
-  handleChange,
-  handleCheckbox,
-  setorderError,
-  setorderId,
-  nextStep,
-  orderId,
-}) => {
-  switch (step) {
-    case 1:
-      return (
-        <BookingDetails
-          handleChange={handleChange}
-          bookingInfo={bookingInfo}
-          handleCheckbox={handleCheckbox}
-          setorderId={setorderId}
-          orderId={orderId}
-          setorderError={setorderError}
-          nextStep={nextStep}
-        />
-      );
-    case 2:
-      return <PaymentDetails />;
-    case 3:
-      return <Confirmation />;
-    default:
-      <h1>{step}</h1>;
-      break;
-  }
-};
 export default function BookingView() {
   const [stepNumber, setStepNumber] = React.useState(1);
   const [bookingInfo, setBookingInfo] = useState({
@@ -66,7 +32,6 @@ export default function BookingView() {
   };
   const handleCheckbox = (event) => {
     const value = event.target.checked;
-    console.log("value :>> ", bookingInfo);
     setBookingInfo({
       ...bookingInfo,
       [event.target.name]: value,
@@ -76,6 +41,7 @@ export default function BookingView() {
   const [orderId, setorderId] = useState(0);
 
   const location = useLocation();
+  const history = useHistory();
   const nextStep = (id) => setStepNumber(id);
 
   const errorElement = useRef(null);
@@ -90,7 +56,6 @@ export default function BookingView() {
   }, [orderError]);
 
   React.useEffect(() => {
-    console.log(location.state);
     if (location.state) {
       const cls = location.state;
       setBookingInfo({
@@ -111,6 +76,8 @@ export default function BookingView() {
         cost: cls.cost,
         Ucost: cls.cost,
       });
+    } else {
+      history.push("/");
     }
     stepperRef.current.scrollIntoView();
   }, [location]);
@@ -118,29 +85,17 @@ export default function BookingView() {
   return (
     <section className="step-progress-section">
       <ul ref={stepperRef} className="stepTop-count mb-25 pt-100">
-        <li
-          className={`step-progresslink ${
-            stepNumber === 1 ? "current" : ""
-          } text-center`}
-        >
+        <li className="step-progresslink current text-center">
           <span className="number">1</span>
           <h6 className="infotext">Booking Details</h6>
           <span className="progress-line"></span>
         </li>
-        <li
-          className={`step-progresslink ${
-            stepNumber === 2 ? "current" : ""
-          } text-center`}
-        >
+        <li className="step-progresslink text-center">
           <span className="number">2</span>
           <h6 className="infotext">Payment Details</h6>
           <span className="progress-line"></span>
         </li>
-        <li
-          className={`step-progresslink ${
-            stepNumber === 3 ? "current" : ""
-          } text-center`}
-        >
+        <li className="step-progresslink text-center">
           <span className="number">3</span>
           <h6 className="infotext">Confirmation</h6>
         </li>
@@ -150,15 +105,14 @@ export default function BookingView() {
         {orderError}
       </h6>
       {bookingInfo.class_id && (
-        <Steps
-          step={stepNumber}
+        <BookingDetails
           handleChange={handleChange}
           bookingInfo={bookingInfo}
           handleCheckbox={handleCheckbox}
-          setorderError={setorderError}
           setorderId={setorderId}
-          nextStep={nextStep}
           orderId={orderId}
+          setorderError={setorderError}
+          nextStep={nextStep}
         />
       )}
     </section>
