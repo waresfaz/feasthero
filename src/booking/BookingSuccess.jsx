@@ -63,6 +63,9 @@ export default function BookingSuccess({ order }) {
                       <h6>Class Zoom Link:</h6>
                     </li>
                     <li className="confirmation-detailsLink">
+                      <h6>Total Cost:</h6>
+                    </li>
+                    <li className="confirmation-detailsLink">
                       <h6>Payment transaction id:</h6>
                     </li>
                   </ul>
@@ -100,10 +103,7 @@ export default function BookingSuccess({ order }) {
                       <span>${order.cost || "0"}.00</span>
                     </li>
                     <li className="confirmation-detailsLink">
-                      <span>{order.bank_transaction_id || "/"}</span>
-                    </li>
-                    <li className="confirmation-detailsLink">
-                      <span>{order.response_message || "/"}</span>
+                      <span>{order._id || "/"}</span>
                     </li>
                   </ul>
                 </div>

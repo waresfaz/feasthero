@@ -1,14 +1,6 @@
 import React from "react";
 
-import PaymentSuccessModal from "./PaymentSuccessModal";
-import {
-  BrowserRouter as Router,
-  Route,
-  Redirect,
-  Switch,
-  useLocation,
-} from "react-router-dom";
-import PaymentFailureModal from "./PaymentFailureModal";
+import { Route, Switch, useLocation } from "react-router-dom";
 import Navbar from "./partials/Navbar";
 import Footer from "./partials/Footer";
 import Banner from "./landing/Banner";

@@ -99,11 +99,11 @@ const Classes = () => {
     });
 
   return (
-    <section className="classchefsDetails-section" id="classlist">
+    <section className="classchefsDetails-section">
       <div className="row">
         <div className="col-xl-12">
           <div className="section-title text-center">
-            <h2>Hands-on cooking classes taught by world class chefs</h2>
+            <h2 id="classlist">Hands-on cooking classes taught by world class chefs</h2>
           </div>
         </div>
       </div>

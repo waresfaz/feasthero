@@ -37,15 +37,23 @@ export default function BookingDetails({
   }, []);
 
   const handleSubmit = async (event) => {
+    console.log("bookingInfo :>> ", bookingInfo);
     setorderError("");
-    const bookingStatus = await bookClassAPI(bookingInfo);
+    const bookingStatus = await bookClassAPI({
+      ...bookingInfo,
+      //Calculate Total Cost
+      cost: bookingInfo.mealkit_checked
+        ? (bookingInfo.mealkit_price + bookingInfo.cost) *
+          bookingInfo.booking_size
+        : bookingInfo.cost * bookingInfo.booking_size,
+      //End
+    });
     if (bookingStatus.error === true) {
       setorderError(bookingStatus.data);
       getSchedule(bookingInfo.class_id);
       return false;
     } else {
       setorderId(bookingStatus.data);
-      // nextStep(2);
       inputEl.current.submit();
     }
   };
@@ -163,6 +171,7 @@ export default function BookingDetails({
                           name="customer_first_name"
                           className="bilings-control"
                           placeholder="First Name"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -173,6 +182,7 @@ export default function BookingDetails({
                           type="text"
                           className="bilings-control"
                           placeholder="Last Name"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -183,6 +193,7 @@ export default function BookingDetails({
                           type="text"
                           className="bilings-control"
                           placeholder="Company Name"
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -194,6 +205,7 @@ export default function BookingDetails({
                           className="bilings-control"
                           placeholder="Email Address"
                           required
+                          onChange={handleChange}
                         />
                       </div>
                     </div>
@@ -238,6 +250,7 @@ export default function BookingDetails({
                   type="text"
                   className="apply-control"
                   placeholder="Discount Code"
+                  onChange={handleChange}
                 />
                 <label htmlFor="">
                   <a href="#" className="submite-btn">
