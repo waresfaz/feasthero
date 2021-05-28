@@ -89,7 +89,7 @@ const sendReminder = async () => {
           Join with this link: <a href=${reminder_list[data].zoom_link}> ${
         reminder_list[data].zoom_link
       } </a> </h3>
-    <br>
+    <br/>
           <p>
           ${classes.description}
     </p>

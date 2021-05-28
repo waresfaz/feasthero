@@ -110,7 +110,7 @@ const sendMailToRecipient = async (order) => {
         Join with this link: <a href=${order[0].zoom_link}> ${
     order[0].zoom_link
   } </a> </h3>
-  <br>
+  <br/>
         <p>
         ${classes.description}
   </p>
