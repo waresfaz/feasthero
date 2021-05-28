@@ -81,7 +81,7 @@ export default function ClassFeature() {
                   <img src={Group71} alt="" />
                 </a>
                 <div className="features-chefscontenttext">
-                  <h2>.feature-itemcont.item-two</h2>
+                  <h2>Create Connections Virtually</h2>
                   <p>
                     Connecting virtually can be hard. Creating together
                     <br /> allows teams and groups to enjoy a fun evening.
