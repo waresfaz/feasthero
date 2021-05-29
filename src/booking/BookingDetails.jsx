@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { bookClassAPI, getScheduleAPI } from "../services/api-service";
 import scheduleHelper from "../helpers/ScheduleHelper";
 import Vector from "../img/Vector.png";
+import { truncateString } from "../helpers/StringHelper";
 const places = [8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20];
 
 export default function BookingDetails({
@@ -12,16 +13,15 @@ export default function BookingDetails({
   handleCheckbox,
   setorderError,
   setorderId,
-  nextStep,
   orderId,
 }) {
   //fetching the classes data from redux
   let data = useSelector((state) => state.class);
   data = data.state.filter((classes) => classes._id === bookingInfo.class_id);
 
-  const [checked, setChecked] = useState(false);
   // state to store schedule dates
   const [schedule, setschedule] = useState([]);
+  const [fullBio, setFullBio] = useState(false);
 
   const inputEl = useRef(null);
 
@@ -58,6 +58,8 @@ export default function BookingDetails({
     }
   };
 
+  console.log("bookingInfo :>> ", bookingInfo);
+
   return (
     <>
       <div className="step-progressContentBox">
@@ -67,16 +69,27 @@ export default function BookingDetails({
               <div className="stepprogress-topmodel text-center">
                 <a href="#" className="stepProgressimg">
                   <img
-                    style={{ height: 47, width: 47 }}
+                    style={{ height: 47, width: 47, borderRadius: "50%" }}
                     src={bookingInfo.chef_photo}
                     alt=""
                   />
                 </a>
                 <div className="top-model-textbox">
-                  <h2>{bookingInfo.title}</h2>
-                  <p>{bookingInfo.description}</p>
-                  <a href="#" className="top-modelinklearn">
-                    Learn More
+                  <h2>{bookingInfo.class_title}</h2>
+                  <p>
+                    {fullBio
+                      ? truncateString(
+                          bookingInfo.chef_details.bio,
+                          bookingInfo.chef_details.bio.length
+                        )
+                      : truncateString(bookingInfo.chef_details.bio, 90)}
+                  </p>
+                  <a
+                    onClick={() => setFullBio(!fullBio)}
+                    className="top-modelinklearn"
+                    style={{ cursor: "pointer" }}
+                  >
+                    {fullBio ? "Less" : "Learn More"}
                   </a>
                 </div>
               </div>
@@ -92,7 +105,7 @@ export default function BookingDetails({
                 <h2>Booking Details</h2>
               </div>
               <div className="info-andselct-box d-flex mb-20">
-                {/* <a
+                <a
                   className="inforitems"
                   data-tooltip="The number of screens 
             that will be attending 
@@ -100,7 +113,7 @@ export default function BookingDetails({
                   data-position="top"
                 >
                   <img src={Vector} alt="" />
-                </a> */}
+                </a>
                 <span>Number of devices for booking: </span>
                 <select
                   className="custom-select mr-sm-2"

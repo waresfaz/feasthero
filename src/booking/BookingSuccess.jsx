@@ -1,6 +1,7 @@
 import React from "react";
 import moment from "moment";
 import { Link } from "react-router-dom";
+import ShareConfirmation from "./ShareConfirmation";
 
 export default function BookingSuccess({ order }) {
   return (
@@ -108,13 +109,15 @@ export default function BookingSuccess({ order }) {
                   </ul>
                 </div>
               </div>
-              <div className="sendConfirmation-btnbox text-center">
-                <Link to="/" className="send-confirmbtn btn-str backhome">
-                  Back Home
-                </Link>
-              </div>
+
+              {/* <ShareConfirmation /> */}
             </div>
           </div>
+        </div>
+        <div className="sendConfirmation-btnbox text-center">
+          <Link to="/" className="send-confirmbtn btn-str backhome">
+            Back Home
+          </Link>
         </div>
       </div>
     </>

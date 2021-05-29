@@ -44,7 +44,11 @@ export default function PaymentFailureView() {
         </li>
       </ul>
 
-      {order && <BookingFailed order={order} />}
+      {order ? (
+        <BookingFailed order={order} />
+      ) : (
+        <h1 className="text-center">Loading ...</h1>
+      )}
     </section>
   );
 }

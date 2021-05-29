@@ -22,6 +22,9 @@ export default function BookingView() {
     chef_email: "",
     chef_photo: "",
     has_mealkit: false,
+    chef_details: {},
+    class_title: "",
+    class_description: "",
   });
   const handleChange = (event) => {
     const value = event.target.value;
@@ -42,7 +45,6 @@ export default function BookingView() {
 
   const location = useLocation();
   const history = useHistory();
-  const nextStep = (id) => setStepNumber(id);
 
   const errorElement = useRef(null);
   const stepperRef = useRef(null);
@@ -75,7 +77,11 @@ export default function BookingView() {
         mealkit_checked: false,
         cost: cls.cost,
         Ucost: cls.cost,
+        chef_details: cls.chefs[0],
+        class_title: cls.title,
+        class_description: cls.description,
       });
+      console.log("cls :>> ", cls);
     } else {
       history.push("/");
     }
@@ -112,7 +118,6 @@ export default function BookingView() {
           setorderId={setorderId}
           orderId={orderId}
           setorderError={setorderError}
-          nextStep={nextStep}
         />
       )}
     </section>
