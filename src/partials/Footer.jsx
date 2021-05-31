@@ -21,13 +21,13 @@ export default function Footer() {
             <h2 className="footer-widgets-title">Social</h2>
             <ul className="footer-linkwedg">
               <li className="footerlink-items">
-                <a href="#">Facebook</a>
+                <a href="https://www.facebook.com/feasthero">Facebook</a>
               </li>
               <li className="footerlink-items">
-                <a href="#">Instagram</a>
+                <a href="https://www.instagram.com/feasthero/">Instagram</a>
               </li>
               <li className="footerlink-items">
-                <a href="#">Twitter</a>
+                <a href="https://twitter.com/FeastHero">Twitter</a>
               </li>
             </ul>
           </div>
