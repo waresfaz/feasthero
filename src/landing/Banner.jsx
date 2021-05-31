@@ -14,9 +14,7 @@ export default function Banner() {
               From Anywhere
             </h2>
             <p className="benner-dummy">
-              Learn to cook like a pro with others in 
-              <br />
-              the comfort of your own kitchen.
+              Learn to cook like a pro with others in<br /> the comfort of your own kitchen.
             </p>
             <Link className="benner-bookbtn btn-str" to="/#classlist">
               Book Class
