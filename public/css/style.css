@@ -636,6 +636,7 @@ label {
 	position: relative;
 	left: 23px;
 	width: 100%;
+	margin-right: 10px;
 }
 .hover-overlyntextChefs h3 {
 	font-size: 24px;
