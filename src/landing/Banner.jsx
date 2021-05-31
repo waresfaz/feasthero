@@ -14,7 +14,7 @@ export default function Banner() {
               From Anywhere
             </h2>
             <p className="benner-dummy">
-              Learn to cook like a pro with others in
+              Learn to cook like a pro with others in 
               <br />
               the comfort of your own kitchen.
             </p>
