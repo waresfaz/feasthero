@@ -31,7 +31,7 @@ export default function scheduleHelper(array) {
         moment
           .utc(elem.date)
           .tz("US/Eastern")
-          .format("dddd, MMMM D,YYYY,hh:mm a")
+          .format("dddd, MMMM D, YYYY - hh:mm a")
       );
     }
   }
