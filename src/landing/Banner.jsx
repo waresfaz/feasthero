@@ -19,12 +19,12 @@ export default function Banner() {
             <Link className="benner-bookbtn btn-str" to="/#classlist">
               Book Class
             </Link>
-            <a
-              href="contactpage.html"
+            <Link
+              to="/contact"
               className="benner-contectbtn btn-strbrand"
             >
               Contact Us
-            </a>
+            </Link>
           </div>
         </div>
         <div className="col-xl-6 col-lg-6 col-md-12">

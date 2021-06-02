@@ -37,13 +37,13 @@ export default function Footer() {
             <h2 className="footer-widgets-title">Discover</h2>
             <ul className="footer-linkwedg">
               <li className="footerlink-items">
-                <a href="#">All Classes</a>
+                <a href="/#classlist">All Classes</a>
               </li>
               <li className="footerlink-items">
                 <a href="#">About Us</a>
               </li>
               <li className="footerlink-items">
-                <a href="#">Contact Us</a>
+                <a href="/contact">Contact Us</a>
               </li>
             </ul>
           </div>
