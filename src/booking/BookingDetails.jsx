@@ -79,10 +79,10 @@ export default function BookingDetails({
                   <p>
                     {fullBio
                       ? truncateString(
-                          bookingInfo.chef_details.bio,
-                          bookingInfo.chef_details.bio.length
+                          bookingInfo.class_description,
+                          bookingInfo.class_description.length
                         )
-                      : truncateString(bookingInfo.chef_details.bio, 90)}
+                      : truncateString(bookingInfo.class_description, 90)}
                   </p>
                   <a
                     onClick={() => setFullBio(!fullBio)}
