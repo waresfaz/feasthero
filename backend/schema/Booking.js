@@ -23,6 +23,7 @@ let Booking = new Schema({
   cardholder: String,
   response_code: String,
   response_message: String,
-  has_mealkit: Boolean,
+  has_mealkit: Boolean, 
+  // I want a booked_mealkit field
 });
 module.exports = mongoose.model("Booking", Booking);
