@@ -1,7 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import ContactImg from "../img/Contact Illustravbgtion.png";
 
 export default function ContactUs() {
+  const [status, setStatus] = useState("Submit");
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    setStatus("Sending...");
+    const { name, email, message } = e.target.elements;
+    let details = {
+      name: name.value,
+      email: email.value,
+      message: message.value,
+    };
+    let response = await fetch("http://localhost:3000/contact", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json;charset=utf-8",
+      },
+      body: JSON.stringify(details),
+    });
+    setStatus("Submit");
+    let result = await response.json();
+    alert(result.status);
+  };
+
   return (
     <div className="conactBox-section">
       <div className="contact-content-box">
@@ -24,30 +46,31 @@ export default function ContactUs() {
                 </p>
               </div>
               <div className="form-box">
-                <form action="" className="contact-form">
+                <form action="" className="contact-form" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
-                        <input type="text" className="form-control" />
-                        <label htmlFor="">Full Name</label>
+                        <input type="text" className="form-control" placeholder="Full Name" required />
+                        <label htmlFor="name"></label>
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
-                        <input type="text" className="form-control" />
-                        <label htmlFor="">Email Address</label>
+                        <input type="email" className="form-control" placeholder="Email Address" required />
+                        <label htmlFor="email"></label>
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group form-textgroup">
                         <textarea
                           className="form-control text-control"
+                          placeholder="Message"
                           name=""
                           id=""
                           cols="10"
                           rows="6"
-                        ></textarea>
-                        <label htmlFor="">Message</label>
+                         required />
+                        <label htmlFor="message"></label>
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
