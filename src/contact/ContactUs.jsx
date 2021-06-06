@@ -2,28 +2,28 @@ import React, { useState } from "react";
 import ContactImg from "../img/Contact Illustravbgtion.png";
 
 export default function ContactUs() {
-  const [status, setStatus] = useState("Submit");
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setStatus("Sending...");
-    console.log("e.target.elements on contact us", e.target.elements)
-    const { name, email, message } = e.target.elements;
-    let details = {
-      name: name.value,
-      email: email.value,
-      message: message.value,
-    };
-    let response = await fetch("http://www.feasthero.com/contact", {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json;charset=utf-8",
-      },
-      body: JSON.stringify(details),
-    });
-    setStatus("Submit");
-    let result = await response.json();
-    alert(result.status);
-  };
+  // const [status, setStatus] = useState("Submit");
+  // const handleSubmit = async (e) => {
+  //   e.preventDefault();
+  //   setStatus("Sending...");
+  //   console.log("e.target.elements on contact us", e.target.elements)
+  //   const { name, email, message } = e.target.elements;
+  //   let details = {
+  //     name: name.value,
+  //     email: email.value,
+  //     message: message.value,
+  //   };
+  //   let response = await fetch("http://www.feasthero.com/contact", {
+  //     method: "POST",
+  //     headers: {
+  //       "Content-Type": "application/json;charset=utf-8",
+  //     },
+  //     body: JSON.stringify(details),
+  //   });
+  //   setStatus("Submit");
+  //   let result = await response.json();
+  //   alert(result.status);
+  // };
 
   return (
     <div className="conactBox-section">
@@ -42,23 +42,21 @@ export default function ContactUs() {
                 <h2 className="contact-title">Get in Touch</h2>
                 <p className="contact-subdummy">
                   Have any inquiries about our
-                  <br /> classes? Fill out the form below to
-                  <br /> contact our team.
+                  <br /> classes? Contact our team at
+                  <br /> bookings@feasthero.com
                 </p>
               </div>
-              <div className="form-box">
+              {/* <div className="form-box">
                 <form action="" className="contact-form" onSubmit={handleSubmit}>
                   <div className="row">
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
                         <input name="name" type="text" className="form-control" placeholder="Full Name" required />
-                        {/* <label htmlFor="name">Full Name</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
                         <input name="email" type="email" className="form-control" placeholder="Email Address" required />
-                        {/* <label htmlFor="email">Email Address</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
@@ -71,14 +69,12 @@ export default function ContactUs() {
                           cols="10"
                           rows="6"
                          required />
-                        {/* <label htmlFor="message">Message</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="btn-group">
                         <button
                           style={{border: "none"}}
-                          // href="#"
                           type="submit"
                           className="form-submitebtn btn-str"
                         >
@@ -88,7 +84,7 @@ export default function ContactUs() {
                     </div>
                   </div>
                 </form>
-              </div>
+              </div> */}
             </div>
           </div>
         </div>
