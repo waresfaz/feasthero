@@ -42,12 +42,12 @@ api.get(
   async (req, res) => await apiHandler.getOrderDetails(req, res)
 );
 
-//Contact Us page set up
+// #Start Contact Us page set up 
 const contactEmail = nodemailer.createTransport({
   service: 'gmail',
   auth: {
-    user: "bookings@gmail.com",
-    pass: "NxjNh4JhCsADPdE",
+    user: "bookings@feasthero.com",
+    pass: "udpocujnumjmtzyf",
   },
 });
 
@@ -58,6 +58,29 @@ contactEmail.verify((error) => {
     console.log("Ready to Send");
   }
 });
+
+router.post("/contact", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const message = req.body.message; 
+  const mail = {
+    from: name,
+    to: "bookings@feasthero.com",
+    subject: "Contact Form Submission",
+    html: `<p>Name: ${name}</p>
+           <p>Email: ${email}</p>
+           <p>Message: ${message}</p>`,
+  };
+  contactEmail.sendMail(mail, (error) => {
+    if (error) {
+      res.json({ status: "ERROR" });
+    } else {
+      res.json({ status: "Message Sent" });
+    }
+  });
+});
+
+// #End Contact Us page set up 
 
 api.listen(process.env.PORT || 3001, () =>
   console.log("Server is running on 3001")

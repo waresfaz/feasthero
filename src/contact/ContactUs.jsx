@@ -6,6 +6,7 @@ export default function ContactUs() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     setStatus("Sending...");
+    console.log("e.target.elements on contact us", e.target.elements)
     const { name, email, message } = e.target.elements;
     let details = {
       name: name.value,
@@ -50,38 +51,39 @@ export default function ContactUs() {
                   <div className="row">
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
-                        <input type="text" className="form-control" placeholder="Full Name" required />
-                        <label htmlFor="name"></label>
+                        <input name="name" type="text" className="form-control" placeholder="Full Name" required />
+                        {/* <label htmlFor="name">Full Name</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group">
-                        <input type="email" className="form-control" placeholder="Email Address" required />
-                        <label htmlFor="email"></label>
+                        <input name="email" type="email" className="form-control" placeholder="Email Address" required />
+                        {/* <label htmlFor="email">Email Address</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="form-group form-textgroup">
                         <textarea
+                          name="message"
                           className="form-control text-control"
                           placeholder="Message"
-                          name=""
                           id=""
                           cols="10"
                           rows="6"
                          required />
-                        <label htmlFor="message"></label>
+                        {/* <label htmlFor="message">Message</label> */}
                       </div>
                     </div>
                     <div className="col-xl-12 col-lg-12">
                       <div className="btn-group">
-                        <a
-                          href="#"
+                        <button
+                          style={{border: "none"}}
+                          // href="#"
                           type="submit"
                           className="form-submitebtn btn-str"
                         >
                           Send Message
-                        </a>
+                        </button>
                       </div>
                     </div>
                   </div>
