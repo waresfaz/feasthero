@@ -54,9 +54,9 @@ export default function BookingSuccess({ order }) {
                     <li className="confirmation-detailsLink">
                       <h6>Number of Devices: </h6>
                     </li>
-                    <li className="confirmation-detailsLink">
+                    {/* <li className="confirmation-detailsLink">
                       <h6>Opted for meal kit : </h6>
-                    </li>
+                    </li> */}
                     <li className="confirmation-detailsLink">
                       <h6>Date and Time:</h6>
                     </li>
@@ -83,16 +83,16 @@ export default function BookingSuccess({ order }) {
                     <li className="confirmation-detailsLink">
                       <span>{order.booking_size || "/"}</span>
                     </li>
-                    <li className="confirmation-detailsLink">
+                    {/* <li className="confirmation-detailsLink">
                       <span>{order.has_mealkit ? "Yes" : "No"}</span>
-                    </li>
+                    </li> */}
 
                     <li className="confirmation-detailsLink">
                       <span>
                         {moment
                           .utc(order.booking_datetime)
                           .tz("US/Eastern")
-                          .format("dddd, MMMM D,YYYY,hh:mm a")}
+                          .format("dddd, MMMM D, YYYY, hh:mm a")}
                       </span>
                     </li>
                     <li className="confirmation-detailsLink">
