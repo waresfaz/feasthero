@@ -74,8 +74,10 @@ router.post("/contact", (req, res) => {
   contactEmail.sendMail(mail, (error) => {
     if (error) {
       res.json({ status: "ERROR" });
+      console.log("Mail sending error", error)
     } else {
       res.json({ status: "Message Sent" });
+      console.log("Mail successfully sent:")
     }
   });
 });

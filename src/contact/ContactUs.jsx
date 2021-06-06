@@ -13,7 +13,7 @@ export default function ContactUs() {
       email: email.value,
       message: message.value,
     };
-    let response = await fetch("http://localhost:3000/contact", {
+    let response = await fetch("http://www.feasthero.com/contact", {
       method: "POST",
       headers: {
         "Content-Type": "application/json;charset=utf-8",
