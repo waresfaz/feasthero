@@ -1,7 +1,12 @@
 const express = require("express");
+const cors = require("cors");
+const nodemailer = require("nodemailer");
 const apiHandler = require("./api-handler/api-function");
 const api = express();
+const router = express.Router();
+api.use(cors())
 api.use(express.json());
+api.use("/", router);
 api.use(express.urlencoded({ extended: true }));
 
 api.use(function (req, res, next) {
@@ -36,6 +41,24 @@ api.get(
   "/order/:order_id",
   async (req, res) => await apiHandler.getOrderDetails(req, res)
 );
+
+//Contact Us page set up
+const contactEmail = nodemailer.createTransport({
+  service: 'gmail',
+  auth: {
+    user: "bookings@gmail.com",
+    pass: "NxjNh4JhCsADPdE",
+  },
+});
+
+contactEmail.verify((error) => {
+  if (error) {
+    console.log(error);
+  } else {
+    console.log("Ready to Send");
+  }
+});
+
 api.listen(process.env.PORT || 3001, () =>
   console.log("Server is running on 3001")
 );
