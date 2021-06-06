@@ -1,13 +1,19 @@
-import React from "react";
+import React, { useState } from "react";
 import SubscribeBackground from "../img/Group 77.png";
 
 export default function Subscribe() {
+  const [email, setEmail] = useState();
+  const handleSubmit = (event) => {
+    alert('An email was submitted: ' + event.target.value);
+    event.preventDefault();
+    console.log("Subscribe button")
+  };
   return (
     <section
       style={{ backgroundImage: `url("${SubscribeBackground}")` }}
       className="chefs-contactSection"
     >
-      <div className="chefs-contactBox">
+      {/* <div className="chefs-contactBox">
         <div className="row justify-content-center">
           <div className="col-xl-8 col-lg-11 col-md-11">
             <div className="chefs-contentbox-items">
@@ -29,11 +35,17 @@ export default function Subscribe() {
                           type="text"
                           className="form-control"
                           placeholder="mail@example.com"
+                          onChange={e => setEmail(e.target.value)}
+                          value={email}
                         />
                         <label htmlFor="">
-                          <a href="#" className="submited-btn">
+                          <button 
+                          style={{ border: "none", color: "#F9F9F9", textDecoration: "none", backgroundColor: "transparent"}} 
+                          onSubmit={handleSubmit}
+                          // href="#" 
+                          className="submited-btn">
                             Stay Connected
-                          </a>
+                          </button>
                         </label>
                       </div>
                     </form>
@@ -43,7 +55,7 @@ export default function Subscribe() {
             </div>
           </div>
         </div>
-      </div>
+      </div> */}
     </section>
   );
 }
