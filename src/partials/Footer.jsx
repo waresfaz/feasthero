@@ -40,7 +40,7 @@ export default function Footer() {
                 <a href="/#classlist">All Classes</a>
               </li>
               <li className="footerlink-items">
-                <a href="#">About Us</a>
+                <a href="/aboutus">About Us</a>
               </li>
               <li className="footerlink-items">
                 <a href="/contact">Contact Us</a>
