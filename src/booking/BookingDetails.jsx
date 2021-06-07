@@ -185,6 +185,7 @@ export default function BookingDetails({
                           className="bilings-control"
                           placeholder="First Name"
                           onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
@@ -196,6 +197,7 @@ export default function BookingDetails({
                           className="bilings-control"
                           placeholder="Last Name"
                           onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
@@ -207,6 +209,7 @@ export default function BookingDetails({
                           className="bilings-control"
                           placeholder="Company Name"
                           onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
@@ -217,8 +220,8 @@ export default function BookingDetails({
                           type="email"
                           className="bilings-control"
                           placeholder="Email Address"
-                          required
                           onChange={handleChange}
+                          required
                         />
                       </div>
                     </div>
