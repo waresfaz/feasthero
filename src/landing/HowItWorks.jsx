@@ -5,7 +5,7 @@ import Group66 from "../img/Group 66.png";
 
 export default function HowItWorks() {
   return (
-    <section className="chafsClass-payment-section pt-30" id="howitwork">
+    <section className="chafsClass-payment-section pt-30" id="howitworks">
       <div className="row">
         <div className="col-xl-12">
           <div className="section-title text-center">
