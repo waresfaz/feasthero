@@ -53,7 +53,7 @@ export default function Footer() {
             <h2 className="footer-widgets-title">Legal</h2>
             <ul className="footer-linkwedg">
               <li className="footerlink-items">
-                <a href="#">FAQ</a>
+                <a href="/faq">FAQ</a>
               </li>
               <li className="footerlink-items">
                 <a href="#">Terms</a>

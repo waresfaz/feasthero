@@ -15,6 +15,7 @@ import ContactUs from "./contact/ContactUs";
 import PaymentFailureView from "./booking/PaymentFailureView";
 import PaymentSuccessView from "./booking/PaymentSuccessView";
 import AboutUs from "./about/AboutUs";
+import Faq from "./faq/Faq";
 
 // main app function. Everything in the return is what is rendered on the screen
 function App() {
@@ -55,6 +56,7 @@ function App() {
           <Route path="/payment_success" component={PaymentSuccessView} />
           <Route path="/payment_failure" component={PaymentFailureView} />
           <Route path="/aboutus" component={AboutUs} />
+          <Route path="/faq" component={Faq} />
         </Switch>
       </div>
       <Footer />
