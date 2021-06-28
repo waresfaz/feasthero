@@ -2,15 +2,11 @@ const Class = require("./schema/Class");
 const Booking = require("./schema/Booking");
 const { mailSender } = require("./api-handler/api-helper");
 const sgMail = require("@sendgrid/mail");
-const parse = require('../../../helpers/parse_html');
 const getreminderToCustomer = require('./templates/reminder_to_customer');
-const genReminderToCustomerObj = require('./template/reminder_to_customer_obj');
 const getReminderToChef = require('./template/reminder_to_chef');
-const genReminderToChefObj = require('./template/reminder_to_chef_obj');
-require("dotenv").config();
+const genReminderToChefData = require('./template/reminder_to_chef_obj');
 const moment = require("moment");
-const { utc } = require("moment");
-require("moment-timezone");
+const genReminderToCustomerData = require("../templates/reminder_to_customer_data");
 sgMail.setApiKey(process.env.SENDGRID_API_KEY);
 
 // basic msg template
@@ -68,12 +64,12 @@ async function sendReminder() {
 
             /*============================= SENDING REMINDER MAIL TO THE CUSTOMER ================================*/
             msg.to = reminder_list[data].customer_email;
-            msg.html = parse(getreminderToCustomer(), () => genReminderToCustomerObj(reminder_list[data], class_.chefs[0], class_));
+            msg.html = getreminderToCustomer(genReminderToCustomerData(reminder_list[data], class_.chefs[0], class_));
             await mailSender(msg);
 
             /*============================= SENDING REMINDER MAIL TO THE CHEF ================================*/
             msg.to = class_.chefs[0].email;
-            msg.html = parse(getReminderToChef(), () => genReminderToChefObj(reminder_list[data], class_.chefs[0], class_))
+            msg.html = getReminderToChef(genReminderToChefData(reminder_list[data], class_.chefs[0], class_));
             await mailSender(msg);
         }
     } catch (e) {
