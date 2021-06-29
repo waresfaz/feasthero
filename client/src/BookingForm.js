@@ -2,6 +2,7 @@ import { useState, useRef, useEffect } from "react";
 import scheduleHelper from "./helpers/ScheduleHelper";
 import { bookClassAPI, getScheduleAPI } from "./services/api-service";
 import { useSelector, useDispatch } from "react-redux";
+import { settings } from './settings';
 
 export default function BookingForm({ class_id, cost, chef }) {
   //fetching the classes data from redux
@@ -68,10 +69,10 @@ export default function BookingForm({ class_id, cost, chef }) {
       ref={inputEl}
       className="modal-form"
       method="post"
-      action="https://www3.moneris.com/HPPDP/index.php"
+      action={settings.MONERIS.URL}
     >
-      <input type="hidden" name="ps_store_id" value="GT3RZ41539"></input>
-      <input type="hidden" name="hpp_key" value="hpEOUYV1I652"></input>
+      <input type="hidden" name="ps_store_id" value={settings.MONERIS.PS_STORE_ID}></input>
+      <input type="hidden" name="hpp_key" value={settings.MONERIS.HPP_KEY}></input>
       <input
         type="hidden"
         name="charge_total"

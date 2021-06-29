@@ -1,10 +1,10 @@
 <section>
-<div style='text-align: center'>
+<div style='text-align: center; width: 100%'>
     <h1>🍲 FeastHero 🍲</h1>
 </div>
 
 <div style='width: 100%; text-align: center'>
-    <a href='https://www.feasthero.com'><img width='100px' src="https://www.feasthero.com/images/FeastHeroLogo.png"></a>
+    <a target='_blank' href='https://www.feasthero.com'><img width='100px' src="https://www.feasthero.com/images/FeastHeroLogo.png"></a>
 </div>
 <div style='text-align: center; margin-bottom: 5rem'>
     <p>
@@ -45,7 +45,7 @@
         <li><code>make install</code></li>
         <li><code>make run</code>
         <p>or</p>
-        <li><code>cd ./client && npm install && cd ./server && npm install</code></li>
-        <li><code>cd ./client && npm start</code>and<code>cd ./server && npm install</code></li>
+        <li><code>cd ./client && npm install && cd ../server && npm install</code></li>
+        <li><code>cd ./client && npm start</code>and<code>cd ./server && npm start</code></li>
     <ol>
 </section>

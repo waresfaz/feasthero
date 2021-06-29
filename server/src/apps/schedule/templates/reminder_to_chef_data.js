@@ -1,12 +1,5 @@
 const moment = require("moment");
 
-/**
- * @description object to be parsed into reminder to chef html template
- * @param {Booking} booking - customers booking
- * @param {Chef} chef - booked chef
- * @param {Class} class_ - booked class
- * @returns Object
- */
 function genReminderToChefData(booking, chef, class_) {
     return {
         chef_name: chef.name,

@@ -10,6 +10,7 @@ const contactRouter = require('./apps/contact/routes');
 const ordersRouter = require('./apps/orders/routes');
 const paymentRouter = require('./apps/payment/routes')
 const scheduleRouter = require('./apps/schedule/routes');
+const errorMiddleware = require('./middleware/error');
 
 function init() {
   connectToDb();
@@ -19,9 +20,10 @@ function init() {
 
 
 function initMiddleware() {
-  app.use(cors())
+  app.use(cors());
   app.use(express.json());
   app.use(express.urlencoded({ extended: true }));
+  app.use(errorMiddleware);
 }
 
 function initRoutes() {
@@ -30,7 +32,7 @@ function initRoutes() {
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
   app.use('/orders', ordersRouter);
-  app.use('/payments', paymentRouter);
+  app.use('/payment', paymentRouter);
   app.use('/schedule', scheduleRouter);
 }
 

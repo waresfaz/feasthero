@@ -1,10 +1,10 @@
 const express = require('express');
 const classesRouter = express.Router();
-const getClasses = require('./controllers/get_classes');
-const setClass = require('./controllers/get_classes');
+const all_classes = require('./controllers/all_classes');
+const new_class = require('./controllers/new_class');
 const wait = require('../../middleware/async');
 
-classesRouter.get("/all", wait(getClasses));
-classesRouter.post("/class", wait(setClass));
+classesRouter.get("/all", wait(all_classes));
+classesRouter.post("/newclass", wait(new_class));
 
 module.exports = classesRouter;
