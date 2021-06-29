@@ -1,4 +1,4 @@
-const Class = require("../../../schema/class");
+const Class = require("../schema/class");
 
 // query to get the data of all classes
 async function getClasses(_, res) {

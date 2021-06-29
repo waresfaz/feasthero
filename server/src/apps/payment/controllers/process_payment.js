@@ -1,4 +1,4 @@
-const services = require('./services');
+const updateSlot = require('../services/update_slot');
 
 // api which will be requested by moneris after transaction
 async function processPayment(req, res) {
@@ -31,7 +31,7 @@ async function processPayment(req, res) {
         }
         if (Number(response_code) >= 50 || response_code == "") {
             transaction_details.booking_status = "failed";
-            await services.updateSlot(
+            await updateSlot(
                 orderDetails[0].class_id,
                 orderDetails[0].booking_datetime,
                 true

@@ -1,4 +1,4 @@
-const Chef = require('../../../schema/chef');
+const Chef = require('../schema/chef');
 
 // query to get data of all chefs ==> not currently used
 async function allChefs(_, res) {
