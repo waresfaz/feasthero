@@ -1,6 +1,6 @@
 const BookingStatusEnum = Object.freeze({'cancelled': 1, 'failed': 2, 'success': 3});
 
-function string_from_booking_status(status) {
+function stringFromBookingStatus(status) {
     switch (status) {
         case 1:
             return 'cancelled'
@@ -11,4 +11,4 @@ function string_from_booking_status(status) {
     }
 }
 
-module.exports = { BookingStatusEnum, string_from_booking_status };
+module.exports = { BookingStatusEnum, stringFromBookingStatus };

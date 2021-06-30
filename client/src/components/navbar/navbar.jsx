@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import FeastHeroLogo from "../assets/FeastHeroLogo 1.png";
+import FeastHeroLogo from "../../assets/FeastHeroLogo 1.png";
 
 export default function Navbar() {
   return (

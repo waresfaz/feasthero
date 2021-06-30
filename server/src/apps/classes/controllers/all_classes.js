@@ -1,8 +1,8 @@
-const get_all_classes = require('../services/all_classes');
+const getAllClasses = require('../services/all_classes');
 
-async function all_classes(_, res) {
+async function allClasses(_, res) {
     try {
-        let classes = get_all_classes();
+        let classes = getAllClasses();
         return res.json({ success: true, data: classes });
     } catch (e) {
         console.log(e);
@@ -10,4 +10,4 @@ async function all_classes(_, res) {
     }
 };
 
-module.exports = all_classes;
+module.exports = allClasses;

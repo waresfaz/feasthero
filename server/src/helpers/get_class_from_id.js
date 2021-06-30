@@ -2,7 +2,7 @@ const Class = require("../apps/classes/schema/class");
 
 
 async function getClassDetailsFromId(classId) {
-    return await Class.aggregate([
+    let classes = await Class.aggregate([
         {
             $match: { _id: classId },
         },
@@ -24,7 +24,8 @@ async function getClassDetailsFromId(classId) {
                 as: "chefs",
             },
         },
-    ])[0];
+    ]);
+    return classes[0];
 }
 
 module.exports = getClassDetailsFromId;

@@ -1,6 +1,6 @@
 const Class = require("../schema/class");
 
-async function get_all_classes() {
+async function getAllClasses() {
     return await Class.aggregate([
         {
             $project: {
@@ -26,4 +26,4 @@ async function get_all_classes() {
     ]);
 }
 
-module.exports = get_all_classes;
+module.exports = getAllClasses;

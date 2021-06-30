@@ -1,6 +1,6 @@
 const moment = require("moment");
 
-function gen_customer_booking_confirmed_data(class_, order) {
+function genCustomerBookingConfirmedData(class_, order) {
     return {
         first_name: order.customer_first_name,
         chef_name: class_.chefs[0].name,
@@ -19,4 +19,4 @@ function gen_customer_booking_confirmed_data(class_, order) {
     }
 }
 
-module.exports = gen_customer_booking_confirmed_data;
+module.exports = genCustomerBookingConfirmedData;

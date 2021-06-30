@@ -1,4 +1,6 @@
-const string_from_booking_status = require('../enums/booking_status');
+const { stringFromBookingStatus } = require('../enums/booking_status');
+const Booking = require('../schema/booking');
+var ObjectId = require("mongoose").Types.ObjectId;
 
 // updates the booking_status in bookings collection to success/failed/cancelled
 async function updateBookingStatus(order_id, status) {
@@ -6,7 +8,7 @@ async function updateBookingStatus(order_id, status) {
         {
             _id: ObjectId(order_id),
         },
-        string_from_booking_status(status)
+        stringFromBookingStatus(status)
     );
     return;
 };

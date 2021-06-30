@@ -4,7 +4,7 @@ const { settings } = require('../../../feasthero/settings');
 
 async function processPayment(req, res) {
     try {
-        let orderDetails = await Booking.find({ _id: req.body.order_id })[0]
+        let orderDetails = await Booking.findOne({ _id: req.body.response_order_id });
         let processPayment = new ProcessPayment(req, res, orderDetails);
         return await processPayment.process();
     } catch (e) {

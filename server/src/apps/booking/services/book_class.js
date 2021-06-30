@@ -1,38 +1,36 @@
 const Booking = require('../schema/booking');
 const Schedule = require('../../schedule/schema/schedule');
 
-async function save_booked_class(booking_info) {
-    let booked_class = new Booking(booking_info);
+async function saveBookedClass(bookingInfo) {
+    let booked_class = new Booking(bookingInfo);
     return booked_class
         .save()
         .then((booked_class) => { return booked_class._id })
-        .catch((_) => { return error_booking_class(booking_info) });
+        .catch((_) => { return errorBookingClass(bookingInfo) });
 }
 
 /**
  * I do not know what error is thrown or why it updates schedule when 
  * there is an error. Remember to ask why or test it yourself.
  */
-async function error_booking_class(booking_info) {
+async function errorBookingClass(bookingInfo) {
     await Schedule.updateOne(
         {
-            class_id: ObjectId(booking_info.class_id),
+            class_id: ObjectId(bookingInfo.class_id),
             $and: [
                 {
-                    date: { $gte: new Date(booking_info.booking_datetime) },
+                    date: { $gte: bookingInfo.booking_datetime.toDate() },
                 },
                 {
                     date: {
-                        $lt: new Date(
-                            moment(booking_info.booking_datetime).add(1, 'hour')
-                        ),
-                    },
+                        $lt: bookingInfo.booking_datetime.add(1, 'hour').toDate()
+                    },F
                 },
             ],
         },
-        { available: true }
+{ available: true }
     );
-    return '';
+return '';
 }
 
-module.exports = save_booked_class;
+module.exports = saveBookedClass;

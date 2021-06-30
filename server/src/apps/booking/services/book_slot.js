@@ -2,19 +2,17 @@ const Schedule = require('../../schedule/schema/schedule');
 const moment = require('moment');
 var ObjectId = require("mongoose").Types.ObjectId;
 
-async function book_slot(booking_info) {
+async function bookSlot(bookingInfo) {
     await Schedule.updateOne(
         {
-            class_id: ObjectId(booking_info.class_id),
+            class_id: ObjectId(bookingInfo.class_id),
             $and: [
                 {
-                    date: { $gte: new Date(booking_info.booking_datetime) },
+                    date: { $gte: bookingInfo.booking_datetime.toDate() },
                 },
                 {
                     date: {
-                        $lt: new Date(
-                            moment(booking_info.booking_datetime).add(1, 'hour')
-                        ),
+                        $lt: bookingInfo.booking_datetime.add(1, 'hour').toDate()
                     },
                 },
             ],
@@ -23,4 +21,4 @@ async function book_slot(booking_info) {
     );
 }
 
-module.exports = book_slot;
+module.exports = bookSlot;

@@ -5,6 +5,9 @@ const updateSlot = require('./update_slot');
 const ORIGIN = require('../../../feasthero/settings').settings.ORIGIN;
 const sendMailToChefAndCustomer = require('../../booking/services/send_confirmed_emails');
 
+/**
+ * @description a class that implements all aspects of fulfilling a payment
+ */
 class ProcessPayment {
     constructor(req, res, order_details) {
         this.transaction = TransactionDetails.fromJson(req.body);
@@ -26,7 +29,8 @@ class ProcessPayment {
     async success() {
         await updateBookingStatus(this.order_details.order_id, BookingStatusEnum.success);
         await sendMailToChefAndCustomer(this.order_details);
-        return res.redirect(
+        // TODO add this route
+        return this.res.redirect(
             `${ORIGIN}/payment_success?order_id=` + this.order_details.order_id
         );
     }

@@ -1,11 +1,10 @@
 import React from "react";
 import ReactDOM from "react-dom";
-import App from "./components/app";
+import App from "./components/app/app";
 import reportWebVitals from "./reportWebVitals";
 import { store } from "./redux/store/index";
 import { Provider } from "react-redux";
 import { BrowserRouter } from "react-router-dom";
-import './styles/main.scss';
 
 // final Render
 ReactDOM.render(

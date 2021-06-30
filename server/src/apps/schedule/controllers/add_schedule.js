@@ -1,3 +1,5 @@
+const Schedule = require('../schema/schedule');
+
 // query to add a new time slot for a class
 async function addSchedule(req, res) {
     let requestData = req.body.data;

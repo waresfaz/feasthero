@@ -1,20 +1,21 @@
 import React from "react";
 
 import { Route, Switch, useLocation } from "react-router-dom";
-import Navbar from "./navbar";
-import Footer from "./footer";
-import BookingView from "../pages/booking/booking/start-booking";
+import Navbar from "../navbar/navbar";
+import Footer from "../footer/footer";
+import BookingView from "../../pages/booking/booking/start-booking";
 
-import { AppendScript } from "../helpers/append-script";
-import ContactUs from "../pages/contact/contact-us";
-import PaymentFailureView from "../pages/booking/payment-failed/payment-failed";
-import PaymentSuccessView from "../pages/booking/payment-success/payment-success";
-import AboutUs from "../pages/about/about-us";
-import Faq from "../pages/faq/faq";
-import Landing from '../pages/landing/landing';
-import { initSettings } from '../settings';
+import { AppendScript } from "../../helpers/append-script";
+import ContactUs from "../../pages/contact/contact-us";
+import PaymentFailureView from "../../pages/booking/payment-failed/payment-failed";
+import PaymentSuccessView from "../../pages/booking/payment-success/payment-success";
+import AboutUs from "../../pages/about/about-us";
+import Faq from "../../pages/faq/faq";
+import Landing from '../../pages/landing/landing';
+import { initSettings } from '../../settings';
 
 import 'bootstrap/dist/css/bootstrap.min.css';
+import './app.scss';
 
 // main app function. Everything in the return is what is rendered on the screen
 function App() {
