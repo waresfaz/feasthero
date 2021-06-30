@@ -1,6 +1,7 @@
 let settings = {
     DEBUG: true,
     ORIGIN: '',
+    CLIENT_ORIGIN: ''
 };
 
 function initSettings() {
@@ -8,10 +9,11 @@ function initSettings() {
 
     if (settings.DEBUG) {
         settings.ORIGIN = 'http://localhost:' + settings.PORT;
+        settings.CLIENT_ORIGIN = 'http://localhost:3000';
     } else {
-        settings.ORIGIN = 'https://wwww.feasthero.com';
+        settings.ORIGIN = 'https://wwww.feasthero.herokuapp.com';
+        settings.CLIENT_ORIGIN = 'https://www.feasthero.com';
     }
-
     return Object.freeze(settings);
 }
 

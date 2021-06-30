@@ -7,8 +7,8 @@ const saveBookedClass = require('../services/book_class');
 // query to save booked class data
 async function bookClass(req, res) {
     try {
-        let requestData = req.body;
-        let bookingInfo = BookingInfo.from_json(requestData);
+        let requestData = req.body.data;
+        let bookingInfo = BookingInfo.fromJson(requestData);
 
         if (await isClassBooked(bookingInfo) === true) {
             return res.status(StatusCodes.OK).send({

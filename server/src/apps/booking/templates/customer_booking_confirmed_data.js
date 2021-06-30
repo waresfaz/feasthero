@@ -13,7 +13,7 @@ function genCustomerBookingConfirmedData(class_, order) {
             .utc(order.booking_datetime)
             .tz("US/Eastern")
             .format("hh:mm a"),
-        zoom_link: order.zoom_link,
+        zoom_link: class_.chefs[0].zoom,
         class_description: class_.description,
         recipe: class_.recipe.toString(),
     }

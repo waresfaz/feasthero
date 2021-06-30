@@ -1,7 +1,7 @@
 function customerBookingConfirmedEmailTemplate(emailData) {
   return `<p>Hi <b>${emailData.first_name}</b>, thanks for booking with FeastHero!.</p>
      <p>Here’s everything you need to know for you class with ${emailData.chef_name}:<p>
-      <p>Class name: <b>${emailData.className}</b></p>
+      <p>Class name: <b>${emailData.class_name}</b></p>
       <p>Date: <b> ${emailData.booking_date} </b></p>
       <p>Time: <b>${emailData.booking_time} EST </b></p>
       <h3>Join with this link: <a href=${emailData.zoom_link}> ${emailData.zoom_link} </a> </h3>

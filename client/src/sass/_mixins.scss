@@ -1,0 +1,14 @@
+@mixin button {
+    font-size: 24px;
+	line-height: 28.37px;
+	text-align: center;
+	font-weight: 700;
+	font-style: normal;
+	color: #F9F9F9;
+	padding: 21px 0 21px;
+	display: inline-block;
+	border-radius: 8px;
+	transition: all .2s ease-in;
+	width: 100%;
+	font-family: "brandon-grotesque",sans-serif; 
+}

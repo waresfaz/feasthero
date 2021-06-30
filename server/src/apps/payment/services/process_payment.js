@@ -2,7 +2,7 @@ const { BookingStatusEnum } = require('../../booking/enums/booking_status');
 const TransactionDetails = require('../models/transaction_details');
 const updateBookingStatus = require('../../booking/services/update_booking_status');
 const updateSlot = require('./update_slot');
-const ORIGIN = require('../../../feasthero/settings').settings.ORIGIN;
+const CLIENT_ORIGIN = require('../../../feasthero/settings').settings.CLIENT_ORIGIN;
 const sendMailToChefAndCustomer = require('../../booking/services/send_confirmed_emails');
 
 /**
@@ -29,9 +29,8 @@ class ProcessPayment {
     async success() {
         await updateBookingStatus(this.order_details.order_id, BookingStatusEnum.success);
         await sendMailToChefAndCustomer(this.order_details);
-        // TODO add this route
         return this.res.redirect(
-            `${ORIGIN}/payment_success?order_id=` + this.order_details.order_id
+            `${CLIENT_ORIGIN}/payment_success?order_id=` + this.order_details.order_id
         );
     }
 
@@ -43,11 +42,12 @@ class ProcessPayment {
         );
         await updateBookingStatus(order_id, BookingStatusEnum.failed);
         return this.res.redirect(
-            `${ORIGIN}/payment_failure?order_id=` + this.order_details.order_id
+            `${CLIENT_ORIGIN}/payment_failure?order_id=` + this.order_details.order_id
         );
     }
 
     async cancel() {
+        console.log('ok');
         await updateSlot(
             this.order_details.class_id,
             this.order_details.booking_datetime,

@@ -1,0 +1,17 @@
+#top-navbar{
+    margin-top: 0.5rem;
+}
+
+a.nav-link {
+    transition: all 0.5s;
+    color: #3E3E3E !important;
+    font-size: 1.5rem;
+    font-family: "brandon-grotesque", sans-serif; 
+    font-weight: 700;
+    margin: 0 3rem;
+}
+
+a.nav-link:hover {
+    transition: all 0.5s;
+    color: #696767 !important;
+}

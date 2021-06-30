@@ -1,6 +1,6 @@
 import React from 'react'
 
-class PaymentSuccess extends React.Component {
+class BookClass extends React.Component {
   render() {
     return (
       <>
@@ -8,3 +8,5 @@ class PaymentSuccess extends React.Component {
     )
   }
 }
+
+export default BookClass;

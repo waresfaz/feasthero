@@ -10,7 +10,7 @@ async function updateSlot(class_id, date, { available }) {
             class_id: ObjectId(class_id),
             $and: [
                 {
-                    date: { $gte: new Date(date) },
+                    date: { $gte: date },
                 },
                 {
                     date: {

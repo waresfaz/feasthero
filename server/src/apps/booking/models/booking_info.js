@@ -22,7 +22,7 @@ class BookingInfo {
         this.booking_status = booking_status;
     }
 
-    static from_json(json) {
+    static fromJson(json) {
         return new BookingInfo(
             json.class_id,
             json.customer_email,

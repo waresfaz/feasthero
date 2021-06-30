@@ -2,7 +2,7 @@ const getAllClasses = require('../services/all_classes');
 
 async function allClasses(_, res) {
     try {
-        let classes = getAllClasses();
+        let classes = await getAllClasses();
         return res.json({ success: true, data: classes });
     } catch (e) {
         console.log(e);

@@ -5,12 +5,14 @@ let settings = {
         PS_STORE_ID: '',
         HPP_KEY: '',
     },
+    ORIGIN: ''
 };
 
 function initSettings() {
     if (settings.DEBUG) {
         settings = {
             ...settings,
+            ORIGIN: 'http://localhost:3001',
             MONERIS: {
                 URL: "https://esqa.moneris.com/HPPDP/index.php",
                 PS_STORE_ID: "CVQNQtore1",
@@ -19,6 +21,8 @@ function initSettings() {
         };
     } else {
         settings = {
+            ...settings,
+            ORIGIN: 'https://feasthero.herokuapp.com',
             MONERIS: {
                 URL: "https://www3.moneris.com/HPPDP/index.php",
                 PS_STORE_ID: "GT3RZ41539",
@@ -26,7 +30,6 @@ function initSettings() {
             }
         };
     }
-
     return Object.freeze(settings);
 }
 
