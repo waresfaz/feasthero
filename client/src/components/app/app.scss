@@ -3,19 +3,31 @@
 @import '../../sass/variables';
 @import '../../sass/mixins';
 
-.container {
-    min-width: 85% !important;
-}
 
 a:hover {
     color: #fff !important;
 }
 
+
+.title {
+    @include title;
+}
+.small-section-title{
+    @include small-section-title;
+}
+.subtitle {
+    @include subtitle;
+}
+
+
+
 * {
     padding: 0;
     margin: 0;
     text-decoration: none !important;
+    font-family: "brandon-grotesque", sans-serif; 
 }
+
 
 .button-primary {
     @include button;
@@ -37,4 +49,22 @@ a:hover {
 .button-secondary:hover {
     background-color: $secondary-light !important;
     box-shadow: 0px 7px 0px $secondary-shadow-light;
+}
+
+.v-center{
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (min-width: 1500px) {
+    body > #root > #main-container {
+        max-width: 95%;
+    }
+}
+
+@media (min-width: 1600px) {
+    body > #root > #main-container {
+        max-width: 90%;
+    }
 }

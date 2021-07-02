@@ -1,5 +1,5 @@
 import React from 'react';
-import { Col, Row, Image, Container } from 'react-bootstrap';
+import { Col, Row, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
 import landing_chef from '../../../assets/resources/images/chef-landing.png';
@@ -9,29 +9,31 @@ import '../home.scss';
 class Landing extends React.Component {
     render() {
         return (
-            <div id='landing'>
+            <section id='landing'>
                 <Row className='justify-content-around'>
-                    <Col lg={4}>
-                        <h2>Cook Together From Anywhere</h2>
-                        <p>Learn to cook like a pro with others in the comfort of your own kitchen.</p>
-                        <Row>
-                            <Col>
-                                <Link className='button-secondary' to='#classlist'>
-                                    Book Class
+                    <Col className='v-center' lg={5}>
+                        <div>
+                            <h1>Cook Together <br /> From Anywhere</h1>
+                            <p>Learn to cook like a pro with others in the comfort of your own kitchen.</p>
+                            <Row id='landing-btn-row'>
+                                <Col md={5} sm={6}>
+                                    <Link className='button-secondary' id='gotoclasses' to='#classlist'>
+                                        Book Class
                                     </Link>
-                            </Col>
-                            <Col>
-                                <Link className='button-primary' to='#contactus'>
-                                    Contact Us
+                                </Col>
+                                <Col md={5} sm={6}>
+                                    <Link className='button-primary' id='gotocontactus' to='#contactus'>
+                                        Contact Us
                                 </Link>
-                            </Col>
-                        </Row>
+                                </Col>
+                            </Row>
+                        </div>
                     </Col>
-                    <Col lg={4}>
-                        <Image width='100%' src={landing_chef} />
+                    <Col lg={5} className='text-center' id='chef-col'>
+                        <Image width='95%' src={landing_chef} />
                     </Col>
                 </Row>
-            </div>
+            </section>
         )
     };
 }

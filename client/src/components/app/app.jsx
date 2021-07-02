@@ -10,10 +10,9 @@ import { initSettings } from '../../settings';
 import history from '../../history';
 import Home from '../../pages/home/home';
 import TopNavbar from '../top-navbar/top-navbar';
+import Footer from '../footer/footer';
 
 import './app.scss';
-
-import 'bootstrap/dist/css/bootstrap.min.css';
 
 class App extends React.Component {
   constructor() {
@@ -24,7 +23,7 @@ class App extends React.Component {
   render() {
     return (
       <>
-        <Container>
+        <Container fluid id='main-container'>
           <TopNavbar />
           <Router history={history}>
             <Switch>
@@ -32,6 +31,7 @@ class App extends React.Component {
             </Switch>
           </Router>
         </Container>
+        <Footer />
       </>
     )
   }
