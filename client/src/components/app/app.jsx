@@ -9,6 +9,7 @@ import { Container } from 'react-bootstrap';
 import { initSettings } from '../../settings';
 import history from '../../history';
 import Home from '../../pages/home/home';
+import BookClass from '../../pages/booking/book-class/book-class';
 import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';
 
@@ -24,10 +25,11 @@ class App extends React.Component {
     return (
       <>
         <Container fluid id='main-container'>
-          <TopNavbar />
           <Router history={history}>
+            <TopNavbar />
             <Switch>
-              <Route exact path="/" component={Home} />
+              <Route exact path='/' component={Home} />
+              <Route exact path='/book/:id' component={BookClass} />
             </Switch>
           </Router>
         </Container>

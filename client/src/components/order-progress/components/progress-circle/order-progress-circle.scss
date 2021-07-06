@@ -1,0 +1,33 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+#booking-steps {
+    .circle {
+        margin: auto;
+        width: 4.5rem;
+        height: 4.5rem;
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+    
+        span {
+            color: #fff;
+            font-size: 1.6rem;
+        }
+    }
+    
+    p {
+        @include content;
+        margin-top: 0.5rem;
+    }
+
+    .active {
+        background-color: $booking-step-circle-active;
+    }
+    
+    .inactive {
+        background-color: $booking-step-cirlce-inactive;
+    }
+}
+

@@ -13,6 +13,12 @@
         padding: 2rem;
     }
 
+    @include for-tablet {
+        padding-left: 0;
+        padding-right: 0;
+        padding-top: 0;
+    }
+
     #class-features-content {
         margin-bottom: 1.5rem;
 
@@ -28,7 +34,7 @@
 
         .row:first-child {
             @include for-tablet {
-                margin-top: 2.5rem;
+                margin-top: 3rem;
             }
         }
 

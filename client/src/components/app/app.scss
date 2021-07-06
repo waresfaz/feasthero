@@ -59,13 +59,13 @@ a:hover {
 }
 
 @media (min-width: 1500px) {
-    body > #root > #main-container {
+    #main-container {
         max-width: 95%;
     }
 }
 
 @media (min-width: 1600px) {
-    body > #root > #main-container {
+    #main-container {
         max-width: 90%;
     }
 }

@@ -1,4 +1,5 @@
 @import '../../sass/variables';
+@import '../../sass/mixins';
 
 #footer {
     margin-top: 5rem;
@@ -6,10 +7,24 @@
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
 
+    @include for-tablet {
+        text-align: center;
+    }
+
+    h3 {
+        @include for-tablet {
+            margin-bottom: 2rem;
+        }
+    }
+
     h5 {
         color: $text-primary;
         font-size: 1.5rem;
         font-weight: bold;
+
+        @include for-tablet {
+            margin-top: 2rem;
+        }
     }
 
     ul {

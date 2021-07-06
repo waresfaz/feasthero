@@ -6,12 +6,11 @@ async function newClass(req, res) {
     return clasData
         .save()
         .then((clasData) => {
-            return res.status(StatusCodes.OK).json({ error: false, data: clasData._id });
+            return res.status(StatusCodes.OK).json({ response: clasData._id });
         })
         .catch(async (_) => {
             return res.status(StatusCodes.BAD_REQUEST).send({
-                error: true,
-                data: "Class insert Failed , please try again",
+                response: "Class insert Failed , please try again",
             });
         });
 };

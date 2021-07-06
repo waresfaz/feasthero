@@ -74,7 +74,7 @@
 	}
 
 	@include for-phone {
-		font-size: 1.7rem;
+		font-size: 2rem;
 		line-height: 2.4rem;
 	}
 }
@@ -111,4 +111,7 @@
 }
 @mixin for-xl-desktop {
 	@media (max-width: 1400px) { @content; }
+}
+@mixin for-xxl-desktop {
+	@media (max-width: 1500px) { @content; }
 }

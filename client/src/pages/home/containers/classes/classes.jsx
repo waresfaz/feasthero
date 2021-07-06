@@ -13,43 +13,25 @@ class Classes extends React.Component {
         this.props.getAllClasses();
     }
 
-    classesPartial() {
-        const classes = this.props.allClasses;
-
-        return (
-            <>
-                <Row id='classes'>
-                    {
-                        classes.map((classData, key) => {
-                            return (
-                                <Col xl={6}>
-                                    <ClassCard key={key} classData={classData} />
-                                </Col>
-                            )
-                        })
-                    }
-                </Row>
-            </>
-        )
-    }
-
-    loadingPartial() {
-        return (
-            <div className='w-100 text-center'>
-                <p>Loading...</p>
-            </div>
-        )
-    }
-
     render() {
         return (
             <section id='classes'>
-                <h2 className='text-center title'>Hands-on cooking classes taught by world class chefs</h2>
+                <h2 className='text-center title mb-4'>Hands-on cooking classes taught by world class chefs</h2>
 
                 {
                     this.props.allClasses
                         ?
-                        this.classesPartial()
+                        <Row className='justify-content-center'>
+                            {
+                                this.props.allClasses.map((classData, key) => {
+                                    return (
+                                        <Col class='class-card-container' lg={5}>
+                                            <ClassCard key={key} classData={classData} />
+                                        </Col>
+                                    )
+                                })
+                            }
+                        </Row>
                         : <p>Loading...</p>
                 }
             </section>
