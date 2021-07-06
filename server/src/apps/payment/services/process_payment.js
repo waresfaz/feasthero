@@ -9,52 +9,52 @@ const sendMailToChefAndCustomer = require('../../booking/services/send_confirmed
  * @description a class that implements all aspects of fulfilling a payment
  */
 class ProcessPayment {
-    constructor(req, res, order_details) {
+    constructor(req, res, orderDetails) {
         this.transaction = TransactionDetails.fromJson(req.body);
-        this.order_details = order_details;
-        this.response_code = req.response_code;
+        this.orderDetails = orderDetails;
+        this.responseCode = req.responseCode;
         this.res = res;
     }
 
     async process() {
-        if (this.transaction.is_cancelled)
+        if (this.transaction.isCancelled)
             return await this.cancel();
 
-        if (Number(this.response_code) >= 50 || this.response_code == "")
+        if (Number(this.responseCode) >= 50 || this.responseCode == "")
             return await this.failed();
 
         return await this.success();
     }
 
     async success() {
-        await updateBookingStatus(this.order_details.order_id, BookingStatusEnum.success);
-        await sendMailToChefAndCustomer(this.order_details);
+        await updateBookingStatus(this.orderDetails.orderId, BookingStatusEnum.success);
+        await sendMailToChefAndCustomer(this.orderDetails);
         return this.res.redirect(
-            `${CLIENT_ORIGIN}/payment_success?order_id=` + this.order_details.order_id
+            `${CLIENT_ORIGIN}/payment-success?orderId=` + this.orderDetails.orderId
         );
     }
 
     async failed() {
         await updateSlot(
-            this.order_details.class_id,
-            this.order_details.booking_datetime,
+            this.orderDetails.classId,
+            this.orderDetails.bookingDateTime,
             { available: true }
         );
-        await updateBookingStatus(order_id, BookingStatusEnum.failed);
+        await updateBookingStatus(orderId, BookingStatusEnum.failed);
         return this.res.redirect(
-            `${CLIENT_ORIGIN}/payment_failure?order_id=` + this.order_details.order_id
+            `${CLIENT_ORIGIN}/payment-failure?orderId=` + this.orderDetails.orderId
         );
     }
 
     async cancel() {
         console.log('ok');
         await updateSlot(
-            this.order_details.class_id,
-            this.order_details.booking_datetime,
+            this.orderDetails.classId,
+            this.orderDetails.bookingDateTime,
             { available: true }
         );
-        await updateBookingStatus(this.order_details.order_id, {
-            booking_status: BookingStatusEnum.cancelled,
+        await updateBookingStatus(this.orderDetails.orderId, {
+            bookingStatus: BookingStatusEnum.cancelled,
             lastUpdatedTimeStamp: new Date(),
         });
         return this.res.json({ error: false });

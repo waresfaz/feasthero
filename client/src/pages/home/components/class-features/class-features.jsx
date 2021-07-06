@@ -2,13 +2,15 @@ import React from 'react';
 
 import { Col, Row, Image } from 'react-bootstrap';
 
-import broccoli from '../../../assets/resources/images/home-img-gallery/broccoli.png';
-import cook from '../../../assets/resources/images/home-img-gallery/cook.png';
-import cooks from '../../../assets/resources/images/home-img-gallery/cooks.png';
-import mariana from '../../../assets/resources/images/home-img-gallery/mariana.png';
-import skip from '../../../assets/icons/skip.png';
-import laptopconnected from '../../../assets/icons/laptop-connected.png';
-import forkknife from '../../../assets/icons/fork-knife.png';
+import broccoli from '../../../../assets/resources/images/home-img-gallery/broccoli.png';
+import cook from '../../../../assets/resources/images/home-img-gallery/cook.png';
+import cooks from '../../../../assets/resources/images/home-img-gallery/cooks.png';
+import mariana from '../../../../assets/resources/images/home-img-gallery/mariana.png';
+import skip from '../../../../assets/icons/skip.png';
+import laptopconnected from '../../../../assets/icons/laptop-connected.png';
+import forkknife from '../../../../assets/icons/fork-knife.png';
+
+import './class-features.scss';
 
 class ClassFeatures extends React.Component {
     render() {
@@ -17,11 +19,11 @@ class ClassFeatures extends React.Component {
                 <Row noGutters className='justify-content-center'>
                     <Col className='align-self-center' xl={6}>
                         <Row noGutters id='class-features-imgs'>
-                            <Col lg={4}>
+                            <Col md={4}>
                                 <Image src={cook} />
                                 <Image src={mariana} />
                             </Col>
-                            <Col lg={4}>
+                            <Col md={4}>
                                 <Image src={broccoli} />
                                 <Image src={cooks} />
                             </Col>
@@ -31,7 +33,7 @@ class ClassFeatures extends React.Component {
                         <h2 className='small-section-title'>Try new meals and learn <br /> from experienced chefs</h2>
                         <div>
                             <Row>
-                                <Col md={3}>
+                                <Col md={2}>
                                     <Image fluid src={skip} />
                                 </Col>
                                 <Col md={6}>
@@ -43,7 +45,7 @@ class ClassFeatures extends React.Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={3}>
+                                <Col md={2}>
                                     <Image fluid src={laptopconnected} />
                                 </Col>
                                 <Col md={6}>
@@ -55,7 +57,7 @@ class ClassFeatures extends React.Component {
                                 </Col>
                             </Row>
                             <Row>
-                                <Col md={3}>
+                                <Col md={2}>
                                     <Image fluid src={forkknife} />
                                 </Col>
                                 <Col md={6}>

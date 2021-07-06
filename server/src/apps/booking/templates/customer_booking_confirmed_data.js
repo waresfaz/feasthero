@@ -2,19 +2,19 @@ const moment = require("moment");
 
 function genCustomerBookingConfirmedData(class_, order) {
     return {
-        first_name: order.customer_first_name,
-        chef_name: class_.chefs[0].name,
-        class_name: class_.title,
-        booking_date: moment
-            .utc(order.booking_datetime)
+        firstName: order.customerFirstName,
+        chefName: class_.chefs[0].name,
+        className: class_.title,
+        bookingDate: moment
+            .utc(order.bookingDateTime)
             .tz("US/Eastern")
             .format("dddd, MMMM D,YYYY"),
-        booking_time: moment
-            .utc(order.booking_datetime)
+        bookingYime: moment
+            .utc(order.bookingDateTime)
             .tz("US/Eastern")
             .format("hh:mm a"),
-        zoom_link: class_.chefs[0].zoom,
-        class_description: class_.description,
+        zoomLink: class_.chefs[0].zoom,
+        classDescription: class_.description,
         recipe: class_.recipe.toString(),
     }
 }

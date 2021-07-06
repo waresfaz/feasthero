@@ -6,14 +6,14 @@ const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_con
 const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed_data');
 
 async function sendMailToChefAndCustomer(order) {
-    let class_ = await getClassDetailsFromId(order.class_id);
+    let class_ = await getClassDetailsFromId(order.classId);
     await sendMailToCustomer(class_, order);
     await sendMailToChef(class_, order);
 }
 
 async function sendMailToCustomer(class_, order) {
     let msg = getMessageTemplate();
-    msg.to = order.customer_email;
+    msg.to = order.customerEmail;
     msg.subject = "FeastHero Class Booking Confirmation";
     msg.html = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(class_, order));
     await mailSender(msg);

@@ -9,6 +9,9 @@ let settings = {
 };
 
 function initSettings() {
+    if (settings.ORIGIN)
+        return;
+
     if (settings.DEBUG) {
         settings = {
             ...settings,

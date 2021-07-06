@@ -4,14 +4,14 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 async function isClassBooked(bookingInfo) {
     let bookedTime = await Schedule.findOne({
-        class_id: ObjectId(bookingInfo.class_id),
+        classId: ObjectId(bookingInfo.classId),
         $and: [
           {
-            date: { $gte: bookingInfo.booking_datetime.toDate() },
+            date: { $gte: bookingInfo.bookingDateTime.toDate() },
           },
           {
             date: {
-              $lte: bookingInfo.booking_datetime.add(1, "hour").toDate(),
+              $lte: bookingInfo.bookingDateTime.add(1, "hour").toDate(),
             },
           },
         ],

@@ -3,45 +3,45 @@ require("moment-timezone");
 
 class BookingInfo {
     constructor(
-        class_id, customer_email, customer_first_name,
-        customer_last_name, company_size, zoom_link,
-        chef_email, has_mealkit, booking_datetime, cost, chef_id,
-        booking_status
+        classId, customerEmail, customerFirstName,
+        customerLastName, companySize, zoomLink,
+        chefEmail, hasMealkit, bookingDatetime, cost, chefId,
+        bookingStatus
     ) {
-        this.class_id = class_id;
-        this.customer_email = customer_email;
-        this.customer_first_name = customer_first_name;
-        this.customer_last_name = customer_last_name;
-        this.company_size = company_size;
-        this.zoom_link = zoom_link;
-        this.chef_email = chef_email;
-        this.has_mealkit = has_mealkit;
-        this.booking_datetime = booking_datetime;
+        this.classId = classId;
+        this.customerEmail = customerEmail;
+        this.customerFirstName = customerFirstName;
+        this.customerLastName = customerLastName;
+        this.companySize = companySize;
+        this.zoomLink = zoomLink;
+        this.chefEmail = chefEmail;
+        this.hasMealkit = hasMealkit;
+        this.bookingDatetime = bookingDatetime;
         this.cost = cost;
-        this.chef_id = chef_id;
-        this.booking_status = booking_status;
+        this.chefId = chefId;
+        this.bookingStatus = bookingStatus;
     }
 
     static fromJson(json) {
         return new BookingInfo(
-            json.class_id,
-            json.customer_email,
-            json.customer_first_name,
-            json.customer_last_name,
-            json.company_size,
-            json.zoom_link,
-            json.chef_email,
-            json.has_mealkit,
+            json.classId,
+            json.customerEmail,
+            json.customerGirstName,
+            json.customerLastName,
+            json.companySize,
+            json.zoomEink,
+            json.chefEmail,
+            json.hasEealkit,
             moment
                 .tz(
-                    json.booking_datetime,
+                    json.bookingDatetime,
                     "dddd, MMMM D,YYYY,hh:mm a",
                     "US/Eastern"
                 )
                 .utc(),
             json.cost,
-            json.chef_id,
-            json.booking_status
+            json.chefId,
+            json.bookingStatus
         );
     }
 }

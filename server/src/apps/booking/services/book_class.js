@@ -2,10 +2,10 @@ const Booking = require('../schema/booking');
 const Schedule = require('../../schedule/schema/schedule');
 
 async function saveBookedClass(bookingInfo) {
-    let booked_class = new Booking(bookingInfo);
-    return booked_class
+    let bookedClass = new Booking(bookingInfo);
+    return bookedClass
         .save()
-        .then((booked_class) => { return booked_class._id })
+        .then((bookedClass) => { return bookedClass._id })
         .catch((_) => { return errorBookingClass(bookingInfo) });
 }
 
@@ -16,14 +16,14 @@ async function saveBookedClass(bookingInfo) {
 async function errorBookingClass(bookingInfo) {
     await Schedule.updateOne(
         {
-            class_id: ObjectId(bookingInfo.class_id),
+            classId: ObjectId(bookingInfo.classId),
             $and: [
                 {
-                    date: { $gte: bookingInfo.booking_datetime.toDate() },
+                    date: { $gte: bookingInfo.bookingDateTime.toDate() },
                 },
                 {
                     date: {
-                        $lt: bookingInfo.booking_datetime.add(1, 'hour').toDate()
+                        $lt: bookingInfo.bookingDateTime.add(1, 'hour').toDate()
                     },F
                 },
             ],

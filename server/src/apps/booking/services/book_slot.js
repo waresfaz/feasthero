@@ -5,14 +5,14 @@ var ObjectId = require("mongoose").Types.ObjectId;
 async function bookSlot(bookingInfo) {
     await Schedule.updateOne(
         {
-            class_id: ObjectId(bookingInfo.class_id),
+            classId: ObjectId(bookingInfo.classId),
             $and: [
                 {
-                    date: { $gte: bookingInfo.booking_datetime.toDate() },
+                    date: { $gte: bookingInfo.bookingDateTime.toDate() },
                 },
                 {
                     date: {
-                        $lt: bookingInfo.booking_datetime.add(1, 'hour').toDate()
+                        $lt: bookingInfo.bookingDateTime.add(1, 'hour').toDate()
                     },
                 },
             ],

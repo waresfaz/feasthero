@@ -3,7 +3,7 @@ const reminderToCustomerTemplate = require('./templates/reminder_to_customer');
 const genReminderToCustomerData = require("../templates/reminder_to_customer_data");
 const reminderToChefTemplate = require('./template/reminder_to_chef');
 const genReminderToChefData = require('./template/reminder_to_chef_obj');
-const { BookingStatusEnum, string_from_booking_status } = require('../../booking/enums/booking_status');
+const { BookingStatusEnum, stringFromBookingStatus } = require('../../booking/enums/booking_status');
 const { mailSender, getMessageTemplate } = require('../../../helpers/send_email');
 const moment = require("moment");
 const getClassDetailsFromId = require('../../../helpers/get_class_from_id');
@@ -12,12 +12,12 @@ const getClassDetailsFromId = require('../../../helpers/get_class_from_id');
 
 async function sendReminder() {
     try {
-        let reminder_list = await allBookings();
+        let reminderList = await allBookings();
 
-        for (var data in reminder_list) {
-            let class_ = await getClassDetailsFromId(reminder_list[data].class_id);
-            await sendEmailToCustomer(reminder_list[data], class_);
-            await sendEmailToChef(reminder_list[data], class_);
+        for (var data in reminderList) {
+            let class_ = await getClassDetailsFromId(reminderList[data].class_id);
+            await sendEmailToCustomer(reminderList[data], class_);
+            await sendEmailToChef(reminderList[data], class_);
         }
     } catch (e) {
         console.log(e);
@@ -26,13 +26,13 @@ async function sendReminder() {
 
 async function allBookings() {
     return await Booking.find({
-        booking_status: string_from_booking_status(BookingStatusEnum.success),
+        bookingStatus: stringFromBookingStatus(BookingStatusEnum.success),
         $and: [
             {
-                booking_datetime: { $gte: moment.utc() },
+                bookingDateTime: { $gte: moment.utc() },
             },
             {
-                booking_datetime: {
+                bookingDateTime: {
                     $lt: moment.utc(new Date()).add(1, 'd'),
                 },
             },
@@ -42,7 +42,7 @@ async function allBookings() {
 
 async function sendEmailToCustomer(reminderData, classData) {
     let msg = getMessageTemplate();
-    msg.to = reminderData.customer_email;
+    msg.to = reminderData.customerEmail;
     msg.html = reminderToCustomerTemplate(genReminderToCustomerData(reminderData, classData.chefs[0], classData));
     await mailSender(msg);
 }

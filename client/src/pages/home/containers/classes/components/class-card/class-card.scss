@@ -1,0 +1,51 @@
+@import '../../../../../../sass/mixins';
+@import '../../../../../../sass/variables';
+
+.class-container {
+    .class-container-background {
+        width: 100%;
+        border-radius: 1.1rem;
+    }
+
+    .class-container-content {
+        position: absolute;
+        top: 73%;
+        left: 10%;
+        width: 80%;
+        border-radius: 1rem;
+        padding: 1rem;
+        padding-left: 2.5rem;
+        background-color: #fff;
+
+        h5 {
+            @include content;
+            font-size: 1.3rem;
+        }
+
+        h6 {
+            font-size: 1.15rem;
+            color: $text-primary;
+        }
+
+        span {
+            @include content;
+        }
+    }
+
+    .chef-photo {
+        border-radius: 50%;
+        width: 3.3rem;
+        height: 3.3rem;
+    }
+
+    .button-primary, .button-secondary {
+        font-size: 1.5rem;
+        padding: 0.6rem 0 0.6rem;
+
+        svg {
+            margin-bottom: -0.1rem;
+            margin-left: 0.5rem;
+        }
+    }
+
+}

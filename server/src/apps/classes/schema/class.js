@@ -8,12 +8,12 @@ let Class = new Schema({
   thumbnail: String,
   description: String,
   duration: Number,
-  chef_id: ObjectId,
-  has_mealkit: {
+  chefId: ObjectId,
+  hasMealkit: {
     type: Boolean,
     default: false,
   },
-  mealkit_price: {
+  mealkitPrice: {
     type: Number,
     default: 0,
   },

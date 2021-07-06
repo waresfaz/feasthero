@@ -1,10 +1,10 @@
 const Booking = require('../../booking/schema/booking');
 
-// fetch order details based on the passed order_id
+// fetch order details based on the passed orderId
 async function getOrderDetailsFromOrderId(req, res) {
     try {
-        let order_id = req.params.order_id;
-        let order = await Booking.find({ _id: order_id });
+        let orderId = req.params.orderId;
+        let order = await Booking.find({ _id: orderId });
         return res.json({ error: false, data: order });
     } catch (e) {
         console.log(e);

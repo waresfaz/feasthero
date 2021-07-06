@@ -2,9 +2,9 @@ import React from 'react';
 import { Col, Row, Image } from 'react-bootstrap';
 import { Link } from 'react-router-dom';
 
-import landing_chef from '../../../assets/resources/images/chef-landing.png';
+import landing_chef from '../../../../assets/resources/images/chef-landing.png';
 
-import '../home.scss';
+import './landing.scss';
 
 class Landing extends React.Component {
     render() {

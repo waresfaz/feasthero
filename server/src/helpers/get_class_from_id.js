@@ -11,7 +11,7 @@ async function getClassDetailsFromId(classId) {
                 title: 1,
                 cost: 1,
                 duration: 1,
-                chef_id: 1,
+                chefId: 1,
                 description: 1,
                 recipe: 1,
             },
@@ -19,7 +19,7 @@ async function getClassDetailsFromId(classId) {
         {
             $lookup: {
                 from: "chefs",
-                localField: "chef_id",
+                localField: "chefId",
                 foreignField: "_id",
                 as: "chefs",
             },

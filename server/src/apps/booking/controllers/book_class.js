@@ -13,7 +13,7 @@ async function bookClass(req, res) {
         if (await isClassBooked(bookingInfo) === true) {
             return res.status(StatusCodes.OK).send({
                 error: true,
-                data: `${bookingInfo.booking_datetime} time slot is unavailable , please select a different slot`,
+                data: `${bookingInfo.bookingDateTime} time slot is unavailable , please select a different slot`,
             });
         }
 

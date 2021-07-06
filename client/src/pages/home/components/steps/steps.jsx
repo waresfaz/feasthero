@@ -1,9 +1,11 @@
 import React from 'react';
 import { Col, Row, Image } from 'react-bootstrap';
 
-import bookingdetails from '../../../assets/icons/booking-details.png';
-import selectclass from '../../../assets/icons/select-class.png'
-import reviewandpay from '../../../assets/icons/review-and-pay.png';
+import bookingdetails from '../../../../assets/icons/booking-details.png';
+import selectclass from '../../../../assets/icons/select-class.png'
+import reviewandpay from '../../../../assets/icons/review-and-pay.png';
+
+import './steps.scss';
 
 class Steps extends React.Component {
     render() {
