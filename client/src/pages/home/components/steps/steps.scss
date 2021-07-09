@@ -3,7 +3,7 @@
 
 
 #steps-to-start {
-    margin-top: 5rem;
+    margin-top: $section-gap;
     text-align: center;
 
     img {
@@ -43,6 +43,6 @@
     }
 
     .title {
-        margin-bottom: 2rem;
+        margin-bottom: 1.2rem;
     }
 }

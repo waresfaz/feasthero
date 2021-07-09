@@ -1,6 +1,8 @@
 const Class = require("../schema/class");
 
 async function getAllClasses() {
+    // it is ok for now to retrieve schedule info in general query due to small number of classes
+    // it is faster to do one large query than multiple small querys rn
     return await Class.aggregate([
         {
             $project: {
@@ -21,6 +23,14 @@ async function getAllClasses() {
                 localField: "chefId",
                 foreignField: "_id",
                 as: "chefs",
+            },
+        },
+        {
+            $lookup: {
+                from: "schedules",
+                localField: "_id",
+                foreignField: "classId",
+                as: "schedule",
             },
         },
     ]);

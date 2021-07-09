@@ -1,10 +1,17 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import { Row, Col } from 'react-bootstrap';
 
 import { fetchClass } from '../../../services/classes/api';
+import ClassDateTime from '../../../services/schedule/models/class-date-time';
 
-import OrderProgressBar from '../../../components/order-progress/progress-bar/order-progress-bar';
+import OrderProgressBar from '../../../components/order-progress/order-progress-bar';
 import Loader from '../../../components/loader/loader';
+import ClassSummary from './components/class-summary/class-summary';
+import BookingDetails from './containers/booking-details/booking-details';
+import BookingSummary from './containers/booking-summary/booking-summary';
+
+import './book-class.scss';
 
 class BookClass extends React.Component {
   constructor() {
@@ -23,6 +30,8 @@ class BookClass extends React.Component {
       classData = this.props.allClasses.find(class_ => class_.id === this.props.match.params.id)
     }
 
+    classData.schedule = classData.schedule.map(dateTime => ClassDateTime.fromJson(dateTime))
+
     this.setState({
       classData: classData
     })
@@ -33,17 +42,28 @@ class BookClass extends React.Component {
   }
 
   render() {
+    let { classData } = this.state;
+
     return (
       <>
         {
-          this.state.classData !== null
+          classData !== null
             ?
-            this.state.classData === false
+            classData === false
               ?
               <p className='error'>Error loading class</p>
               :
               <>
                 <OrderProgressBar bookingDetails />
+                <ClassSummary classData={classData} chef={classData.chefs[0]} />
+                <Row className='justify-content-center' id='booking-container'>
+                  <Col lg={5}>
+                    <BookingDetails classData={classData} />
+                  </Col>
+                  <Col lg={5}>
+                    <BookingSummary classData={classData} />
+                  </Col>
+                </Row>
               </>
             :
             <Loader show={this.state.classData === null} />

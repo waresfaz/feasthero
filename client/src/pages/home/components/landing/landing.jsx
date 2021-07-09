@@ -1,6 +1,6 @@
 import React from 'react';
 import { Col, Row, Image } from 'react-bootstrap';
-import { HashLink as Link } from 'react-router-hash-link';
+import Button from '../../../../components/button/button';
 
 import landing_chef from '../../../../assets/resources/images/chef-landing.png';
 
@@ -17,14 +17,14 @@ class Landing extends React.Component {
                             <p>Learn to cook like a pro with others in the comfort of your own kitchen.</p>
                             <Row id='landing-btn-row'>
                                 <Col md={5} sm={6}>
-                                    <Link smooth to='#classes' className='button-secondary' id='gotoclasses'>
+                                    <Button to='#classes' primary id='gotoclasses'>
                                         Book Class
-                                    </Link>
+                                    </Button>
                                 </Col>
                                 <Col md={5} sm={6}>
-                                    <Link className='button-primary' id='gotocontactus' to='#contactus'>
+                                    <Button secondary id='gotocontactus' to='#contactus'>
                                         Contact Us
-                                </Link>
+                                    </Button>
                                 </Col>
                             </Row>
                         </div>

@@ -1,9 +1,11 @@
 @import './variables';
 
 @mixin button {
+	user-select: none;
     font-size: 1.55rem;
 	line-height: 28.37px;
 	text-align: center;
+	border: none;
 	font-weight: 700;
 	font-style: normal;
 	color: #F9F9F9;
@@ -95,6 +97,20 @@
 	@include for-tablet {
 		font-size: 1.1rem;
 	}
+}
+
+@mixin default-input {
+	box-shadow: none;
+	border: 1px solid $input-border;
+	border-radius: 0.5rem;
+	padding-top: 2rem;
+	padding-bottom: 2rem;
+}
+
+@mixin v-center {
+	display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @mixin for-phone {

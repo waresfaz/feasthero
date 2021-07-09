@@ -9,7 +9,7 @@
     }
 
     @include for-phone {
-        margin-bottom: 15rem;
+        margin-bottom: 17rem;
     }
 
     .class-container-background {
@@ -74,7 +74,7 @@
         top: 65%;
         left: 10%;
         width: 80%;
-        border-radius: 1rem;
+        border-radius: 0.6rem;
         padding: 0.7rem;
         background-color: #fff;
         box-shadow: 0 3px 10px rgba(0,0,0,0.05);
@@ -106,10 +106,12 @@
 
         @include for-tablet {
             top: 50%;
+            width: 85%;
+            left: 7.6%;
         }
     
         @include for-phone {
-            top: 46%
+            top: 38%
         }
 
         h5 {
@@ -137,6 +139,7 @@
 
             @include for-phone {
                 font-size: 1.4rem;
+                margin-bottom: 0.25rem;
             }
         }
 
@@ -209,9 +212,9 @@
         height: 3.3rem;
     }
 
-    .button-secondary {
+    .button-primary {
         font-size: 1.4rem;
-        padding: 0.7rem 0 0.6rem;
+        padding: 0.6rem 0 0.5rem;
 
         @include for-xl-desktop {
             font-size: 1.2rem;

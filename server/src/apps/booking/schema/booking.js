@@ -9,21 +9,12 @@ let Booking = new Schema({
   customerLastName: String,
   companyName: String,
   bookingSize: Number,
-  bookingDatetime: Date,
-  cost: Number,
-  zoomLink: String,
-  chefEmail: String,
-  bookingStatus: String,
-  lastUpdatedTimeStamp: {
+  subtotal: Number,
+  hst: Number,
+  timeBooked: {
     type: Date,
     default: new Date(),
   },
-  bankTransactionId: String,
-  bankApprovalCode: String,
-  cardholder: String,
-  responseCode: String,
-  responseMessage: String,
-  hasMealkit: Boolean, 
-  // I want a booked mealkit field
+  mealKitBooked: Boolean
 });
 module.exports = mongoose.model("Booking", Booking);

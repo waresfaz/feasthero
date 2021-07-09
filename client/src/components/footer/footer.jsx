@@ -1,5 +1,6 @@
 import React from "react";
 import { Col, Container, Row } from 'react-bootstrap';
+import { HashLink as Link } from 'react-router-hash-link';
 
 import './footer.scss';
 
@@ -33,13 +34,13 @@ class Footer extends React.Component {
             <h5>Discover</h5>
             <ul>
               <li>
-                <a href="/#classlist">All Classes</a>
+                <Link smooth to="/#classes">All Classes</Link>
               </li>
               <li>
-                <a href="/aboutus">About Us</a>
+                <Link smooth to="/aboutus">About Us</Link>
               </li>
               <li>
-                <a href="/contact">Contact Us</a>
+                <Link smooth to="/contact">Contact Us</Link>
               </li>
             </ul>
           </Col>
@@ -47,13 +48,13 @@ class Footer extends React.Component {
             <h5>Legal</h5>
             <ul>
               <li>
-                <a href="/faq">FAQ</a>
+                <Link smooth to="/faq">FAQ</Link>
               </li>
               <li>
-                <a href="/#">Terms</a>
+                <Link smooth to="/#">Terms</Link>
               </li>
               <li>
-                <a href="/#">Privacy Policy</a>
+                <Link smooth to="/#">Privacy Policy</Link>
               </li>
             </ul>
           </Col>

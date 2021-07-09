@@ -1,7 +1,8 @@
+import Chef from '../../chefs/models/chef';
 class Class {
     constructor(
         title, cost, thumbnail, description, duration,
-        chefId, hasMealKit, mealKitPrice, recipe, chefs, id
+        chefId, hasMealKit, mealKitPrice, recipe, chefs, id, schedule
     ) {
         this.title = title;
         this.cost = cost;
@@ -14,9 +15,11 @@ class Class {
         this.recipe = recipe;
         this.chefs = chefs;
         this.id = id;
+        this.schedule = schedule;
     }
 
     static fromJson(json) {
+        let chefs = json.chefs.map(chef => Chef.fromJson(chef));
         return new Class(
             json.title,
             json.cost,
@@ -27,8 +30,9 @@ class Class {
             json.hasMealKit,
             json.mealKitPrice,
             json.recipe,
-            json.chefs,
+            chefs,
             json._id,
+            json.schedule,
         )
     }
 }

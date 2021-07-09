@@ -2,7 +2,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 let Chef = new Schema({
-  name: String,
+  firstName: String,
+  lastName: String,
   photo: String,
   bio: String,
   email: String,

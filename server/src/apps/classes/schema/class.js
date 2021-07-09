@@ -9,14 +9,13 @@ let Class = new Schema({
   description: String,
   duration: Number,
   chefId: ObjectId,
-  hasMealkit: {
+  hasMealKit: {
     type: Boolean,
     default: false,
   },
-  mealkitPrice: {
+  mealKitPrice: {
     type: Number,
     default: 0,
   },
-  recipe: Array,
 });
 module.exports = mongoose.model("Class", Class);

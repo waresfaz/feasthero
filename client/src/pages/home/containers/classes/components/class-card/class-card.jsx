@@ -1,9 +1,9 @@
 import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
-import { Link } from 'react-router-dom';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+
+import Button from '../../../../../../components/button/button';
 
 import './class-card.scss';
 
@@ -64,7 +64,11 @@ class ClassCard extends React.Component {
                                 </h6>
                             </Col>
                             <Col className='ml-auto align-self-center' md={4}>
-                                <Link to={`book/${classData.id}`} className='button-secondary'>Book Now <FontAwesomeIcon size={'sm'} icon={faArrowRight} /></Link>
+                                <Button to={`book/${classData.id}`} primary >
+                                    <>
+                                        Book Now <FontAwesomeIcon size={'sm'} icon={faArrowRight} />
+                                    </>
+                                </Button>
                             </Col>
                         </Row>
                     </Container>

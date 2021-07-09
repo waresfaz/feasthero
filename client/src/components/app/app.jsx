@@ -31,9 +31,9 @@ class App extends React.Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/book/:id' component={BookClass} />
             </Switch>
+            <Footer />
           </Router>
         </Container>
-        <Footer />
       </>
     )
   }

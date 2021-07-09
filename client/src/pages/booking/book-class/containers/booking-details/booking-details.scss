@@ -1,0 +1,119 @@
+@import '../../../../../sass/variables';
+@import '../../../../../sass/mixins';
+
+#booking-details-container {
+    border-top: $checkout-border-top;
+    padding: 3rem;
+    background: #F9F9F9;
+    box-shadow: 0px 10px 25px 0px #00000040;
+
+    @include for-large-desktop {
+        padding: 2.2rem
+    }
+
+    @include for-phone {
+        padding: 1.5rem
+    }
+
+    h1 {
+        @include content;
+        font-size: 2.9rem;
+
+        @include for-large-desktop {
+            font-size: 2rem;
+        }
+
+    }
+
+    input[type='text'], input[type='email'] {
+       @include default-input;
+       
+    }
+
+    .button-primary {
+        margin-top: 1rem;
+        padding: 1.4rem 0;
+
+        @include for-xl-desktop {
+            font-size: 1.25rem;
+            padding: 1.2rem 0;
+        }
+
+        @include for-large-desktop {
+            font-size: 1.1rem;
+            padding: 1rem 0;
+        }
+
+        @include for-desktop {
+            font-size: 1.55rem;
+            padding: 1.4rem 0;  
+        }
+
+        @include for-phone {
+            font-size: 1.3rem;
+            padding: 1.3rem 0;  
+        }
+    }
+
+    svg {
+        color: #586168;
+        width: 45%;
+        height: 45%;
+    }
+
+    #info-icon-container {
+        text-align: center;
+        padding: 0 !important;
+
+        @include for-large-desktop {
+            margin-top: 1rem;
+        }
+
+    }
+
+    #number-of-devices-for-booking {
+        justify-content: space-between;
+        @include v-center;
+
+        h5 {
+            font-size: 1.6rem;
+            color: $text-primary;
+
+            @media (max-width: 1796px) {
+                font-size: 1.4rem;
+            }
+
+            @include for-xxl-desktop {
+                font-size: 1.2rem;
+            }
+
+            @include for-xl-desktop {
+                font-size: 1.2rem;
+            }
+
+            @include for-large-desktop {
+                font-size: 1.1rem;
+            }
+
+            @include for-desktop {
+                margin-top: 2rem;
+                margin-bottom: 1.7rem;
+                font-size: 1.8rem;
+            }
+
+
+            @include for-tablet {
+                font-size: 1.6rem;
+                margin-bottom: 1rem;
+            }
+
+            @include for-phone {
+                font-size: 1.2rem;
+            }
+        }
+    }
+}
+
+#booking-size-tooltip-content {
+    font-size: 1.15rem;
+}

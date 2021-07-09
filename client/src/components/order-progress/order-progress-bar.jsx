@@ -1,7 +1,7 @@
 import React from 'react';
 
-import OrderProgressLine from '../components/progress-line/order-progress-line';
-import OrderProgressCircle from '../components/progress-circle/order-progress-circle';
+import OrderProgressLine from './components/progress-line/order-progress-line';
+import OrderProgressCircle from './components/progress-circle/order-progress-circle';
 
 import './order-progress-bar.scss';
 

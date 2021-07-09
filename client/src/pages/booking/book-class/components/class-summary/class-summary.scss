@@ -1,0 +1,17 @@
+@import '../../../../../sass/variables';
+@import '../../../../../sass/mixins';
+
+#class-summary {
+    text-align: center;
+    margin-top: 2rem;
+    img {
+        border-radius: 50%;
+        height: 3.6rem;
+        width: 3.6rem;
+    }
+
+    #toggle-truncate {
+        cursor: pointer;
+        text-decoration: underline !important;
+    }
+}

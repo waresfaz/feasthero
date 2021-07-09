@@ -1,7 +1,7 @@
 const moment = require('moment');
 require("moment-timezone");
 
-class BookingInfo {
+class OrderDetails {
     constructor(
         classId, customerEmail, customerFirstName,
         customerLastName, companySize, zoomLink,
@@ -23,7 +23,7 @@ class BookingInfo {
     }
 
     static fromJson(json) {
-        return new BookingInfo(
+        return new OrderDetails(
             json.classId,
             json.customerEmail,
             json.customerGirstName,
@@ -46,4 +46,4 @@ class BookingInfo {
     }
 }
 
-module.exports = BookingInfo;
+module.exports = OrderDetails;
