@@ -3,8 +3,8 @@ const Schema = mongoose.Schema;
 let ObjectId = Schema.ObjectId;
 
 let Schedule = new Schema({
-  class_id: ObjectId,
-  date: Date,
+  classId: ObjectId,
+  dateTime: Date,
   available: {
     type: Boolean,
     default: true,

@@ -1,0 +1,11 @@
+@import '../../../../sass/variables';
+@import '../../../../sass/mixins';
+
+#subscribe-section {
+    background-image: url('../../../../assets/resources/images/subscribe-bg.png');
+    position: relative;
+	width: 100%;
+	height: 23rem;
+	background-position: unset;
+	background-size: cover;
+}

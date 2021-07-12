@@ -4,7 +4,7 @@ client:
 	cd ./client && npm start
 
 server:
-	cd ./server && npm start
+	cd ./server && nodemon bin/www
 
 run:
 	cd ./client && npm start & cd ./server && npm start

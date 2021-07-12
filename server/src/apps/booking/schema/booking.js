@@ -3,27 +3,20 @@ const Schema = mongoose.Schema;
 let ObjectId = Schema.ObjectId;
 
 let Booking = new Schema({
-  class_id: ObjectId,
-  customer_email: String,
-  customer_first_name: String,
-  customer_last_name: String,
-  company_name: String,
-  booking_size: Number,
-  booking_datetime: Date,
-  cost: Number,
-  zoom_link: String,
-  chef_email: String,
-  booking_status: String,
-  lastUpdatedTimeStamp: {
+  classId: ObjectId,
+  customerEmail: String,
+  customerFirstName: String,
+  customerLastName: String,
+  companyName: String,
+  bookingSize: Number,
+  subTotal: Number,
+  grandTotal: Number,
+  tax: Number,
+  selectedClassDateTime: {
     type: Date,
     default: new Date(),
   },
-  bank_transaction_id: String,
-  bank_approval_code: String,
-  cardholder: String,
-  response_code: String,
-  response_message: String,
-  has_mealkit: Boolean, 
-  // I want a booked_mealkit field
+  mealKitsBooked: Boolean,
+  mealKitsTotal: Number,
 });
 module.exports = mongoose.model("Booking", Booking);

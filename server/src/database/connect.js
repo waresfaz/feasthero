@@ -1,8 +1,10 @@
 const mongoose = require("mongoose");
 
+const { settings } = require('../feasthero/settings');
+
 function connectToDb() {
-  console.log(process.env.MONGO_URI)
-  mongoose.connect(process.env.MONGO_URI, {
+  console.log(settings.MONGO_URI)
+  mongoose.connect(settings.MONGO_URI, {
     useUnifiedTopology: true,
     useNewUrlParser: true,
   });
