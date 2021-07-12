@@ -4,19 +4,18 @@ let ObjectId = Schema.ObjectId;
 
 let Class = new Schema({
   title: String,
-  cost: Number,
+  costPerDevice: Number,
   thumbnail: String,
   description: String,
   duration: Number,
-  chef_id: ObjectId,
-  has_mealkit: {
+  chefId: ObjectId,
+  hasMealKit: {
     type: Boolean,
     default: false,
   },
-  mealkit_price: {
+  mealKitPrice: {
     type: Number,
     default: 0,
   },
-  recipe: Array,
 });
 module.exports = mongoose.model("Class", Class);

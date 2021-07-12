@@ -1,0 +1,48 @@
+@import '../../sass/globals';
+@import '../../sass/bootstrap.scss';
+@import '../../sass/variables';
+@import '../../sass/mixins';
+
+a {
+    display: block;
+}
+
+html {
+    font-size: 100%;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none !important;
+    font-family: "brandon-grotesque", sans-serif; 
+}
+
+.content-color{
+    color: $text-primary;
+}
+
+.title {
+    @include title;
+}
+.small-section-title{
+    @include small-section-title;
+}
+
+
+.v-center{
+    @include v-center;
+}
+
+@media (min-width: 1500px) {
+    #main-container {
+        max-width: 95%;
+    }
+}
+
+@media (min-width: 1600px) {
+    #main-container {
+        max-width: 90%;
+    }
+}
