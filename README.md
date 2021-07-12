@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 <section>
 <div style='text-align: center; width: 100%'>
     <h1>🍲 FeastHero 🍲</h1>
