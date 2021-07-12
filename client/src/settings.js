@@ -20,15 +20,15 @@ function initSettings() {
         settings = {
             ...settings,
             ORIGIN: 'http://localhost:3001',
-            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_DEBUG_STRIPE_PUBLISHABLE_KEY_TEST,
-            STRIPE_SECRET_KEY: process.env.REACT_APP_DEBUG_STRIPE_SECRET_KEY_TEST
+            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST,
+            STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST
         };
     } else {
         settings = {
             ...settings,
             ORIGIN: 'https://feasthero.herokuapp.com',
-            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_DEBUG_STRIPE_PUBLISHABLE_KEY,
-            STRIPE_SECRET_KEY: process.env.REACT_APP_DEBUG_STRIPE_SECRET_KEY,
+            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
+            STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY,
         };
     }
 

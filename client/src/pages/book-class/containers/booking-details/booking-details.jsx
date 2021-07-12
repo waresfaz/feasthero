@@ -5,19 +5,19 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 
-import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../../constants/app-constants';
-import datesTimesAsOption from '../../../../../helpers/dates-times-as-options';
-import NumberDropdownValidator from '../../../../../validators/number-dropdown';
-import EmailValidator from '../../../../../validators/email';
-import DateTimeValidator from '../../../../../validators/datetime';
-import history from '../../../../../history';
-import { initBookingDetailsSession } from '../../../../../services/booking/api';
+import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../constants/app-constants';
+import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
+import NumberDropdownValidator from '../../../../validators/number-dropdown';
+import EmailValidator from '../../../../validators/email';
+import DateTimeValidator from '../../../../validators/datetime';
+import history from '../../../../history';
+import { initBookingDetailsSession } from '../../../../services/booking/api';
 
-import Button from '../../../../../components/button/button';
-import Loader from '../../../../../components/loader/loader';
+import Button from '../../../../components/button/button';
+import Loader from '../../../../components/loader/loader';
 
 import './booking-details.scss';
-import { updateGeneralBookerAndBookingDetails } from '../../../../../services/booking/actions';
+import { updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
 
 class BookingDetails extends React.Component {
     constructor(props) {

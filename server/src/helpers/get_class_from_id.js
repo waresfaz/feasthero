@@ -1,20 +1,14 @@
 const Class = require("../apps/classes/schema/class");
+const ObjectId = require("mongoose").Types.ObjectId;
 
 
 async function getClassDetailsFromId(classId) {
     let classes = await Class.aggregate([
         {
-            $match: { _id: classId },
+            $match: { _id: ObjectId(classId) },
         },
         {
-            $project: {
-                title: 1,
-                cost: 1,
-                duration: 1,
-                chefId: 1,
-                description: 1,
-                recipe: 1,
-            },
+            $limit: 1,
         },
         {
             $lookup: {

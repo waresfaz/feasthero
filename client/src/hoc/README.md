@@ -1,3 +1,3 @@
 # /hoc
 
-Higher order components which takes a component and returns a new component
+Higher order components and containers which takes a component and returns a new component

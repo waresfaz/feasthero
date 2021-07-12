@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col, Form } from 'react-bootstrap';
 
-import CalculateTotals from '../../../../../helpers/calculate-totals';
-import { updateAllCosts, updatemealKitsBooked } from '../../../../../services/booking/actions';
+import CalculateTotals from '../../../../helpers/calculate-totals';
+import { updateAllCosts, updatemealKitsBooked } from '../../../../services/booking/actions';
 
 import './booking-summary.scss';
 

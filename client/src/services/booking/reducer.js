@@ -1,14 +1,19 @@
 import {
     UPDATE_MEAL_KITS_BOOKED,
     UPDATE_ALL_COSTS,
-    UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS
+    UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
+    UPDATE_ALL_BOOKING_DETAILS,
+    RESET,
+    UPDATE_CLASS_ID
 } from './types';
 
 
 const initialBookingDetails = {
+    classId: '',
     grandTotal: 0,
     tax: 0,
     subTotal: 0,
+    devicesTotal: 0,
     mealKitsTotal: 0,
     mealKitsBooked: false,
     bookingSize: 0,
@@ -17,6 +22,7 @@ const initialBookingDetails = {
     customerLastName: '',
     companyName: '',
     customerEmail: '',
+
 }
 
 function bookingReducer(state = initialBookingDetails, action) {
@@ -26,25 +32,30 @@ function bookingReducer(state = initialBookingDetails, action) {
                 ...state,
                 mealKitsBooked: action.value
             }
-       
         case UPDATE_ALL_COSTS:
             return {
                 ...state,
-                tax: action.value.tax,
-                grandTotal: action.value.grandTotal,
-                subTotal: action.value.subTotal,
-                mealKitsTotal: action.value.mealKitsTotal
+                ...action.value
             }
-
         case UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS:
             return {
                 ...state,
-                customerFirstName: action.value.customerFirstName,
-                customerLastName: action.value.customerLastName,
-                selectedClassDateTime: action.value.selectedClassDateTime,
-                companyName: action.value.companyName,
-                customerEmail: action.value.customerEmail,
-                bookingSize: action.value.bookingSize,
+                ...action.value
+            }
+        case UPDATE_ALL_BOOKING_DETAILS:
+            return {
+                ...state,
+                ...action.value
+            }
+        case RESET:
+            return {
+                ...state,
+                ...initialBookingDetails,
+            }
+        case UPDATE_CLASS_ID:
+            return {
+                ...state,
+                classId: action.value
             }
         default:
             return state;

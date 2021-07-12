@@ -5,14 +5,7 @@ function genCustomerBookingConfirmedData(class_, order) {
         firstName: order.customerFirstName,
         chefName: class_.chefs[0].name,
         className: class_.title,
-        bookingDate: moment
-            .utc(order.bookingDateTime)
-            .tz("US/Eastern")
-            .format("dddd, MMMM D,YYYY"),
-        bookingYime: moment
-            .utc(order.bookingDateTime)
-            .tz("US/Eastern")
-            .format("hh:mm a"),
+        selectedClassDateTime: order.selectedClassDateTime,
         zoomLink: class_.chefs[0].zoom,
         classDescription: class_.description,
         recipe: class_.recipe.toString(),

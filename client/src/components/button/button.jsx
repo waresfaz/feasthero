@@ -5,17 +5,18 @@ import './button.scss'
 
 class Button extends React.Component {
     render() {
-        const {isButton, primary, secondary, ...props} = this.props;
+        const {isButton, primary, secondary, className, ...props} = this.props;
+        const buttonClasses = this.props.secondary ? `button-secondary ${className}` : `button-primary ${className}`
         return (
             <>
                 {
                     isButton
                         ?
-                        <button className={this.props.secondary ? 'button-secondary' : 'button-primary'} {...props}>
+                        <button className={buttonClasses} {...props}>
                             {this.props.children}
                         </button>
                         :
-                        <Link smooth className={this.props.secondary ? 'button-secondary' : 'button-primary'} {...props}>
+                        <Link smooth className={buttonClasses} {...props}>
                             {this.props.children}
                         </Link>
                 }

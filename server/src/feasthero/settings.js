@@ -3,7 +3,11 @@ let settings = {
     ORIGIN: '',
     CLIENT_ORIGIN: '',
     SESSION_SECRET: '',
-    MONGO_URI: ''
+    MONGO_URI: '',
+    stripe: {
+        PUBLISHIBLE_KEY: '',
+        SECRET_KEY: '',
+    }
 };
 
 function initSettings() {
@@ -15,10 +19,14 @@ function initSettings() {
         settings.ORIGIN = 'http://localhost:' + settings.PORT;
         settings.CLIENT_ORIGIN = 'http://localhost:3000';
         settings.MONGO_URI = process.env.MONGO_TEST_URI;
+        settings.stripe.PUBLISHIBLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY_TEST;
+        settings.stripe.SECRET_KEY = process.env.STRIPE_SECRET_KEY_TEST;
     } else {
         settings.ORIGIN = 'https://wwww.feasthero.herokuapp.com';
         settings.CLIENT_ORIGIN = 'https://www.feasthero.com';
         settings.MONGO_URI = process.env.MONGO_URI;
+        settings.stripe.PUBLISHIBLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY;
+        settings.stripe.SECRET_KEY = process.env.STRIPE_SECRET_KEY;
     }
     return Object.freeze(settings);
 }

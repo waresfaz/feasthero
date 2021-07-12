@@ -1,0 +1,46 @@
+@import '../../../../sass/variables';
+
+#payment {
+    p {
+        font-size: 1.5rem;
+        font-weight: 700;
+    }
+
+    .pay-btn {
+        background-color: $text-primary;
+        color: #fff;
+        border: none;
+        width: 100%;
+        font-size: 1.3rem;
+        padding: 0.7rem;
+    }
+
+    #card-element-container {
+        background-color: #F5F5F5;
+        padding: 0.5rem;
+        border-radius: 0.2rem;
+        padding-bottom: 0.01rem;
+
+        .form-group {
+            padding-top: 2rem;
+            padding-left: 0.5rem;
+            padding-right: 0.5rem;
+            padding-bottom: 0.5rem;
+            background-color: #fff;
+            box-shadow: 0 6px 9px rgba(50, 50, 93, 0.06), 0 2px 5px rgba(0, 0, 0, 0.08),
+                    inset 0 1px 0 #fff;
+            border-radius: 4px;
+        }
+    }
+
+    .secure-checkout {
+        text-align: center;
+        margin-bottom: 0.5rem;
+        justify-content: center;
+        align-items: center;
+
+        h5 {
+            font-size: 1.1rem;
+        }
+    }
+}

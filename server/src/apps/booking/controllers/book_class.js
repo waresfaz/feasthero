@@ -1,12 +1,13 @@
-const ProcessBooking = require('../services/process_payment');
-const TransactionDetails = require('../dto/transaction_details');
+const dateTimeToMoment = require('../../../helpers/datetime_to_moment');
+const ProcessBooking = require('../services/process_class_booking');
 
 async function processBooking(req, res) {
-    const orderDetails = req.session.bookingDetails;
-    const transactionDetails = TransactionDetails.fromJson(req.body);
+    let bookingDetails = req.body.bookingDetails;
 
-    const bookingAndPaymentResult = await (new ProcessBooking(orderDetails, transactionDetails).process());
+    bookingDetails.selectedClassDateTime = dateTimeToMoment(bookingDetails.selectedClassDateTime);
 
+    const bookingAndPaymentResult = await (new ProcessBooking(bookingDetails, req.body.cardTokenId).process());
+    console.log(bookingAndPaymentResult)
     return res.status(bookingAndPaymentResult.statusCode).json({ response: bookingAndPaymentResult.info });
 };
 

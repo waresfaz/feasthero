@@ -2,10 +2,11 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
-import { getAllClasses } from '../../../services/classes/actions';
+import { getAllClasses } from '../../services/classes/actions';
+import { reset, updateClassId } from '../../services/booking/actions';
 
-import OrderProgressBar from '../../../components/order-progress/order-progress-bar';
-import Loader from '../../../components/loader/loader';
+import OrderProgressBar from '../../components/order-progress/order-progress-bar';
+import Loader from '../../components/loader/loader';
 import ClassSummary from './components/class-summary/class-summary';
 import BookingDetails from './containers/booking-details/booking-details';
 import BookingSummary from './containers/booking-summary/booking-summary';
@@ -21,10 +22,13 @@ class BookClass extends React.Component {
   }
 
   componentDidMount() {
+    this.props.reset();
     if (!this.props.allClasses) {
       this.props.getAllClasses();
     } else {
-      this.setState({ classData: this.initClassData(this.props) });
+      let classData = this.initClassData(this.props);
+      this.props.updateClassId(classData._id);
+      this.setState({ classData: classData });
     }
   }
 
@@ -46,7 +50,6 @@ class BookClass extends React.Component {
 
   render() {
     let { classData } = this.state;
-
     return (
       <>
         {
@@ -87,7 +90,9 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
   return {
     getAllClasses: () => dispatch(getAllClasses()),
+    reset: () => dispatch(reset()),
+    updateClassId: (classId) => dispatch(updateClassId(classId))
   }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookClass);;
+export default connect(mapStateToProps, mapDispatchToProps)(BookClass);

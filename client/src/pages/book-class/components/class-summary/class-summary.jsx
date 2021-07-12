@@ -1,7 +1,7 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
 
-import truncateString from '../../../../../helpers/truncate-string';
+import truncateString from '../../../../helpers/truncate-string';
 
 import './class-summary.scss';
 

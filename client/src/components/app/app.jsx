@@ -9,7 +9,7 @@ import { Container } from 'react-bootstrap';
 import { initSettings } from '../../settings';
 import history from '../../history';
 import Home from '../../pages/home/home';
-import BookClass from '../../pages/booking/book-class/book-class';
+import BookClass from '../../pages/book-class/book-class';
 import Checkout from '../../pages/checkout/checkout';
 import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';

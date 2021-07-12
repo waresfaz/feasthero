@@ -1,6 +1,6 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-let ObjectId = Schema.ObjectId;
+var ObjectId = mongoose.Types.ObjectId;
 
 let Booking = new Schema({
   classId: ObjectId,
@@ -18,5 +18,6 @@ let Booking = new Schema({
   },
   mealKitsBooked: Boolean,
   mealKitsTotal: Number,
+  devicesTotal: Number,
 });
 module.exports = mongoose.model("Booking", Booking);

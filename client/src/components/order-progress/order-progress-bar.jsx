@@ -11,7 +11,7 @@ class OrderProgressBar extends React.Component {
             <div id='booking-steps'>
                 <OrderProgressLine />
                 <OrderProgressCircle active={this.props.bookingDetails ? true : false} step='Booking Details' number={1} />
-                <OrderProgressCircle step='Payment Details' number={2} />
+                <OrderProgressCircle active={this.props.paymentDetails ? true : false} step='Payment Details' number={2} />
                 <OrderProgressCircle active={this.props.confirmation ? true : false} step='Confirmation' number={3} />
             </div>
         )

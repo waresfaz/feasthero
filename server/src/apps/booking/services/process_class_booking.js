@@ -7,24 +7,24 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 
 class ProcessClassBooking extends ProcessPayment {
-    constructor(orderDetails, transactionDetails) {
-        super(orderDetails, transactionDetails);
-        this.orderDetails = orderDetails;
+    constructor(bookingDetails, cardTokenId) {
+        super(bookingDetails, cardTokenId);
+        this.bookingDetails = bookingDetails;
     }
 
     async process() {
         if (await this.isClassBooked() === true) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: `${bookingInfo.bookingDateTime} time slot is unavailable , please select a different slot`
+                info: `${bookingDetails.bookingDateTime} time slot is unavailable , please select a different slot`
             };
         }
 
         if (!await super.process())
-        return {
-            statusCode: StatusCodes.BAD_REQUEST,
-            info: 'payment failed'
-        }
+            return {
+                statusCode: StatusCodes.BAD_REQUEST,
+                info: 'payment failed'
+            }
 
         await this.bookSlot();
 
@@ -37,42 +37,24 @@ class ProcessClassBooking extends ProcessPayment {
         } else {
             return {
                 statusCode: StatusCodes.OK,
-                info: this.bookedClass,
+                info: bookedClass,
             }
         }
     }
 
     async isClassBooked() {
         let bookedTime = await Schedule.findOne({
-            classId: ObjectId(this.bookingInfo.classId),
-            $and: [
-                {
-                    date: { $gte: this.bookingInfo.bookingDateTime.toDate() },
-                },
-                {
-                    date: {
-                        $lte: this.bookingInfo.bookingDateTime.add(1, 'hour').toDate(),
-                    },
-                },
-            ],
+            classId: ObjectId(this.bookingDetails.classId),
+            dateTime: this.bookingDetails.selectedClassDateTime.toDate(),
         });
         return bookedTime.avaliable === false;
     }
 
-    async bookSlot(bookingInfo) {
+    async bookSlot() {
         await Schedule.updateOne(
             {
-                classId: ObjectId(bookingInfo.classId),
-                $and: [
-                    {
-                        date: { $gte: bookingInfo.bookingDateTime.toDate() },
-                    },
-                    {
-                        date: {
-                            $lt: bookingInfo.bookingDateTime.add(1, 'hour').toDate()
-                        },
-                    },
-                ],
+                classId: ObjectId(this.bookingDetails.classId),
+                dateTime: this.bookingDetails.selectedClassDateTime.toDate(),
             },
             { available: false }
         );
@@ -83,7 +65,7 @@ class ProcessClassBooking extends ProcessPayment {
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })
-            .catch((_) => { return null });
+            .catch((err) => { console.log(err); return false });
     }
 }
 
