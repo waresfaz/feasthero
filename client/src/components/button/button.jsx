@@ -5,7 +5,7 @@ import './button.scss'
 
 class Button extends React.Component {
     render() {
-        const {isButton, ...props} = this.props;
+        const {isButton, primary, secondary, ...props} = this.props;
         return (
             <>
                 {

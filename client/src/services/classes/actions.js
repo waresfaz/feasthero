@@ -4,13 +4,13 @@ import { fetchAllClasses } from './api';
 function getAllClasses() {
     return async (dispatch) => {
         const classes = await fetchAllClasses();
-        dispatch(action(classes));
+        dispatch(asAction(classes, GET_CLASSES));
     }
 }
 
-function action(value) {
+function asAction(value, type) {
     return {
-        type: GET_CLASSES,
+        type: type,
         value: value,
     }
 }

@@ -4,7 +4,7 @@ let ObjectId = Schema.ObjectId;
 
 let Class = new Schema({
   title: String,
-  cost: Number,
+  costPerDevice: Number,
   thumbnail: String,
   description: String,
   duration: Number,

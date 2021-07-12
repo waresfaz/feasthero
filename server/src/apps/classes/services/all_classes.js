@@ -8,13 +8,13 @@ async function getAllClasses() {
             $project: {
                 _id: 1,
                 title: 1,
-                cost: 1,
+                costPerDevice: 1,
                 thumbnail: 1,
                 description: 1,
                 duration: 1,
                 chefId: 1,
-                hasMealkit: 1,
-                mealkitPrice: 1,
+                hasMealKit: 1,
+                mealKitPrice: 1,
             },
         },
         {

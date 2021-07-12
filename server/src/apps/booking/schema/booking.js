@@ -9,12 +9,14 @@ let Booking = new Schema({
   customerLastName: String,
   companyName: String,
   bookingSize: Number,
-  subtotal: Number,
-  hst: Number,
-  timeBooked: {
+  subTotal: Number,
+  grandTotal: Number,
+  tax: Number,
+  selectedClassDateTime: {
     type: Date,
     default: new Date(),
   },
-  mealKitBooked: Boolean
+  mealKitsBooked: Boolean,
+  mealKitsTotal: Number,
 });
 module.exports = mongoose.model("Booking", Booking);

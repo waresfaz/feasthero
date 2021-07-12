@@ -3,71 +3,64 @@ import { connect } from 'react-redux';
 import { Row, Col, Form } from 'react-bootstrap';
 
 import CalculateTotals from '../../../../../helpers/calculate-totals';
+import { updateAllCosts, updatemealKitsBooked } from '../../../../../services/booking/actions';
 
 import './booking-summary.scss';
 
 class BookingSummary extends React.Component {
     constructor(props) {
         super(props);
-        this.state = {
-            hasMealKits: false,
-        }
-
-        const { bookingSize, costPerDevice, hasMealKits, mealKitCost } = this.getValuesForCostCalculation();
-        this.state = {
-            ...this.state,
-            total: CalculateTotals.totals(bookingSize, costPerDevice, mealKitCost, bookingSize, hasMealKits)
-        }
-
-    }
-
-    componentDidUpdate(prevProps, prevState) {
-        if (prevProps.bookingDetails.bookingSize !== this.props.bookingDetails.bookingSize || prevState.hasMealKits !== this.state.hasMealKits)
-            this.calculateTotals();
+        props.updateAllCosts(this.calculateTotals())
     }
 
     getValuesForCostCalculation = () => {
-        const bookingSize = this.props.bookingDetails.bookingSize;
-        const costPerDevice = this.props.classData.cost;
-        const { hasMealKits } = this.state;
-        const mealKitCost = this.props.classData.mealKitPrice;
+        let { bookingSize, mealKitsBooked } = this.props.bookingDetails;
+        let { mealKitPrice, costPerDevice } = this.props.classData;
+
+        if (bookingSize === null || bookingSize === undefined)
+            bookingSize = 0;
 
         return {
             bookingSize: bookingSize,
             costPerDevice: costPerDevice,
-            hasMealKits: hasMealKits,
-            mealKitCost: mealKitCost,
-            bookingSizeWithMealKit: bookingSize
+            mealKitPrice: mealKitPrice,
+            bookingSizeWithMealKit: bookingSize,
+            mealKitsBooked: mealKitsBooked,
         }
     }
 
+    componentDidUpdate(prevProps) {
+        if (
+            prevProps.bookingDetails.bookingSize !== this.props.bookingDetails.bookingSize
+            || prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked
+        ) {
+            this.props.updateAllCosts(this.calculateTotals())
+        }
+
+    }
+
     toggleIncludeMealKits = () => {
-        this.setState(prevState => ({
-            hasMealKits: !prevState.hasMealKits,
-        }))
+        this.props.updatemealKitsBooked(!this.props.bookingDetails.mealKitsBooked);
     }
 
     calculateTotals = () => {
-        const { bookingSize, costPerDevice, hasMealKits, mealKitCost, bookingSizeWithMealKit } = this.getValuesForCostCalculation();
-
         // mealkits are ordered for every devices if meakit is selected
-        this.setState({
-            total: CalculateTotals.totals(bookingSize, costPerDevice, mealKitCost, bookingSizeWithMealKit, hasMealKits)
-        })
+        return CalculateTotals.totals(...Object.values(this.getValuesForCostCalculation()))
     }
 
     render() {
-        const { classData } = this.props;
-
+        const { classData, bookingDetails } = this.props;
         return (
             <section id='booking-summary'>
                 <h4>
-                    ${classData.cost} per device
+                    ${classData.costPerDevice} per device
                 </h4>
                 <form>
                     <Form.Group>
                         <Form.Check
                             onChange={this.toggleIncludeMealKits} type='checkbox'
+                            defaultChecked={bookingDetails.mealKitsBooked}
+                            value={bookingDetails.mealKitsBooked}
                             label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitPrice}/device.</span></p>}
                         />
                     </Form.Group>
@@ -75,10 +68,10 @@ class BookingSummary extends React.Component {
                 <div className='summary-divider' />
                 <Row>
                     <Col xs={6}>
-                        <h5>Meal Kit</h5>
+                        <h5>Meal Kits</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.state.total.mealKitTotal}</h5>
+                        <h5 className='dollar-amount'>${bookingDetails.mealKitsTotal}</h5>
                     </Col>
                 </Row>
                 <Row>
@@ -86,7 +79,7 @@ class BookingSummary extends React.Component {
                         <h5>Tax</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.state.total.tax}</h5>
+                        <h5 className='dollar-amount'>${bookingDetails.tax}</h5>
                     </Col>
                 </Row>
                 <div className='summary-divider' />
@@ -95,7 +88,7 @@ class BookingSummary extends React.Component {
                         <h5>Grand Total</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.state.total.grandTotal}</h5>
+                        <h5 className='dollar-amount'>${bookingDetails.grandTotal}</h5>
                     </Col>
                 </Row>
             </section>
@@ -103,10 +96,17 @@ class BookingSummary extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
+const mapDispatchToProps = (dispatch) => {
     return {
-        bookingDetails: state.booking.bookingDetails,
+        updatemealKitsBooked: (mealKitsBooked) => dispatch(updatemealKitsBooked(mealKitsBooked)),
+        updateAllCosts: (allCosts) => dispatch(updateAllCosts(allCosts)),
     }
 }
 
-export default connect(mapStateToProps)(BookingSummary);
+const mapStateToProps = (state) => {
+    return {
+        bookingDetails: state.booking,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingSummary);

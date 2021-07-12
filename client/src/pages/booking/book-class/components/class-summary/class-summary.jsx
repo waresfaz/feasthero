@@ -27,7 +27,7 @@ class ClassSummary extends React.Component {
             <div id='class-summary'>
                 <Image src={chef.photo} />
                 <h1>{classData.title}</h1>
-                <p>
+                <p id='content'>
                     {
                         this.state.truncated
                         ? truncateString(classData.description, 90)

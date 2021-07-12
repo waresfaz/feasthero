@@ -7,8 +7,16 @@ a {
     display: block;
 }
 
-a:hover {
-    color: #fff !important;
+html {
+    font-size: 100%;
+}
+
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+    text-decoration: none !important;
+    font-family: "brandon-grotesque", sans-serif; 
 }
 
 .content-color{
@@ -22,12 +30,6 @@ a:hover {
     @include small-section-title;
 }
 
-* {
-    padding: 0;
-    margin: 0;
-    text-decoration: none !important;
-    font-family: "brandon-grotesque", sans-serif; 
-}
 
 .v-center{
     @include v-center;

@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
-import { fetchClass } from '../../../services/classes/api';
+import { getAllClasses } from '../../../services/classes/actions';
 import ClassDateTime from '../../../services/schedule/models/class-date-time';
 
 import OrderProgressBar from '../../../components/order-progress/order-progress-bar';
@@ -17,28 +17,34 @@ class BookClass extends React.Component {
   constructor() {
     super();
     this.state = {
-      classData: null
+      classData: null,
     }
   }
 
-  async componentDidMount() {
-    let classData = null;
-
+  componentDidMount() {
     if (!this.props.allClasses) {
-      classData = await fetchClass(this.props.match.params.id)
+      this.props.getAllClasses();
     } else {
-      classData = this.props.allClasses.find(class_ => class_.id === this.props.match.params.id)
+      this.setState({ classData: this.initClassData(this.props) });
     }
-
-    classData.schedule = classData.schedule.map(dateTime => ClassDateTime.fromJson(dateTime))
-
-    this.setState({
-      classData: classData
-    })
   }
 
-  async loadClass() {
-    return await fetchClass(this.props.match.params.id);
+  // I might have to refactor the wasy class data is being retrieved if there are lots of classes
+  // right now it works well retrieving all of the classes then filtering based on the id url parameter
+  // it would more efficient to use sessions if there are lots of classes
+  initClassData = (props) => {
+    let classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
+    classData.schedule = classData.schedule.map(dateTime => ClassDateTime.fromJson(dateTime))
+    return classData;
+  }
+
+  componentDidUpdate(prevProps) {
+    const hasChanged = this.props.allClasses !== prevProps.allClasses
+    if (hasChanged) {
+      this.setState({
+        classData: this.initClassData(this.props)
+      })
+    }
   }
 
   render() {
@@ -81,4 +87,10 @@ const mapStateToProps = (state) => {
   }
 }
 
-export default connect(mapStateToProps)(BookClass);;
+const mapDispatchToProps = (dispatch) => {
+  return {
+    getAllClasses: () => dispatch(getAllClasses()),
+  }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookClass);;

@@ -1,11 +1,14 @@
-const OrderDetails = require('../models/order_details')
-const ProcessClassBooking = require('../services/process_class_booking'); 
+const ProcessBooking = require('../services/process_payment');
+const TransactionDetails = require('../dto/transaction_details');
 
-async function bookClass(req, res) {
-        const orderDetails = new OrderDetails.fromJson(req.body.data);
-        let processClassBooking = new ProcessClassBooking(req, orderDetails);
-        let status = processClassBooking.process();
-        res.status(status.statusCode).json({ response: status.info });
+async function processBooking(req, res) {
+    const orderDetails = req.session.bookingDetails;
+    const transactionDetails = TransactionDetails.fromJson(req.body);
+
+    const bookingAndPaymentResult = await (new ProcessBooking(orderDetails, transactionDetails).process());
+
+    return res.status(bookingAndPaymentResult.statusCode).json({ response: bookingAndPaymentResult.info });
 };
 
-module.exports = bookClass;
+
+module.exports = processBooking

@@ -5,8 +5,10 @@ function datesTimesAsOption(datesTimes) {
     return datesTimes.map(classDateTime => {
         const dateTime = dateFormat(new Date(classDateTime.dateTime), format);
         return {
-            name: 'selectedClassDateTime',
-            value: dateTime,
+            target: {
+                name: 'selectedClassDateTime',
+                value: dateTime,
+            },
             label: dateTime,
         }
     })

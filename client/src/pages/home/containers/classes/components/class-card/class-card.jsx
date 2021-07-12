@@ -58,13 +58,13 @@ class ClassCard extends React.Component {
                                 <h5>{classData.title}</h5>
                                 <h6>
                                     <span>
-                                        {classData.duration} Hrs | ${classData.cost}
+                                        {classData.duration} Hrs | ${classData.costPerDevice}
                                     </span>{" "}
                                 per device
                                 </h6>
                             </Col>
                             <Col className='ml-auto align-self-center' md={4}>
-                                <Button to={`book/${classData.id}`} primary >
+                                <Button to={`book/${classData._id}`} primary={true} >
                                     <>
                                         Book Now <FontAwesomeIcon size={'sm'} icon={faArrowRight} />
                                     </>

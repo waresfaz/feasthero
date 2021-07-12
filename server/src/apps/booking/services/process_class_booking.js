@@ -1,14 +1,14 @@
 const Booking = require('../schema/booking');
 const Schedule = require('../../schedule/schema/schedule');
-const ProcessPayment = require('../../payment/services/process_payment');
 const StatusCodes = require('http-status-codes');
+const ProcessPayment = require('./process_payment');
 
 var ObjectId = require("mongoose").Types.ObjectId;
 
 
 class ProcessClassBooking extends ProcessPayment {
-    constructor(req, orderDetails) {
-        super(req, orderDetails)
+    constructor(orderDetails, transactionDetails) {
+        super(orderDetails, transactionDetails);
         this.orderDetails = orderDetails;
     }
 
@@ -20,11 +20,10 @@ class ProcessClassBooking extends ProcessPayment {
             };
         }
 
-        if (!(await super.process())) {
-            return {
-                statusCode: StatusCodes.INTERNAL_SERVER_ERROR,
-                info: 'payment failed',
-            }
+        if (!await super.process())
+        return {
+            statusCode: StatusCodes.BAD_REQUEST,
+            info: 'payment failed'
         }
 
         await this.bookSlot();

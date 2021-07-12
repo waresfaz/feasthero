@@ -1,22 +1,17 @@
 import axios from 'axios';
 
-import Class from './models/class';
-import { allClasses, findClass } from '../../constants/api-constants';
+import { allClasses } from '../../constants/api-constants';
 
 async function fetchAllClasses() {
-    let allClassesData = [];
-    const classesReponse = await axios.get(allClasses);
-    classesReponse.data.response.forEach((class_) => {
-        allClassesData.push(Class.fromJson(class_));
-    })
-    return allClassesData;
-}
+    const classesReponse = await axios.get(allClasses, { withCredentials: true })
+                                        .then((response) => response)
+                                        .catch((_) => ({ error: true }));
 
-async function fetchClass(id) {
-    const fetchClassResponse = await axios.get(`${findClass}/${id}`);
-    if (fetchClassResponse.status !== 200)
+    if (classesReponse.error)
         return false;
-    return Class.fromJson(fetchClassResponse.data.response);
+
+    return classesReponse.data.response;
 }
 
-export { fetchAllClasses, fetchClass };
+
+export { fetchAllClasses };

@@ -17,12 +17,12 @@ class Landing extends React.Component {
                             <p>Learn to cook like a pro with others in the comfort of your own kitchen.</p>
                             <Row id='landing-btn-row'>
                                 <Col md={5} sm={6}>
-                                    <Button to='#classes' primary id='gotoclasses'>
+                                    <Button to='#classes' primary={true} id='gotoclasses'>
                                         Book Class
                                     </Button>
                                 </Col>
                                 <Col md={5} sm={6}>
-                                    <Button secondary id='gotocontactus' to='#contactus'>
+                                    <Button secondary={true} id='gotocontactus' to='#contactus'>
                                         Contact Us
                                     </Button>
                                 </Col>

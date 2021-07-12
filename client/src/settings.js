@@ -1,9 +1,18 @@
 let settings = {
-    DEBUG: true,
-    ORIGIN: ''
+    DEBUG: false,
+    ORIGIN: '',
+    STRIPE_PUBLISHABLE_KEY: '',
+    STRIPE_SECRET_KEY: '',
 };
 
 function initSettings() {
+    require('dotenv').config()
+
+    settings = {
+        ...settings,
+        DEBUG: process.env.REACT_APP_DEBUG
+    };
+
     if (settings.ORIGIN)
         return;
 
@@ -11,13 +20,18 @@ function initSettings() {
         settings = {
             ...settings,
             ORIGIN: 'http://localhost:3001',
+            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_DEBUG_STRIPE_PUBLISHABLE_KEY_TEST,
+            STRIPE_SECRET_KEY: process.env.REACT_APP_DEBUG_STRIPE_SECRET_KEY_TEST
         };
     } else {
         settings = {
             ...settings,
             ORIGIN: 'https://feasthero.herokuapp.com',
+            STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_DEBUG_STRIPE_PUBLISHABLE_KEY,
+            STRIPE_SECRET_KEY: process.env.REACT_APP_DEBUG_STRIPE_SECRET_KEY,
         };
     }
+
     return Object.freeze(settings);
 }
 
