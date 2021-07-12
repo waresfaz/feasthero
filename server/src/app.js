@@ -34,7 +34,7 @@ function initMiddleware() {
     keys: [settings.SESSION_SECRET],
     httpOnly: true,
     secure: !settings.DEBUG,
-    maxAge: 800000, // 15 minutes
+    maxAge: 900000, // 15 minutes
     signed: true,
   }))
 }
