@@ -3,7 +3,6 @@ import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
 
 import { getAllClasses } from '../../../services/classes/actions';
-import ClassDateTime from '../../../services/schedule/models/class-date-time';
 
 import OrderProgressBar from '../../../components/order-progress/order-progress-bar';
 import Loader from '../../../components/loader/loader';
@@ -33,9 +32,7 @@ class BookClass extends React.Component {
   // right now it works well retrieving all of the classes then filtering based on the id url parameter
   // it would more efficient to use sessions if there are lots of classes
   initClassData = (props) => {
-    let classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
-    classData.schedule = classData.schedule.map(dateTime => ClassDateTime.fromJson(dateTime))
-    return classData;
+    return props.allClasses.find(class_ => class_._id === props.match.params.id)
   }
 
   componentDidUpdate(prevProps) {

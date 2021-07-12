@@ -1,4 +1,4 @@
-const Booking = require('../../booking/schema/booking');
+const Booking = require('../schema/booking');
 const StatusCodes = require('http-status-codes');
 
 // fetch order details based on the passed orderId
