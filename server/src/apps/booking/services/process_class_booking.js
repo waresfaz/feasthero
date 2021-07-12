@@ -7,9 +7,9 @@ var ObjectId = require("mongoose").Types.ObjectId;
 
 
 class ProcessClassBooking extends ProcessPayment {
-    constructor(orderDetails, transactionDetails) {
-        super(orderDetails, transactionDetails);
-        this.orderDetails = orderDetails;
+    constructor(bookingDetails, transactionDetails) {
+        super(bookingDetails, transactionDetails);
+        this.bookingDetails = bookingDetails;
     }
 
     async process() {
@@ -79,7 +79,7 @@ class ProcessClassBooking extends ProcessPayment {
     }
 
     async saveBookedClass() {
-        let bookedClass = new Booking(this.orderDetails);
+        let bookedClass = new Booking(this.bookingDetails);
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })

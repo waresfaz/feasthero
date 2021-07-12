@@ -11,7 +11,6 @@ const classesRouter = require('./apps/classes/routes');
 const chefsRouter = require('./apps/chefs/routes');
 const bookingRouter = require('./apps/booking/routes');
 const contactRouter = require('./apps/contact/routes');
-const ordersRouter = require('./apps/orders/routes');
 const scheduleRouter = require('./apps/schedule/routes');
 
 const errorMiddleware = require('./middleware/error');
@@ -44,7 +43,6 @@ function initRoutes() {
   app.use('/chefs', chefsRouter);
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
-  app.use('/orders', ordersRouter);
   app.use('/schedule', scheduleRouter);
 }
 

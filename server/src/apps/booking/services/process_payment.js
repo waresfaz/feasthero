@@ -4,14 +4,14 @@ const sendMailToChefAndCustomer = require('./send_confirmed_emails');
  * @description a class that implements all aspects of fulfilling a payment
  */
 class ProcessPayment {
-    constructor(orderDetails, transactionDetails) {
+    constructor(bookingDetails, transactionDetails) {
         this.transactionDetails = transactionDetails;
-        this.orderDetails = orderDetails;
+        this.bookingDetails = bookingDetails;
     }
 
     async process() {
         // payment stuff here
-        await sendMailToChefAndCustomer(this.orderDetails);
+        await sendMailToChefAndCustomer(this.bookingDetails);
     }
 
 }

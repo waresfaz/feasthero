@@ -1,8 +1,7 @@
-const Booking = require('../../booking/schema/booking');
+const Booking = require('../schema/booking');
 const StatusCodes = require('http-status-codes');
 
-// fetch order details based on the passed orderId
-async function getOrderDetailsFromOrderId(req, res) {
+async function getbookingDetailsFromBookingId(req, res) {
     try {
         let orderId = req.params.orderId;
         let order = await Booking.findOne({ _id: orderId });
@@ -13,4 +12,4 @@ async function getOrderDetailsFromOrderId(req, res) {
     }
 };
 
-module.exports = getOrderDetailsFromOrderId;
+module.exports = getbookingDetailsFromBookingId;
