@@ -31,7 +31,7 @@ class Payment extends React.Component {
     }
 
     handleChange = ({ error }) => {
-        if (error) 
+        if (error)
             this.setState({ cardErrors: error.message });
         else
             this.setState({ cardErrors: '' })
