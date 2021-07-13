@@ -25,17 +25,23 @@ class Checkout extends React.Component {
         return (
             <>
                 <OrderProgressBar paymentDetails />
-                <Row className='justify-content-around'>
-                    <Col lg={4}  id='payment-col'>
-                        <Elements stripe={this.stripe}>
-                            <InjectedPaymentForm bookingDetails={this.props.bookingDetails} />
-                        </Elements>
-                    </Col>
-                    <Col lg={5}>
-                        <BookingSummary bookingDetails={this.props.bookingDetails} />
-                    </Col>
-                </Row>
+                {
+                    this.props.error
+                        ?
+                        <h4 className='text-danger text-center'>{this.props.error}</h4>
+                        :
+                        <Row className='justify-content-around'>
+                            <Col lg={4} id='payment-col'>
+                                <Elements stripe={this.stripe}>
+                                    <InjectedPaymentForm bookingDetails={this.props.bookingDetails} />
+                                </Elements>
+                            </Col>
+                            <Col lg={5}>
+                                <BookingSummary bookingDetails={this.props.bookingDetails} />
+                            </Col>
+                        </Row>
 
+                }
             </>
         )
     }

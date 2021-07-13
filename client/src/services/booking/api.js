@@ -18,10 +18,9 @@ export async function initBookingDetailsSession(bookingDetails) {
 export async function getBookingDetailsFromSession() {
     const response = await axios.get(getBookingDetailsFromSessionUrl, { withCredentials: true })
         .then((response) => response)
-        .catch((_) => ({ error: true }));
-
+        .catch((error) => ({ error: error.response.status }));
     if (response.error)
-        return false;
+        return response;
 
     return response.data.response;
 }
@@ -40,10 +39,10 @@ export async function bookClass(cardTokenId) {
 export async function verifyBookingSuccess() {
     const response = await axios.get(verifyBookingSuccessUrl, { withCredentials: true })
         .then((response) => response)
-        .catch((_) => ({ error: true }));
+        .catch((err) => ({ error: err.response.status }));
 
     if (response.error)
-        return false;
+        return response;
 
     return response.data.response;
 }

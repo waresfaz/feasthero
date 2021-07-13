@@ -26,7 +26,7 @@ class BookClass extends React.Component {
     if (!this.props.allClasses) {
       this.props.getAllClasses();
     } else {
-      let classData = this.initClassData(this.props);
+      const classData = this.initClassData(this.props);
       this.props.updateClassId(classData._id);
       this.setState({ classData: classData });
     }
@@ -37,11 +37,14 @@ class BookClass extends React.Component {
   }
 
   componentDidUpdate(prevProps) {
-    const hasChanged = this.props.allClasses !== prevProps.allClasses
-    if (hasChanged)
+    const hasChanged = this.props.allClasses !== prevProps.allClasses;
+    if (hasChanged) {
+      const classData = this.initClassData(this.props);
+      this.props.updateClassId(classData._id);
       this.setState({
-        classData: this.initClassData(this.props)
+        classData: classData
       })
+    }
   }
 
   render() {

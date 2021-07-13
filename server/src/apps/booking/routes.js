@@ -6,10 +6,11 @@ const getBookingDetailsFromSession = require('./controllers/get_booking_details_
 const verifyBookingSuccess = require('./controllers/verify_booking_success');
 const wait = require('../../middleware/async');
 const formatSelectedClassDateTime = require('../../middleware/format_selected_class_datetime')
+const isBookingDetailsSessionActive = require('../../middleware/is_session_active');
 
-bookingRouter.post('/book', formatSelectedClassDateTime, wait(bookClass));
+bookingRouter.post('/book', isBookingDetailsSessionActive, formatSelectedClassDateTime, wait(bookClass));
 bookingRouter.post('/init-session', initBookingSession);
-bookingRouter.get('/details-from-session', getBookingDetailsFromSession);
-bookingRouter.get('/verify-success', wait(verifyBookingSuccess))
+bookingRouter.get('/details-from-session', isBookingDetailsSessionActive, getBookingDetailsFromSession);
+bookingRouter.get('/verify-success', isBookingDetailsSessionActive, wait(verifyBookingSuccess))
 
 module.exports = bookingRouter;

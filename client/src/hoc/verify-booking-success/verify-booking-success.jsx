@@ -2,55 +2,55 @@ import React from 'react';
 
 import Loader from '../../components/loader/loader';
 
-import { getBookingDetailsFromSession } from '../../services/booking/api';
 import history from '../../history';
+import { verifyBookingSuccess } from '../../services/booking/api';
 
-/**
- * @description hoc that will pass bookingDetails as props
- */
 
-const BookingDetailsFromSession = WrappedComponent => {
+const VerifyBookingSuccess = WrappedComponent => {
     return class extends React.Component {
         constructor() {
             super();
             this.state = {
                 bookingDetails: null,
-                error: null,
+                classData: null,
+                error: null
             }
         }
 
         async componentDidMount() {
-            const bookingDetails = await getBookingDetailsFromSession()
+            const response = await verifyBookingSuccess();
 
             // session expired
-            if (bookingDetails.error === 408) {
+            if (response.error === 408) {
                 history.push('/');
                 return;
             }
-
-            if (bookingDetails.error) {
+            if (response.error) {
                 this.setState({
-                    error: 'Error loading booking details, please try again',
-                });
+                    error: 'Error fetching booking details, please contact customer service to make sure your class was placed'
+                })
                 return;
             }
 
+            const { bookingDetails, classData } = response;
+
             this.setState({
                 bookingDetails: bookingDetails,
+                classData: classData,
             })
         }
 
         render() {
-            const { bookingDetails, error } = this.state;
+            const { bookingDetails, classData, error } = this.state;
             return (
                 bookingDetails === null && !error
                     ?
                     <Loader show={bookingDetails === null && !error} />
                     :
-                    <WrappedComponent bookingDetails={bookingDetails} error={error} />
+                    <WrappedComponent bookingDetails={bookingDetails} classData={classData} error={error} />
             )
         }
     }
 }
 
-export default BookingDetailsFromSession
+export default VerifyBookingSuccess

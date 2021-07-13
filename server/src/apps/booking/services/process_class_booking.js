@@ -9,15 +9,15 @@ var ObjectId = require("mongoose").Types.ObjectId;
 class ProcessClassBooking extends ProcessPayment {
     constructor(bookingDetails, cardTokenId) {
         super(bookingDetails, cardTokenId);
+        console.log(bookingDetails)
         this.bookingDetails = bookingDetails;
-        this.selectedClassDateTime = new Date(bookingDetails.selectedClassDateTime);
     }
 
     async process() {
         if (await this.isClassBooked() === true) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: `${bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
+                info: `${this.bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
             };
         }
 
@@ -44,10 +44,9 @@ class ProcessClassBooking extends ProcessPayment {
     }
 
     async isClassBooked() {
-        console.log(this.selectedClassDateTime)
         let bookedTime = await Schedule.findOne({
             classId: ObjectId(this.bookingDetails.classId),
-            dateTime: this.selectedClassDateTime,
+            dateTime: this.bookingDetails.selectedClassDateTime,
         });
         return bookedTime.avaliable === false;
     }
@@ -56,7 +55,7 @@ class ProcessClassBooking extends ProcessPayment {
         await Schedule.updateOne(
             {
                 classId: ObjectId(this.bookingDetails.classId),
-                dateTime: this.selectedClassDateTime,
+                dateTime: this.bookingDetails.selectedClassDateTime,
             },
             { available: false }
         );
