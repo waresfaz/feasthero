@@ -120,7 +120,7 @@ class Payment extends React.Component {
                         <Form.Group>
                             <CardElement className='mb-3' onChange={this.handleChange} options={this.cardElementOptions()} />
                             <span role="alert" className='text-danger mb-0'>{this.state.cardErrors}</span>
-                            <button className='pay-btn mat-btn mt-4' type='submit' disabled={!this.props.stripe}>
+                            <button className='pay-btn mat-btn mt-5' type='submit' disabled={!this.props.stripe}>
                                 {
                                     this.state.loading ? <div className='loader'></div> : <p>Pay ${this.props.bookingDetails.grandTotal}</p>
 

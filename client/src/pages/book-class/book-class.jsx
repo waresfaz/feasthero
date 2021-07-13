@@ -26,25 +26,21 @@ class BookClass extends React.Component {
     if (!this.props.allClasses) {
       this.props.getAllClasses();
     } else {
-      const classData = this.initClassData(this.props);
-      this.props.updateClassId(classData._id);
-      this.setState({ classData: classData });
+      this.initClassData(this.props);
     }
-  }
-
-  initClassData = (props) => {
-    return props.allClasses.find(class_ => class_._id === props.match.params.id)
   }
 
   componentDidUpdate(prevProps) {
     const hasChanged = this.props.allClasses !== prevProps.allClasses;
     if (hasChanged) {
-      const classData = this.initClassData(this.props);
-      this.props.updateClassId(classData._id);
-      this.setState({
-        classData: classData
-      })
+      this.initClassData(this.props);
     }
+  }
+
+  initClassData = (props) => {
+    const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
+    props.updateClassId(classData._id);
+    this.setState({ classData: classData });
   }
 
   render() {
