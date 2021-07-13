@@ -12,3 +12,4 @@ const bookingPath = `${baseUrl}/booking`;
 export const initBookingDetailsSession = `${bookingPath}/init-session`;
 export const getBookingDetailsFromSession = `${bookingPath}/details-from-session`;
 export const bookClass = `${bookingPath}/book`;
+export const verifyBookingSuccess = `${bookingPath}/verify-success`;

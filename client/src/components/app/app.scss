@@ -35,6 +35,16 @@ html {
     @include v-center;
 }
 
+.summary-divider {
+    background-color: $booking-progress-line;
+    height: 0.1rem;
+    margin: 1rem 0;
+}
+
+.danger {
+    background-color: #dc3545 !important;
+}
+
 .mat-btn {
     display: inline-block;
     overflow: hidden;

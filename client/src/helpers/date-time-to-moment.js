@@ -1,6 +1,6 @@
-const moment = require('moment-timezone');
+import moment from 'moment-timezone';
 
-function dateTimeToMoment(dateTime) {
+export default function dateTimeToMoment(dateTime) {
     return moment
         .tz(
             dateTime,
@@ -9,5 +9,3 @@ function dateTimeToMoment(dateTime) {
         )
         .utc();
 }
-
-module.exports = dateTimeToMoment;

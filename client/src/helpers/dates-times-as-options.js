@@ -2,6 +2,7 @@ import moment from 'moment';
 import 'moment-timezone';
 
 function datesTimesAsOption(datesTimes) {
+    console.log(datesTimes)
     let dateTimesResults = [];
     for (let dateTimeElem of datesTimes) {
         const date = moment

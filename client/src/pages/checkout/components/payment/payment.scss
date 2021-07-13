@@ -1,9 +1,16 @@
 @import '../../../../sass/variables';
+@import '../../../../sass/mixins';
 
 #payment {
+    @include for-desktop {
+        margin-bottom: 5rem;
+    }
+
+
     p {
-        font-size: 1.5rem;
-        font-weight: 700;
+        margin-top: 0.1rem;
+        margin-bottom: 0.5rem;
+        font-size: 1.2rem;
     }
 
     .pay-btn {
@@ -41,6 +48,10 @@
 
         h5 {
             font-size: 1.1rem;
+
+            @include for-phone {
+                font-size: 0.9rem;
+            }
         }
     }
 }

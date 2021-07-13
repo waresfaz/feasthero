@@ -10,22 +10,23 @@ class ProcessClassBooking extends ProcessPayment {
     constructor(bookingDetails, cardTokenId) {
         super(bookingDetails, cardTokenId);
         this.bookingDetails = bookingDetails;
+        this.selectedClassDateTime = new Date(bookingDetails.selectedClassDateTime);
     }
 
     async process() {
         if (await this.isClassBooked() === true) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: `${bookingDetails.bookingDateTime} time slot is unavailable , please select a different slot`
+                info: `${bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
             };
         }
 
-        if (!await super.process())
+        /*if (!await super.process())
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
                 info: 'payment failed'
             }
-
+        */
         await this.bookSlot();
 
         let bookedClass = await this.saveBookedClass();
@@ -43,9 +44,10 @@ class ProcessClassBooking extends ProcessPayment {
     }
 
     async isClassBooked() {
+        console.log(this.selectedClassDateTime)
         let bookedTime = await Schedule.findOne({
             classId: ObjectId(this.bookingDetails.classId),
-            dateTime: this.bookingDetails.selectedClassDateTime.toDate(),
+            dateTime: this.selectedClassDateTime,
         });
         return bookedTime.avaliable === false;
     }
@@ -54,14 +56,15 @@ class ProcessClassBooking extends ProcessPayment {
         await Schedule.updateOne(
             {
                 classId: ObjectId(this.bookingDetails.classId),
-                dateTime: this.bookingDetails.selectedClassDateTime.toDate(),
+                dateTime: this.selectedClassDateTime,
             },
             { available: false }
         );
     }
 
     async saveBookedClass() {
-        let bookedClass = new Booking(this.orderDetails);
+        let bookedClass = new Booking(this.bookingDetails);
+        console.log(bookedClass);
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })

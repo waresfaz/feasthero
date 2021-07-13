@@ -11,6 +11,7 @@ import history from '../../history';
 import Home from '../../pages/home/home';
 import BookClass from '../../pages/book-class/book-class';
 import Checkout from '../../pages/checkout/checkout';
+import BookingSuccess from '../../pages/booking-success/booking-success';
 import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';
 
@@ -33,6 +34,7 @@ class App extends React.Component {
               <Route exact path='/' component={Home} />
               <Route exact path='/book/:id' component={BookClass} />
               <Route exact path='/checkout' component={Checkout} />
+              <Route exact path='/booking-success' component={BookingSuccess} />
             </Switch>
           </Container>
           <Footer />

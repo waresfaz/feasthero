@@ -26,12 +26,12 @@ class Checkout extends React.Component {
             <>
                 <OrderProgressBar paymentDetails />
                 <Row className='justify-content-around'>
-                    <Col md={4}>
+                    <Col lg={4}  id='payment-col'>
                         <Elements stripe={this.stripe}>
                             <InjectedPaymentForm bookingDetails={this.props.bookingDetails} />
                         </Elements>
                     </Col>
-                    <Col md={4}>
+                    <Col lg={5}>
                         <BookingSummary bookingDetails={this.props.bookingDetails} />
                     </Col>
                 </Row>

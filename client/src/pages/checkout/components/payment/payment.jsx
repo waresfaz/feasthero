@@ -9,6 +9,7 @@ import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
+import Loader from '../../../../components/loader/loader';
 
 const InjectedPaymentForm = (props) => {
     return (
@@ -24,13 +25,23 @@ class Payment extends React.Component {
     constructor() {
         super();
         this.state = {
-            errors: ''
+            errors: '',
+            cardErrors: '',
+            loading: false,
         }
     }
 
+    handleChange = ({ error }) => {
+        if (error) {
+            this.setState({ cardErrors: error.message });
+        }
+    };
+
     handleSubmit = async (event) => {
-        console.log(event.errors)
         event.preventDefault();
+
+        if (this.state.cardErrors)
+            return;
 
         const { stripe, elements } = this.props;
 
@@ -39,14 +50,33 @@ class Payment extends React.Component {
 
         const card = elements.getElement(CardElement);
 
+        this.setState({
+            loading: true,
+        })
+
         const cardTokenResponse = await stripe.createToken(card)
+
+        if (cardTokenResponse.error) {
+            this.setState({
+                cardErrors: cardTokenResponse.error.message,
+                loading: false,
+            })
+            return;
+        }
 
         if (!await bookClass(this.props.bookingDetails, cardTokenResponse.token.id)) {
             this.setState({
                 errors: 'Payment failed, please try again or contact customer support',
+                loading: false,
             });
             return;
         }
+
+        this.setState({
+            loading: false,
+        })
+
+        history.push('booking-success');
     }
 
     cardElementOptions = () => {
@@ -74,28 +104,30 @@ class Payment extends React.Component {
     render() {
         if (settings.DEBUG)
             console.log(this.props.bookingDetails)
+
         return (
             <div id='payment'>
+                <Loader show={this.state.loading} />
                 <Form onSubmit={this.handleSubmit}>
                     <div id='card-element-container'>
                         <p className='text-center'>Pay with card</p>
                         <Form.Group>
-                            <CardElement options={this.cardElementOptions()} />
-
-                            <button className='pay-btn mat-btn mt-5' type='submit' disabled={!this.props.stripe}>
+                            <CardElement className='mb-3' onChange={this.handleChange} options={this.cardElementOptions()} />
+                            <span role="alert" className='text-danger mb-0'>{this.state.cardErrors}</span>
+                            <button className='pay-btn mat-btn mt-3' type='submit' disabled={!this.props.stripe}>
                                 Pay ${this.props.bookingDetails.grandTotal}
                             </button>
-                            <button className='pay-btn bg-danger mat-btn mt-3' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
+                            <button className='pay-btn mat-btn mt-3 danger' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
                                 Cancel
                             </button>
-                            <p className='text-danger error'>{this.state.errors}</p>
+                            <span role="alert" className='text-danger'>{this.state.errors}</span>
                         </Form.Group>
                         <Row className='secure-checkout'>
-                            <Col md={7}>
+                            <Col md={8} xs={8}>
                                 <h5>Guarenteed safe &#38; secure checkout</h5>
                             </Col>
-                            <Col md={4}>
-                                <a rel="noreferrer" target='_blank' href='https://www.stripe.com'><Image src={poweredbystripe} width='90%' fluid /></a>
+                            <Col md={3} sm={3} xs={4}>
+                                <a rel="noreferrer" target='_blank' href='https://www.stripe.com'><Image src={poweredbystripe} width='90%' /></a>
                             </Col>
                         </Row>
                     </div>

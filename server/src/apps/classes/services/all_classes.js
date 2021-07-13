@@ -19,18 +19,29 @@ async function getAllClasses() {
         },
         {
             $lookup: {
-                from: "chefs",
-                localField: "chefId",
-                foreignField: "_id",
-                as: "chefs",
+                from: "schedules",
+                as: "schedule",
+                let: { id: "$_id" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $and: [
+                                    { $eq: ['$available', true] },
+                                    { $eq: ['$classId', '$$id'] },
+                                ]
+                            }
+                        }
+                    },
+                ],
             },
         },
         {
             $lookup: {
-                from: "schedules",
-                localField: "_id",
-                foreignField: "classId",
-                as: "schedule",
+                from: "chefs",
+                localField: "chefId",
+                foreignField: "_id",
+                as: "chefs",
             },
         },
     ]);

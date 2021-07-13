@@ -14,15 +14,15 @@ import BookingSummary from './containers/booking-summary/booking-summary';
 import './book-class.scss';
 
 class BookClass extends React.Component {
-  constructor() {
-    super();
+  constructor(props) {
+    super(props);
+    props.reset();
     this.state = {
       classData: null,
     }
   }
 
   componentDidMount() {
-    this.props.reset();
     if (!this.props.allClasses) {
       this.props.getAllClasses();
     } else {
@@ -32,20 +32,16 @@ class BookClass extends React.Component {
     }
   }
 
-  // I might have to refactor the wasy class data is being retrieved if there are lots of classes
-  // right now it works well retrieving all of the classes then filtering based on the id url parameter
-  // it would more efficient to use sessions if there are lots of classes
   initClassData = (props) => {
     return props.allClasses.find(class_ => class_._id === props.match.params.id)
   }
 
   componentDidUpdate(prevProps) {
     const hasChanged = this.props.allClasses !== prevProps.allClasses
-    if (hasChanged) {
+    if (hasChanged)
       this.setState({
         classData: this.initClassData(this.props)
       })
-    }
   }
 
   render() {
