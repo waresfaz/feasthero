@@ -9,7 +9,6 @@ import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
-import Loader from '../../../../components/loader/loader';
 
 const InjectedPaymentForm = (props) => {
     return (
@@ -32,9 +31,10 @@ class Payment extends React.Component {
     }
 
     handleChange = ({ error }) => {
-        if (error) {
+        if (error) 
             this.setState({ cardErrors: error.message });
-        }
+        else
+            this.setState({ cardErrors: '' })
     };
 
     handleSubmit = async (event) => {
@@ -101,21 +101,30 @@ class Payment extends React.Component {
         };
     }
 
+    clearErrors = () => {
+        this.setState({
+            cardErrors: '',
+            errors: ''
+        })
+    }
+
     render() {
         if (settings.DEBUG)
             console.log(this.props.bookingDetails)
 
         return (
             <div id='payment'>
-                <Loader show={this.state.loading} />
                 <Form onSubmit={this.handleSubmit}>
                     <div id='card-element-container'>
                         <p className='text-center'>Pay with card</p>
                         <Form.Group>
                             <CardElement className='mb-3' onChange={this.handleChange} options={this.cardElementOptions()} />
                             <span role="alert" className='text-danger mb-0'>{this.state.cardErrors}</span>
-                            <button className='pay-btn mat-btn mt-3' type='submit' disabled={!this.props.stripe}>
-                                Pay ${this.props.bookingDetails.grandTotal}
+                            <button className='pay-btn mat-btn mt-4' type='submit' disabled={!this.props.stripe}>
+                                {
+                                    this.state.loading ? <div className='loader'></div> : <p>Pay ${this.props.bookingDetails.grandTotal}</p>
+
+                                }
                             </button>
                             <button className='pay-btn mat-btn mt-3 danger' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
                                 Cancel

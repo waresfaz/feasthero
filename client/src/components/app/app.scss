@@ -74,6 +74,20 @@ html {
     animation: ripple 1s ease-out;
 }
 
+.loader {
+    border: 5px solid #f3f3f3;
+    border-top: 5px solid $secondary;
+    border-radius: 50%;
+    width: 27px;
+    height: 27px;
+    animation: spin 2s linear infinite;
+  }
+  
+  @keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+  }
+
 @media (min-width: 1500px) {
     #main-container {
         max-width: 95%;

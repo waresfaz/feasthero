@@ -28,7 +28,6 @@ class App extends React.Component {
       <>
         <Router history={history}>
           <Container fluid id='main-container'>
-
             <TopNavbar />
             <Switch>
               <Route exact path='/' component={Home} />

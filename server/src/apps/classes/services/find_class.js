@@ -4,8 +4,8 @@ const Types = mongoose.Types;
 
 let ObjectId = Types.ObjectId;
 
-async function findSingleClass(id) {
-    return await Class.aggregate([
+async function findClass(id) {
+    return (await Class.aggregate([
         {
             $match: {
                 _id: new ObjectId(id),
@@ -30,7 +30,7 @@ async function findSingleClass(id) {
                 as: "schedule",
             },
         },
-    ]);
+    ]))[0];
 }
 
-module.exports = findSingleClass;
+module.exports = findClass;

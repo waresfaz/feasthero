@@ -14,7 +14,6 @@ import history from '../../../../history';
 import { initBookingDetailsSession } from '../../../../services/booking/api';
 
 import Button from '../../../../components/button/button';
-import Loader from '../../../../components/loader/loader';
 
 import './booking-details.scss';
 import { updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
@@ -88,12 +87,6 @@ class BookingDetails extends React.Component {
         return EmailValidator.validate(this.props.bookingDetails.emailAddress);
     }
 
-    toggleLoading = () => [
-        this.setState(prevState => ({
-            loading: !prevState.loading
-        }))
-    ]
-
     handleSubmit = async (event) => {
         event.preventDefault();
         this.clearErrors();
@@ -101,14 +94,18 @@ class BookingDetails extends React.Component {
         if (!this.validate())
             return;
 
-        this.toggleLoading();
+        this.setState({
+            loading: true,
+        })
         if (!await initBookingDetailsSession(this.props.bookingDetails)) {
             const error = 'Error creating checkout session, please try again later';
             this.setState(prevState => ({
                 errors: [...prevState.errors, error],
             }));
         }
-        this.toggleLoading();
+        this.setState({
+            loading: false,
+        })
 
         if (this.state.errors.length > 0)
             return;
@@ -137,7 +134,6 @@ class BookingDetails extends React.Component {
 
         return (
             <div id='booking-details-container'>
-                <Loader show={this.state.loading} />
                 <h1 className='mb-5'>Booking Details</h1>
                 <form onSubmit={this.handleSubmit}>
                     <Form.Group>
@@ -209,7 +205,7 @@ class BookingDetails extends React.Component {
                     <p className='text-danger error'>{this.state.errors.map(error => <span>{error}<br /></span>)}</p>
                     <Row>
                         <Col md={6}>
-                            <Button primary={true} type='submit' isButton={true}>Proceed to Payment</Button>
+                            <Button primary={true} type='submit' className='d-flex justify-content-center' isButton={true}>{this.state.loading ? <div class="loader"></div> : <span>Proceed to Payment</span>}</Button>
                         </Col>
                     </Row>
                 </form>

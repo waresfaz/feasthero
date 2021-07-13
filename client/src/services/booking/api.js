@@ -1,7 +1,5 @@
 import axios from 'axios';
 
-import dateTimeToMoment from '../../helpers/date-time-to-moment';
-
 import {
     initBookingDetailsSession as initBookingDetailsSessionUrl,
     getBookingDetailsFromSession as getBookingDetailsFromSessionUrl,
@@ -10,7 +8,6 @@ import {
 } from '../../constants/api-constants';
 
 export async function initBookingDetailsSession(bookingDetails) {
-    bookingDetails.selectedClassDateTime = dateTimeToMoment(bookingDetails.selectedClassDateTime);
     const response = await axios.post(initBookingDetailsSessionUrl, bookingDetails, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
@@ -29,8 +26,8 @@ export async function getBookingDetailsFromSession() {
     return response.data.response;
 }
 
-export async function bookClass(bookingDetails, cardTokenId) {
-    const response = await axios.post(bookClassUrl, { 'bookingDetails': bookingDetails, 'cardTokenId': cardTokenId }, { withCredentials: true })
+export async function bookClass(cardTokenId) {
+    const response = await axios.post(bookClassUrl, { 'cardTokenId': cardTokenId }, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 

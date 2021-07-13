@@ -1,8 +1,19 @@
 const Class = require("../schema/class");
+const moment = require('moment-timezone');
 
 async function getAllClasses() {
-    // it is ok for now to retrieve schedule info in general query due to small number of classes
-    // it is faster to do one large query than multiple small querys rn
+    const WEEK_FROM = moment
+        .utc(new Date().toISOString())
+        .tz('US/Eastern')
+        .add(1, 'w')
+        .toDate();
+
+    const WEEK_TO = moment
+        .utc(new Date().toISOString())
+        .tz('US/Eastern')
+        .add(12, 'w')
+        .toDate();
+
     return await Class.aggregate([
         {
             $project: {
@@ -25,6 +36,7 @@ async function getAllClasses() {
                 pipeline: [
                     {
                         $match: {
+                            "dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
                             $expr: {
                                 $and: [
                                     { $eq: ['$available', true] },

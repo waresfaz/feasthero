@@ -3,7 +3,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import { Row, Col } from 'react-bootstrap';
 
 import InjectedPaymentForm from './components/payment/payment';
-import EnsureBookingDetailsHOC from '../../hoc/ensure-booking-details/ensure-booking-details';
+import BookingDetailsFromSession from '../../hoc/booking-details-from-session/booking-details-from-session';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 
 import { loadStripe } from "@stripe/stripe-js";
@@ -42,4 +42,4 @@ class Checkout extends React.Component {
 }
 
 
-export default EnsureBookingDetailsHOC(Checkout);
+export default BookingDetailsFromSession(Checkout);

@@ -2,7 +2,6 @@ import {
     UPDATE_MEAL_KITS_BOOKED,
     UPDATE_ALL_COSTS,
     UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
-    UPDATE_ALL_BOOKING_DETAILS,
     RESET,
     UPDATE_CLASS_ID
 } from './types';
@@ -38,11 +37,6 @@ function bookingReducer(state = initialBookingDetails, action) {
                 ...action.value
             }
         case UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS:
-            return {
-                ...state,
-                ...action.value
-            }
-        case UPDATE_ALL_BOOKING_DETAILS:
             return {
                 ...state,
                 ...action.value

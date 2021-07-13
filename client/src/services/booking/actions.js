@@ -1,7 +1,6 @@
 import {
     UPDATE_MEAL_KITS_BOOKED, UPDATE_ALL_COSTS,
     UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
-    UPDATE_ALL_BOOKING_DETAILS,
     RESET,
     UPDATE_CLASS_ID
 } from './types';
@@ -16,10 +15,6 @@ export function updatemealKitsBooked(mealKitsBooked) {
 
 export function updateAllCosts(costs) {
     return asAction(UPDATE_ALL_COSTS, costs);
-}
-
-export function updateAllBookingDetails(bookingDetails) {
-    return asAction(UPDATE_ALL_BOOKING_DETAILS, bookingDetails);
 }
 
 export function reset() {
