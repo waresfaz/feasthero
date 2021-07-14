@@ -20,13 +20,13 @@ class Footer extends React.Component {
             <h5>Social</h5>
             <ul>
               <li>
-                <a href="https://www.facebook.com/feasthero">Facebook</a>
+                <a rel='noreferrer' target='_blank' href="https://www.facebook.com/feasthero">Facebook</a>
               </li>
               <li>
-                <a href="https://www.instagram.com/feasthero/">Instagram</a>
+                <a rel='noreferrer' target='_blank' href="https://www.instagram.com/feasthero/">Instagram</a>
               </li>
               <li>
-                <a href="https://twitter.com/FeastHero">Twitter</a>
+                <a rel='noreferrer' target='_blank' href="https://twitter.com/FeastHero">Twitter</a>
               </li>
             </ul>
           </Col>
@@ -37,10 +37,10 @@ class Footer extends React.Component {
                 <Link smooth to="/#classes">All Classes</Link>
               </li>
               <li>
-                <Link smooth to="/aboutus">About Us</Link>
+                <Link smooth to="/contact#about-us">About Us</Link>
               </li>
               <li>
-                <Link smooth to="/contact">Contact Us</Link>
+                <Link smooth to="/contact#contact-us">Contact Us</Link>
               </li>
             </ul>
           </Col>

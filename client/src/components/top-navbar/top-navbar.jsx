@@ -25,7 +25,7 @@ class TopNavbar extends React.Component {
             <Nav className="ml-auto">
               <Link smooth to="/#classes">Classes</Link>
               <Link smooth to="/#how-it-works">How It Works</Link>
-              <Link smooth to="/#contact-us">Contact Us</Link>
+              <Link smooth to="/contact">Contact Us</Link>
               <Link smooth to="#">Blog</Link>
             </Nav>
           </Navbar.Collapse>
