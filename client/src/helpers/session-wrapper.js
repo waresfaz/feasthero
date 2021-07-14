@@ -1,7 +1,7 @@
 import store from '../redux/store/index';
 import history from '../history';
 
-import { newError } from '../services/actions';
+import { newError } from '../services/feasthero/actions';
 import { SESSION_EXPIRED_ERROR } from '../constants/app-constants';
 
 /**

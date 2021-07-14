@@ -7,6 +7,7 @@ import { getAllClasses } from '../../../../services/classes/actions';
 import ClassCard from './components/class-card/class-card';
 
 import './classes.scss';
+import Title from '../../../../components/title/title';
 
 class Classes extends React.Component {
     componentDidMount() {
@@ -16,7 +17,7 @@ class Classes extends React.Component {
     render() {
         return (
             <section id='classes'>
-                <h2 className='text-center title mb-4'>Hands-on cooking classes taught by world class chefs</h2>
+                <Title className='mb-4 text-center'>Hands-on cooking classes taught by world class chefs</Title>
 
                 {
                     this.props.allClasses
@@ -25,7 +26,7 @@ class Classes extends React.Component {
                             {
                                 this.props.allClasses.map((classData, key) => {
                                     return (
-                                        <Col key={key} className='class-card-container' lg={5}>
+                                        <Col key={key} className='class-card-container' md={11} lg={5}>
                                             <ClassCard classData={classData} />
                                         </Col>
                                     )

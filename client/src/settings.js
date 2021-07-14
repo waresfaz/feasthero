@@ -19,7 +19,7 @@ function initSettings() {
     if (settings.DEBUG) {
         settings = {
             ...settings,
-            ORIGIN: 'http://localhost:3001',
+            ORIGIN: 'http://localhost:3002',
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST
         };

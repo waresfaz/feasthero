@@ -1,9 +1,9 @@
 import axios from 'axios';
 
-import { allClasses } from '../../constants/api-constants';
+import { ALL_CLASSES } from '../../constants/api-constants';
 
 async function fetchAllClasses() {
-    const classesReponse = await axios.get(allClasses, { withCredentials: true })
+    const classesReponse = await axios.get(ALL_CLASSES, { withCredentials: true })
                                         .then((response) => response)
                                         .catch((_) => ({ error: true }));
 

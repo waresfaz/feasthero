@@ -1,14 +1,14 @@
 import axios from 'axios';
 
 import {
-    initBookingDetailsSession as initBookingDetailsSessionUrl,
-    getBookingDetailsFromSession as getBookingDetailsFromSessionUrl,
-    bookClass as bookClassUrl,
-    verifyBookingSuccess as verifyBookingSuccessUrl
+    INIT_BOOKING_DETAILS_SESSION,
+    GET_BOOKING_DETAILS_FROM_SESSION,
+    BOOK_CLASS,
+    VERIFY_BOOKING_SUCCESS
 } from '../../constants/api-constants';
 
 export async function initBookingDetailsSession(bookingDetails) {
-    const response = await axios.post(initBookingDetailsSessionUrl, bookingDetails, { withCredentials: true })
+    const response = await axios.post(INIT_BOOKING_DETAILS_SESSION, bookingDetails, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 
@@ -16,7 +16,7 @@ export async function initBookingDetailsSession(bookingDetails) {
 }
 
 export async function getBookingDetailsFromSession() {
-    const response = await axios.get(getBookingDetailsFromSessionUrl, { withCredentials: true })
+    const response = await axios.get(GET_BOOKING_DETAILS_FROM_SESSION, { withCredentials: true })
         .then((response) => response)
         .catch((error) => ({ error: error.response.status }));
     if (response.error)
@@ -26,7 +26,7 @@ export async function getBookingDetailsFromSession() {
 }
 
 export async function bookClass(cardTokenId) {
-    const response = await axios.post(bookClassUrl, { 'cardTokenId': cardTokenId }, { withCredentials: true })
+    const response = await axios.post(BOOK_CLASS, { 'cardTokenId': cardTokenId }, { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response.status }));
 
@@ -37,7 +37,7 @@ export async function bookClass(cardTokenId) {
 }
 
 export async function verifyBookingSuccess() {
-    const response = await axios.get(verifyBookingSuccessUrl, { withCredentials: true })
+    const response = await axios.get(VERIFY_BOOKING_SUCCESS, { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response.status }));
 

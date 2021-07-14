@@ -1,13 +1,15 @@
-const { sendEmail, genMessageTemplate } = require('../services/email');
+const { sendEmail, genMessage } = require('../services/email');
+const StatusCodes = require('http-status-codes');
 
 async function contact(req, res) {
-    const name = req.body.name;
-    const email = req.body.email;
-    const message = req.body.message;
+    const { name, email, subject, message } = req.body;
 
-    msgTemplate = genMessageTemplate(name, email, message);
-    let status = await sendEmail(msgTemplate) ? 'Message Sent' : 'ERROR';
-    res.json({ status: status })
+    const msg = genMessage(name, email, message, subject);
+    if ((await sendEmail(msg)) === false)
+        return res.status(StatusCodes.BAD_REQUEST).json({ response: 'error' });
+
+    return res.status(StatusCodes.OK).json({ response: 'ok' });
+
 }
 
 module.exports = contact;

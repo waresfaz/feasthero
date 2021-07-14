@@ -6,6 +6,9 @@ import Steps from './components/steps/steps';
 import ClassFeaures from './components/class-features/class-features';
 import Subscribe from './components/subscribe/subscribe';
 import Errors from './containers/errors/errors';
+import AboutUs from './components/about-us/about-us';
+import ContactUs from './components/contact-us/contact-us';
+
 class Home extends React.Component {
     render() {
         return (
@@ -16,6 +19,8 @@ class Home extends React.Component {
                 <Steps />
                 <ClassFeaures />
                 <Subscribe />
+                <AboutUs />
+                <ContactUs />
             </>
         )
     }

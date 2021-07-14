@@ -17,6 +17,8 @@ import Button from '../../../../components/button/button';
 
 import './booking-details.scss';
 import { updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
+import NameValidator from '../../../../validators/name';
+import NotEmptyValidator from '../../../../validators/not-empty';
 
 class BookingDetails extends React.Component {
     constructor(props) {
@@ -51,12 +53,16 @@ class BookingDetails extends React.Component {
 
     validate = () => {
         let formErrors = {};
+        const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
 
         formErrors['bookingSizeForBooking'] = this.validateBookingSize()
-        formErrors['classDateTime'] = this.validateBookedDateTime();
-        formErrors['email'] = this.validateEmail();
+        formErrors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
+        formErrors['customerEmail'] = EmailValidator.validate(customerEmail);
+        formErrors['customerFirstName'] = NameValidator.validate(customerFirstName);
+        formErrors['customerLastName'] = NameValidator.validate(customerLastName);
+        formErrors['comanyName'] = NotEmptyValidator.validate(companyName);
 
-        let valid = !Object.values(formErrors).every(error => Boolean(error));
+        let valid = Object.values(formErrors).every(error => error === null);
         if (!valid)
             this.setState({ formErrors });
 
@@ -79,17 +85,8 @@ class BookingDetails extends React.Component {
         return numberDropDownErrorMessage;
     }
 
-    validateBookedDateTime = () => {
-        return DateTimeValidator.validate(this.props.bookingDetails.selectedClassDateTime, this.scheduleOptions);
-    }
-
-    validateEmail = () => {
-        return EmailValidator.validate(this.props.bookingDetails.emailAddress);
-    }
-
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.clearErrors();
 
         if (!this.validate())
             return;
@@ -111,13 +108,6 @@ class BookingDetails extends React.Component {
             return;
 
         history.push('/checkout')
-    }
-
-    clearErrors = () => {
-        this.setState({
-            errors: [],
-            formErrors: {}
-        });
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -179,6 +169,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='First Name'
                             name='customerFirstName'
                         />
+                        <span className='text-danger'>{formErrors['customerFirstName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -186,6 +177,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Last Name'
                             name='customerLastName'
                         />
+                        <span className='text-danger'>{formErrors['customerLastName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -193,6 +185,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Company Name'
                             name='companyName'
                         />
+                        <span className='text-danger'>{formErrors['companyName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -200,7 +193,7 @@ class BookingDetails extends React.Component {
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />
-                        <span className='text-danger error'>{formErrors['email']}</span>
+                        <span className='text-danger error'>{formErrors['customerEmail']}</span>
                     </Form.Group>
                     <p className='text-danger error'>{this.state.errors.map(error => <span>{error}<br /></span>)}</p>
                     <Row>

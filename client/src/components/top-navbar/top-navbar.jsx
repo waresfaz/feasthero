@@ -24,9 +24,9 @@ class TopNavbar extends React.Component {
           <Navbar.Collapse id="basic-navbar-nav">
             <Nav className="ml-auto">
               <Link smooth to="/#classes">Classes</Link>
-              <Link smooth to="#">How It Works</Link>
-              <Link smooth to="#">About Us</Link>
-              <Link smooth to="#">Contact Us</Link>
+              <Link smooth to="/#how-it-works">How It Works</Link>
+              <Link smooth to="/#contact-us">Contact Us</Link>
+              <Link smooth to="#">Blog</Link>
             </Nav>
           </Navbar.Collapse>
         </Navbar>

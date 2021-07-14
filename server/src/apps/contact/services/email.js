@@ -1,13 +1,9 @@
-async function sendEmail(msgTemplate) {
+const nodemailer = require('nodemailer');
+
+async function sendEmail(msg) {
     let transporter = new TransporterSingleton();
-    transporter.transporterInstance.sendMail(msgTemplate, (error) => {
-        if (error) {
-            console.log("Mail sending error", error);
-            return false;
-        } else {
-            console.log("Mail successfully sent:");
-            return true;
-        }
+    return transporter.transporterInstance.sendMail(msg, (error) => {
+        return false;
     });
 }
 
@@ -15,28 +11,30 @@ class TransporterSingleton {
     static transporterInstance;
 
     constructor() {
-        if (transporterInstance)
+        if (this.transporterInstance)
             return transporterInstance;
 
         this.transporterInstance = nodemailer.createTransport({
             service: 'gmail',
             auth: {
-                user: "bookings@feasthero.com",
-                pass: "udpocujnumjmtzyf",
+                user: process.env.BOOKING_EMAIL,
+                pass: process.env.BOOKING_EMAIL_PASS,
             },
         });
     }
 }
 
-function genMessageTemplate(name, email, message) {
+function genMessage(name, email, message, subject) {
     return {
         from: name,
-        to: "bookings@feasthero.com",
-        subject: "Contact Form Submission",
-        html: `<p>Name: ${name}</p>
+        to: "cpstef04@gmail.com",
+        subject: `${subject} - Contact Form Submission`,
+        html: `
+            <p>Name: ${name}</p>
            <p>Email: ${email}</p>
-           <p>Message: ${message}</p>`,
+           <p>Message: ${message}</p>
+           `,
     };
 }
 
-module.exports = { sendEmail, genMessageTemplate }
+module.exports = { sendEmail, genMessage }

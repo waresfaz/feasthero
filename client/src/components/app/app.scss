@@ -23,9 +23,6 @@ html {
     color: $text-primary;
 }
 
-.title {
-    @include title;
-}
 .small-section-title{
     @include small-section-title;
 }
