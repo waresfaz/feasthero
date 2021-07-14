@@ -3,7 +3,7 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 import { getBookingDetailsFromSession } from '../../services/booking/api';
-import history from '../../history';
+import { sessionWrapper } from '../../helpers/session-wrapper';
 
 /**
  * @description hoc that will pass bookingDetails as props
@@ -20,13 +20,11 @@ const BookingDetailsFromSession = WrappedComponent => {
         }
 
         async componentDidMount() {
-            const bookingDetails = await getBookingDetailsFromSession()
+            const bookingDetails = await sessionWrapper(getBookingDetailsFromSession);
 
             // session expired
-            if (bookingDetails.error === 408) {
-                history.push('/');
+            if (bookingDetails === false)
                 return;
-            }
 
             if (bookingDetails.error) {
                 this.setState({
