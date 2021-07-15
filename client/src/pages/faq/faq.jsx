@@ -14,9 +14,8 @@ class Faq extends React.Component {
                             <Title className='text-center mb-4'>FAQ's</Title>
                             <Accordion>
                                 <Card>
-                                    <Accordion.Toggle onClick={() => { this.handleExpand(this.canICancelRef) }} as={Card.Header} eventKey="0">
+                                    <Accordion.Toggle as={Card.Header} eventKey="0">
                                         Can I cancel my class?
-                                        <i ref={this.canICancelRef} onClick={this.handleExpand} className='fas fa-greater-than float-right'></i>
                                     </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="0">
                                         <Card.Body>

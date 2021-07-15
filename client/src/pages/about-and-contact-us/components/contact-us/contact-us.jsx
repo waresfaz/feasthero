@@ -32,6 +32,11 @@ class ContactUs extends React.Component {
   handleSubmit = async (event) => {
     event.preventDefault();
 
+    if (this.state.formErrors)
+      this.setState({
+        formErrors: {},
+      })
+
     const { name, email, subject, message } = this.state;
 
     if (!this.validate(name, email, subject, message))
@@ -117,23 +122,39 @@ class ContactUs extends React.Component {
                 <Row>
                   <Col lg={6}>
                     <Form.Group>
-                      <Form.Control onChange={this.handleFormChange} value={email} name='email' required size='lg' type='email' placeholder='Email...' />
+                      <Form.Control
+                        onChange={this.handleFormChange}
+                        value={email} name='email'
+                        required size='lg' type='email'
+                        placeholder='Email...' />
                       <span className='text-danger'>{formErrors['email']}</span>
                     </Form.Group>
                   </Col>
                   <Col lg={6}>
                     <Form.Group>
-                      <Form.Control onChange={this.handleFormChange} value={name} name='name' required size='lg' type='text' placeholder='Name...' />
+                      <Form.Control
+                        onChange={this.handleFormChange}
+                        value={name} name='name'
+                        required size='lg' type='text'
+                        placeholder='Name...' />
                       <span className='text-danger'>{formErrors['name']}</span>
                     </Form.Group>
                   </Col>
                 </Row>
                 <Form.Group>
-                  <Form.Control onChange={this.handleFormChange} value={subject} name='subject' required size='lg' type='text' placeholder='Subject...' />
+                  <Form.Control
+                    onChange={this.handleFormChange}
+                    value={subject} name='subject'
+                    required size='lg' type='text'
+                    placeholder='Subject...' />
                   <span className='text-danger'>{formErrors['subject']}</span>
                 </Form.Group>
                 <Form.Group>
-                  <Form.Control onChange={this.handleFormChange} value={message} name='message' required size='lg' as='textarea' placeholder='Your Message...' />
+                  <Form.Control
+                    onChange={this.handleFormChange}
+                    value={message} name='message'
+                    required size='lg' as='textarea'
+                    placeholder='Your Message...' />
                   <span className='text-danger'>{formErrors['message']}</span>
                 </Form.Group>
                 <Button isButton={true} type='submit'>Send</Button>
