@@ -33,9 +33,7 @@ class ContactUs extends React.Component {
     event.preventDefault();
 
     if (this.state.formErrors)
-      this.setState({
-        formErrors: {},
-      })
+      this.clearFormErrors();
 
     const { name, email, subject, message } = this.state;
 
@@ -58,6 +56,12 @@ class ContactUs extends React.Component {
       successfullySentEmail: true,
       loading: false,
     });
+  }
+
+  clearFormErrors = () => {
+    this.setState({
+      formErrors: {},
+    })
   }
 
   validate = (name, email, subject, message) => {
@@ -95,7 +99,13 @@ class ContactUs extends React.Component {
       <>
         <section id='contact-us'>
           <Loader show={this.state.loading} />
-          <Modal backdropClassName='p-5' contentClassName='text-center p-5' centered onHide={this.resetEmailSuccessfullySent} show={successfullySentEmail === true || successfullySentEmail === false}>
+          <Modal
+            backdropClassName='p-5'
+            contentClassName='text-center p-5'
+            centered
+            onHide={this.resetEmailSuccessfullySent}
+            show={successfullySentEmail === true || successfullySentEmail === false}
+          >
             {
               successfullySentEmail === true
                 ?

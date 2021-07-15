@@ -67,7 +67,7 @@
         }
     }
 
-    #gotoclasses, #gotocontactus {
+    .button-primary, .button-secondary {
         @include for-large-desktop {
             padding-top: 1rem;
             padding-bottom: 1rem;

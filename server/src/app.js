@@ -12,6 +12,7 @@ const chefsRouter = require('./apps/chefs/routes');
 const bookingRouter = require('./apps/booking/routes');
 const contactRouter = require('./apps/contact/routes');
 const scheduleRouter = require('./apps/schedule/routes');
+const subscribeRouter = require("./apps/subscribe/routes.js");
 
 const errorMiddleware = require('./middleware/error');
 
@@ -44,6 +45,7 @@ function initRoutes() {
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
   app.use('/schedule', scheduleRouter);
+  app.use('/subscribe', subscribeRouter)
 }
 
 init();

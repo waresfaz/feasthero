@@ -16,3 +16,6 @@ export const VERIFY_BOOKING_SUCCESS = `${BOOKING_PATH}/verify-success`;
 
 const CONTACT_PATH = `${BASE_URL}/contact`;
 export const EMAIL = `${CONTACT_PATH}/email`;
+
+const SUBSCRIBE_PATH = `${BASE_URL}/subscribe`;
+export const SUBSCRIBE = `${SUBSCRIBE_PATH}/`;
