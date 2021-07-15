@@ -3,7 +3,7 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 import { getBookingDetailsFromSession } from '../../services/booking/api';
-import { sessionWrapper } from '../../helpers/session-wrapper';
+import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
 /**
  * @description hoc that will pass bookingDetails as props
@@ -23,10 +23,10 @@ const BookingDetailsFromSession = WrappedComponent => {
             const bookingDetails = await sessionWrapper(getBookingDetailsFromSession);
 
             // session expired
-            if (bookingDetails === false)
+            if (bookingDetails === statusEnum.sessionExpired)
                 return;
 
-            if (bookingDetails.error) {
+            if (bookingDetails === statusEnum.error) {
                 this.setState({
                     error: 'Error loading booking details, please try again',
                 });

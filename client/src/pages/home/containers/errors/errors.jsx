@@ -4,7 +4,6 @@ import { connect } from 'react-redux';
 
 class Errors extends React.Component {
     render() {
-        console.log(this.props.errors)
         return (
             <>
                 {

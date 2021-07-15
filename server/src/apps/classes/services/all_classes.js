@@ -5,7 +5,7 @@ async function getAllClasses() {
     const WEEK_FROM = moment
         .utc(new Date().toISOString())
         .tz('US/Eastern')
-        .add(1, 'w')
+        .add(7, 'd')
         .toDate();
 
     const WEEK_TO = moment

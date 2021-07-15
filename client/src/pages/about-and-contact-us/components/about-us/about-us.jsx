@@ -1,5 +1,5 @@
 import React from 'react'
-import { Col, Container, Image, Row } from 'react-bootstrap';
+import { Container, Image, Row } from 'react-bootstrap';
 import { Bounce, Fade } from 'react-awesome-reveal';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faLinkedin, faFacebook, faInstagram } from '@fortawesome/free-brands-svg-icons';

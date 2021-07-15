@@ -3,7 +3,7 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 import { verifyBookingSuccess } from '../../services/booking/api';
-import { sessionWrapper } from '../../helpers/session-wrapper';
+import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
 const VerifyBookingSuccess = WrappedComponent => {
     return class extends React.Component {
@@ -19,10 +19,10 @@ const VerifyBookingSuccess = WrappedComponent => {
         async componentDidMount() {
             const response = await sessionWrapper(verifyBookingSuccess);
 
-            if (response === false)
+            if (response === statusEnum.sessionExpired)
                 return;
 
-            if (response.error) {
+            if (response === statusEnum.error) {
                 this.setState({
                     error: 'Error fetching booking details, please contact customer service to make sure your class was placed'
                 })

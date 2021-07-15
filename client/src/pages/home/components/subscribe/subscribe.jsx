@@ -134,7 +134,7 @@ class Subscribe extends React.Component {
                                             <span className='text-danger'>{formErrors['email']}</span>
                                         </Col>
                                         <Col xl={4} lg={6}>
-                                            <Button type='submit' isButton={true} secondary={true}>Stay Connected</Button>
+                                            <Button className='w-100' type='submit' isButton={true} secondary={true}>Stay Connected</Button>
                                         </Col>
                                     </Row>
                                 </Form.Group>

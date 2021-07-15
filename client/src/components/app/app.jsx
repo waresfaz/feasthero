@@ -14,8 +14,10 @@ import Checkout from '../../pages/checkout/checkout';
 import BookingSuccess from '../../pages/booking-success/booking-success';
 import AboutAndContactUs from '../../pages/about-and-contact-us/about-and-contact-us';
 import Faq from '../../pages/faq/faq';
+import Blog from '../../pages/blog/blog/blog';
 import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';
+import BlogPost from '../../pages/blog/blog-post/blog-post';
 
 import './app.scss';
 
@@ -38,6 +40,8 @@ class App extends React.Component {
               <Route exact path='/booking-success' component={BookingSuccess} />
               <Route exact path='/contact' component={AboutAndContactUs} />
               <Route exact path='/faq' component={Faq} />
+              <Route exact path='/blog' component={Blog} />
+              <Route exact path='/blog/post/:id' component={BlogPost} />
             </Switch>
           </Container>
           <Footer />

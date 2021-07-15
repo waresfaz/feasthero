@@ -9,7 +9,6 @@ async function allClasses(_, res) {
     if (classes.error)
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ response: classes.error });
 
-
     return res.status(StatusCodes.OK).json({ response: classes });
 
 };

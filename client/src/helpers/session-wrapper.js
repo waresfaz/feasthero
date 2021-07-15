@@ -4,6 +4,9 @@ import history from '../history';
 import { newError } from '../services/feasthero/actions';
 import { SESSION_EXPIRED_ERROR } from '../constants/app-constants';
 
+export const statusEnum = { error: 1, sessionExpired: 2 };
+
+
 /**
  * @description wraps a rest api call to make sure there is a session active 
  * 
@@ -18,8 +21,11 @@ export async function sessionWrapper(apiCallFn, ...args) {
     if (response.error === 408) {
         store.dispatch(newError(SESSION_EXPIRED_ERROR));
         history.push('/');
-        return false;
+        return statusEnum.sessionExpired;
     }
+
+    if (response.error) 
+        return statusEnum.error;
 
     return response;
 }
