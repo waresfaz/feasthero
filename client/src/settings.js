@@ -10,11 +10,6 @@ let settings = {
 function initSettings() {
     require('dotenv').config()
 
-    settings = {
-        ...settings,
-        DEBUG: process.env.REACT_APP_DEBUG
-    };
-
     if (settings.ORIGIN)
         return;
 
