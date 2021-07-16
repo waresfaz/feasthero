@@ -9,7 +9,7 @@ import OrderProgressBar from '../../components/order-progress/order-progress-bar
 import { loadStripe } from "@stripe/stripe-js";
 
 import { settings } from '../../settings';
-
+import checkSessionActive from '../../helpers/check-session-active';
 
 import './checkout.scss';
 import BookingSummary from './components/booking-summary/booking-summary';
@@ -19,6 +19,14 @@ class Checkout extends React.Component {
     constructor() {
         super();
         this.stripe = loadStripe(settings.STRIPE_PUBLISHABLE_KEY);
+    }
+
+    componentDidMount() {
+        this.sessionCheck = setInterval(checkSessionActive, 10000);
+    }
+
+    componentWillUnmount() {
+        clearInterval(this.sessionCheck);
     }
 
     render() {

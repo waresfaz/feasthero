@@ -1,6 +1,7 @@
 import React from 'react';
 import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
@@ -23,6 +24,7 @@ const InjectedPaymentForm = (props) => {
 class Payment extends React.Component {
     constructor() {
         super();
+        this.recaptchaRef = React.createRef();
         this.state = {
             errors: '',
             cardErrors: '',
@@ -42,6 +44,14 @@ class Payment extends React.Component {
 
         if (this.state.cardErrors)
             return;
+
+        if (!this.recaptchaRef.current.getValue()) {
+            this.setState({
+                errors: 'Please submit the recaptcha',
+            });
+            return;
+        }
+
 
         const { stripe, elements } = this.props;
 
@@ -120,7 +130,14 @@ class Payment extends React.Component {
                         <Form.Group>
                             <CardElement className='mb-3' onChange={this.handleChange} options={this.cardElementOptions()} />
                             <span role="alert" className='text-danger mb-0'>{this.state.cardErrors}</span>
-                            <button className='pay-btn mat-btn mt-5' type='submit' disabled={!this.props.stripe}>
+                            <div className='d-flex justify-content-center my-4'>
+                                <ReCAPTCHA
+                                    ref={this.recaptchaRef}
+                                    sitekey={settings.RECAPTCHA_SITE_KEY}
+                                />
+                            </div>
+
+                            <button className='pay-btn mat-btn' type='submit' disabled={!this.props.stripe}>
                                 {
                                     this.state.loading ? <div className='loader'></div> : <p>Pay ${this.props.bookingDetails.grandTotal}</p>
 
@@ -129,7 +146,13 @@ class Payment extends React.Component {
                             <button className='pay-btn mat-btn mt-3 danger' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
                                 Cancel
                             </button>
-                            <span role="alert" className='text-danger'>{this.state.errors}</span>
+                            {
+                                this.state.errors
+                                    ?
+                                    <span role="alert" className='text-danger mt-3 d-block'>{this.state.errors}</span>
+                                    :
+                                    <></>
+                            }
                         </Form.Group>
                         <Row className='secure-checkout'>
                             <Col md={8} xs={8}>

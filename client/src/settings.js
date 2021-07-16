@@ -3,6 +3,8 @@ let settings = {
     ORIGIN: '',
     STRIPE_PUBLISHABLE_KEY: '',
     STRIPE_SECRET_KEY: '',
+    RECAPTCHA_SECRET_KEY: '',
+    RECAPTCHA_SITE_KEY: '',
 };
 
 function initSettings() {
@@ -21,7 +23,9 @@ function initSettings() {
             ...settings,
             ORIGIN: 'http://localhost:3002',
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST,
-            STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST
+            STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST,
+            RECAPTCHA_SITE_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
+            RECAPTCHA_SECRET_KEY: 'vFI1TnRWxMZNFuojJ4WifJWe',
         };
     } else {
         settings = {
@@ -29,6 +33,8 @@ function initSettings() {
             ORIGIN: 'https://feasthero.herokuapp.com',
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY,
+            RECAPTCHA_SITE_KEY: process.env.REACT_APP_RECAPTCHA_SITE_KEY,
+            RECAPTCHA_SECRET_KEY: process.env.REACT_APP_RECAPTCHA_SECRET_KEY,
         };
     }
 

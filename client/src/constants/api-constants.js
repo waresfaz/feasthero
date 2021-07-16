@@ -13,6 +13,7 @@ export const INIT_BOOKING_DETAILS_SESSION = `${BOOKING_PATH}/init-session`;
 export const GET_BOOKING_DETAILS_FROM_SESSION = `${BOOKING_PATH}/details-from-session`;
 export const BOOK_CLASS = `${BOOKING_PATH}/book`;
 export const VERIFY_BOOKING_SUCCESS = `${BOOKING_PATH}/verify-success`;
+export const IS_SESSION_ACTIVE = `${BOOKING_PATH}/is-session-active`;
 
 const CONTACT_PATH = `${BASE_URL}/contact`;
 export const EMAIL = `${CONTACT_PATH}/email`;
