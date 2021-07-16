@@ -3,12 +3,15 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 /**
- * @summary ensure that an http request succeeds.
+ * ensure that an http request succeeds.
+ * 
  * @description in order for devs to not have to worry about error handling logic
  * and edge casses, they can wrap a component with this hoc. A function that performs a request
  * will also be passed. This hoc will run that function and perform all the error handling then 
  * pass in the result to the wrapped component as a prop. If the passed function fails, an error
  * will be passed as a prop.
+ * 
+ * @since 2.0.0
  * 
  * @param {React.Component} WrappedComponent - component this hoc will render
  * @param {Function} requestFn - function that will be run and handled

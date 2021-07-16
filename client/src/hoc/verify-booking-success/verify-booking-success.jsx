@@ -6,7 +6,10 @@ import { verifyBookingSuccess } from '../../services/booking/api';
 import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
 /**
- * @summary verify is a class was booked successfully
+ * verify is a class was booked successfully
+ * 
+ * @since 2.0.0
+ * 
  * @param {React.Component} WrappedComponent
  * @returns {React.Component} - component that renders the wrapped component
  */

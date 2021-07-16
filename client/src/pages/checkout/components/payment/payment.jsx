@@ -24,7 +24,8 @@ const InjectedPaymentForm = (props) => {
 };
 
 /**
- * @summary payment component responsible for creating a card token and sending it to the backend
+ * payment component responsible for creating a card token and sending it to the backend
+ * @since 2.0.0
  */
 class Payment extends React.Component {
     constructor() {

@@ -16,8 +16,8 @@ class SendConfirmedEmails {
 
     async sendMailToChefAndCustomer() {
         let class_ = await getClassDetailsFromId(this.order.classId);
-        await _sendMailToCustomer(class_);
-        await _sendMailToChef(class_);
+        await this._sendMailToCustomer(class_);
+        await this._sendMailToChef(class_);
     }
 
     /**

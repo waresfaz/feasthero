@@ -1,7 +1,9 @@
 import { settings, initSettings } from '../settings';
 
 /**
- * @summary api paths.
+ * api paths.
+ * 
+ * @since 2.0.0
  */
 
 initSettings();

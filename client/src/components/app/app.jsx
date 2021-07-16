@@ -23,6 +23,8 @@ import './app.scss';
 
 /**
  * the app component that controls what is rendered
+ * 
+ * @since 2.0.0
  */
 class App extends React.Component {
   constructor() {

@@ -5,7 +5,8 @@ import { Col, Row } from 'react-bootstrap';
 import './booking-summary.scss';
 
 /**
- * @summary all of the users booking details
+ * all of the users booking details
+ * @since 2.0.0
  */
 class BookingSummary extends React.Component {
     static propTypes = {

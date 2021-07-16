@@ -16,7 +16,8 @@ import BookingSummary from './components/booking-summary/booking-summary';
 import IntervalIsBookingSessionActive from '../../hoc/is-booking-session-active/is-booking-session-active';
 
 /**
- * @summary the checkout page containing a payment component and a booking summary component
+ * the checkout page containing a payment component and a booking summary component
+ * @since 2.0.0
  */
 class Checkout extends React.Component {
     constructor() {

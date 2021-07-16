@@ -6,6 +6,8 @@ import './footer.scss';
 
 /**
  * footer component to render at bottom of page
+ * 
+ * @since 2.0.0
  */
 class Footer extends React.Component {
   render() {

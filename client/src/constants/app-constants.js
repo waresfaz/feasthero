@@ -1,5 +1,7 @@
 /**
- * @summary generic constants used in the app.
+ * generic constants used in the app.
+ * 
+ * @since 2.0.0
  */
 
 // remember to keep these from lower values to higher values!

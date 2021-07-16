@@ -6,6 +6,8 @@ import './loader.scss'
 
 /**
  * a loader to display while waiting on an async code block
+ * 
+ * @since 2.0.0
  */
 class Loader extends Component {
     static propTypes = {

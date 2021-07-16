@@ -1,5 +1,7 @@
 /**
- * @summary a helper class for calculating an order's total
+ * a helper class for calculating an order's total
+ * 
+ * @since 2.0.0
 */
 export default class CalculateTotals {
     /**

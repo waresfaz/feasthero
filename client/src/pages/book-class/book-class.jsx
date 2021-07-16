@@ -16,6 +16,8 @@ import './book-class.scss';
 
 /**
  * page to allow user to book a class
+ * 
+ * @since 2.0.0
  */
 class BookClass extends React.Component {
   constructor(props) {
@@ -34,7 +36,7 @@ class BookClass extends React.Component {
 
     /**
      * fetch all classes from the server and add to redux store
-     */
+    */
     getAllClasses: PropTypes.func,
 
     /**
@@ -64,7 +66,7 @@ class BookClass extends React.Component {
   }
 
   /**
-   * @summary all steps for initializing class data in the local state
+   * all steps for initializing class data in the local state
    * 
    * @param {object} props - certian set of props to use to init class data 
    */

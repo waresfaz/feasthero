@@ -2,7 +2,10 @@ import React from 'react';
 import checkBookingSessionActive from '../../helpers/check-booking-session-active';
 
 /**
- * @summary check if booking details session has expired every 2 minutes.
+ * check if booking details session has expired every 2 minutes.
+ * 
+ * @since 2.0.0
+ * 
  * @param {React.Component} WrappedComponent - component to render
  * @returns {React.Component} - component that renders the wrapped component
  */
@@ -18,7 +21,7 @@ const IntervalIsBookingSessionActive = WrappedComponent => {
 
         /**
          * clear the interval just before component is unmounted
-         */
+        */
         componentWillUnmount() {
             clearInterval(this.sessionCheck);
         }

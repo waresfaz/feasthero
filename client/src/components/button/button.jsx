@@ -5,12 +5,14 @@ import PropTypes from 'prop-types';
 import './button.scss'
 
 /**
- * A generic FeastHero button 
+ * A generic FeastHero button.
+ * 
+ * @since 2.0.0
  */
 class Button extends React.Component {
     static propTypes = {
         /**
-         * should render a {<button></button>} instead of a {<a></a>}
+         * should render a button instead of link
          */
         isButton: PropTypes.bool,
 

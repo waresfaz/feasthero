@@ -1,7 +1,10 @@
 import dateTimeToString from './date-time-to-string';
 
 /**
- * @summary format all classes schedule date times from server so they can be displayed.
+ * format all classes schedule date times from server so they can be displayed.
+ * 
+ * @since 2.0.0
+ * 
  * @param {Array<DateTime>} datesTimes - date times to display as options
  * @returns {Array<String>} - date times as objects
  */

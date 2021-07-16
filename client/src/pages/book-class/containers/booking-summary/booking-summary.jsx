@@ -11,6 +11,8 @@ import './booking-summary.scss';
 
 /**
  * the user's booking summary
+ * 
+ * @since 2.0.0
  */
 class BookingSummary extends React.Component {
     constructor(props) {

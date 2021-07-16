@@ -1,5 +1,8 @@
 /**
- * @summary get the amount of time since a date
+ * get the amount of time since a date
+ * 
+ * @since 2.0.0
+ * 
  * @param {Date} date 
  * @returns {String} - time since certian date
  */

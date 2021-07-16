@@ -24,6 +24,8 @@ import NotEmptyValidator from '../../../../validators/not-empty';
 /**
  * container for user to enter their booking details, however
  * the mealkit option is in `BookingSummary`
+ * 
+ * @since 2.0.0
  */
 class BookingDetails extends React.Component {
     constructor(props) {
