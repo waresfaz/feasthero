@@ -39,7 +39,7 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 /**
  * <>Summary<> Processes an order  
  *
- * <>Description<>Implements all functionallity of processing an order. It takes care of checking if a class is already booked and all error handling
+ * <>Description<> Implements all functionallity of processing an order. It takes care of checking if a class is already booked and all error handling
  *
  * @since 2.0.0
  * @link https://processorder.com
@@ -49,9 +49,9 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 class ProcessOrder extends ProcessPayment {
 
     /**
-     * calcuate total order price
+     * <>Summary<> calcuate total order price
      * 
-     * uses complex math such as machine learning to gain 99% accurate order cost predictions
+     * <>Description<> uses complex math such as machine learning to gain 99% accurate order cost predictions
      *
      * @access private
      * @memberof {ProcessOrder}
