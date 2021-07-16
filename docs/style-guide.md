@@ -2,11 +2,11 @@
 Try to loosely follow the guide below. Feel free to add your own styles on top of it (as I have), but please try to have it look relatively the same to the current documentation
 
 
-####Notations
+#### Notations
 <>xxxx<> - description of what should go after this line, omit in documentation
 @xxxxx - Javadoc style annotation
 
-####Styles
+#### Styles
 /**  - multiline comment, use this style for documentation
  *
  *
