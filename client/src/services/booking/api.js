@@ -5,7 +5,7 @@ import {
     GET_BOOKING_DETAILS_FROM_SESSION,
     BOOK_CLASS,
     VERIFY_BOOKING_SUCCESS,
-    IS_SESSION_ACTIVE
+    IS_BOOKING_SESSION_ACTIVE
 } from '../../constants/api-constants';
 
 export async function initBookingDetailsSession(bookingDetails) {
@@ -48,8 +48,8 @@ export async function verifyBookingSuccess() {
     return response.data.response;
 }
 
-export async function isSessionActive() {
-    const response = await axios.get(IS_SESSION_ACTIVE, { withCredentials: true })
+export async function isBookingSessionActive() {
+    const response = await axios.get(IS_BOOKING_SESSION_ACTIVE, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 

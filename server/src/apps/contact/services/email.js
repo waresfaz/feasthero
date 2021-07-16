@@ -1,4 +1,5 @@
 const nodemailer = require('nodemailer');
+const { settings } = require('../../../feasthero/settings');
 
 async function sendEmail(msg) {
     let transporter = new TransporterSingleton();
@@ -27,7 +28,7 @@ class TransporterSingleton {
 function genMessage(name, email, message, subject) {
     return {
         from: name,
-        to: "cpstef04@gmail.com",
+        to: settings.DEBUG ? 'cpstef04@gmail.com' : 'bookings@feasthero.com',
         subject: `${subject} - Contact Form Submission`,
         html: `
             <p>Name: ${name}</p>

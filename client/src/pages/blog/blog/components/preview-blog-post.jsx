@@ -4,34 +4,36 @@ import { Image, Row, Col } from 'react-bootstrap';
 
 import Content from './components/content';
 
+import './preview-blog-post.scss';
 
 class PreviewBlogPost extends React.Component {
     render() {
-        const { key, postData } = this.props;
+        console.log(this.props)
+        const { index, postData } = this.props;
         return (
             <>
-                <Row>
+                <Row style={{ marginBottom: '6rem' }}>
                     {
-                        key % 2 === 0
+                        index % 2 === 0
                             ?
+                            <Col lg={4}>
+                                <Image fluid src={postData.image} alt={postData.title} />
+                            </Col>
+                            :
                             <Col lg={7}>
                                 <Content postData={postData} />
                             </Col>
-                            :
 
-                            <Col lg={4}>
-                                <Image src={postData.image} alt={postData.title} />
-                            </Col>
                     }
                     {
-                        key % 2 === 0
+                        index % 2 === 0
                             ?
-                            <Col lg={4}>
-                                <Image src={postData.image} alt={postData.title} />
-                            </Col>
-                            :
                             <Col lg={7}>
                                 <Content postData={postData} />
+                            </Col>
+                            :
+                            <Col lg={4}>
+                                <Image fluid src={postData.image} alt={postData.title} />
                             </Col>
 
                     }

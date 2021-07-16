@@ -1,7 +1,7 @@
 import React from 'react';
 import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
-import ReCAPTCHA from "react-google-recaptcha";
+import ReCAPTCHA from 'react-google-recaptcha';
 
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
@@ -10,6 +10,7 @@ import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
+import { sessionWrapper } from '../../../../helpers/session-wrapper';
 
 const InjectedPaymentForm = (props) => {
     return (
@@ -74,7 +75,7 @@ class Payment extends React.Component {
             return;
         }
 
-        if (!await bookClass(this.props.bookingDetails, cardTokenResponse.token.id)) {
+        if (!await sessionWrapper(bookClass, this.props.bookingDetails, cardTokenResponse.token.id)) {
             this.setState({
                 errors: 'Payment failed, please try again or contact customer support',
                 loading: false,

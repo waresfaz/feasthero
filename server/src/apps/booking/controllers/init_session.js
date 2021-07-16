@@ -2,7 +2,7 @@ const StatusCodes = require('http-status-codes');
 const Booking = require('../schema/booking');
 const dateTimeToMoment = require('../../../helpers/date_time_to_moment');
 
-async function initBookingSession(req, res) {
+async function initSession(req, res) {
     let bookingDetails = req.body;
     bookingDetails.selectedClassDateTime = new Date(dateTimeToMoment(bookingDetails.selectedClassDateTime));
     req.session.bookingDetails = Booking(bookingDetails);
@@ -10,4 +10,4 @@ async function initBookingSession(req, res) {
     return res.status(StatusCodes.OK).json({ response: 'ok' });
 }
 
-module.exports = initBookingSession;
+module.exports = initSession;

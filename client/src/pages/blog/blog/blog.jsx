@@ -22,7 +22,7 @@ class Blog extends React.Component {
         const { blogPosts, error } = this.props;
         return (
             <>
-                <Container>
+                <Container id='blog'>
                     <Title className='mb-5'>Blog</Title>
                     {
                         blogPosts
@@ -30,7 +30,7 @@ class Blog extends React.Component {
                             <>
                                 {
                                     blogPosts.map((post, key) => {
-                                        return <PreviewBlogPost postData={post} key={key} />
+                                        return <PreviewBlogPost postData={post} index={key} key={key} />
 
                                     })
                                 }

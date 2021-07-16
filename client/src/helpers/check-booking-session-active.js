@@ -3,10 +3,10 @@ import history from '../history';
 
 import { newError } from '../services/feasthero/actions';
 import { SESSION_EXPIRED_ERROR } from '../constants/app-constants';
-import { isSessionActive } from '../services/booking/api';
+import { isBookingSessionActive } from '../services/booking/api';
 
-export default async function checkSessionActive() {
-    const response = await isSessionActive();
+export default async function checkBookingSessionActive() {
+    const response = await isBookingSessionActive();
     console.log(response)
     if (!response) {
         store.dispatch(newError(SESSION_EXPIRED_ERROR));

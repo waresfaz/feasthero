@@ -1,10 +1,10 @@
 import React from 'react';
-import checkSessionActive from '../../helpers/check-session-active';
+import checkBookingSessionActive from '../../helpers/check-booking-session-active';
 
-const IntervalIsSessionActive = WrappedComponent => {
+const IntervalIsBookingSessionActive = WrappedComponent => {
     return class extends React.Component {
         componentDidMount() {
-            this.sessionCheck = setInterval(checkSessionActive, 10000);
+            this.sessionCheck = setInterval(checkBookingSessionActive, 120000);
         }
 
         componentWillUnmount() {
@@ -19,4 +19,4 @@ const IntervalIsSessionActive = WrappedComponent => {
     }
 }
 
-export default IntervalIsSessionActive
+export default IntervalIsBookingSessionActive

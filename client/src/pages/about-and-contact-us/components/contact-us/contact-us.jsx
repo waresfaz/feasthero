@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Form, Row, Modal } from 'react-bootstrap';
+import ReCAPTCHA from "react-google-recaptcha";
 
 import NameValidator from '../../../../validators/name';
 
@@ -13,11 +14,13 @@ import NotEmptyValidator from '../../../../validators/not-empty';
 import { email as sendEmail } from '../../../../services/contact/api';
 
 import './contact-us.scss';
+import { settings } from '../../../../settings';
 
 
 class ContactUs extends React.Component {
   constructor() {
     super();
+    this.recaptchaRef = React.createRef();
     this.state = {
       name: '',
       subject: '',
@@ -34,6 +37,15 @@ class ContactUs extends React.Component {
 
     if (this.state.formErrors)
       this.clearFormErrors();
+
+    if (!this.recaptchaRef.current.getValue()) {
+      this.setState({
+        formErrors: {
+          recaptcha: 'Please submit the recaptcha'
+        }
+      });
+      return;
+    }
 
     const { name, email, subject, message } = this.state;
 
@@ -166,6 +178,13 @@ class ContactUs extends React.Component {
                     required size='lg' as='textarea'
                     placeholder='Your Message...' />
                   <span className='text-danger'>{formErrors['message']}</span>
+                </Form.Group>
+                <Form.Group>
+                  <ReCAPTCHA
+                    ref={this.recaptchaRef}
+                    sitekey={settings.RECAPTCHA_SITE_KEY}
+                  />
+                  <span className='text-danger'>{formErrors['recaptcha']}</span>
                 </Form.Group>
                 <Button isButton={true} type='submit'>Send</Button>
               </form>

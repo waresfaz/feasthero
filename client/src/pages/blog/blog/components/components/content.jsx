@@ -11,12 +11,12 @@ class Content extends React.Component {
         return (
             <>
                 <section className='content'>
-                    <h1>{postData.title}</h1>
+                    <h3>{postData.title}</h3>
                     <div dangerouslySetInnerHTML={{ __html: truncateString(postData.content, 600) }} />
                     <Link to={`/blog/post/${postData._id}`}>Read More</Link>
                     <div className='d-flex'>
                         <p>By <b>{postData.author}</b>,</p>
-                        <p className='time-since-post'>{timeSince(new Date(postData.datePosted))} ago</p>
+                        <p className='ml-2'>{timeSince(new Date(postData.datePosted))} ago</p>
                     </div>
                 </section>
             </>

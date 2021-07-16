@@ -12,7 +12,7 @@ import { settings } from '../../settings';
 
 import './checkout.scss';
 import BookingSummary from './components/booking-summary/booking-summary';
-import IntervalIsSessionActive from '../../hoc/is-session-active/is-session-active';
+import IntervalIsBookingSessionActive from '../../hoc/is-booking-session-active/is-booking-session-active';
 
 
 class Checkout extends React.Component {
@@ -48,4 +48,4 @@ class Checkout extends React.Component {
 }
 
 
-export default IntervalIsSessionActive(BookingDetailsFromSession(Checkout));
+export default IntervalIsBookingSessionActive(BookingDetailsFromSession(Checkout));
