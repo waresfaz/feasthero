@@ -1,6 +1,5 @@
 const getAllClasses = require('../services/all_classes');
 const StatusCodes = require('http-status-codes');
-const Schedule = require('../../schedule/schema/schedule');
 
 async function allClasses(_, res) {
     let classes = await getAllClasses()
