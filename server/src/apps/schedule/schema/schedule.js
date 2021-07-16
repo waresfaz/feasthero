@@ -10,4 +10,5 @@ let Schedule = new Schema({
     default: true,
   },
 });
+
 module.exports = mongoose.model("Schedule", Schedule);

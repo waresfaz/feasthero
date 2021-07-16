@@ -76,7 +76,13 @@ class BookingSummary extends React.Component {
                 <h4>
                     ${classData.costPerDevice} per device
                 </h4>
-                <IncludeMealKits classData={classData} />
+                {
+                    classData.hasMealKits
+                        ?
+                        <IncludeMealKits classData={classData} />
+                        :
+                        <></>
+                }
                 <div className='summary-divider' />
                 <Row>
                     <Col xs={6}>
