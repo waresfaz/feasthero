@@ -5,7 +5,7 @@ Each function of the server is placed in its own subdirectory.
 
 <br>
 
-Each app will have these subdirectories or files (depends on how much code is needed)
+Most apps will have these subdirectories or files (depends on how much code is needed)
 - `routes`
     - Exposed endpoints consumed by the REST API
 - `controllers`
