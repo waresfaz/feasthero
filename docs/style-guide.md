@@ -13,8 +13,8 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 */
 
 #### Annotations
-<>Summary<> - a short one line summary of the code block
-<>Description<> - a longer description of the codeblock
+<>Summary<> - a short one line summary of the code block  
+<>Description<> - a longer description of the code block
 
 @since x.x.x - 3-digit initial introduction if significant changes are made. Serves as a change log. Only use for important and general code blocks such as classes. 
 
@@ -37,7 +37,7 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 
 ```
 /**
- * <>Summary<> Processes an order  
+ * <>Summary<> Processes an order
  *
  * <>Description<> Implements all functionallity of processing an order. It takes care of checking if a class is already booked and all error handling
  *
