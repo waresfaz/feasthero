@@ -7,14 +7,14 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 @xxxxx - Javadoc style annotation
 
 #### Styles
-/**  - multiline comment, use this style for documentation
+/** multiline comment, use this style for documentation  
  *
  *
 */
 
 #### Annotations
-<>Summary<> - a short one line summary of the code block  
-<>Description<> - a longer description of the code block
+<>summary<> - a short one line summary of the code block  
+<>description<> - a longer description of the code block
 
 @since x.x.x - 3-digit initial introduction if significant changes are made. Serves as a change log. Only use for important and general code blocks such as classes. 
 
