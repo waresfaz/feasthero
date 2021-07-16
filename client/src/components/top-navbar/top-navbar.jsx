@@ -8,6 +8,9 @@ import logo from '../../assets/resources/images/logo-full.png';
 
 import './top-nav.scss'
 
+/**
+ * top navigation bar shown at all times
+ */
 class TopNavbar extends React.Component {
   render() {
     return (

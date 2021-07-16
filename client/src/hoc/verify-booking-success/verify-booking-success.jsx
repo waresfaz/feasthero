@@ -5,6 +5,11 @@ import Loader from '../../components/loader/loader';
 import { verifyBookingSuccess } from '../../services/booking/api';
 import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
+/**
+ * @summary verify is a class was booked successfully
+ * @param {React.Component} WrappedComponent
+ * @returns {React.Component} - component that renders the wrapped component
+ */
 const VerifyBookingSuccess = WrappedComponent => {
     return class extends React.Component {
         constructor() {

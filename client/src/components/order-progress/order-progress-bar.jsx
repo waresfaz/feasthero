@@ -5,6 +5,9 @@ import OrderProgressCircle from './components/progress-circle/order-progress-cir
 
 import './order-progress-bar.scss';
 
+/**
+ * progress bar to show users where they are in the booking process.
+ */
 class OrderProgressBar extends React.Component {
     render() {
         return (

@@ -1,5 +1,9 @@
 import { settings, initSettings } from '../settings';
 
+/**
+ * @summary api paths.
+ */
+
 initSettings();
 
 export const BASE_URL = settings.ORIGIN;

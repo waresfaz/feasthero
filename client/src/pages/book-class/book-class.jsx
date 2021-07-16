@@ -1,6 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import { getAllClasses } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
@@ -13,6 +14,9 @@ import BookingSummary from './containers/booking-summary/booking-summary';
 
 import './book-class.scss';
 
+/**
+ * page to allow user to book a class
+ */
 class BookClass extends React.Component {
   constructor(props) {
     super(props);
@@ -20,6 +24,28 @@ class BookClass extends React.Component {
     this.state = {
       classData: null,
     }
+  }
+
+  static propTypes = {
+    /**
+     * reset all booking details in redux store
+     */
+    reset: PropTypes.func,
+
+    /**
+     * fetch all classes from the server and add to redux store
+     */
+    getAllClasses: PropTypes.func,
+
+    /**
+     * all of the classes currently in the redux store
+     */
+    allClasses: PropTypes.array,
+
+    /**
+     * update the current class id in the redux store
+     */
+    updateClassId: PropTypes.func
   }
 
   componentDidMount() {
@@ -37,6 +63,11 @@ class BookClass extends React.Component {
     }
   }
 
+  /**
+   * @summary all steps for initializing class data in the local state
+   * 
+   * @param {object} props - certian set of props to use to init class data 
+   */
   initClassData = (props) => {
     const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
     props.updateClassId(classData._id);

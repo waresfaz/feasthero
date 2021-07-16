@@ -2,6 +2,7 @@ import React from 'react';
 import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import ReCAPTCHA from 'react-google-recaptcha';
+import PropTypes from 'prop-types';
 
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
@@ -22,6 +23,9 @@ const InjectedPaymentForm = (props) => {
     );
 };
 
+/**
+ * @summary payment component responsible for creating a card token and sending it to the backend
+ */
 class Payment extends React.Component {
     constructor() {
         super();
@@ -31,6 +35,23 @@ class Payment extends React.Component {
             cardErrors: '',
             loading: false,
         }
+    }
+
+    static propTypes = {
+        /**
+         * the users booking details
+         */
+        bookingDetails: PropTypes.object,
+
+        /**
+         * stripe elements
+         */
+        elements: PropTypes.object,
+
+        /**
+         * stripe promise
+         */
+        stripe: PropTypes.object,
     }
 
     handleChange = ({ error }) => {
@@ -46,25 +67,17 @@ class Payment extends React.Component {
         if (this.state.cardErrors)
             return;
 
-        if (!this.recaptchaRef.current.getValue()) {
-            this.setState({
-                errors: 'Please submit the recaptcha',
-            });
+        if (!this.checkReCaptcha())
             return;
-        }
-
 
         const { stripe, elements } = this.props;
 
         if (!stripe || !elements)
             return;
 
+        this.setState({ loading: true });
+
         const card = elements.getElement(CardElement);
-
-        this.setState({
-            loading: true,
-        })
-
         const cardTokenResponse = await stripe.createToken(card)
 
         if (cardTokenResponse.error) {
@@ -76,7 +89,6 @@ class Payment extends React.Component {
         }
 
         const bookingResponse = await sessionWrapper(bookClass, cardTokenResponse.token.id);
-
         if (bookingResponse === statusEnum.error) {
             this.setState({
                 errors: 'Payment failed, please try again or contact customer support',
@@ -92,6 +104,16 @@ class Payment extends React.Component {
         })
 
         history.push('booking-success');
+    }
+
+    checkReCaptcha = () => {
+        if (!this.recaptchaRef.current.getValue()) {
+            this.setState({
+                errors: 'Please submit the recaptcha',
+            });
+            return false;
+        }
+        return true;
     }
 
     cardElementOptions = () => {

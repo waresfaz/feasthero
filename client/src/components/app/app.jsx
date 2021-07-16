@@ -21,6 +21,9 @@ import BlogPost from '../../pages/blog/blog-post/blog-post';
 
 import './app.scss';
 
+/**
+ * the app component that controls what is rendered
+ */
 class App extends React.Component {
   constructor() {
     super();

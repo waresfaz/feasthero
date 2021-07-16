@@ -1,6 +1,11 @@
 import dateTimeToString from './date-time-to-string';
 
-function datesTimesAsOption(datesTimes) {
+/**
+ * @summary format all classes schedule date times from server so they can be displayed.
+ * @param {Array<DateTime>} datesTimes - date times to display as options
+ * @returns {Array<String>} - date times as objects
+ */
+export default function datesTimesAsOption(datesTimes) {
     let dateTimesResults = [];
     for (let dateTimeElem of datesTimes) {
         const dateTime = dateTimeToString(dateTimeElem.dateTime);
@@ -18,6 +23,3 @@ function datesTimesAsOption(datesTimes) {
     }
     return dateTimesResults;
 }
-
-
-export default datesTimesAsOption;

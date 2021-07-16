@@ -4,6 +4,9 @@ import { HashLink as Link } from 'react-router-hash-link';
 
 import './footer.scss';
 
+/**
+ * footer component to render at bottom of page
+ */
 class Footer extends React.Component {
   render() {
     return (

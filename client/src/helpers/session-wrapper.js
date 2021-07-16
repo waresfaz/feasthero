@@ -8,11 +8,12 @@ export const statusEnum = { error: 1, sessionExpired: 2 };
 
 
 /**
- * @description wraps a rest api call to make sure there is a session active 
+ * @summary wraps a rest api call to make sure there is a session active 
  * 
  * @param {function} apiCallFn - function that will be calling the rest api 
  * @param  {...any} args - arguments to pass to the api call
- * @returns any
+ * 
+ * @returns {any}
  */
 
 export async function sessionWrapper(apiCallFn, ...args) {
@@ -24,7 +25,7 @@ export async function sessionWrapper(apiCallFn, ...args) {
         return statusEnum.sessionExpired;
     }
 
-    if (response.error) 
+    if (response.error)
         return statusEnum.error;
 
     return response;

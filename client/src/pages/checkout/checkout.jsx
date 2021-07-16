@@ -1,6 +1,7 @@
 import React from 'react'
 import { Elements } from "@stripe/react-stripe-js";
 import { Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import InjectedPaymentForm from './components/payment/payment';
 import BookingDetailsFromSession from '../../hoc/booking-details-from-session/booking-details-from-session';
@@ -14,11 +15,27 @@ import './checkout.scss';
 import BookingSummary from './components/booking-summary/booking-summary';
 import IntervalIsBookingSessionActive from '../../hoc/is-booking-session-active/is-booking-session-active';
 
-
+/**
+ * @summary the checkout page containing a payment component and a booking summary component
+ */
 class Checkout extends React.Component {
     constructor() {
         super();
         this.stripe = loadStripe(settings.STRIPE_PUBLISHABLE_KEY);
+    }
+
+    static propTypes = {
+        /**
+         * if an error occurs when retrieving the booking details
+         * from `BookingDetailsFromSession` hoc, an error string will
+         * be passed to this component
+         */
+        error: PropTypes.string,
+
+        /**
+         * booking details passed from the `BookingDetailsFromSession` hoc
+         */
+        bookingDetails: PropTypes.object,
     }
 
     render() {

@@ -4,6 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 
 import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../constants/app-constants';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
@@ -20,6 +21,10 @@ import { updateGeneralBookerAndBookingDetails } from '../../../../services/booki
 import NameValidator from '../../../../validators/name';
 import NotEmptyValidator from '../../../../validators/not-empty';
 
+/**
+ * container for user to enter their booking details, however
+ * the mealkit option is in `BookingSummary`
+ */
 class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
@@ -29,6 +34,24 @@ class BookingDetails extends React.Component {
             errors: [],
             formErrors: {}
         }
+    }
+
+    static propTypes = {
+        /**
+         * the user's booking details
+         */
+        bookingDetails: PropTypes.object,
+
+        /**
+         * the selected class's data
+         */
+        classData: PropTypes.object,
+
+        /**
+         * update the user's info (email, name, etc) as well 
+         * as their booking details (booking size and selected class time)
+         */
+        updateGeneralBookerAndBookingDetails: PropTypes.func
     }
 
     getGeneralBookerAndBookingDetails = () => {

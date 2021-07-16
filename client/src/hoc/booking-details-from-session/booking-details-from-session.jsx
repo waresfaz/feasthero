@@ -6,7 +6,9 @@ import { getBookingDetailsFromSession } from '../../services/booking/api';
 import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
 /**
- * @description hoc that will pass bookingDetails as props
+ * @summary hoc that will pass bookingDetails as props
+ * @param {React.Component} WrappedComponent - component to render
+ * @returns {React.Component} - component that renders the wrapped component
  */
 
 const BookingDetailsFromSession = WrappedComponent => {

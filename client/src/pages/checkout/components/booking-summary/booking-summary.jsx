@@ -1,9 +1,17 @@
 import React from 'react';
+import PropTypes from 'prop-types';
 import { Col, Row } from 'react-bootstrap';
 
 import './booking-summary.scss';
 
+/**
+ * @summary all of the users booking details
+ */
 class BookingSummary extends React.Component {
+    static propTypes = {
+        bookingDetails: PropTypes.object,
+    }
+
     render() {
         return (
             <section id='payment-booking-summary'>

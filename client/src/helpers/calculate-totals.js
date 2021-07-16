@@ -1,9 +1,18 @@
-class CalculateTotals {
+/**
+ * @summary a helper class for calculating an order's total
+*/
+export default class CalculateTotals {
+    /**
+     * calculate all needed totals to calculate order cost.
+     * 
+     * @access public
+     * @returns {Object} - all of the needed totals
+     */
     static totals(bookingSize, costPerDevice, mealKitPrice, bookingSizeWithMealKit, mealKitsBooked) {
         let mealKitsTotal = 0;
         if (mealKitsBooked)
-        mealKitsTotal = this._mealKitsTotal(mealKitPrice, bookingSizeWithMealKit);
-            
+            mealKitsTotal = this._mealKitsTotal(mealKitPrice, bookingSizeWithMealKit);
+
         const devicesTotal = this._devicesTotal(costPerDevice, bookingSize)
         const subTotal = this._subTotal(devicesTotal, mealKitsTotal);
         const tax = this._tax(subTotal);
@@ -18,18 +27,30 @@ class CalculateTotals {
         }
     }
 
+    /**
+     * @access private
+     */
     static _devicesTotal(costPerDevice, bookingSize) {
         return costPerDevice * bookingSize;
     }
 
+    /**
+     * @access private
+     */
     static _mealKitsTotal(mealKitPrice, bookingSizeWithMealKit) {
         return mealKitPrice * bookingSizeWithMealKit;
     }
 
+    /**
+     * @access private
+     */
     static _subTotal(devicesTotal, mealKitsTotal) {
         return devicesTotal + mealKitsTotal;
     }
 
+    /**
+     * @access private
+     */
     static _tax(subTotal) {
         return subTotal * 0.13;
     }
@@ -38,5 +59,3 @@ class CalculateTotals {
         return tax + subTotal;
     }
 }
-
-export default CalculateTotals;

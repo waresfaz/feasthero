@@ -1,3 +1,8 @@
+/**
+ * @summary get the amount of time since a date
+ * @param {Date} date 
+ * @returns {String} - time since certian date
+ */
 export default function timeSince(date) {
 
     var seconds = Math.floor((new Date() - date) / 1000);

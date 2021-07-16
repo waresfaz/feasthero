@@ -1,16 +1,39 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Row, Col, Form } from 'react-bootstrap';
+import { Row, Col } from 'react-bootstrap';
+import PropTypes from 'prop-types';
 
 import CalculateTotals from '../../../../helpers/calculate-totals';
-import { updateAllCosts, updatemealKitsBooked } from '../../../../services/booking/actions';
+import { updateAllCosts } from '../../../../services/booking/actions';
+import IncludeMealKits from './containers/include-meal-kits/include-meal-kits';
 
 import './booking-summary.scss';
 
+/**
+ * the user's booking summary
+ */
 class BookingSummary extends React.Component {
     constructor(props) {
         super(props);
         props.updateAllCosts(this.calculateTotals())
+    }
+
+    static propTypes = {
+        /**
+         * update booking costs in the redux store such
+         * as subtotal, tax, etc
+         */
+        updateAllCosts: PropTypes.func,
+
+        /**
+         * the user's booking details from redux store
+         */
+        bookingDetails: PropTypes.object,
+
+        /**
+         * the selected class's data
+         */
+        classData: PropTypes.object
     }
 
     getValuesForCostCalculation = () => {
@@ -39,10 +62,6 @@ class BookingSummary extends React.Component {
 
     }
 
-    toggleIncludeMealKits = () => {
-        this.props.updatemealKitsBooked(!this.props.bookingDetails.mealKitsBooked);
-    }
-
     calculateTotals = () => {
         // mealkits are ordered for every devices if meakit is selected
         return CalculateTotals.totals(...Object.values(this.getValuesForCostCalculation()))
@@ -55,16 +74,7 @@ class BookingSummary extends React.Component {
                 <h4>
                     ${classData.costPerDevice} per device
                 </h4>
-                <form>
-                    <Form.Group>
-                        <Form.Check
-                            onChange={this.toggleIncludeMealKits} type='checkbox'
-                            defaultChecked={bookingDetails.mealKitsBooked}
-                            value={bookingDetails.mealKitsBooked}
-                            label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitPrice}/device.</span></p>}
-                        />
-                    </Form.Group>
-                </form>
+                <IncludeMealKits classData={classData} />
                 <div className='summary-divider' />
                 <Row>
                     <Col xs={6}>
@@ -98,7 +108,6 @@ class BookingSummary extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatemealKitsBooked: (mealKitsBooked) => dispatch(updatemealKitsBooked(mealKitsBooked)),
         updateAllCosts: (allCosts) => dispatch(updateAllCosts(allCosts)),
     }
 }

@@ -1,3 +1,7 @@
+/**
+ * @summary generic constants used in the app.
+ */
+
 // remember to keep these from lower values to higher values!
 export const validBookingSizes = [
     { target: { name: 'bookingSize', value: 5 }, label: 5 },

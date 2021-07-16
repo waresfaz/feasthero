@@ -5,26 +5,45 @@ const genCustomerBookingConfirmedData = require('../templates/customer_booking_c
 const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_confirmed_template');
 const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed_data');
 
-async function sendMailToChefAndCustomer(order) {
-    let class_ = await getClassDetailsFromId(order.classId);
-    await sendMailToCustomer(class_, order);
-    await sendMailToChef(class_, order);
+class SendConfirmedEmails {
+    /**
+     * @constructs
+     * @param {Object} order - the customer's order 
+     */
+    constructor(order) {
+        this.order = order;
+    }
+
+    async sendMailToChefAndCustomer() {
+        let class_ = await getClassDetailsFromId(this.order.classId);
+        await _sendMailToCustomer(class_);
+        await _sendMailToChef(class_);
+    }
+
+    /**
+     * @access private
+     * @param {Object} class_ - class data 
+     */
+    async _sendMailToCustomer(class_) {
+        let msg = getMessageTemplate();
+        msg.to = this.order.customerEmail;
+        msg.subject = "FeastHero Class Booking Confirmation";
+        msg.html = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(class_, this.order));
+        await mailSender(msg);
+    };
+
+    /**
+     * @access private
+     * @param {Object} class_ - class data 
+     */
+    async _sendMailToChef(class_) {
+        let msg = getMessageTemplate();
+        msg.to = class_.chefs[0].email;
+        msg.subject = ` FeastHero Class ${class_.title}  Slot Booked`;
+        msg.html = chefBookingConfirmedEmailTemplate(genChefBookingConfirmedData(class_, this.order));
+        await mailSender(msg);
+    };
+
 }
 
-async function sendMailToCustomer(class_, order) {
-    let msg = getMessageTemplate();
-    msg.to = order.customerEmail;
-    msg.subject = "FeastHero Class Booking Confirmation";
-    msg.html = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(class_, order));
-    await mailSender(msg);
-};
-
-async function sendMailToChef(class_, order) {
-    let msg = getMessageTemplate();
-    msg.to = class_.chefs[0].email;
-    msg.subject = ` FeastHero Class ${class_.title}  Slot Booked`;
-    msg.html = chefBookingConfirmedEmailTemplate(genChefBookingConfirmedData(class_, order));
-    await mailSender(msg);
-};
-
-module.exports = sendMailToChefAndCustomer;
+module.exports = SendConfirmedEmails;
