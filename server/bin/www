@@ -1,4 +1,4 @@
-require("dotenv").config();
+console.log(require("dotenv").config());
 const { initSettings, settings } = require('../src/feasthero/settings');
 
 initSettings();
