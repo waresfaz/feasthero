@@ -7,7 +7,6 @@ const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed
 
 class SendConfirmedEmails {
     /**
-     * @constructs
      * @param {Object} order - the customer's order 
      */
     constructor(order) {
