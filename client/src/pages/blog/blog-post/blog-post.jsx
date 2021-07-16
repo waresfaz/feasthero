@@ -19,7 +19,7 @@ class BlogPost extends React.Component {
             <>
                 <Container className='mt-5'>
                     <section id='post'>
-                        <Title className='text-center mb-4'>{postData.title}</Title>
+                        <Title className='mb-4'>{postData.title}</Title>
                         <div id='content' dangerouslySetInnerHTML={{ __html: postData.content }} />
                         <div className='d-flex'>
                             <p>By <b>{postData.author}</b>,</p>
