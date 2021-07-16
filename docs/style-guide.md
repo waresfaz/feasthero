@@ -7,7 +7,7 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 @xxxxx - Javadoc style annotation
 
 #### Styles
-/** multiline comment, use this style for documentation  
+/** - multiline comment, use this style for documentation  
  *  
  *  
 */
