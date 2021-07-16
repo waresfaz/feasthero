@@ -6,7 +6,7 @@ function customerBookingConfirmedEmailTemplate(emailData) {
       <h3>Join with this link: <a href=${emailData.zoomLink}> ${emailData.zoomLink} </a> </h3>
       <br/>
       <p>${emailData.classDescription}</p>
-      <p> Remember for this class you will need ${emailData.recipe}. </p>
+      <p> Remember for this class you will need: ${emailData.recipe.map(item => `\n${item}`)}. </p>
       <h4>  We look forward to having you join!</h4>
      `
 }

@@ -12,12 +12,11 @@ class ProcessPayment {
     }
 
     async process() {
-        try {
-            this.createCharge();
-        } catch (error) {
-            console.log(error);
+        const charge = await this.createCharge().catch(() => false);
+
+        if (charge === false)
             return false;
-        }
+
         await sendMailToChefAndCustomer(this.bookingDetails);
         return true;
     }
@@ -26,23 +25,17 @@ class ProcessPayment {
         return Math.floor(dollars * 100);
     }
 
-    createCharge() {
-        stripe.charges.create(
+    async createCharge() {
+        await stripe.charges.create(
             {
                 amount: ProcessPayment.dollarsToCents(this.bookingDetails.grandTotal),
                 currency: 'cad',
-                source: this.cardTokenId,
+                source: '32432',
                 description: `Payment for FeastHero class at ${this.bookingDetails.selectedClassDateTime}`,
                 receipt_email: this.bookingDetails.customerEmail
-            },
-            function (err, charge) {
-                console.log(err)
-                if (err)
-                    new Error(`payment failed: ${err}`)
-                else
-                    console.log(`payment success: ${charge}`)
-            }
-        )
+            })
+            .then((charge) => console.log(`payment success: ${charge}`))
+            .catch((error) => { throw (new Error(`payment failed: ${error}`)) });
     }
 
 }

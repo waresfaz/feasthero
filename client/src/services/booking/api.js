@@ -29,7 +29,7 @@ export async function getBookingDetailsFromSession() {
 export async function bookClass(cardTokenId) {
     const response = await axios.post(BOOK_CLASS, { 'cardTokenId': cardTokenId }, { withCredentials: true })
         .then((response) => response)
-        .catch((err) => ({ error: err.response.status }));
+        .catch((err) => {console.log(err); return { error: err.response.status };});
 
     if (response.error)
         return response;

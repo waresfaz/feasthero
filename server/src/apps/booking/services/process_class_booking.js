@@ -9,7 +9,6 @@ var ObjectId = require("mongoose").Types.ObjectId;
 class ProcessClassBooking extends ProcessPayment {
     constructor(bookingDetails, cardTokenId) {
         super(bookingDetails, cardTokenId);
-        console.log(bookingDetails)
         this.bookingDetails = bookingDetails;
     }
 
@@ -21,12 +20,14 @@ class ProcessClassBooking extends ProcessPayment {
             };
         }
 
-        /*if (!await super.process())
+        if ((await super.process()) === false) {
+            console.log('ok')
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
                 info: 'payment failed'
             }
-        */
+        }
+
         await this.bookSlot();
 
         let bookedClass = await this.saveBookedClass();
@@ -63,11 +64,10 @@ class ProcessClassBooking extends ProcessPayment {
 
     async saveBookedClass() {
         let bookedClass = new Booking(this.bookingDetails);
-        console.log(bookedClass);
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })
-            .catch((err) => { console.log(err); return false });
+            .catch((err) => { return false });
     }
 }
 

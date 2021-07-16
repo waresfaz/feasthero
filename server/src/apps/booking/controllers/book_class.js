@@ -6,7 +6,7 @@ async function processBooking(req, res) {
 
     const bookingAndPaymentResult = await (new ProcessBooking(bookingDetails, req.body.cardTokenId).process());
 
-    if (bookingAndPaymentResult.statusCode === 200) {
+    if (bookingAndPaymentResult.statusCode === StatusCodes.OK) {
         req.session.bookingId = bookingAndPaymentResult.info;
         req.session.save();
     }

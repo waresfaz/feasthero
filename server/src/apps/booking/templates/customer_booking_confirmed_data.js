@@ -8,7 +8,7 @@ function genCustomerBookingConfirmedData(class_, order) {
         selectedClassDateTime: order.selectedClassDateTime,
         zoomLink: class_.chefs[0].zoom,
         classDescription: class_.description,
-        recipe: class_.recipe.toString(),
+        recipe: class_.recipe,
     }
 }
 

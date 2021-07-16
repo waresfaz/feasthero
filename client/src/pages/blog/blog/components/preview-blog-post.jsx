@@ -8,7 +8,6 @@ import './preview-blog-post.scss';
 
 class PreviewBlogPost extends React.Component {
     render() {
-        console.log(this.props)
         const { index, postData } = this.props;
         return (
             <>

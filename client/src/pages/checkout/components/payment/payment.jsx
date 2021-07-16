@@ -6,11 +6,11 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
 import { settings } from '../../../../settings';
+import { sessionWrapper, statusEnum } from '../../../../helpers/session-wrapper';
 
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
-import { sessionWrapper } from '../../../../helpers/session-wrapper';
 
 const InjectedPaymentForm = (props) => {
     return (
@@ -75,13 +75,17 @@ class Payment extends React.Component {
             return;
         }
 
-        if (!await sessionWrapper(bookClass, this.props.bookingDetails, cardTokenResponse.token.id)) {
+        const bookingResponse = await sessionWrapper(bookClass, cardTokenResponse.token.id);
+
+        if (bookingResponse === statusEnum.error) {
             this.setState({
                 errors: 'Payment failed, please try again or contact customer support',
                 loading: false,
             });
             return;
         }
+        if (bookingResponse === statusEnum.sessionExpired)
+            return;
 
         this.setState({
             loading: false,
@@ -120,9 +124,6 @@ class Payment extends React.Component {
     }
 
     render() {
-        if (settings.DEBUG)
-            console.log(this.props.bookingDetails)
-
         return (
             <div id='payment'>
                 <Form onSubmit={this.handleSubmit}>

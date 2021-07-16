@@ -7,7 +7,6 @@ import { isBookingSessionActive } from '../services/booking/api';
 
 export default async function checkBookingSessionActive() {
     const response = await isBookingSessionActive();
-    console.log(response)
     if (!response) {
         store.dispatch(newError(SESSION_EXPIRED_ERROR));
         history.push('/');
