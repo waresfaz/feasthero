@@ -20,7 +20,7 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 
 @see - a function or class relied on
 
-@return - summary of what the function returns
+@returns - summary of what the function returns
 
 @memberof - namespace that this function is contained within if JSDoc is unable to respove this automatically
 
@@ -67,5 +67,8 @@ class ProcessOrder extends ProcessPayment {
 }
 ```
 
+#### Functions, properties, etc
+Just use your best judgement for which annotations you should use. For example, your not going to use the param (@param) annotation for instance variables.
+
 ### Inline docs conclusion
-Feel free to use more annotations if you feel they are necessary. Remeber to only document your code if it is not self explanitory, try to make your code read like a book, the less documentation the better. In my opinion, if the tools provided above are used effectively, it will give readers enough insight into what the code block is doing, so if you can, try to limit yourself to those.
+Feel free to use more annotations if you feel they are necessary, this guide is just a recommendation. Remeber to only document your code if it is not self explanitory, try to make your code read like a book, the less documentation the better. In my opinion, if the tools provided above are used effectively, it will give readers enough insight into what the code block is doing, so if you can, try to limit yourself to those.
