@@ -3,7 +3,7 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 
 
 #### Notations
-<>xxxx<> - description of what should go after this line, omit in documentation
+<>xxxx<> - description of what should go after this line, omit in documentation  
 @xxxxx - Javadoc style annotation
 
 #### Styles
