@@ -31,9 +31,9 @@ Try to loosely follow the guide below. Feel free to add your own styles on top o
 @access - implicit access modifer of method [public, private, protected]
 
 
-###Example
+### Example
 
-####Class and method
+#### Class and method
 
 ```
 /**
@@ -67,5 +67,5 @@ class ProcessOrder extends ProcessPayment {
 }
 ```
 
-#### Inline docs conclusion
+### Inline docs conclusion
 Feel free to use more annotations if you feel they are necessary. Remeber to only document your code if it is not self explanitory, try to make your code read like a book, the less documentation the better. In my opinion, if the tools provided above are used effectively, it will give readers enough insight into what the code block is doing, so if you can, try to limit yourself to those.
