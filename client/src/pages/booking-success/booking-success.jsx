@@ -5,17 +5,9 @@ import checkSessionActive from '../../helpers/check-session-active';
 import ConfirmationDetails from './components/confirmation-details';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import VerifyBookingSuccess from '../../hoc/verify-booking-success/verify-booking-success';
+import IntervalIsSessionActive from '../../hoc/is-session-active/is-session-active';
 
 class BookingSuccess extends React.Component {
-    componentDidMount() {
-        this.sessionCheck = setInterval(checkSessionActive, 10000);
-    }
-
-    componentWillUnmount() {
-        clearInterval(this.sessionCheck);
-    }
-
-
     render() {
         return (
             <>
@@ -32,4 +24,4 @@ class BookingSuccess extends React.Component {
     }
 }
 
-export default VerifyBookingSuccess(BookingSuccess);
+export default IntervalIsSessionActive(VerifyBookingSuccess(BookingSuccess));
