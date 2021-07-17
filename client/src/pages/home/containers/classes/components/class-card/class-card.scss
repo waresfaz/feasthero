@@ -81,9 +81,9 @@
 
 
         @media (max-width: 1674px) {
-                top: 60%;
-                width: 90%;
-                left: 5%;
+            top: 60%;
+            width: 90%;
+            left: 5%;
         }
     
         @include for-xxl-desktop {
@@ -96,7 +96,7 @@
 
         @include for-large-desktop {
             padding: 0.5rem;
-            top: 51%;
+            top: 55%;
         }
 
         @include for-desktop {
@@ -120,16 +120,21 @@
 
             @include for-xl-desktop {
                 margin-bottom: 0.3rem;
+                font-size: 1.15rem;
             }
 
             @include for-large-desktop {
-                font-size: 1.15rem;
+                font-size: 1rem;
                 margin-bottom: 0.1rem;
             }
 
             @media (max-width: 1064px) {
                 margin-bottom: 0.05rem;
-                font-size: 1rem;
+                font-size: 0.9rem;
+            }
+
+            @media (max-width: 998px) {
+                font-size: 0.7rem;
             }
 
             @include for-desktop {
@@ -224,10 +229,12 @@
         @include for-large-desktop {
             padding: 0.4rem 0 0.4rem;
             font-size: 1.1rem;
+            margin-bottom: 0.3rem;
         }
 
         @media (max-width: 1064px) {
             font-size: 0.9rem;
+            padding: 0.2rem 0 0.2rem;
         }
 
         @include for-desktop {
