@@ -25,22 +25,23 @@ class Blog extends React.Component {
                 <Container id='blog'>
                     <Title className='mb-5'>Blog</Title>
                     {
-                        blogPosts
+                        error
                             ?
-                            <>
-                                {
-                                    blogPosts.map((post, key) => {
-                                        return <PreviewBlogPost postData={post} index={key} key={key} />
-
-                                    })
-                                }
-                            </>
+                            <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
                             :
-                            error
+                            blogPosts
                                 ?
-                                <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
+                                <>
+                                    {
+                                        blogPosts.map((post, key) => {
+                                            return <PreviewBlogPost postData={post} index={key} key={key} />
+
+                                        })
+                                    }
+                                </>
                                 :
-                                <h4 className='text-center'>No Blog Posts Yet!</h4>
+                                <h4 className='text-center mt-5'>No blog posts yet...</h4>
+
                     }
                 </Container>
             </>
