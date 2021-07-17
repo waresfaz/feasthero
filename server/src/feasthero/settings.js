@@ -15,7 +15,7 @@ function initSettings() {
     settings.PORT = normalizePort(process.env.PORT || '8080');
     settings.SESSION_SECRET = process.env.SESSION_SECRET;
 
-    if (settings.DEBUG) {
+    if (settings.DEBUG === 'true') {
         settings.ORIGIN = 'http://localhost:' + settings.PORT;
         settings.CLIENT_ORIGIN = 'http://localhost:3000';
         settings.MONGO_URI = process.env.MONGO_TEST_URI;
