@@ -40,7 +40,7 @@ class Blog extends React.Component {
                                 ?
                                 <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
                                 :
-                                <></>
+                                <h4 className='text-center'>No Blog Posts Yet!</h4>
                     }
                 </Container>
             </>
