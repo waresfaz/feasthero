@@ -10,10 +10,13 @@ let settings = {
 function initSettings() {
     require('dotenv').config()
 
-    if (settings.ORIGIN)
-        return;
+    settings = {
+        ...settings,
+        DEBUG: process.env.REACT_APP_DEBUG
+    }
+    console.log(settings.DEBUG)
 
-    if (settings.DEBUG) {
+    if (settings.DEBUG === 'true') {
         settings = {
             ...settings,
             ORIGIN: 'http://localhost:3002',

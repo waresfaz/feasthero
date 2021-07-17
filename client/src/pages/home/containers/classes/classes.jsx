@@ -26,7 +26,7 @@ class Classes extends React.Component {
                             {
                                 this.props.allClasses.map((classData, key) => {
                                     return (
-                                        <Col key={key} className='class-card-container' md={11} lg={5}>
+                                        <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
                                             <ClassCard classData={classData} />
                                         </Col>
                                     )

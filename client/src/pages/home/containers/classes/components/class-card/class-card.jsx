@@ -19,7 +19,7 @@ class ClassCard extends React.Component {
                             {
                                 classData.chefs.map((chef, key) => {
                                     return (
-                                        <Col className='align-self-center chef-photo-container' key={key} md={3}>
+                                        <Col className='align-self-center chef-photo-container' key={key} md={2} lg={3} xl={2}>
                                             <Image fluid className='chef-photo' src={chef.photo} />
                                             {
                                                 /**
@@ -54,7 +54,7 @@ class ClassCard extends React.Component {
                                     )
                                 })
                             }
-                            <Col className='align-self-center' md={5}>
+                            <Col className='align-self-center' md={6} lg={5} xl={6}>
                                 <h5>{classData.title}</h5>
                                 <h6>
                                     <span>
@@ -63,7 +63,7 @@ class ClassCard extends React.Component {
                                 per device
                                 </h6>
                             </Col>
-                            <Col className='ml-auto align-self-center' md={4}>
+                            <Col className='ml-auto align-self-center' md={4} lg={4} xl={4}>
                                 <Button to={`book/${classData._id}`} primary={true} >
                                     <>
                                         Book Now <FontAwesomeIcon size={'sm'} icon={faArrowRight} />
