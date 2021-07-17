@@ -77,7 +77,7 @@ class BookingSummary extends React.Component {
                     ${classData.costPerDevice} per device
                 </h4>
                 {
-                    classData.hasMealKits
+                    classData.hasMealKit
                         ?
                         <IncludeMealKits classData={classData} />
                         :
