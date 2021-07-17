@@ -220,6 +220,7 @@
     .button-primary {
         font-size: 1.4rem;
         padding: 0.6rem 0 0.5rem;
+        margin-bottom: 0.4rem;
 
         @include for-xl-desktop {
             font-size: 1.2rem;
