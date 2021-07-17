@@ -7,7 +7,8 @@ try {
 const { initSettings, settings } = require('../src/feasthero/settings');
 
 initSettings();
-console.log(settings.ORIGIN);
+console.log(settings);
+console.log(process.env)
 var app = require('../src/app');
 
 
