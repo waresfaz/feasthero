@@ -9,14 +9,19 @@ let settings = {
 
 function initSettings() {
     require('dotenv').config()
+    let debug;
+    if (process.env.REACT_APP_DEBUG === 'true')
+        debug = true;
+    else 
+        debug = false;
 
     settings = {
         ...settings,
-        DEBUG: process.env.REACT_APP_DEBUG
+        DEBUG: debug
     }
     console.log(settings.DEBUG)
 
-    if (settings.DEBUG === 'true') {
+    if (settings.DEBUG) {
         settings = {
             ...settings,
             ORIGIN: 'http://localhost:3002',

@@ -11,11 +11,14 @@ let settings = {
 };
 
 function initSettings() {
-    settings.DEBUG = process.env.DEBUG;
+    if (process.env.DEBUG === 'true')
+        settings.DEBUG = true;
+    else
+        settings.DEBUG = false;
     settings.PORT = normalizePort(process.env.PORT || '8080');
     settings.SESSION_SECRET = process.env.SESSION_SECRET;
 
-    if (settings.DEBUG === 'true') {
+    if (settings.DEBUG) {
         settings.ORIGIN = 'http://localhost:' + settings.PORT;
         settings.CLIENT_ORIGIN = 'http://localhost:3000';
         settings.MONGO_URI = process.env.MONGO_TEST_URI;
