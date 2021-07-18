@@ -7,10 +7,6 @@
     padding-top: 2.5rem;
     padding-bottom: 2.5rem;
 
-    @include for-tablet {
-        text-align: center;
-    }
-
     h3 {
         @include for-tablet {
             margin-bottom: 2rem;

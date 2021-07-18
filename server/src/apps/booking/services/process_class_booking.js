@@ -38,7 +38,6 @@ class ProcessClassBooking extends ProcessPayment {
         }
 
         if ((await super.process()) === false) {
-            console.log('ok')
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
                 info: 'payment failed'

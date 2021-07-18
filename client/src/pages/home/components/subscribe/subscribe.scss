@@ -24,6 +24,10 @@
 		box-shadow: 0px 10px 25px 0px #00000040;
 		border-radius: 4px;
 		border-top: 5px solid #FFBA53;
+
+		@include for-phone {
+			max-width: 95%;
+		}
 	}
 
 	#subscribe-text {

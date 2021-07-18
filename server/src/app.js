@@ -2,7 +2,7 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
-var cookieSession = require('cookie-session')
+const cookieSession = require('cookie-session')
 
 const { connectToDb } = require('./database/connect.js');
 const { settings } = require("./feasthero/settings.js");
@@ -31,12 +31,12 @@ function initMiddleware() {
   app.use(errorMiddleware);
   app.use(cookieParser());
   app.use(cookieSession({
-    name: 'session',
+    name: 'session', // Using a common
     keys: [settings.SESSION_SECRET],
     httpOnly: true,
-    secure: !settings.DEBUG,
+    secure: !settings.DEBUG, // this might be it 
     maxAge: 900000, // 15 minutes
-    signed: true,
+    signed: true, // Try taking this off. this compramises mobile sometimes
   }))
 }
 

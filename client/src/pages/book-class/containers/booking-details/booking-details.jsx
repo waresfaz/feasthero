@@ -149,7 +149,7 @@ class BookingDetails extends React.Component {
 
         return (
             <div id='booking-details-container'>
-                <h1 className='mb-5'>Booking Details</h1>
+                <h1>Booking Details</h1>
                 <form onSubmit={this.handleSubmit}>
                     <Form.Group>
                         <Row className='justify-content-around' id='number-of-devices-for-booking'>
