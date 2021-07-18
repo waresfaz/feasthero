@@ -19,7 +19,6 @@ import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';
 import BlogPost from '../../pages/blog/blog-post/blog-post';
 
-import 'react-responsive-select/dist/react-responsive-select.css';
 import './app.scss';
 
 /**
