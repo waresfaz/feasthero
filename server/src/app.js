@@ -31,12 +31,11 @@ function initMiddleware() {
   app.use(errorMiddleware);
   app.use(cookieParser());
   app.use(cookieSession({
-    name: 'session', // Using a common
+    name: 'session',
     keys: [settings.SESSION_SECRET],
     httpOnly: true,
-    secure: !settings.DEBUG, // this might be it 
     maxAge: 900000, // 15 minutes
-    signed: true, // Try taking this off. this compramises mobile sometimes
+    signed: true,
   }))
 }
 
