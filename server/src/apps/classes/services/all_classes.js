@@ -45,6 +45,11 @@ async function getAllClasses() {
                             }
                         }
                     },
+                    {
+                        $sort: {
+                            dateTime: 1
+                        },
+                    },
                 ],
             },
         },
