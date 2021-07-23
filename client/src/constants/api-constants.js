@@ -1,14 +1,8 @@
 import { settings, initSettings } from '../settings';
 
-/**
- * api paths.
- * 
- * @since 2.0.0
- */
-
 initSettings();
 
-export const BASE_URL = settings.ORIGIN;
+export const BASE_URL = settings.SERVER_ORIGIN;
 
 const CLASSES_PATH = `${BASE_URL}/classes`;
 export const ALL_CLASSES = `${CLASSES_PATH}/all`;

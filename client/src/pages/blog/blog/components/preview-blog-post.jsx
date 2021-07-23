@@ -32,7 +32,7 @@ class PreviewBlogPost extends React.Component {
                             </Col>
                             :
                             <Col lg={4}>
-                                <Image fluid src={postData.image} alt={postData.title} />
+                                <Image className='w-100' fluid src={postData.image} alt={postData.title} />
                             </Col>
 
                     }

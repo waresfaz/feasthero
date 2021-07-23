@@ -1,15 +1,4 @@
-/**
- * a helper class for calculating an order's total
- * 
- * @since 2.0.0
-*/
 export default class CalculateTotals {
-    /**
-     * calculate all needed totals to calculate order cost.
-     * 
-     * @access public
-     * @returns {Object} - all of the needed totals
-     */
     static totals(bookingSize, costPerDevice, mealKitPrice, bookingSizeWithMealKit, mealKitsBooked) {
         let mealKitsTotal = 0;
         if (mealKitsBooked)
@@ -29,30 +18,18 @@ export default class CalculateTotals {
         }
     }
 
-    /**
-     * @access private
-     */
     static _devicesTotal(costPerDevice, bookingSize) {
         return costPerDevice * bookingSize;
     }
 
-    /**
-     * @access private
-     */
     static _mealKitsTotal(mealKitPrice, bookingSizeWithMealKit) {
         return mealKitPrice * bookingSizeWithMealKit;
     }
 
-    /**
-     * @access private
-     */
     static _subTotal(devicesTotal, mealKitsTotal) {
         return devicesTotal + mealKitsTotal;
     }
 
-    /**
-     * @access private
-     */
     static _tax(subTotal) {
         return subTotal * 0.13;
     }

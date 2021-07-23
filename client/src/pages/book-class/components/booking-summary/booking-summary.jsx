@@ -1,41 +1,19 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+
 
 import CalculateTotals from '../../../../helpers/calculate-totals';
 import { updateAllCosts } from '../../../../services/booking/actions';
-import IncludeMealKits from './containers/include-meal-kits/include-meal-kits';
+import IncludeMealKits from './components/include-meal-kits/include-meal-kits';
 
 import './booking-summary.scss';
 
-/**
- * the user's booking summary
- * 
- * @since 2.0.0
- */
+
 class BookingSummary extends React.Component {
     constructor(props) {
         super(props);
         props.updateAllCosts(this.calculateTotals())
-    }
-
-    static propTypes = {
-        /**
-         * update booking costs in the redux store such
-         * as subtotal, tax, etc
-         */
-        updateAllCosts: PropTypes.func,
-
-        /**
-         * the user's booking details from redux store
-         */
-        bookingDetails: PropTypes.object,
-
-        /**
-         * the selected class's data
-         */
-        classData: PropTypes.object
     }
 
     getValuesForCostCalculation = () => {

@@ -1,22 +1,11 @@
 import React from 'react'
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
 
 import { updatemealKitsBooked } from '../../../../../../services/booking/actions';
 
-/**
- * container for selecting if meal kits should be booked
- * @since 2.0.0
- */
 class IncludeMealKits extends React.Component {
-    static propTypes = {
-        /**
-         * the selected class's data
-         */
-        classData: PropTypes.object
-    }
-
     toggleIncludeMealKits = () => {
         this.props.updatemealKitsBooked(!this.props.bookingDetails.mealKitsBooked);
     }

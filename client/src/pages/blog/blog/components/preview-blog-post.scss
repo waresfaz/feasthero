@@ -1,0 +1,17 @@
+@import '../../../../sass/mixins';
+
+#preview-blog-posts {
+    .col-lg-4 {
+        display: flex;
+        justify-content: center;
+
+        @include for-tablet {
+            margin-top: 1rem;
+            margin-bottom: 1rem;
+        }
+    }
+    img {
+        max-height: 21rem;
+        object-fit: contain;
+    }
+}

@@ -4,7 +4,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+
 
 import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../constants/app-constants';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
@@ -16,17 +16,12 @@ import { initBookingDetailsSession } from '../../../../services/booking/api';
 
 import Button from '../../../../components/button/button';
 
-import './booking-details.scss';
 import { updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
 import NameValidator from '../../../../validators/name';
 import NotEmptyValidator from '../../../../validators/not-empty';
 
-/**
- * container for user to enter their booking details, however
- * the mealkit option is in `BookingSummary`
- * 
- * @since 2.0.0
- */
+import './booking-details.scss';
+
 class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
@@ -36,24 +31,6 @@ class BookingDetails extends React.Component {
             errors: [],
             formErrors: {}
         }
-    }
-
-    static propTypes = {
-        /**
-         * the user's booking details
-         */
-        bookingDetails: PropTypes.object,
-
-        /**
-         * the selected class's data
-         */
-        classData: PropTypes.object,
-
-        /**
-         * update the user's info (email, name, etc) as well 
-         * as their booking details (booking size and selected class time)
-         */
-        updateGeneralBookerAndBookingDetails: PropTypes.func
     }
 
     getGeneralBookerAndBookingDetails = () => {
@@ -158,7 +135,7 @@ class BookingDetails extends React.Component {
                                     placement='top'
                                     overlay={this.renderBookingSizeTooltip}
                                 >
-                                    <FontAwesomeIcon icon={faInfoCircle} />
+                                    <FontAwesomeIcon id='info-icon' icon={faInfoCircle} />
                                 </OverlayTrigger>
                             </Col>
 
@@ -223,7 +200,11 @@ class BookingDetails extends React.Component {
                     <p className='text-danger error'>{this.state.errors.map(error => <span>{error}<br /></span>)}</p>
                     <Row>
                         <Col md={6}>
-                            <Button primary={true} type='submit' className='d-flex justify-content-center' isButton={true}>{this.state.loading ? <div class="loader"></div> : <span>Proceed to Payment</span>}</Button>
+                            <Button primary={true} type='submit'
+                                className='d-flex justify-content-center'
+                                isButton={true}>
+                                {this.state.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                            </Button>
                         </Col>
                     </Row>
                 </form>

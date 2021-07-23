@@ -1,6 +1,6 @@
 let settings = {
     DEBUG: false,
-    ORIGIN: '',
+    SERVER_ORIGIN: '',
     STRIPE_PUBLISHABLE_KEY: '',
     STRIPE_SECRET_KEY: '',
     RECAPTCHA_SECRET_KEY: '',
@@ -12,19 +12,18 @@ function initSettings() {
     let debug;
     if (process.env.REACT_APP_DEBUG === 'true')
         debug = true;
-    else 
+    else
         debug = false;
 
     settings = {
         ...settings,
         DEBUG: debug
     }
-    console.log(settings.DEBUG)
 
     if (settings.DEBUG) {
         settings = {
             ...settings,
-            ORIGIN: 'http://localhost:3002',
+            SERVER_ORIGIN: process.env.REACT_APP_SERVER_ORIGIN,
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST,
             RECAPTCHA_SITE_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
@@ -33,7 +32,7 @@ function initSettings() {
     } else {
         settings = {
             ...settings,
-            ORIGIN: 'https://feasthero.herokuapp.com',
+            SERVER_ORIGIN: 'https://feasthero.herokuapp.com',
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY,
             RECAPTCHA_SITE_KEY: process.env.REACT_APP_RECAPTCHA_SITE_KEY,
