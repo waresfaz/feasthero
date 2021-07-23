@@ -1,5 +1,4 @@
 const { settings } = require('../../../feasthero/settings');
-const ProcessClassBooking = require('./process_class_booking');
 const stripe = require('stripe')(settings.stripe.SECRET_KEY);
 const SendConfirmedEmails = require('./send_confirmed_emails');
 
@@ -32,7 +31,7 @@ class ProcessPayment {
                 receipt_email: this.bookingDetails.customerEmail
             })
             .then((charge) => charge)
-            .catch((error) => { throw (new Error(`payment failed: ${error}`)) });
+            .catch((error) => { throw new Error(`payment failed: ${error}`) });
     }
 
 }

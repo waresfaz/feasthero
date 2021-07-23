@@ -11,6 +11,8 @@ let settings = {
 };
 
 function initSettings() {
+    require("dotenv").config();
+    
     if (process.env.DEBUG === 'true')
         settings.DEBUG = true;
     else

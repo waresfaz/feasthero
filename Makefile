@@ -6,6 +6,9 @@ client:
 server:
 	cd ./server && npx kill-port 3002 && nodemon bin/www
 
+test-server:
+	cd ./server && npm test
+
 run:
 	cd ./client && npm start & cd ./server && npm start
 

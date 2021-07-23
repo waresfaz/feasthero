@@ -3,7 +3,8 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node ./server/bin/www"
+    "start": "node ./bin/www",
+    "test": "npx mocha -r './src/mocha/init.js' './{,!(node_modules)/**}/*.test.js'"
   },
   "dependencies": {
     "@sendgrid/mail": "^7.4.5",
@@ -20,6 +21,9 @@
     "stripe": "^8.161.0"
   },
   "devDependencies": {
+    "chai": "^4.3.4",
+    "chai-as-promised": "^7.1.1",
+    "mocha": "^9.0.2",
     "nodemon": "^2.0.12"
   }
 }
