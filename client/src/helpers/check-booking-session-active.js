@@ -5,13 +5,7 @@ import { newError } from '../services/feasthero/actions';
 import { SESSION_EXPIRED_ERROR } from '../constants/app-constants';
 import { isBookingSessionActive } from '../services/booking/api';
 
-/**
- * check if booking session is active.
- * 
- * @since 2.0.0
- * 
- * @returns {Boolean} - true if the session is still active
- */
+
 export default async function checkBookingSessionActive() {
     const response = await isBookingSessionActive();
     if (!response) {

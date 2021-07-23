@@ -19,26 +19,26 @@ class Blog extends React.Component {
     }
 
     render() {
-        const { blogPosts, error } = this.props;
+        const { blogPosts, httpRequestError } = this.props;
         return (
             <>
                 <Container id='blog'>
                     <Title className='mb-5'>Blog</Title>
                     {
-                        error
+                        httpRequestError
                             ?
                             <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
                             :
-                            blogPosts
+                            blogPosts.length !== 0
                                 ?
-                                <>
+                                <div id='preview-blog-posts'>
                                     {
                                         blogPosts.map((post, key) => {
                                             return <PreviewBlogPost postData={post} index={key} key={key} />
 
                                         })
                                     }
-                                </>
+                                </div>
                                 :
                                 <h4 className='text-center mt-5'>No blog posts yet...</h4>
 

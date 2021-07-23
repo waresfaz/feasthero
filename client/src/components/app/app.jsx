@@ -20,12 +20,9 @@ import Footer from '../footer/footer';
 import BlogPost from '../../pages/blog/blog-post/blog-post';
 
 import './app.scss';
+import ScrollToTop from '../scroll-to-top/scroll-to-top';
 
-/**
- * the app component that controls what is rendered
- * 
- * @since 2.0.0
- */
+
 class App extends React.Component {
   constructor() {
     super();
@@ -36,20 +33,22 @@ class App extends React.Component {
     return (
       <>
         <Router history={history}>
-          <Container fluid id='main-container'>
-            <TopNavbar />
-            <Switch>
-              <Route exact path='/' component={Home} />
-              <Route exact path='/book/:id' component={BookClass} />
-              <Route exact path='/checkout' component={Checkout} />
-              <Route exact path='/booking-success' component={BookingSuccess} />
-              <Route exact path='/contact' component={AboutAndContactUs} />
-              <Route exact path='/faq' component={Faq} />
-              <Route exact path='/blog' component={Blog} />
-              <Route exact path='/blog/post/:id' component={BlogPost} />
-            </Switch>
-          </Container>
-          <Footer />
+          <ScrollToTop>
+            <Container fluid id='main-container'>
+              <TopNavbar />
+              <Switch>
+                <Route exact path='/' component={Home} />
+                <Route exact path='/book/:id' component={BookClass} />
+                <Route exact path='/checkout' component={Checkout} />
+                <Route exact path='/booking-success' component={BookingSuccess} />
+                <Route exact path='/contact' component={AboutAndContactUs} />
+                <Route exact path='/faq' component={Faq} />
+                <Route exact path='/blog' component={Blog} />
+                <Route exact path='/blog/post/:id' component={BlogPost} />
+              </Switch>
+            </Container>
+            <Footer />
+          </ScrollToTop>
         </Router>
       </>
     )

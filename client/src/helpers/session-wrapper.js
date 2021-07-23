@@ -10,8 +10,6 @@ export const statusEnum = { error: 1, sessionExpired: 2 };
 /**
  * wraps a rest api call to make sure there is a session active 
  * 
- * @since 2.0.0
- * 
  * @param {function} apiCallFn - function that will be calling the rest api 
  * @param  {...any} args - arguments to pass to the api call
  * 

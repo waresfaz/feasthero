@@ -9,7 +9,7 @@ class OrderProgressCircle extends React.Component {
                 <div className={`circle ${this.props.active ? 'active' : 'inactive'}`}>
                     <span>{this.props.number}</span>
                 </div>
-                <p>{this.props.step}</p>
+                <p className='text-center'>{this.props.step}</p>
             </div>
         )
     }

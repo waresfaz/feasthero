@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-import PropTypes from 'prop-types';
+
 
 import { getAllClasses } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
@@ -9,16 +9,11 @@ import { reset, updateClassId } from '../../services/booking/actions';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import Loader from '../../components/loader/loader';
 import ClassSummary from './components/class-summary/class-summary';
-import BookingDetails from './containers/booking-details/booking-details';
-import BookingSummary from './containers/booking-summary/booking-summary';
+import BookingDetails from './components/booking-details/booking-details';
+import BookingSummary from './components/booking-summary/booking-summary';
 
 import './book-class.scss';
 
-/**
- * page to allow user to book a class
- * 
- * @since 2.0.0
- */
 class BookClass extends React.Component {
   constructor(props) {
     super(props);
@@ -26,28 +21,6 @@ class BookClass extends React.Component {
     this.state = {
       classData: null,
     }
-  }
-
-  static propTypes = {
-    /**
-     * reset all booking details in redux store
-     */
-    reset: PropTypes.func,
-
-    /**
-     * fetch all classes from the server and add to redux store
-    */
-    getAllClasses: PropTypes.func,
-
-    /**
-     * all of the classes currently in the redux store
-     */
-    allClasses: PropTypes.array,
-
-    /**
-     * update the current class id in the redux store
-     */
-    updateClassId: PropTypes.func
   }
 
   componentDidMount() {

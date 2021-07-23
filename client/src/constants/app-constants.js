@@ -1,9 +1,3 @@
-/**
- * generic constants used in the app.
- * 
- * @since 2.0.0
- */
-
 // remember to keep these from lower values to higher values!
 export const validBookingSizes = [
     { target: { name: 'bookingSize', value: 5 }, label: 5 },
@@ -27,12 +21,17 @@ export const validBookingSizes = [
 export const SESSION_EXPIRED_ERROR = "error: session expired";
 
 export const bookingSizeDropdownStyle = {
-    control: (base, _) => ({
+    control: (base, state) => ({
         ...base,
         boxShadow: 'none',
         borderRadius: '0.5rem',
         padding: '0.89rem 0',
-        border: '1px solid #C7C8C8 !important'
+        border: '1px solid #C7C8C8 !important',
+    }),
+
+    dropdownIndicator: (base, state) => ({
+        ...base,
+        color: '#586168',
     })
 }
 
@@ -43,5 +42,9 @@ export const dateTimeBookingDropdownStyle = {
         borderRadius: '0.5rem',
         padding: '0.9rem 0',
         border: '1px solid #C7C8C8 !important'
+    }),
+    dropdownIndicator: (base, state) => ({
+        ...base,
+        color: '#586168',
     })
 }

@@ -11,8 +11,6 @@ import Loader from '../../components/loader/loader';
  * pass in the result to the wrapped component as a prop. If the passed function fails, an error
  * will be passed as a prop.
  * 
- * @since 2.0.0
- * 
  * @param {React.Component} WrappedComponent - component this hoc will render
  * @param {Function} requestFn - function that will be run and handled
  * @param {String} responsePropName - name of result prop passed to wrapped component
@@ -59,7 +57,7 @@ const HttpRequestDidSucceed = (WrappedComponent, requestFn, responsePropName, ..
                     ?
                     <Loader show={requestResponse === null && !error} />
                     :
-                    <WrappedComponent {...dynamicProp} error={error} />
+                    <WrappedComponent {...dynamicProp} httpRequestError={error} />
             )
         }
     }

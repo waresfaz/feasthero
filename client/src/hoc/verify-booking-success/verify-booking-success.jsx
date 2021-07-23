@@ -5,14 +5,7 @@ import Loader from '../../components/loader/loader';
 import { verifyBookingSuccess } from '../../services/booking/api';
 import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
 
-/**
- * verify is a class was booked successfully
- * 
- * @since 2.0.0
- * 
- * @param {React.Component} WrappedComponent
- * @returns {React.Component} - component that renders the wrapped component
- */
+
 const VerifyBookingSuccess = WrappedComponent => {
     return class extends React.Component {
         constructor() {
@@ -52,7 +45,7 @@ const VerifyBookingSuccess = WrappedComponent => {
                     ?
                     <Loader show={bookingDetails === null && !error} />
                     :
-                    <WrappedComponent bookingDetails={bookingDetails} classData={classData} error={error} />
+                    <WrappedComponent bookingDetails={bookingDetails} classData={classData} verifyBookingSuccessError={error} />
             )
         }
     }

@@ -6,9 +6,6 @@ const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_con
 const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed_data');
 
 class SendConfirmedEmails {
-    /**
-     * @param {Object} order - the customer's order 
-     */
     constructor(order) {
         this.order = order;
     }
@@ -19,10 +16,6 @@ class SendConfirmedEmails {
         await this._sendMailToChef(class_);
     }
 
-    /**
-     * @access private
-     * @param {Object} class_ - class data 
-     */
     async _sendMailToCustomer(class_) {
         let msg = getMessageTemplate();
         msg.to = this.order.customerEmail;
@@ -31,10 +24,6 @@ class SendConfirmedEmails {
         await mailSender(msg);
     };
 
-    /**
-     * @access private
-     * @param {Object} class_ - class data 
-     */
     async _sendMailToChef(class_) {
         let msg = getMessageTemplate();
         msg.to = class_.chefs[0].email;

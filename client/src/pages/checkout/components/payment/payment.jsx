@@ -2,7 +2,7 @@ import React from 'react';
 import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import ReCAPTCHA from 'react-google-recaptcha';
-import PropTypes from 'prop-types';
+
 
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
@@ -23,10 +23,6 @@ const InjectedPaymentForm = (props) => {
     );
 };
 
-/**
- * payment component responsible for creating a card token and sending it to the backend
- * @since 2.0.0
- */
 class Payment extends React.Component {
     constructor() {
         super();
@@ -38,22 +34,6 @@ class Payment extends React.Component {
         }
     }
 
-    static propTypes = {
-        /**
-         * the users booking details
-         */
-        bookingDetails: PropTypes.object,
-
-        /**
-         * stripe elements
-         */
-        elements: PropTypes.object,
-
-        /**
-         * stripe promise
-         */
-        stripe: PropTypes.object,
-    }
 
     handleChange = ({ error }) => {
         if (error)

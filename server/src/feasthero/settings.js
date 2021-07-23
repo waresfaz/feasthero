@@ -15,12 +15,13 @@ function initSettings() {
         settings.DEBUG = true;
     else
         settings.DEBUG = false;
+        
     settings.PORT = normalizePort(process.env.PORT || '8080');
     settings.SESSION_SECRET = process.env.SESSION_SECRET;
 
     if (settings.DEBUG) {
-        settings.ORIGIN = 'http://localhost:' + settings.PORT;
-        settings.CLIENT_ORIGIN = 'http://localhost:3000';
+        settings.ORIGIN = `http://${process.env.DOMAIN_NAME}:${settings.PORT}`;
+        settings.CLIENT_ORIGIN = process.env.CLIENT_ORIGIN;
         settings.MONGO_URI = process.env.MONGO_TEST_URI;
         settings.stripe.PUBLISHIBLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY_TEST;
         settings.stripe.SECRET_KEY = process.env.STRIPE_SECRET_KEY_TEST;
