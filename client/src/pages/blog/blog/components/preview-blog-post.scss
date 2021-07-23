@@ -4,14 +4,15 @@
     .col-lg-4 {
         display: flex;
         justify-content: center;
+        padding: 1rem;
 
         @include for-tablet {
             margin-top: 1rem;
             margin-bottom: 1rem;
         }
     }
+
     img {
-        max-height: 21rem;
-        object-fit: contain;
+        object-fit: cover;
     }
 }
