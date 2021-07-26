@@ -2,8 +2,8 @@
 @import '../../../../sass/mixins';
 
 #booking-summary {
+    @include light-content-container;
     padding:  2.8rem 2rem;
-    border-top: $checkout-border-top;
     color: #464646;
 
     @include for-desktop {

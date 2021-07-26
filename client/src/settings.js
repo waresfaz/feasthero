@@ -5,6 +5,7 @@ let settings = {
     STRIPE_SECRET_KEY: '',
     RECAPTCHA_SECRET_KEY: '',
     RECAPTCHA_SITE_KEY: '',
+    OAUTH_CLIENT_ID: ''
 };
 
 function initSettings() {
@@ -28,6 +29,7 @@ function initSettings() {
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST,
             RECAPTCHA_SITE_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
             RECAPTCHA_SECRET_KEY: 'vFI1TnRWxMZNFuojJ4WifJWe',
+            OAUTH_CLIENT_ID: process.env.REACT_APP_OAUTH_CLIENT_ID,
         };
     } else {
         settings = {
@@ -37,6 +39,7 @@ function initSettings() {
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY,
             RECAPTCHA_SITE_KEY: process.env.REACT_APP_RECAPTCHA_SITE_KEY,
             RECAPTCHA_SECRET_KEY: process.env.REACT_APP_RECAPTCHA_SECRET_KEY,
+            OAUTH_CLIENT_ID: process.env.REACT_APP_OAUTH_CLIENT_ID,
         };
     }
 

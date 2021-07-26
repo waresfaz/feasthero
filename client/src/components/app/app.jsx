@@ -21,6 +21,7 @@ import BlogPost from '../../pages/blog/blog-post/blog-post';
 
 import './app.scss';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
+import Login from '../../pages/auth/login/login';
 
 
 class App extends React.Component {
@@ -45,6 +46,7 @@ class App extends React.Component {
                 <Route exact path='/faq' component={Faq} />
                 <Route exact path='/blog' component={Blog} />
                 <Route exact path='/blog/post/:id' component={BlogPost} />
+                <Route exact path='/auth/login' component={Login} />
               </Switch>
             </Container>
             <Footer />

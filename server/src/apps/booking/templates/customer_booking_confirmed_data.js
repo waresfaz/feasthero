@@ -1,14 +1,14 @@
 const moment = require("moment");
 
-function genCustomerBookingConfirmedData(class_, order) {
+function genCustomerBookingConfirmedData(classData, orderDetails) {
     return {
-        firstName: order.customerFirstName,
-        chefName: class_.chefs[0].name,
-        className: class_.title,
-        selectedClassDateTime: order.selectedClassDateTime,
-        zoomLink: class_.chefs[0].zoom,
-        classDescription: class_.description,
-        recipe: class_.recipe,
+        firstName: orderDetails.customerFirstName,
+        chefName: classData.chefs[0].name,
+        className: classData.title,
+        selectedClassDateTime: orderDetails.selectedClassDateTime,
+        zoomLink: classData.chefs[0].zoom,
+        classDescription: classData.description,
+        recipe: classData.recipe,
     }
 }
 
