@@ -8,11 +8,21 @@ async function shareConfirmation(emails, bookingDetails, classData) {
     await emails.forEach(async email => {
         if (!email)
             return;
+
+        const text = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(classData, bookingDetails));
+
         msg.to = email;
         msg.subject = "FeastHero Class Booking Confirmation";
-        msg.html = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(classData, bookingDetails));
+        msg.html = preAppendSignature(
+            text,
+            bookingDetails.customerFirstName);
+            
         await mailSender(msg);
     })
+}
+
+function preAppendSignature(text, name) {
+    return `Forwarded from ${name}\n\n` + text;
 }
 
 module.exports = shareConfirmation;
