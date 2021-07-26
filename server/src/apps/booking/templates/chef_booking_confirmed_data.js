@@ -1,10 +1,10 @@
 const moment = require("moment");
 
-function genChefBookingConfirmedData(class_, order) {
+function genChefBookingConfirmedData(classData, orderDetails) {
     return {
-        chefName: class_.chefs[0].name,
-        className: class_.title,
-        selectedClassDateTime: order.selectedClassDateTime,
+        chefName: classData.chefs[0].name,
+        className: classData.title,
+        selectedClassDateTime: orderDetails.selectedClassDateTime,
     }
 }
 

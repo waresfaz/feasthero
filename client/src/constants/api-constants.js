@@ -14,6 +14,7 @@ export const GET_BOOKING_DETAILS_FROM_SESSION = `${BOOKING_PATH}/details-from-se
 export const BOOK_CLASS = `${BOOKING_PATH}/book`;
 export const VERIFY_BOOKING_SUCCESS = `${BOOKING_PATH}/verify-success`;
 export const IS_BOOKING_SESSION_ACTIVE = `${BOOKING_PATH}/is-session-active`;
+export const SHARE_CONFIRMATION = `${BOOKING_PATH}/share-confirmation`;
 
 const CONTACT_PATH = `${BASE_URL}/contact`;
 export const EMAIL = `${CONTACT_PATH}/email`;

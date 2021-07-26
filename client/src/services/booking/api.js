@@ -5,7 +5,8 @@ import {
     GET_BOOKING_DETAILS_FROM_SESSION,
     BOOK_CLASS,
     VERIFY_BOOKING_SUCCESS,
-    IS_BOOKING_SESSION_ACTIVE
+    IS_BOOKING_SESSION_ACTIVE,
+    SHARE_CONFIRMATION
 } from '../../constants/api-constants';
 
 export async function initBookingDetailsSession(bookingDetails) {
@@ -54,4 +55,12 @@ export async function isBookingSessionActive() {
         .catch((_) => ({ error: true }));
 
     return !response.error;
+}
+
+export async function sendConfirmations(emails) {
+    const response = await axios.post(SHARE_CONFIRMATION, { 'emails': emails }, { withCredentials: true })
+        .then((response) => response)
+        .catch((err) => ({ error: err.response.status }));
+
+    return response;
 }
