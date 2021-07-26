@@ -5,20 +5,16 @@ const customerBookingConfirmedEmailTemplate = require('../templates/customer_boo
 async function shareConfirmation(emails, bookingDetails, classData) {
     let msg = getMessageTemplate()
 
-    await emails.forEach(async email => {
-        if (!email)
-            return;
+    const text = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(classData, bookingDetails));
 
-        const text = customerBookingConfirmedEmailTemplate(genCustomerBookingConfirmedData(classData, bookingDetails));
+    msg.to = 'bookings@feasthero.com'
+    msg.bcc = emails;
+    msg.subject = "FeastHero Class Booking Confirmation";
+    msg.html = preAppendSignature(
+        text,
+        bookingDetails.customerFirstName);
 
-        msg.to = email;
-        msg.subject = "FeastHero Class Booking Confirmation";
-        msg.html = preAppendSignature(
-            text,
-            bookingDetails.customerFirstName);
-            
-        await mailSender(msg);
-    })
+    await mailSender(msg);
 }
 
 function preAppendSignature(text, name) {
