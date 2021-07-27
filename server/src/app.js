@@ -16,6 +16,7 @@ const subscribeRouter = require("./apps/subscribe/routes");
 const blogRouter = require('./apps/blog/routes');
 
 const errorMiddleware = require('./middleware/error');
+const verifyReqFromClient = require('./middleware/verify_req_from_client');
 
 function init() {
   connectToDb();
@@ -36,7 +37,8 @@ function initMiddleware() {
     httpOnly: true,
     maxAge: 900000, // 15 minutes
     signed: true,
-  }))
+  }));
+  app.use(verifyReqFromClient);
 }
 
 function initRoutes() {

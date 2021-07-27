@@ -18,16 +18,19 @@ import Blog from '../../pages/blog/blog/blog';
 import TopNavbar from '../top-navbar/top-navbar';
 import Footer from '../footer/footer';
 import BlogPost from '../../pages/blog/blog-post/blog-post';
-
-import './app.scss';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Login from '../../pages/auth/login/login';
+
+import './app.scss';
 
 
 class App extends React.Component {
   constructor() {
     super();
     initSettings();
+  }
+
+  componentDidMount() {
   }
 
   render() {
