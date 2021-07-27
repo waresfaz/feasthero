@@ -7,7 +7,9 @@ let settings = {
     stripe: {
         PUBLISHIBLE_KEY: '',
         SECRET_KEY: '',
-    }
+    },
+    CLIENT_ID: '',
+    CLIENT_ID_SECRET: '',
 };
 
 function initSettings() {
@@ -34,6 +36,7 @@ function initSettings() {
         settings.stripe.PUBLISHIBLE_KEY = process.env.STRIPE_PUBLISHABLE_KEY;
         settings.stripe.SECRET_KEY = process.env.STRIPE_SECRET_KEY;
     }
+
     return Object.freeze(settings);
 }
 
