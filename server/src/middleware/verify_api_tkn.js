@@ -2,7 +2,7 @@ const StatusCodes = require('http-status-codes');
 
 function verifyApiTkn(req, res, next) {
     if (!apiTokenValid(req.headers.authorization))
-        return res.status(StatusCodes.UNAUTHORIZED).json({ response: 'not from feasthero' });
+        return res.status(StatusCodes.UNAUTHORIZED).json({ response: 'invalid api token' });
 
     next();
 }

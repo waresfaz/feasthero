@@ -32,11 +32,10 @@ class Register extends React.Component {
         formErrors['firstName'] = NameValidator.validate(firstName);
         formErrors['lastName'] = NameValidator.validate(lastName);
         formErrors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
-        console.log(formErrors['passwordOne'])
-        if (!formErrors['passwordOne']) {
+
+        if (!formErrors['passwordOne'])
             formErrors['passwordOne'] = PasswordValidator.validate(passwordOne)
-            formErrors['passwordTwo'] = PasswordValidator.validate(passwordTwo);
-        }
+
 
         let valid = Object.values(formErrors).every(error => error === null);
         if (!valid)

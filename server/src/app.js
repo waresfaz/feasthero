@@ -19,6 +19,7 @@ const blogRouter = require('./apps/blog/routes');
 
 const errorMiddleware = require('./middleware/error');
 const verifyApiTkn = require('./middleware/verify_api_tkn');
+const authRouter = require("./apps/auth/routes.js");
 
 function init() {
   connectToDb();
@@ -53,6 +54,7 @@ function initRoutes() {
   app.use('/schedule', scheduleRouter);
   app.use('/subscribe', subscribeRouter);
   app.use('/blog', blogRouter);
+  app.use('/auth', authRouter);
 }
 
 init();
