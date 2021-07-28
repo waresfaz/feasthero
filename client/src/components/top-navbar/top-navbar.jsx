@@ -7,6 +7,7 @@ import { Image } from 'react-bootstrap';
 import logo from '../../assets/resources/images/logo-full.png';
 
 import './top-nav.scss'
+import { connect } from 'react-redux';
 
 class TopNavbar extends React.Component {
   render() {
@@ -27,6 +28,13 @@ class TopNavbar extends React.Component {
               <Link smooth to="/#how-it-works">How It Works</Link>
               <Link smooth to="/contact#contact-us">Contact Us</Link>
               <Link smooth to="/blog">Blog</Link>
+              {
+                !this.props.isAtLoginPage
+                  ?
+                  <Link smooth to="/auth/login">Login</Link>
+                  :
+                  <Link smooth to="/auth/register">Register</Link>
+              }
             </Nav>
           </Navbar.Collapse>
         </Navbar>
@@ -35,4 +43,10 @@ class TopNavbar extends React.Component {
   }
 }
 
-export default TopNavbar;
+const mapStateToProps = (state) => {
+  return {
+    isAtLoginPage: state.auth.isAtLoginPage,
+  }
+}
+
+export default connect(mapStateToProps)(TopNavbar);

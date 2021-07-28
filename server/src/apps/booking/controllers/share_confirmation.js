@@ -1,11 +1,11 @@
 const StatusCodes = require('http-status-codes');
 
-const getClassDetailsFromId = require('../../../helpers/get_class_from_id');
+const findClass = require('../../classes/services/find_class');
 const shareConfirmationService = require('../services/share_confirmation');
 
 async function shareConfirmation(req, res) {
     const bookingDetails = req.session.bookingDetails;
-    const classData = await getClassDetailsFromId(bookingDetails.classId);
+    const classData = await findClass(bookingDetails.classId);
     const emailsToSendTo = req.body.emails;
 
     await shareConfirmationService(emailsToSendTo, bookingDetails, classData)

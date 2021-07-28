@@ -2,9 +2,9 @@ import store from '../redux/store/index';
 import history from '../history';
 
 import { newError } from '../services/feasthero/actions';
-import { SESSION_EXPIRED_ERROR } from '../constants/app-constants';
+import { BOOKING_SESSION_NOT_ACTIVE_ERROR } from '../constants/app-constants';
 
-export const statusEnum = { error: 1, sessionExpired: 2 };
+export const statusEnum = { error: 1, sessionNotActive: 2 };
 
 
 /**
@@ -16,13 +16,13 @@ export const statusEnum = { error: 1, sessionExpired: 2 };
  * @returns {any}
  */
 
-export async function sessionWrapper(apiCallFn, ...args) {
+export async function sessionActiveWrapper(apiCallFn, ...args) {
     const response = await apiCallFn(...args);
 
     if (response.error === 408) {
-        store.dispatch(newError(SESSION_EXPIRED_ERROR));
+        store.dispatch(newError(BOOKING_SESSION_NOT_ACTIVE_ERROR));
         history.push('/');
-        return statusEnum.sessionExpired;
+        return statusEnum.sessionNotActive;
     }
 
     if (response.error)

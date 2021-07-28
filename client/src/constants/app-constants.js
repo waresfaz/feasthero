@@ -18,7 +18,7 @@ export const validBookingSizes = [
     { target: { name: 'bookingSize', value: 20 }, label: 20 },
 ]
 
-export const SESSION_EXPIRED_ERROR = "error: session expired";
+export const BOOKING_SESSION_NOT_ACTIVE_ERROR = "error: booking session not actuve";
 
 export const bookingSizeDropdownStyle = {
     control: (base, state) => ({

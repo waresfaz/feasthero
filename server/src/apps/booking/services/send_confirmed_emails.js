@@ -1,5 +1,5 @@
 const { mailSender, getMessageTemplate } = require('../../../helpers/send_email');
-const getClassDetailsFromId = require('../../../helpers/get_class_from_id');
+const findClass = require('../../classes/services/find_class');
 const customerBookingConfirmedEmailTemplate = require('../templates/customer_booking_confirmed_template')
 const genCustomerBookingConfirmedData = require('../templates/customer_booking_confirmed_data');
 const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_confirmed_template');
@@ -11,7 +11,7 @@ class SendConfirmedEmails {
     }
 
     async sendMailToChefAndCustomer() {
-        let classData = await getClassDetailsFromId(this.bookingDetails.classId);
+        let classData = await findClass(this.bookingDetails.classId);
         await this._sendMailToCustomer(classData);
         await this._sendMailToChef(classData);
     }
@@ -27,7 +27,7 @@ class SendConfirmedEmails {
     async _sendMailToChef(classData) {
         let msg = getMessageTemplate();
         msg.to = classData.chefs[0].email;
-        msg.subject = ` FeastHero Class ${classData.title}  Slot Booked`;
+        msg.subject = ` FeastHero Class ${classData.title} Slot Booked`;
         msg.html = chefBookingConfirmedEmailTemplate(genChefBookingConfirmedData(classData, this.bookingDetails));
         await mailSender(msg);
     };

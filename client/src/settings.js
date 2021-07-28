@@ -5,9 +5,7 @@ let settings = {
     STRIPE_SECRET_KEY: '',
     RECAPTCHA_SECRET_KEY: '',
     RECAPTCHA_SITE_KEY: '',
-    OAUTH_CLIENT_ID: '',
-    CLIENT_ID_SECRET: '',
-    CLIENT_ID: ''
+    FEASTHERO_API_TOKEN: ''
 };
 
 function initSettings() {

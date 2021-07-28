@@ -1,9 +1,9 @@
-import axios from 'axios';
+import feastHeroAxios from '../axios/feast-hero-axios';
 
 import { ALL_CLASSES } from '../../constants/api-constants';
 
 async function fetchAllClasses() {
-    const classesReponse = await axios.get(ALL_CLASSES, { withCredentials: true })
+    const classesReponse = await feastHeroAxios.get(ALL_CLASSES, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 

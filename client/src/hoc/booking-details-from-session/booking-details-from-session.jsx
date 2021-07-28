@@ -3,7 +3,7 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 import { getBookingDetailsFromSession } from '../../services/booking/api';
-import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
+import { sessionActiveWrapper, statusEnum } from '../../helpers/session-active-wrapper';
 
 /**
  * hoc that will pass bookingDetails as props
@@ -20,10 +20,9 @@ const BookingDetailsFromSession = WrappedComponent => {
         }
 
         async componentDidMount() {
-            const bookingDetails = await sessionWrapper(getBookingDetailsFromSession);
+            const bookingDetails = await sessionActiveWrapper(getBookingDetailsFromSession);
 
-            // session expired
-            if (bookingDetails === statusEnum.sessionExpired)
+            if (bookingDetails === statusEnum.sessionNotActive)
                 return;
 
             if (bookingDetails === statusEnum.error) {

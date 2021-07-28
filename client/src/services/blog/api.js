@@ -1,8 +1,8 @@
-import axios from 'axios';
 import { ALL_BLOG_POSTS, FIND_BLOG_POST } from '../../constants/api-constants';
+import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function fetchAllBlogPosts() {
-    const response = await axios.get(ALL_BLOG_POSTS)
+    const response = await feastHeroAxios.get(ALL_BLOG_POSTS)
         .then((response) => response)
         .catch((_) => ({ error: true }));
     if (response.error)
@@ -12,7 +12,7 @@ export async function fetchAllBlogPosts() {
 }
 
 export async function fetchBlogPost(id) {
-    const response = await axios.get(`${FIND_BLOG_POST}/${id}`)
+    const response = await feastHeroAxios.get(`${FIND_BLOG_POST}/${id}`)
         .then((response) => response)
         .catch((_) => ({ error: true }));
     if (response.error)

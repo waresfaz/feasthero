@@ -1,3 +1,4 @@
+import asAction from '../../helpers/as-redux-action';
 import {
     UPDATE_MEAL_KITS_BOOKED, UPDATE_ALL_COSTS,
     UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
@@ -23,11 +24,4 @@ export function reset() {
 
 export function updateClassId(classId) {
     return asAction(UPDATE_CLASS_ID, classId);
-}
-
-function asAction(type, value) {
-    return {
-        type: type,
-        value: value,
-    }
 }

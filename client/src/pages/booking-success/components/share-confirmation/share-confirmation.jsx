@@ -7,8 +7,7 @@ import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 import { sendConfirmations } from '../../../../services/booking/api';
-import { statusEnum } from '../../../../helpers/session-wrapper';
-import { sessionWrapper } from '../../../../helpers/session-wrapper';
+import { sessionActiveWrapper, statusEnum } from '../../../../helpers/session-active-wrapper';
 
 import './share-confirmation.scss';
 
@@ -47,9 +46,9 @@ class ShareConfirmation extends React.Component {
             return;
         }
 
-        const response = await sessionWrapper(sendConfirmations, emails);
+        const response = await sessionActiveWrapper(sendConfirmations, emails);
 
-        if (response === statusEnum.sessionExpired)
+        if (response === statusEnum.sessionNotActive)
             return
 
         if (response === statusEnum.error)

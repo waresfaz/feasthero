@@ -3,7 +3,7 @@ import React from 'react';
 import Loader from '../../components/loader/loader';
 
 import { verifyBookingSuccess } from '../../services/booking/api';
-import { sessionWrapper, statusEnum } from '../../helpers/session-wrapper';
+import { sessionActiveWrapper, statusEnum } from '../../helpers/session-active-wrapper';
 
 
 const VerifyBookingSuccess = WrappedComponent => {
@@ -18,9 +18,9 @@ const VerifyBookingSuccess = WrappedComponent => {
         }
 
         async componentDidMount() {
-            const response = await sessionWrapper(verifyBookingSuccess);
+            const response = await sessionActiveWrapper(verifyBookingSuccess);
 
-            if (response === statusEnum.sessionExpired)
+            if (response === statusEnum.sessionNotActive)
                 return;
 
             if (response === statusEnum.error) {

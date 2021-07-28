@@ -2,7 +2,9 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
-const cookieSession = require('cookie-session')
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
+const cookieSession = require('cookie-session');
 
 const { connectToDb } = require('./database/connect.js');
 const { settings } = require("./feasthero/settings.js");
@@ -16,7 +18,7 @@ const subscribeRouter = require("./apps/subscribe/routes");
 const blogRouter = require('./apps/blog/routes');
 
 const errorMiddleware = require('./middleware/error');
-const verifyReqFromClient = require('./middleware/verify_req_from_client');
+const verifyApiTkn = require('./middleware/verify_api_tkn');
 
 function init() {
   connectToDb();
@@ -31,15 +33,17 @@ function initMiddleware() {
   app.use(express.urlencoded({ extended: true }));
   app.use(errorMiddleware);
   app.use(cookieParser());
-  app.use(cookieSession({
-    name: 'session',
-    keys: [settings.SESSION_SECRET],
-    httpOnly: true,
-    maxAge: 900000, // 15 minutes
-    signed: true,
+  app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: settings.MONGO_URI,
+    }),
   }));
-  app.use(verifyReqFromClient);
+  app.use(verifyApiTkn);
 }
+
 
 function initRoutes() {
   app.use('/classes', classesRouter);

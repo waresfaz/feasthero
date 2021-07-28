@@ -53,6 +53,32 @@ class BookingDetails extends React.Component {
         })
     }
 
+    handleSubmit = async (event) => {
+        event.preventDefault();
+        this.clearErrors();
+
+        if (!this.validate())
+            return;
+
+        this.setState({
+            loading: true,
+        })
+        if (!(await initBookingDetailsSession(this.props.bookingDetails))) {
+            const error = 'Error creating checkout session, please try again later';
+            this.setState(prevState => ({
+                errors: [...prevState.errors, error],
+            }));
+        }
+        this.setState({
+            loading: false,
+        })
+
+        if (this.state.errors.length > 0)
+            return;
+
+        history.push('/checkout')
+    }
+
     validate = () => {
         let formErrors = {};
         const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
@@ -87,29 +113,12 @@ class BookingDetails extends React.Component {
         return numberDropDownErrorMessage;
     }
 
-    handleSubmit = async (event) => {
-        event.preventDefault();
 
-        if (!this.validate())
-            return;
-
+    clearErrors = () => {
         this.setState({
-            loading: true,
+            errors: [],
+            formErrors: {}
         })
-        if (!await initBookingDetailsSession(this.props.bookingDetails)) {
-            const error = 'Error creating checkout session, please try again later';
-            this.setState(prevState => ({
-                errors: [...prevState.errors, error],
-            }));
-        }
-        this.setState({
-            loading: false,
-        })
-
-        if (this.state.errors.length > 0)
-            return;
-
-        history.push('/checkout')
     }
 
     renderBookingSizeTooltip = (props) => (
