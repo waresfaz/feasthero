@@ -10,6 +10,7 @@ import PasswordValidator from '../../../validators/password';
 
 import './register.scss';
 import '../auth.scss';
+import { register } from '../../../services/auth/api';
 
 class Register extends React.Component {
     constructor() {
@@ -51,11 +52,13 @@ class Register extends React.Component {
         })
     }
 
-    handleSubmit = (evt) => {
+    handleSubmit = async (evt) => {
         evt.preventDefault();
 
         if (!this.validate())
             return;
+
+        await register(this.state.firstName, this.state.lastName, this.state.email, this.state.passwordOne, this.state.passwordTwo);
     }
 
     render() {

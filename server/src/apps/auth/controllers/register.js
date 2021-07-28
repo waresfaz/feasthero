@@ -6,4 +6,4 @@ async function register(req, res) {
     await register.run();
 }
 
-module.exports = register();
+module.exports = register;

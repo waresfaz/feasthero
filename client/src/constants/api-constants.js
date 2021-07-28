@@ -20,3 +20,6 @@ const BLOG_PATH = `/blog`;
 const BLOG_POSTS_PATH = `${BLOG_PATH}/posts`;
 export const ALL_BLOG_POSTS = `${BLOG_POSTS_PATH}/all`;
 export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`
+
+const AUTH_PATH = `/auth`;
+export const STANDARD_REGISTER = `${AUTH_PATH}/register`;

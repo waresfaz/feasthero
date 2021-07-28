@@ -22,10 +22,10 @@ const BookingDetailsFromSession = WrappedComponent => {
         async componentDidMount() {
             const bookingDetails = await sessionActiveWrapper(getBookingDetailsFromSession);
 
-            if (bookingDetails === statusEnum.sessionNotActive)
+            if (bookingDetails.status === statusEnum.sessionNotActive)
                 return;
 
-            if (bookingDetails === statusEnum.error) {
+            if (bookingDetails.status === statusEnum.error) {
                 this.setState({
                     error: 'Error loading booking details, please try again',
                 });

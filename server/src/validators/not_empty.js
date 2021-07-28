@@ -1,8 +1,8 @@
 class NotEmptyValidator {
     static validate(name) {
         if (name === '' || name === null || name === undefined)
-            return 'cannot be empty';
-        return null;
+            return {valid: false, info: 'cannot be empty' };
+        return { valid: true };
     }
 }
 

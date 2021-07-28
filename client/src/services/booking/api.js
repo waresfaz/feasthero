@@ -13,9 +13,12 @@ import didCorsFail from '../../helpers/cors-failed';
 export async function initBookingDetailsSession(bookingDetails) {
     const response = await feastHeroAxios.post(INIT_BOOKING_DETAILS_SESSION, bookingDetails, { withCredentials: true })
         .then((response) => response)
-        .catch((err) => {console.log(err); return { error: true }});
+        .catch((err) => ({ error: err }));
 
-    return !response.error
+    if (response.error)
+        return response;
+        
+    return true;
 }
 
 export async function getBookingDetailsFromSession() {
@@ -23,7 +26,7 @@ export async function getBookingDetailsFromSession() {
         .then((response) => response)
         .catch((error) => ({ error: didCorsFail(error) }));
     if (response.error)
-        return response;
+        return response.status;
 
     return response.data.response;
 }
@@ -45,7 +48,7 @@ export async function verifyBookingSuccess() {
         .catch((err) => ({ error: didCorsFail(err) }));
 
     if (response.error)
-        return response;
+        return response.status;
 
     return response.data.response;
 }
@@ -63,5 +66,5 @@ export async function sendConfirmations(emails) {
         .then((response) => response)
         .catch((err) => ({ error: didCorsFail(err) }));
 
-    return response;
+    return response.status;
 }

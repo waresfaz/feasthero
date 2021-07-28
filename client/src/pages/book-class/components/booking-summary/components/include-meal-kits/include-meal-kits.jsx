@@ -2,7 +2,6 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-
 import { updatemealKitsBooked } from '../../../../../../services/booking/actions';
 
 class IncludeMealKits extends React.Component {
@@ -11,7 +10,7 @@ class IncludeMealKits extends React.Component {
     }
 
     render() {
-        const { classData, bookingDetails } = this.props;
+        const { classData, bookingDetails, mealKitsBookedError } = this.props;
 
         return (
             <form>
@@ -22,6 +21,7 @@ class IncludeMealKits extends React.Component {
                         value={bookingDetails.mealKitsBooked}
                         label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitPrice}/device.</span></p>}
                     />
+                    <span className='text-danger error'>{mealKitsBookedError}</span>
                 </Form.Group>
             </form>
         )
@@ -36,7 +36,8 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        bookingDetails: state.booking,
+        bookingDetails: state.booking.bookingDetails,
+        mealKitsBookedError: state.booking.mealKitsBookedError
     }
 }
 

@@ -1,12 +1,12 @@
 class NameValidator {
     static validate(name) {
         if (!name) {
-            return 'cannot be empty';
+            return { valid: false, info: 'name cannot be empty' };
         } else {
             if (!name.match(/^[a-zA-Z\s]+$/))
-                return 'only letters';
+                return { valid: false, info: 'only letters in name' };
         }
-        return null;
+        return { valid: true };
     }
 }
 

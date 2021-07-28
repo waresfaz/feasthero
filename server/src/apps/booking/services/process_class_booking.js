@@ -3,7 +3,7 @@ const Schedule = require('../../schedule/schema/schedule');
 const StatusCodes = require('http-status-codes');
 const ProcessPayment = require('./process_payment');
 
-var ObjectId = require("mongoose").Types.ObjectId;
+const ObjectId = require("mongoose").Types.ObjectId;
 
 class ProcessClassBooking extends ProcessPayment {
     constructor(bookingDetails, cardTokenId) {

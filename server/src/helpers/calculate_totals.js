@@ -1,4 +1,4 @@
-export default class CalculateTotals {
+class CalculateTotals {
     static totals(bookingSize, costPerDevice, mealKitPrice, bookingSizeWithMealKit, mealKitsBooked) {
         let mealKitsTotal = 0;
         if (mealKitsBooked)
@@ -11,10 +11,10 @@ export default class CalculateTotals {
 
         return {
             tax: Number(tax.toFixed(2)),
-            mealKitsTotal:  Number(mealKitsTotal.toFixed(2)),
-            devicesTotal:  Number(devicesTotal.toFixed(2)),
-            grandTotal:  Number(grandTotal.toFixed(2)),
-            subTotal:  Number(subTotal.toFixed(2)),
+            mealKitsTotal: Number(mealKitsTotal.toFixed(2)),
+            devicesTotal: Number(devicesTotal.toFixed(2)),
+            grandTotal: Number(grandTotal.toFixed(2)),
+            subTotal: Number(subTotal.toFixed(2)),
         }
     }
 
@@ -38,3 +38,5 @@ export default class CalculateTotals {
         return tax + subTotal;
     }
 }
+
+module.exports = CalculateTotals;

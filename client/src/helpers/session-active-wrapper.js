@@ -22,11 +22,11 @@ export async function sessionActiveWrapper(apiCallFn, ...args) {
     if (response.error === 408) {
         store.dispatch(newError(BOOKING_SESSION_NOT_ACTIVE_ERROR));
         history.push('/');
-        return statusEnum.sessionNotActive;
+        return { status: statusEnum.sessionNotActive };
     }
 
     if (response.error)
-        return statusEnum.error;
+        return { status: statusEnum.error, error: response.error };
 
     return response;
 }

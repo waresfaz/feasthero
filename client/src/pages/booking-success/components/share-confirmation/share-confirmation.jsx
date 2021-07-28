@@ -48,10 +48,10 @@ class ShareConfirmation extends React.Component {
 
         const response = await sessionActiveWrapper(sendConfirmations, emails);
 
-        if (response === statusEnum.sessionNotActive)
+        if (response.status === statusEnum.sessionNotActive)
             return
 
-        if (response === statusEnum.error)
+        if (response.status === statusEnum.error)
             this.setState({
                 didSend: false,
                 loading: false

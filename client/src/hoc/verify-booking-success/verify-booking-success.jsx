@@ -20,10 +20,10 @@ const VerifyBookingSuccess = WrappedComponent => {
         async componentDidMount() {
             const response = await sessionActiveWrapper(verifyBookingSuccess);
 
-            if (response === statusEnum.sessionNotActive)
+            if (response.status === statusEnum.sessionNotActive)
                 return;
 
-            if (response === statusEnum.error) {
+            if (response.status === statusEnum.error) {
                 this.setState({
                     error: 'Error fetching booking details, please contact customer service to make sure your class was placed'
                 })

@@ -1,4 +1,4 @@
-export default class PasswordValidator {
+class PasswordValidator {
     static validate(password) {
         if (!password)
             return 'Enter your password';
@@ -18,3 +18,5 @@ export default class PasswordValidator {
         return null;
     }
 }
+
+export default PasswordValidator;

@@ -70,14 +70,14 @@ class Payment extends React.Component {
         }
 
         const bookingResponse = await sessionActiveWrapper(bookClass, cardTokenResponse.token.id);
-        if (bookingResponse === statusEnum.error) {
+        if (bookingResponse.status === statusEnum.error) {
             this.setState({
                 errors: 'Payment failed, please try again or contact customer support',
                 loading: false,
             });
             return;
         }
-        if (bookingResponse === statusEnum.sessionNotActive)
+        if (bookingResponse.status === statusEnum.sessionNotActive)
             return;
 
         this.setState({
