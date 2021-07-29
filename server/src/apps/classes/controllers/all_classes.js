@@ -1,5 +1,5 @@
 const getAllClasses = require('../services/all_classes');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 async function allClasses(_, res) {
     let classes = await getAllClasses()

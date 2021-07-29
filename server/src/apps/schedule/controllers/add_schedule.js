@@ -1,5 +1,5 @@
 const Schedule = require('../schema/schedule');
-const StatusCodes = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 async function addSchedule(req, res) {
     let requestData = req.body.data;

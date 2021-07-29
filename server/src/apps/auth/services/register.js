@@ -1,13 +1,10 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const Bcrypt = require("bcryptjs");
 
-const EmailValidator = require("../../../validators/email");
-const NameValidator = require("../../../validators/name");
-const PasswordValidator = require("../../../validators/password");
+const ValidateRegistrationData = require('./validate_registration_data');
 const Account = require('../../accounts/schema/account');
 const Authentication = require("./authentication");
-const getAccountFromEmail = require('../../accounts/services/get_account_from_email');
-
+const ProfileFactory = require('../../profiles/profile_factory');
 
 class Registration extends Authentication {
     constructor(registrationData) {
@@ -16,29 +13,22 @@ class Registration extends Authentication {
     }
 
     async run() {
-        const validatedRegistrationData = this._validateRegistrationData();
-        if (validatedRegistrationData.valid === false)
-            return { status: StatusCodes.BAD_REQUEST, response: validatedRegistrationData.info };
+        const validatedRegistrationData = await this._validate();
+        if (!validatedRegistrationData.valid)
+            return { status: StatusCodes.BAD_REQUEST, response: validatedRegistrationData.errorMessage };
 
-        if ((await getAccountFromEmail(this.registrationData.email)) > 0)
+        if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
             return { status: StatusCodes.CONFLICT, response: "account already exists" };
 
-        await this._saveToDatabase();
+        const account = await this._saveToDatabase();
+
+        return { status: StatusCodes.OK, response: 'ok', account: account };
     }
 
-    _validateRegistrationData() {
-        if (!EmailValidator.validate(this.registrationData.email))
-            return { valid: false, info: 'invalid email' };
-        if (!NameValidator.validate(this.registrationData.firstName))
-            return { valid: false, info: 'invalid first name' };
-        if (!NameValidator.validate(this.registrationData.lastName))
-            return { valid: false, info: 'invalid last name' };
-        if (!PasswordValidator.passwordsEqual(this.registrationData.passwordOne, this.registrationData.passwordTwo))
-            return { valid: false, info: 'passwords must match' };
-        if (!PasswordValidator.validate(this.registrationData.passwordOne))
-            return { valid: false, info: 'invalid password' };
-
-        return { valid: true };
+    _validate() {
+        const registrationDataValidator = new ValidateRegistrationData(this.registrationData);
+        const validatedRegistrationData = registrationDataValidator.validate();
+        return validatedRegistrationData;
     }
 
     async _saveToDatabase() {
@@ -47,12 +37,19 @@ class Registration extends Authentication {
             ...this.registrationData,
             password: hashedPassword,
         }
-        const accountAsSchema = new Account(finalAccountData)
-        await accountAsSchema.save();
+        const account = new Account(finalAccountData)
+        return await this.attachProfileToAccountAndSave(account)
     }
 
     _getHashedPassword(password) {
         return Bcrypt.hashSync(password, 10);
+    }
+
+    async attachProfileToAccountAndSave(account) {
+        const accountProfile = ProfileFactory.getProfile(this.registrationData.accountType);
+        account.profile = accountProfile;
+        await account.save();
+        return account;
     }
 }
 

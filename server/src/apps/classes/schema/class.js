@@ -1,8 +1,8 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-let ObjectId = Schema.ObjectId;
+const ObjectId = Schema.ObjectId;
 
-let Class = new Schema({
+const Class = new Schema({
   title: String,
   costPerDevice: Number,
   thumbnail: String,

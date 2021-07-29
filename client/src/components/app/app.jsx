@@ -20,9 +20,11 @@ import Footer from '../footer/footer';
 import BlogPost from '../../pages/blog/blog-post/blog-post';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Login from '../../pages/auth/login/login';
+import Register from '../../pages/auth/register/register';
+import Account from '../../pages/account/account';
+import LoadAccount from '../../hoc/load-account/load-account';
 
 import './app.scss';
-import Register from '../../pages/auth/register/register';
 
 
 class App extends React.Component {
@@ -31,10 +33,8 @@ class App extends React.Component {
     initSettings();
   }
 
-  componentDidMount() {
-  }
-
   render() {
+    console.log('ok2')
     return (
       <>
         <Router history={history}>
@@ -52,6 +52,7 @@ class App extends React.Component {
                 <Route exact path='/blog/post/:id' component={BlogPost} />
                 <Route exact path='/auth/login' component={Login} />
                 <Route exact path='/auth/register' component={Register} />
+                <Route exact path='/account' component={Account} />
               </Switch>
             </Container>
             <Footer />
@@ -62,4 +63,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default LoadAccount(App);

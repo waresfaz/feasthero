@@ -1,4 +1,4 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 const findClass = require('../../classes/services/find_class');
 const shareConfirmationService = require('../services/share_confirmation');

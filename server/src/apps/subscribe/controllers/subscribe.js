@@ -1,5 +1,5 @@
 const Subscription = require("../schema/subscription");
-const StatusCodes = require("http-status-codes");
+const { StatusCodes } = require("http-status-codes");
 
 async function subscribe(req, res) {
     const subscriptionData = req.body;

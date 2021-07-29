@@ -1,4 +1,4 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 function getBookingDetailsFromSession(req, res) {
     const bookingDetails = req.session.bookingDetails;

@@ -1,6 +1,6 @@
 const Booking = require('../schema/booking');
 const Schedule = require('../../schedule/schema/schedule');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const ProcessPayment = require('./process_payment');
 
 const ObjectId = require("mongoose").Types.ObjectId;

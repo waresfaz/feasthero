@@ -1,4 +1,4 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const Booking = require('../schema/booking');
 const dateTimeToMoment = require('../../../helpers/date_time_to_moment');
 const validateBookingDetails = require('../services/validate_booking_details');

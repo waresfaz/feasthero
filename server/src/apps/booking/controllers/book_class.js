@@ -1,5 +1,5 @@
 const ProcessBooking = require('../services/process_class_booking');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 async function processBooking(req, res) {
     let bookingDetails = req.session.bookingDetails;

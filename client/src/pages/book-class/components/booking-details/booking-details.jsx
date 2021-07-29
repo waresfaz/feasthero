@@ -6,7 +6,7 @@ import Select from 'react-select'
 import { connect } from 'react-redux';
 
 
-import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../constants/app-constants';
+import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
 
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
 import BookingSizeValidator from '../../../../validators/booking-size';
@@ -75,7 +75,7 @@ class BookingDetails extends React.Component {
 
     handleInitBookingSessionError = (error) => {
         console.log(error.response)
-        if (error.response.status === 400) {
+        if (error.response.status === 400 && error.response.data) {
             this.setState(prevState => ({
                 errors: [...prevState.errors, error.response.data],
                 loading: false,
@@ -159,12 +159,11 @@ class BookingDetails extends React.Component {
                             </Col>
                             <Col sm={12} lg={4}>
                                 <Select
-                                    styles={bookingSizeDropdownStyle}
+                                    styles={selectDropDownStyle}
                                     onChange={this.handleFormChange}
                                     value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
                                     options={validBookingSizes}
-                                >
-                                </Select>
+                                />
                                 <span className='text-danger'>{formErrors['bookingSizeForBooking']}</span>
                             </Col>
                         </Row>
@@ -172,7 +171,7 @@ class BookingDetails extends React.Component {
                     <Form.Group>
                         <Select
                             required
-                            styles={dateTimeBookingDropdownStyle}
+                            styles={selectDropDownStyle}
                             onChange={this.handleFormChange}
                             value={this.scheduleOptions.filter((option) => option.target.value === bookingDetails.selectedClassDateTime)}
                             placeholder='Select Date & Time'

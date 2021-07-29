@@ -1,5 +1,5 @@
 const { sendEmail, genMessage } = require('../services/email');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 async function contact(req, res) {
     const { name, email, subject, message } = req.body;

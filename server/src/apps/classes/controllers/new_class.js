@@ -1,4 +1,4 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const Class = require('../schema/class');
 
 async function newClass(req, res) {

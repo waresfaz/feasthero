@@ -1,13 +1,13 @@
 import React from 'react';
 import { Navbar, Nav } from 'react-bootstrap';
 import { HashLink as Link } from 'react-router-hash-link';
-
+import { connect } from 'react-redux';
 import { Image } from 'react-bootstrap';
+
 
 import logo from '../../assets/resources/images/logo-full.png';
 
 import './top-nav.scss'
-import { connect } from 'react-redux';
 
 class TopNavbar extends React.Component {
   render() {
@@ -29,11 +29,15 @@ class TopNavbar extends React.Component {
               <Link smooth to="/contact#contact-us">Contact Us</Link>
               <Link smooth to="/blog">Blog</Link>
               {
-                !this.props.isAtLoginPage
+                this.props.accountData
                   ?
-                  <Link smooth to="/auth/login">Login</Link>
+                  <Link smooth to="/account">Account</Link>
                   :
-                  <Link smooth to="/auth/register">Register</Link>
+                  this.props.isAtLoginPage
+                    ?
+                    <Link smooth to="/auth/register">Register</Link>
+                    :
+                    <Link smooth to="/auth/login">Login</Link>
               }
             </Nav>
           </Navbar.Collapse>
@@ -46,6 +50,7 @@ class TopNavbar extends React.Component {
 const mapStateToProps = (state) => {
   return {
     isAtLoginPage: state.auth.isAtLoginPage,
+    accountData: state.account.accountData,
   }
 }
 

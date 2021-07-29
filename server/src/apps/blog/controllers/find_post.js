@@ -1,5 +1,5 @@
 const BlogPost = require('../schema/post');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const mongoose = require("mongoose");
 const Types = mongoose.Types;
 let ObjectId = Types.ObjectId;

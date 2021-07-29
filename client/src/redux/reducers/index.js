@@ -4,12 +4,14 @@ import classesReducer from '../../services/classes/reducer';
 import bookingReducer from '../../services/booking/reducer';
 import feastHeroReducer from '../../services/feasthero/reducer';
 import authReducer from '../../services/auth/reducer';
+import accountsReducer from '../../services/accounts/reducer';
 
 const rootReducer = combineReducers({
     classes: classesReducer,
     booking: bookingReducer,
     feastHero: feastHeroReducer,
-    auth: authReducer
+    auth: authReducer,
+    account: accountsReducer
 })
 
 export default rootReducer;

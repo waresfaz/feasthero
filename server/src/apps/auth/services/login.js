@@ -1,4 +1,4 @@
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 const Bcrypt = require("bcryptjs");
 
 const Authentication = require("./authentication");

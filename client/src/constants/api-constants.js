@@ -23,3 +23,6 @@ export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`
 
 const AUTH_PATH = `/auth`;
 export const STANDARD_REGISTER = `${AUTH_PATH}/register`;
+
+const ACCOUNTS_PATH = '/accounts';
+export const GET_ACCOUNT =`${ACCOUNTS_PATH}/get-account`;

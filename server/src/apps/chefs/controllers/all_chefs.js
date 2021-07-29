@@ -1,5 +1,5 @@
 const Chef = require('../schema/chef');
-const StatusCodes = require('http-status-codes');
+const { StatusCodes } = require("http-status-codes");
 
 async function allChefs(_, res) {
     return await Chef.find({})
