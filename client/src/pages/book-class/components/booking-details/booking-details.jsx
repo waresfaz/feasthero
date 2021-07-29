@@ -54,28 +54,39 @@ class BookingDetails extends React.Component {
             loading: true,
         })
 
-        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
-        if (initBookingSessionResult.error) {
-            if (initBookingSessionResult.error.response.status === 400) {
-                this.setState(prevState => ({
-                    errors: [...prevState.errors, initBookingSessionResult.error.response.data.response],
-                    loading: false,
-                }));
-            } else {
-                const error = 'Error creating checkout session, please try again later';
-                this.setState(prevState => ({
-                    errors: [...prevState.errors, error],
-                    loading: false,
-                }));
-            }
+        if (!(await this.initBookingSession()))
             return;
-        }
-
 
         if (this.state.errors.length > 0)
             return;
 
         history.push('/checkout')
+    }
+
+    initBookingSession = async () => {
+        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
+        console.log(initBookingSessionResult)
+        if (initBookingSessionResult.error) {
+            this.handleInitBookingSessionError(initBookingSessionResult.error);
+            return false;
+        }
+        return true;
+    }
+
+    handleInitBookingSessionError = (error) => {
+        console.log(error.response)
+        if (error.response.status === 400) {
+            this.setState(prevState => ({
+                errors: [...prevState.errors, error.response.data],
+                loading: false,
+            }));
+        } else {
+            const error = 'Error creating checkout session, please try again later';
+            this.setState(prevState => ({
+                errors: [...prevState.errors, error],
+                loading: false,
+            }));
+        }
     }
 
     validate = () => {
@@ -101,6 +112,7 @@ class BookingDetails extends React.Component {
 
     doesMealKitCheckHaveError = () => {
         let mealKitsBookedValidatedError = BooleanValidator.validate(this.props.bookingDetails.mealKitsBooked);
+        console.log(this.props.bookingDetails.mealKitsBooked)
         if (mealKitsBookedValidatedError) {
             mealKitsBookedValidatedError = 'meal kit value ' + mealKitsBookedValidatedError;
             this.props.setMealKitsBookedError(mealKitsBookedValidatedError)

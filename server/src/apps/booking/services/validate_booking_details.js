@@ -1,67 +1,67 @@
 const BookingSizeValidator = require('../../../validators/booking_size');
-const findClass = require('../../classes/services/find_class');
 const EmailValidator = require('../../../validators/email');
 const NameValidator = require('../../../validators/name');
 const NotEmptyValidator = require('../../../validators/not_empty');
 const BooleanValidator = require('../../../validators/boolean');
 const DateTimeValidator = require('../../../validators/datetime');
-const CalculateTotals = require('../../../helpers/calculate_totals');
+const ValidateBookingDetailsCosts = require('./validate_booking_details_costs');
 
+class ValidateBookingDetails extends ValidateBookingDetailsCosts {
+    constructor(bookingDetails, classData) {
+        super(bookingDetails, classData);
+        this.bookingDetails = bookingDetails;
+        this.classData = classData;
+    }
 
-async function validateBookingDetails(bookingDetails) {
-    const bookingSizeValidated = BookingSizeValidator.validate(bookingDetails.bookingSize);
-    if (!bookingSizeValidated.valid === true)
-        return bookingSizeValidated.info;
+    async validate() {
+        if (!super.validate())
+            return { valid: false, errorMessage: 'totals to not add up correctly' }
 
-    const classData = await findClass(bookingDetails.classId);
+        const validations = [
+            this.bookingSize(), this.selectedClassDateTime(), this.customerEmail(),
+            this.firstName(), this.lastName(), this.companyName(), this.mealKitsBooked(),
+        ]
 
-    const classScheduleValidated = DateTimeValidator.validate(bookingDetails.selectedClassDateTime, classData.schedule)
-    if (classScheduleValidated.valid === false)
-        return classScheduleValidated.info;
+        for (let i = 0; i < validations.length; i++) {
+            const validation = validations[i];
+            if (!validation.valid)
+                return validation;
+        }
 
-    const customerEmailValidated = EmailValidator.validate(bookingDetails.customerEmail)
-    if (customerEmailValidated.valid === false)
-        return customerEmailValidated.info;
+        return { valid: true };
+    }
 
-    const customerFirstNameValidated = NameValidator.validate(bookingDetails.customerFirstName)
-    if (customerFirstNameValidated.valid === false)
-        return customerFirstNameValidated.info;
+    bookingSize() {
+        return BookingSizeValidator.validate(this.bookingDetails.bookingSize);
+    }
 
-    const customerLastNameValidated = NameValidator.validate(bookingDetails.customerLastName);
-    if (customerLastNameValidated.valid === false)
-        return customerLastNameValidated.info;
+    selectedClassDateTime() {
+        return DateTimeValidator.validate(this.bookingDetails.selectedClassDateTime, this.classData.schedule)
+    }
 
-    const companyNameValidated = NotEmptyValidator.validate(bookingDetails.companyName)
-    if (companyNameValidated.valid === false)
-        return 'company name ' + companyNameValidated.info
+    customerEmail() {
+        return EmailValidator.validate(this.bookingDetails.customerEmail)
+    }
 
-    const mealKitsBookedValidated = BooleanValidator.validate(bookingDetails.mealKitsBooked);
-    if (mealKitsBookedValidated.valid === false)
-        return 'mealkits included is ' + mealKitsBookedValidated.info;
+    firstName() {
+        return NameValidator.validate(this.bookingDetails.customerFirstName);
+    }
 
-    if (!checkTotals(classData, bookingDetails))
-        return 'totals do not add up';
+    lastName() {
+        return NameValidator.validate(this.bookingDetails.customerLastName);
+    }
 
-    return null;
+    companyName() {
+        let validated = NotEmptyValidator.validate(this.bookingDetails.companyName);
+        validated.errorMessage = 'company name ' + validated.errorMessage;
+        return validated;
+    }
+
+    mealKitsBooked() {
+        let validated = BooleanValidator.validate(this.bookingDetails.mealKitsBooked);
+        validated.errorMessage = 'booked meal kits is ' + validated.errorMessage;
+        return validated;
+    }
 }
 
-function checkTotals(classData, bookingDetails) {
-    const totals = CalculateTotals.totals(bookingDetails.bookingSize, classData.costPerDevice,
-        classData.mealKitPrice, bookingDetails.bookingSize,
-        bookingDetails.mealKitsBooked);
-
-    if (totals.tax !== bookingDetails.tax)
-        return false;
-    if (totals.mealKitsTotal !== bookingDetails.mealKitsTotal)
-        return false;
-    if (totals.devicesTotal !== bookingDetails.devicesTotal)
-        return false;
-    if (totals.grandTotal !== bookingDetails.grandTotal)
-        return false;
-    if (totals.subTotal !== bookingDetails.subTotal)
-        return false;
-
-    return true;
-}
-
-module.exports = validateBookingDetails;
+module.exports = ValidateBookingDetails;

@@ -1,12 +1,12 @@
 class DateTimeValidator {
     static validate(dateTime, validDateTimes) {
         if (!dateTime)
-            return { valid: false, info: 'date time cannot be empty'};
+            return { valid: false, errorMessage: 'date time cannot be empty'};
 
         if (!validDateTimes.find(validDateTime => {
             return validDateTime.dateTime.toString() === dateTime.toString();
         })) {
-            return { valid: false, info: 'invalid date time'}
+            return { valid: false, errorMessage: 'invalid date time'}
         }
 
         return { valid: true };

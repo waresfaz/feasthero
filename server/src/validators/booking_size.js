@@ -8,14 +8,14 @@ class BookingSizeValidator {
         value = Number(value);
 
         if (!value)
-            return { valid: false, info: 'booking size cannot be empty' };
+            return { valid: false, errorMessage: 'booking size cannot be empty' };
 
         if (value % 1 !== 0) {
-            return { valid: false, info: 'booking size must be a whole number' };
+            return { valid: false, errorMessage: 'booking size must be a whole number' };
         }
 
         if (value > bookingSizeUpperBounds || value < bookingSizeLowerBounds)
-            return { valid: false, info: 'booking size out of range' };
+            return { valid: false, errorMessage: 'booking size out of range' };
 
         return { valid: true };
     }

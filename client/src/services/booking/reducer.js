@@ -54,7 +54,7 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails }, actio
             return {
                 ...state,
                 bookingDetails: {
-                    initialBookingDetails
+                    ...initialBookingDetails
                 }
             }
         case UPDATE_CLASS_ID:
