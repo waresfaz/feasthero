@@ -1,6 +1,12 @@
 const { sendEmail, genMessage } = require('../services/email');
 const { StatusCodes } = require("http-status-codes");
 
+/**
+ * This controller runs the system that is responsible for sending contact messages to FeastHero
+ * 
+ * The contact system is responsible for
+ *      1. Sending an email to bookings@feasthero.com
+ */
 async function contact(req, res) {
     const { name, email, subject, message } = req.body;
 

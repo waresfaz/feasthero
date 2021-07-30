@@ -1,18 +1,18 @@
 const Booking = require('../schema/booking');
 const Schedule = require('../../schedule/schema/schedule');
 const { StatusCodes } = require("http-status-codes");
-const ProcessPayment = require('./process_payment');
+const ProcessPaymentService = require('./process_payment');
 
 const ObjectId = require("mongoose").Types.ObjectId;
 
-class ProcessClassBooking {
+class ProcessClassBookingService {
     constructor(bookingDetails, cardTokenId) {
-        this.processPayment = new ProcessPayment(bookingDetails, cardTokenId);
+        this.processPayment = new ProcessPaymentService(bookingDetails, cardTokenId);
         this.bookingDetails = bookingDetails;
     }
 
     async process() {
-        if (await this._isClassBooked() === true) {
+        if (await this._isClassBooked()) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
                 info: `${this.bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
@@ -37,7 +37,7 @@ class ProcessClassBooking {
         } else {
             return {
                 statusCode: StatusCodes.OK,
-                info: bookedClass,
+                bookedClassId: bookedClass,
             }
         }
     }
@@ -65,8 +65,8 @@ class ProcessClassBooking {
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })
-            .catch((err) => { return false });
+            .catch((_) => { return false });
     }
 }
 
-module.exports = ProcessClassBooking;
+module.exports = ProcessClassBookingService;

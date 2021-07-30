@@ -6,7 +6,6 @@ function getBookingDetailsFromSession(req, res) {
     if (!bookingDetails)
         return res.status(StatusCodes.REQUEST_TIMEOUT).json({ response: 'no booking details in session' });
 
-
     return res.status(StatusCodes.OK).json({ response: bookingDetails });
 }
 

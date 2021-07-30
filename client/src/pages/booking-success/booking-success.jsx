@@ -9,6 +9,16 @@ import './booking-success.scss';
 import ShareConfirmation from './components/share-confirmation/share-confirmation';
 import { Container } from 'react-bootstrap';
 
+/**
+ * This component displays the user's full order upon booking success.
+ * This component is also wrapped with a HOC that verifies that the user's booking
+ * was successful
+ * @link https://reactjs.org/docs/higher-order-components.html
+ * 
+ * This component is responsible for
+ *    1. Displaying the user's full order upon booking success
+ *    2. Giving the user the option to share their booking confirmation with other emails
+ */
 class BookingSuccess extends React.Component {
     render() {
         return (

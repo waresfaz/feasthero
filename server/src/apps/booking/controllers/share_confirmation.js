@@ -3,6 +3,12 @@ const { StatusCodes } = require("http-status-codes");
 const findClass = require('../../classes/services/find_class');
 const shareConfirmationService = require('../services/share_confirmation');
 
+/**
+ * This controller runs the system for sharing a booking confirmation
+ * 
+ * This share confirmation system is responsible for
+ *      1. Generating booking confirmation emails and sending them to a list of emails provided by the client
+ */
 async function shareConfirmation(req, res) {
     const bookingDetails = req.session.bookingDetails;
     const classData = await findClass(bookingDetails.classId);

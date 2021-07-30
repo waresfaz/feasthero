@@ -14,6 +14,18 @@ import BookingSummary from './components/booking-summary/booking-summary';
 
 import './book-class.scss';
 
+/**
+ * This component gathers the information needed to start a booking.
+ * 
+ * This component is responsible for
+ *    1. Collecting user's booking details as input
+ *    2. Displaying the user's current entered booking details
+ *    3. Call the `booking/init-session` endpoint in order for the inputted booking
+ *       details to be added to the client's session for future use
+ * 
+ * A session is a way to persistently store data belonging to a client on the server.
+ * @link https://en.wikipedia.org/wiki/Session_(computer_science)
+ */
 class BookClass extends React.Component {
   constructor(props) {
     super(props);
@@ -38,11 +50,6 @@ class BookClass extends React.Component {
     }
   }
 
-  /**
-   * all steps for initializing class data in the local state
-   * 
-   * @param {object} props - certian set of props to use to init class data 
-   */
   initClassData = (props) => {
     const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
     props.updateClassId(classData._id);
