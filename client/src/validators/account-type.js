@@ -4,10 +4,14 @@ class AccountTypeValidator {
     static validate(accountType) {
         if (!accountType)
             return 'account type must not be empty';
-        if (accountType !== ADMIN && accountType !== CHEF && accountType !== CUSTOMER)
+        if (AccountTypeValidator._accountTypeIsInvalid(accountType))
             return 'invalid account type';
 
         return null;
+    }
+
+    static _accountTypeIsInvalid(accountType) {
+        return accountType !== ADMIN && accountType !== CHEF && accountType !== CUSTOMER
     }
 }
 

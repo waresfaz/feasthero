@@ -23,8 +23,8 @@ const HttpRequestDidSucceed = (WrappedComponent, requestFn, responsePropName, ..
         constructor() {
             super();
             this.state = {
-                requestResponse: null,
-                error: null,
+                requestResponse: undefined,
+                error: undefined,
             }
         }
 
@@ -49,13 +49,18 @@ const HttpRequestDidSucceed = (WrappedComponent, requestFn, responsePropName, ..
             });
         }
 
+        requestHasNotCompleted = () => {
+            const { requestResponse, error } = this.state;
+            return requestResponse === undefined && error === undefined;
+        }
+
         render() {
             const { requestResponse, error } = this.state;
             const dynamicProp = { [responsePropName]: requestResponse };
             return (
-                requestResponse === null && !error
+                this.requestHasNotCompleted()
                     ?
-                    <Loader show={requestResponse === null && !error} />
+                    <Loader show={this.requestHasNotCompleted()} />
                     :
                     <WrappedComponent {...dynamicProp} httpRequestError={error} />
             )

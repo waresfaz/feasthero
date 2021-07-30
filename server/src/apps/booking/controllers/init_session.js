@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Booking = require('../schema/booking');
 const dateTimeToMoment = require('../../../helpers/date_time_to_moment');
-const validateBookingDetails = require('../services/validate_booking_details');
 const findClass = require('../../classes/services/find_class');
 const ValidateBookingDetails = require('../services/validate_booking_details');
 
@@ -19,7 +18,7 @@ async function initSession(req, res) {
 
     req.session.bookingDetails = Booking(bookingDetails);
     req.session.save();
-    return res.status(StatusCodes.OK).json({ response: 'ok' });
+    return res.status(StatusCodes.OK).json('ok');
 }
 
 async function validate(bookingDetails) {

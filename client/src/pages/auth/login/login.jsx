@@ -13,6 +13,7 @@ import { login } from '../../../services/auth/api';
 import history from '../../../history';
 import { setAccount } from '../../../services/accounts/actions';
 import Loader from '../../../components/loader/loader';
+import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
 
 class Login extends React.Component {
     constructor() {
@@ -75,7 +76,7 @@ class Login extends React.Component {
     }
 
     handleLoginError = (error) => {
-        if (error.status === 400 || error.status === 404 || error.status === 401) {
+        if (this.requestErrorHasAdditionalInfo(error)) {
             this.setState({
                 error: error.data,
                 loading: false,
@@ -87,6 +88,10 @@ class Login extends React.Component {
             error: 'failed to login, please try again later',
             loading: false,
         })
+    }
+
+    requestErrorHasAdditionalInfo = (error) => {
+        return (error.status === 400 || error.status === 404 || error.status === 401) && error.data;
     }
 
 
@@ -153,4 +158,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Login);
+export default connect(null, mapDispatchToProps)(ShouldRedirectToAccount(Login));

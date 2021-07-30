@@ -5,7 +5,7 @@ const EmailValidator = require('../../../validators/email');
 const getAccountFromEmail = require('../../accounts/services/get_account_from_email');
 
 
-class Login {
+class LoginService {
     constructor(loginData) {
         this.loginData = loginData;
     }
@@ -30,4 +30,4 @@ class Login {
     }
 }
 
-module.exports = Login;
+module.exports = LoginService;

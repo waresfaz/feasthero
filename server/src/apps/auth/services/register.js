@@ -5,7 +5,7 @@ const ValidateRegistrationData = require('./validate_registration_data');
 const Account = require('../../accounts/schema/account');
 const ProfileFactory = require('../../profiles/profile_factory');
 
-class Registration {
+class RegistrationService {
     constructor(registrationData) {
         this.registrationData = registrationData;
     }
@@ -51,4 +51,4 @@ class Registration {
     }
 }
 
-module.exports = Registration;
+module.exports = RegistrationService;

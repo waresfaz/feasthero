@@ -14,8 +14,8 @@ const BookingDetailsFromSession = WrappedComponent => {
         constructor() {
             super();
             this.state = {
-                bookingDetails: null,
-                error: null,
+                bookingDetails: undefined,
+                error: undefined,
             }
         }
 
@@ -37,12 +37,17 @@ const BookingDetailsFromSession = WrappedComponent => {
             })
         }
 
+        bookingDetailsIsUnanitialized = () => {
+            const { bookingDetails, error } = this.state;
+            return bookingDetails === undefined && error === undefined
+        }
+
         render() {
             const { bookingDetails, error } = this.state;
             return (
-                bookingDetails === null && !error
+                this.bookingDetailsIsUnanitialized()
                     ?
-                    <Loader show={bookingDetails === null && !error} />
+                    <Loader show={this.bookingDetailsIsUnanitialized()} />
                     :
                     <WrappedComponent bookingDetails={bookingDetails} bookingDetailsFromSessionError={error} />
             )

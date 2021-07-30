@@ -11,9 +11,9 @@ const VerifyBookingSuccess = WrappedComponent => {
         constructor() {
             super();
             this.state = {
-                bookingDetails: null,
-                classData: null,
-                error: null
+                bookingDetails: undefined,
+                classData: undefined,
+                error: undefined
             }
         }
 
@@ -38,12 +38,17 @@ const VerifyBookingSuccess = WrappedComponent => {
             })
         }
 
+        bookingDetailsAndClassDataAreUninitialized = () => {
+            const { bookingDetails, error, classData } = this.state;
+            return bookingDetails === undefined && error === undefined && classData === undefined;
+        }
+
         render() {
             const { bookingDetails, classData, error } = this.state;
             return (
-                bookingDetails === null && !error
+                this.bookingDetailsAndClassDataAreUninitialized()
                     ?
-                    <Loader show={bookingDetails === null && !error} />
+                    <Loader show={this.bookingDetailsAndClassDataAreUninitialized()} />
                     :
                     <WrappedComponent bookingDetails={bookingDetails} classData={classData} verifyBookingSuccessError={error} />
             )

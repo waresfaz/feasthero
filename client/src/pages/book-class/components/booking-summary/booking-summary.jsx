@@ -20,7 +20,7 @@ class BookingSummary extends React.Component {
         let { bookingSize, mealKitsBooked } = this.props.bookingDetails;
         let { mealKitPrice, costPerDevice } = this.props.classData;
 
-        if (bookingSize === null || bookingSize === undefined)
+        if (this.bookingSizeDoesNotExist())
             bookingSize = 0;
 
         return {
@@ -32,14 +32,20 @@ class BookingSummary extends React.Component {
         }
     }
 
+    bookingSizeDoesNotExist = () => {
+        let { bookingSize } = this.props.bookingDetails;
+        return bookingSize === null || bookingSize === undefined;
+    }
+
     componentDidUpdate(prevProps) {
-        if (
-            prevProps.bookingDetails.bookingSize !== this.props.bookingDetails.bookingSize
-            || prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked
-        ) {
+        if (this.costsFactorsHaveChanged(prevProps)) {
             this.props.updateAllCosts(this.calculateTotals())
         }
+    }
 
+    costsFactorsHaveChanged = (prevProps) => {
+        return prevProps.bookingDetails.bookingSize !== this.props.bookingDetails.bookingSize
+            || prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked
     }
 
     calculateTotals = () => {

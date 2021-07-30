@@ -51,10 +51,10 @@ class Payment extends React.Component {
         if (!this.checkReCaptcha())
             return;
 
-        const { stripe, elements } = this.props;
-
-        if (!stripe || !elements)
+        if (this.stripeIsUnitialized())
             return;
+
+        const { stripe, elements } = this.props;
 
         this.setState({ loading: true });
 
@@ -85,6 +85,11 @@ class Payment extends React.Component {
         })
 
         history.push('booking-success');
+    }
+
+    stripeIsUnitialized = () => {
+        const { stripe, elements } = this.props;
+        return !stripe || !elements;
     }
 
     checkReCaptcha = () => {

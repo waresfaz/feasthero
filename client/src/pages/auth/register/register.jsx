@@ -16,6 +16,7 @@ import { register as registerRequest } from '../../../services/auth/api';
 import { accountTypes, registerAccountTypeDropDownStyle } from '../../../constants/app-constants';
 import { setAccount } from '../../../services/accounts/actions';
 import history from '../../../history';
+import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
 
 import './register.scss';
 import '../auth.scss';
@@ -102,19 +103,21 @@ class Register extends React.Component {
     }
 
     handleRegisterError = (error) => {
-        if (error.data) {
-            if (error.status === 400 || error.status === 409) {
-                this.setState({
-                    error: error.data,
-                    loading: false,
-                });
-                return;
-            }
+        if (this.requestErrorHasAdditionalInfo(error)) {
+            this.setState({
+                error: error.data,
+                loading: false,
+            });
+            return;
         }
         this.setState({
             error: 'Failed to register, please try again',
             loading: false,
         });
+    }
+
+    requestErrorHasAdditionalInfo = (error) => {
+        return (error.status === 400 || error.status === 409) && error.data;
     }
 
     render() {
@@ -205,4 +208,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(Register);
+export default connect(null, mapDispatchToProps)(ShouldRedirectToAccount(Register));

@@ -1,10 +1,10 @@
-const Register = require('../services/register');
+const RegistrationService = require('../services/register');
 const { StatusCodes } = require("http-status-codes");
 
 
 async function register(req, res) {
     const regData = req.body.regData;
-    const register = new Register(regData);
+    const register = new RegistrationService(regData);
     const result = await register.run();
 
     if (result.status === StatusCodes.OK) {

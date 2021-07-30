@@ -20,7 +20,7 @@ class Logout extends React.Component {
         await logout();
         this.props.clearAccount();
         this.setState({ loading: true });
-        history.push('/auth/login');
+        history.push('/auth/login',);
     }
 
     render() {

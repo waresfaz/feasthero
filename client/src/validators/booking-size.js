@@ -7,15 +7,19 @@ class NumberDropdownValidator {
 
         if (!value)
             return 'cannot be empty';
-    
+
         if (value % 1 !== 0) {
             return 'must be whole numbers';
         }
 
-        if (value > upperBounds || value < lowerBounds)
+        if (NumberDropdownValidator._numOutOfRange(value, upperBounds, lowerBounds))
             return 'number out of range';
 
         return null;
+    }
+
+    static _numOutOfRange(value, upperBounds, lowerBounds) {
+        return value > upperBounds || value < lowerBounds
     }
 }
 

@@ -74,10 +74,9 @@ class BookingDetails extends React.Component {
     }
 
     handleInitBookingSessionError = (error) => {
-        console.log(error.response)
-        if (error.response.status === 400 && error.response.data) {
+        if (this.requestErrorHasAdditionalInfo(error)) {
             this.setState(prevState => ({
-                errors: [...prevState.errors, error.response.data],
+                error: [...prevState.errors, error.response.data],
                 loading: false,
             }));
         } else {
@@ -87,6 +86,10 @@ class BookingDetails extends React.Component {
                 loading: false,
             }));
         }
+    }
+
+    requestErrorHasAdditionalInfo = (error) => {
+        return error.response.status === 400 && error.response.data
     }
 
     validate = () => {
