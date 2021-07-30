@@ -3,12 +3,10 @@ const Bcrypt = require("bcryptjs");
 
 const ValidateRegistrationData = require('./validate_registration_data');
 const Account = require('../../accounts/schema/account');
-const Authentication = require("./authentication");
 const ProfileFactory = require('../../profiles/profile_factory');
 
-class Registration extends Authentication {
+class Registration {
     constructor(registrationData) {
-        super(registrationData);
         this.registrationData = registrationData;
     }
 

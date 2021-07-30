@@ -9,9 +9,7 @@ async function register(req, res) {
 
     if (result.status === StatusCodes.OK) {
         putAccountInSession(req.session, result);
-        console.log(req.session);
         return res.status(result.status).json(result.account);
-
     }
 
     return res.status(result.status).json(result.response);

@@ -6,15 +6,15 @@ const BooleanValidator = require('../../../validators/boolean');
 const DateTimeValidator = require('../../../validators/datetime');
 const ValidateBookingDetailsCosts = require('./validate_booking_details_costs');
 
-class ValidateBookingDetails extends ValidateBookingDetailsCosts {
+class ValidateBookingDetails {
     constructor(bookingDetails, classData) {
-        super(bookingDetails, classData);
+        this.ValidateBookingDetailsCosts = new ValidateBookingDetailsCosts(bookingDetails, classData);
         this.bookingDetails = bookingDetails;
         this.classData = classData;
     }
 
     async validate() {
-        if (!super.validate())
+        if (!this.ValidateBookingDetailsCosts.validate())
             return { valid: false, errorMessage: 'totals to not add up correctly' }
 
         const validations = [

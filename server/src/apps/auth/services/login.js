@@ -1,12 +1,13 @@
 const { StatusCodes } = require("http-status-codes");
 const Bcrypt = require("bcryptjs");
 
-const Authentication = require("./authentication");
 const EmailValidator = require('../../../validators/email');
 const getAccountFromEmail = require('../../accounts/services/get_account_from_email');
 
-class Login extends Authentication {
-    _invalidLogin = { status: StatusCodes.CONFLICT, response: "invalid login" };
+
+const INVALID_LOGIN = { status: StatusCodes.CONFLICT, response: "invalid login" };
+
+class Login {
 
     constructor(loginData) {
         super(loginData);
@@ -16,14 +17,14 @@ class Login extends Authentication {
     async run() {
         this.account = await getAccountFromEmail(this.loginData.email);
         if (!this.account)
-            return this._invalidLogin;
+            return INVALID_LOGIN;
 
         const isLoginDataValid = this._validateLoginData();
         if (isLoginDataValid.valid === false)
             return isLoginDataValid.info;
 
         if (!this._passwordsMatch())
-            return this._invalidLogin;
+            return INVALID_LOGIN;
 
         return true;
     }

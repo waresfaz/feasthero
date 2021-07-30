@@ -5,9 +5,9 @@ const ProcessPayment = require('./process_payment');
 
 const ObjectId = require("mongoose").Types.ObjectId;
 
-class ProcessClassBooking extends ProcessPayment {
+class ProcessClassBooking {
     constructor(bookingDetails, cardTokenId) {
-        super(bookingDetails, cardTokenId);
+        this.processPayment = new ProcessPayment(bookingDetails, cardTokenId);
         this.bookingDetails = bookingDetails;
     }
 
@@ -19,7 +19,7 @@ class ProcessClassBooking extends ProcessPayment {
             };
         }
 
-        if ((await super.process()) === false) {
+        if ((await this.processPayment.process()) === false) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
                 info: 'payment failed'
