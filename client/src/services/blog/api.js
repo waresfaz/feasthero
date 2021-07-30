@@ -1,5 +1,6 @@
 import axios from 'axios';
 import { ALL_BLOG_POSTS, FIND_BLOG_POST } from '../../constants/api-constants';
+import feastHeroApiTokenWrapper from '../../helpers/feasthero-api-token-wrapper';
 
 export async function fetchAllBlogPosts() {
     const response = await axios.get(ALL_BLOG_POSTS)
@@ -12,7 +13,7 @@ export async function fetchAllBlogPosts() {
 }
 
 export async function fetchBlogPost(id) {
-    const response = await axios.get(`${FIND_BLOG_POST}/${id}`)
+    const response = await axios.get(feastHeroApiTokenWrapper(`${FIND_BLOG_POST}/${id}`))
         .then((response) => response)
         .catch((_) => ({ error: true }));
     if (response.error)
