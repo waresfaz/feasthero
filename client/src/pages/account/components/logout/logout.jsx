@@ -17,9 +17,9 @@ class Logout extends React.Component {
 
     logout = async () => {
         this.setState({ loading: true });
-        this.props.clearAccount();
         await logout();
-        this.setState({ loading: false });
+        this.props.clearAccount();
+        this.setState({ loading: true });
         history.push('/auth/login');
     }
 
