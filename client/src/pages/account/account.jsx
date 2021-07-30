@@ -1,6 +1,8 @@
 import React from 'react';
-import WithAuth from '../../hoc/with-auth/with-auth';
 import { connect } from 'react-redux';
+
+import Logout from './components/logout/logout';
+import WithAuth from '../../hoc/with-auth/with-auth';
 
 import './account.scss';
 
@@ -9,6 +11,7 @@ class Account extends React.Component {
         return (
             <>
                 <p>{JSON.stringify(this.props.account.accountData)}</p>
+                <Logout />
             </>
         )
     }

@@ -1,10 +1,10 @@
+const Register = require('../services/register');
 const { StatusCodes } = require("http-status-codes");
 
-const AuthenticationFactory = require("../services/authentication_factory");
 
 async function register(req, res) {
     const regData = req.body.regData;
-    const register = AuthenticationFactory.getAuthenticationService("REGISTER", regData);
+    const register = new Register(regData);
     const result = await register.run();
 
     if (result.status === StatusCodes.OK) {
@@ -12,7 +12,7 @@ async function register(req, res) {
         return res.status(result.status).json(result.account);
     }
 
-    return res.status(result.status).json(result.response);
+    return res.status(result.status).json(result.errorMessage);
 }
 
 function putAccountInSession(session, registerResult) {

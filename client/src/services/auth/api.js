@@ -1,4 +1,4 @@
-import { STANDARD_REGISTER } from '../../constants/api-constants';
+import { LOGOUT, STANDARD_LOGIN, STANDARD_REGISTER } from '../../constants/api-constants';
 import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function register(data) {
@@ -18,4 +18,24 @@ export async function register(data) {
         .catch((err) => ({ error: err.response }));
 
     return response;
+}
+
+export async function login(data) {
+    const response = await feastHeroAxios.post(
+        STANDARD_LOGIN,
+        { loginData: { email: data.email, password: data.password } },
+        { withCredentials: true },
+    )
+        .then((response) => response)
+        .catch((err) => ({ error: err.response }));
+
+    return response;
+}
+
+export async function logout() {
+    const response = await feastHeroAxios.get(LOGOUT, { withCredentials: true })
+        .then((response) => response)
+        .catch((_) => ({ error: true }));
+
+    return !response.error;
 }

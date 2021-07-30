@@ -8,13 +8,13 @@ const ValidateBookingDetailsCosts = require('./validate_booking_details_costs');
 
 class ValidateBookingDetails {
     constructor(bookingDetails, classData) {
-        this.ValidateBookingDetailsCosts = new ValidateBookingDetailsCosts(bookingDetails, classData);
+        this.validateBookingDetailsCosts = new ValidateBookingDetailsCosts(bookingDetails, classData);
         this.bookingDetails = bookingDetails;
         this.classData = classData;
     }
 
     async validate() {
-        if (!this.ValidateBookingDetailsCosts.validate())
+        if (!this.validateBookingDetailsCosts.validate())
             return { valid: false, errorMessage: 'totals to not add up correctly' }
 
         const validations = [

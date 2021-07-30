@@ -5,37 +5,27 @@ const EmailValidator = require('../../../validators/email');
 const getAccountFromEmail = require('../../accounts/services/get_account_from_email');
 
 
-const INVALID_LOGIN = { status: StatusCodes.CONFLICT, response: "invalid login" };
-
 class Login {
-
     constructor(loginData) {
-        super(loginData);
         this.loginData = loginData;
     }
 
     async run() {
-        this.account = await getAccountFromEmail(this.loginData.email);
+        this.account = (await getAccountFromEmail(this.loginData.email))[0];
         if (!this.account)
-            return INVALID_LOGIN;
+            return { status: StatusCodes.NOT_FOUND, errorMessage: 'email not found' };
 
-        const isLoginDataValid = this._validateLoginData();
-        if (isLoginDataValid.valid === false)
-            return isLoginDataValid.info;
+        if (!EmailValidator.validate(this.loginData.email))
+            return { status: StatusCodes.BAD_REQUEST, errorMessage: 'invalid email' }
 
         if (!this._passwordsMatch())
-            return INVALID_LOGIN;
+            return { status: StatusCodes.UNAUTHORIZED, errorMessage: 'invalid login' };
 
-        return true;
+        return { status: StatusCodes.OK, account: this.account };
     }
 
-    _validateLoginData() {
-        if (!EmailValidator.validate(this.loginData.email))
-            return { valid: false, info: 'invalid email' }
-        return { valid: true }
-    }
 
-    async _passwordsMatch() {
+    _passwordsMatch() {
         return Bcrypt.compareSync(this.loginData.password, this.account.password);
     }
 }

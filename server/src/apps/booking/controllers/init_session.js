@@ -13,9 +13,9 @@ async function initSession(req, res) {
     };
 
 
-    const areBookingDetailsValid = await validate(bookingDetails);
-    if (!areBookingDetailsValid.valid)
-        return res.status(StatusCodes.BAD_REQUEST).json('please restart your order: ' + areBookingDetailsValid.errorMessage);
+    const validatedBookingDetails = await validate(bookingDetails);
+    if (!validatedBookingDetails.valid)
+        return res.status(StatusCodes.BAD_REQUEST).json('please restart your order: ' + validatedBookingDetails.errorMessage);
 
     req.session.bookingDetails = Booking(bookingDetails);
     req.session.save();
@@ -25,8 +25,8 @@ async function initSession(req, res) {
 async function validate(bookingDetails) {
     const classData = await findClass(bookingDetails.classId);
     const validateBookingDetails = new ValidateBookingDetails(bookingDetails, classData);
-    const areBookingDetailsValid = await validateBookingDetails.validate();
-    return areBookingDetailsValid
+    const validatedBookingDetails = await validateBookingDetails.validate();
+    return validatedBookingDetails
 }
 
 module.exports = initSession;

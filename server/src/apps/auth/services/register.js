@@ -13,14 +13,14 @@ class Registration {
     async run() {
         const validatedRegistrationData = await this._validate();
         if (!validatedRegistrationData.valid)
-            return { status: StatusCodes.BAD_REQUEST, response: validatedRegistrationData.errorMessage };
+            return { status: StatusCodes.BAD_REQUEST, errorMessage: validatedRegistrationData.errorMessage };
 
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
-            return { status: StatusCodes.CONFLICT, response: "account already exists" };
+            return { status: StatusCodes.CONFLICT, errorMessage: "account already exists" };
 
         const account = await this._saveToDatabase();
 
-        return { status: StatusCodes.OK, response: 'ok', account: account };
+        return { status: StatusCodes.OK, account: account };
     }
 
     _validate() {
