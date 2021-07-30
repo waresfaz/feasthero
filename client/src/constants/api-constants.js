@@ -27,4 +27,4 @@ export const SUBSCRIBE = feastHeroApiTokenWrapper(`${SUBSCRIBE_PATH}`);
 const BLOG_PATH = `${BASE_URL}/blog`;
 const BLOG_POSTS_PATH = `${BLOG_PATH}/posts`;
 export const ALL_BLOG_POSTS = feastHeroApiTokenWrapper(`${BLOG_POSTS_PATH}/all`);
-export const FIND_BLOG_POST = feastHeroApiTokenWrapper(`${BLOG_POSTS_PATH}`)
+export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`;
