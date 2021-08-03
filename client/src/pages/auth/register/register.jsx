@@ -86,10 +86,6 @@ class Register extends React.Component {
         return valid;
     }
 
-    requestErrorHasAdditionalInfo = (error) => {
-        return (error.status === 400 || error.status === 409) && error.data;
-    }
-
     handleSubmitForOAuthRegistration = async (oAuthData) => {
         this.clearErrors();
 
@@ -119,7 +115,7 @@ class Register extends React.Component {
         return valid;
     }
 
-    handleRegisterRequestResult =  (registerResult) => {
+    handleRegisterRequestResult = (registerResult) => {
         if (registerResult.error) {
             this.handleRegisterError(registerResult.error);
             return false;
@@ -142,6 +138,9 @@ class Register extends React.Component {
         });
     }
 
+    requestErrorHasAdditionalInfo = (error) => {
+        return (error.status === 400 || error.status === 409) && error.data;
+    }
 
     render() {
         const { formErrors } = this.state;

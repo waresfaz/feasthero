@@ -1,12 +1,10 @@
 const OAuthLoginService = require('../services/oauth_login');
 const { StatusCodes } = require('http-status-codes');
 const putAccountInSession = require('../helpers/put_account_in_session');
-const getOAuthTicket = require('../helpers/get_oauth_ticket');
 
 async function oAuthLogin(req, res) {
     const { token } = req.body;
-    const ticket = await getOAuthTicket(token);
-    const login = new OAuthLoginService(ticket.getPayload())
+    const login = new OAuthLoginService(token)
     const result = await login.run();
 
     if (result.status === StatusCodes.OK) {

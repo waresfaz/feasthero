@@ -11,10 +11,15 @@ class OAuthRegistrationService {
     }
 
     async run() {
-        this.ticket = await getOAuthTicket(this.token);
+        try {
+            this.ticket = await getOAuthTicket(this.token)
+        } catch (e) {
+            return { status: StatusCodes.BAD_REQUEST, errorMessage: 'invalid oauth token, please try again' }
+        }
+
         if (await ValidateRegistrationData.accountDoesExist(this.ticket.getPayload().email))
             return { status: StatusCodes.CONFLICT, errorMessage: 'account already exists' };
-        
+
         const account = await this._saveToDatabase();
 
         return { status: StatusCodes.OK, account: account };
