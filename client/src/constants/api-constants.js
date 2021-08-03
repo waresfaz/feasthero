@@ -25,6 +25,7 @@ const AUTH_PATH = `/auth`;
 export const STANDARD_REGISTER = `${AUTH_PATH}/register`;
 export const STANDARD_LOGIN = `${AUTH_PATH}/login`;
 export const OAUTH_REGISTER = `${AUTH_PATH}/oauth/register`;
+export const OAUTH_LOGIN = `${AUTH_PATH}/oauth/login`;
 export const LOGOUT = `${AUTH_PATH}/logout`;
 
 const ACCOUNTS_PATH = '/accounts';

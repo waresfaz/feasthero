@@ -1,8 +1,7 @@
-const { OAuth2Client } = require('google-auth-library');
 const { StatusCodes } = require('http-status-codes');
-const client = new OAuth2Client(process.env.OAUTH_CLIENT_ID);
 const Account = require('../../accounts/schema/account');
 const attachProfileToAccount = require('../helpers/attach_profile_to_account');
+const getOAuthTicket = require('../helpers/get_oauth_ticket');
 const ValidateRegistrationData = require('./validate_registration_data');
 
 class OAuthRegistrationService {
@@ -12,20 +11,13 @@ class OAuthRegistrationService {
     }
 
     async run() {
-        this.ticket = await this._generateTicket();
+        this.ticket = await getOAuthTicket(this.token);
         if (await ValidateRegistrationData.accountDoesExist(this.ticket.getPayload().email))
             return { status: StatusCodes.CONFLICT, errorMessage: 'account already exists' };
         
         const account = await this._saveToDatabase();
 
         return { status: StatusCodes.OK, account: account };
-    }
-
-    async _generateTicket() {
-        return await client.verifyIdToken({
-            idToken: this.token,
-            audience: process.env.OAUTH_CLIENT_ID,
-        });
     }
 
     async _saveToDatabase() {

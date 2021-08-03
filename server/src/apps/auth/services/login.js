@@ -11,7 +11,7 @@ class LoginService {
     }
 
     async run() {
-        this.account = (await getAccountFromEmail(this.loginData.email))[0];
+        this.account = await getAccountFromEmail(this.loginData.email);
         if (!this.account)
             return { status: StatusCodes.NOT_FOUND, errorMessage: 'email not found' };
 

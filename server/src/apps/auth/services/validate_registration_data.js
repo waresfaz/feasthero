@@ -49,7 +49,7 @@ class ValidateRegistrationData {
     }
 
     static async accountDoesExist(email) {
-        return (await getAccountFromEmail(email)).length > 0 ? true : false;
+        return Boolean(await getAccountFromEmail(email));
     }
 
 }

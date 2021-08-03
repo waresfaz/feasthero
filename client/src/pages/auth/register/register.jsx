@@ -44,18 +44,19 @@ class Register extends React.Component {
         })
     }
 
-    handleSubmit = async (evt) => {
+    handleSubmitForStandardRegistration = async (evt) => {
         evt.preventDefault();
         this.clearErrors();
 
-        if (!this.validate())
+        if (!this.validateDataForStandardRegistration())
             return;
 
         this.setState({
             loading: true
         })
 
-        if (!(await this.register()))
+        const registerRequestResult = await registerRequest(this.state);
+        if (!this.handleRegisterRequestResult(registerRequestResult))
             return;
 
         this.setState({
@@ -64,14 +65,7 @@ class Register extends React.Component {
         history.push('/account');
     }
 
-    clearErrors = () => {
-        this.setState({
-            error: '',
-            formErrors: {},
-        })
-    }
-
-    validate = () => {
+    validateDataForStandardRegistration = () => {
         let formErrors = {};
         const { email, firstName, lastName, passwordOne, passwordTwo, accountType } = this.state;
 
@@ -92,8 +86,40 @@ class Register extends React.Component {
         return valid;
     }
 
-    register = async () => {
-        const registerResult = await registerRequest(this.state);
+    requestErrorHasAdditionalInfo = (error) => {
+        return (error.status === 400 || error.status === 409) && error.data;
+    }
+
+    handleSubmitForOAuthRegistration = async (oAuthData) => {
+        this.clearErrors();
+
+        if (!this.validateDataForOAuthRegistration())
+            return;
+
+        const registerRequestResult = await oAuthRegister(oAuthData.tokenId, this.state.accountType);
+        if (!this.handleRegisterRequestResult(registerRequestResult))
+            return;
+
+        history.push('/account');
+    }
+
+    clearErrors = () => {
+        this.setState({
+            error: '',
+            formErrors: {},
+        })
+    }
+
+    validateDataForOAuthRegistration = () => {
+        let formErrors = {};
+        formErrors['accountType'] = AccountTypeValidator.validate(this.state.accountType);
+        let valid = Object.values(formErrors).every(error => error === null);
+        if (!valid)
+            this.setState({ formErrors });
+        return valid;
+    }
+
+    handleRegisterRequestResult =  (registerResult) => {
         if (registerResult.error) {
             this.handleRegisterError(registerResult.error);
             return false;
@@ -116,34 +142,6 @@ class Register extends React.Component {
         });
     }
 
-    requestErrorHasAdditionalInfo = (error) => {
-        return (error.status === 400 || error.status === 409) && error.data;
-    }
-
-    registerWithGoogle = async (googleData) => {
-        this.clearErrors();
-
-        if (!this.validateGoogleRegistration())
-            return;
-
-        const registerResult = await oAuthRegister(googleData.tokenId, this.state.accountType);
-        if (registerResult.error) {
-            this.handleRegisterError(registerResult.error);
-            return;
-        }
-        
-        this.props.setAccount(registerResult.data);
-        history.push('/account');
-    }
-
-    validateGoogleRegistration = () => {
-        let formErrors = {};
-        formErrors['accountType'] = AccountTypeValidator.validate(this.state.accountType);
-        let valid = Object.values(formErrors).every(error => error === null);
-        if (!valid)
-            this.setState({ formErrors });
-        return valid;
-    }
 
     render() {
         const { formErrors } = this.state;
@@ -152,7 +150,7 @@ class Register extends React.Component {
             <section id='register'>
                 <Loader show={this.state.loading} />
                 <Container>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmitForStandardRegistration}>
                         <div className='mb-3'>
                             <Form.Control value={this.state.email} onChange={this.handleChange} name='email' required type='email' placeholder='Email' />
                             <span className='text-danger'>{formErrors['firstName']}</span>
@@ -215,10 +213,8 @@ class Register extends React.Component {
                                     className='sign-up-with-google'
                                     buttonText='Sign up with Google'
                                     clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-                                    onSuccess={this.registerWithGoogle}
-                                    onFailure={() => { }}
+                                    onSuccess={this.handleSubmitForOAuthRegistration}
                                     cookiePolicy={'single_host_origin'}
-
                                 />
                             </Col>
                         </Row>

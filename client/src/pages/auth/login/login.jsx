@@ -6,7 +6,7 @@ import Button from '../../../components/button/button';
 import { connect } from 'react-redux';
 import { isAtLoginPage } from '../../../services/auth/actions';
 import EmailValidator from '../../../validators/email';
-import { login } from '../../../services/auth/api';
+import { login, oAuthLogin } from '../../../services/auth/api';
 import history from '../../../history';
 import { setAccount } from '../../../services/accounts/actions';
 import Loader from '../../../components/loader/loader';
@@ -35,17 +35,19 @@ class Login extends React.Component {
         })
     }
 
-    handleSubmit = async (evt) => {
+    handleSubmitStandardLogin = async (evt) => {
         evt.preventDefault();
+        this.clearErrors();
 
-        if (!this.validate)
+        if (!this.validateStandardLoginData())
             return;
 
         this.setState({
             loading: true
         })
 
-        if (!(await this.login()))
+        const loginRequestResult = await login(this.state);
+        if (!this.handleLoginRequestResult(loginRequestResult))
             return;
 
         this.setState({
@@ -55,7 +57,7 @@ class Login extends React.Component {
         history.push('/account');
     }
 
-    validate = () => {
+    validateStandardLoginData = () => {
         let formErrors = {};
         formErrors['email'] = EmailValidator.validate(this.state.email);
 
@@ -66,13 +68,29 @@ class Login extends React.Component {
         return valid;
     }
 
-    login = async () => {
-        const loginResult = await login(this.state);
-        if (loginResult.error) {
-            this.handleLoginError(loginResult.error);
+    handleSubmitForOAuthLogin = async (oAuthData) => {
+        this.clearErrors();
+
+        const loginRequestResult = await oAuthLogin(oAuthData.tokenId);
+        if (!this.handleLoginRequestResult(loginRequestResult))
+            return;
+
+        history.push('/account');
+    }
+
+    clearErrors = () => {
+        this.setState({
+            error: '',
+            formErrors: {},
+        })
+    }
+
+    handleLoginRequestResult = (loginRequestResult) => {
+        if (loginRequestResult.error) {
+            this.handleLoginError(loginRequestResult.error);
             return false;
         }
-        this.props.setAccount(loginResult.data);
+        this.props.setAccount(loginRequestResult.data);
         return true;
     }
 
@@ -109,7 +127,7 @@ class Login extends React.Component {
             <section id='login'>
                 <Loader show={this.state.loading} />
                 <Container>
-                    <form onSubmit={this.handleSubmit}>
+                    <form onSubmit={this.handleSubmitStandardLogin}>
                         <div className='mb-3'>
                             <Form.Control
                                 onChange={this.handleChange}
@@ -139,8 +157,8 @@ class Login extends React.Component {
                                 <GoogleLogin
                                     className='sign-in-with-google'
                                     clientId='585615552509-ve5qcffqars3nnrg10d2o6do4jhnp7ep.apps.googleusercontent.com'
-                                    onSuccess={() => { }}
-                                    onFailure={() => { }}
+                                    onSuccess={this.handleSubmitForOAuthLogin}
+                                    cookiePolicy={'single_host_origin'}
                                 />
                             </Col>
                         </Row>
