@@ -10,7 +10,6 @@ const ShouldRedirectToAccount = WrappedComponent => {
         }
 
         render() {
-            console.log(this.props.accountData)
             if (this.props.accountData)
                 return <Redirect to='/account' />
 

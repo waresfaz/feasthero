@@ -34,7 +34,6 @@ class App extends React.Component {
   }
 
   render() {
-    console.log('ok2')
     return (
       <>
         <Router history={history}>

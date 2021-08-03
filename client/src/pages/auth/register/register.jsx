@@ -12,7 +12,7 @@ import NameValidator from '../../../validators/name';
 import PasswordValidator from '../../../validators/password';
 import AccountTypeValidator from '../../../validators/account-type';
 
-import { register as registerRequest } from '../../../services/auth/api';
+import { oAuthRegister, register as registerRequest } from '../../../services/auth/api';
 import { accountTypes, registerAccountTypeDropDownStyle } from '../../../constants/app-constants';
 import { setAccount } from '../../../services/accounts/actions';
 import history from '../../../history';
@@ -120,6 +120,31 @@ class Register extends React.Component {
         return (error.status === 400 || error.status === 409) && error.data;
     }
 
+    registerWithGoogle = async (googleData) => {
+        this.clearErrors();
+
+        if (!this.validateGoogleRegistration())
+            return;
+
+        const registerResult = await oAuthRegister(googleData.tokenId, this.state.accountType);
+        if (registerResult.error) {
+            this.handleRegisterError(registerResult.error);
+            return;
+        }
+        
+        this.props.setAccount(registerResult.data);
+        history.push('/account');
+    }
+
+    validateGoogleRegistration = () => {
+        let formErrors = {};
+        formErrors['accountType'] = AccountTypeValidator.validate(this.state.accountType);
+        let valid = Object.values(formErrors).every(error => error === null);
+        if (!valid)
+            this.setState({ formErrors });
+        return valid;
+    }
+
     render() {
         const { formErrors } = this.state;
 
@@ -159,7 +184,7 @@ class Register extends React.Component {
                             <Form.Control
                                 value={this.state.passwordTwo}
                                 onChange={this.handleChange}
-                                name='passwordTwo' requireda
+                                name='passwordTwo' required
                                 type='password'
                                 placeholder='Re-enter Password'
                             />
@@ -189,9 +214,11 @@ class Register extends React.Component {
                                 <GoogleLogin
                                     className='sign-up-with-google'
                                     buttonText='Sign up with Google'
-                                    clientId='585615552509-ve5qcffqars3nnrg10d2o6do4jhnp7ep.apps.googleusercontent.com'
-                                    onSuccess={() => { }}
+                                    clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
+                                    onSuccess={this.registerWithGoogle}
                                     onFailure={() => { }}
+                                    cookiePolicy={'single_host_origin'}
+
                                 />
                             </Col>
                         </Row>

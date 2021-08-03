@@ -1,5 +1,6 @@
 const LoginService = require('../services/login');
 const { StatusCodes } = require('http-status-codes');
+const putAccountInSession = require('../helpers/put_account_in_session');
 
 async function login(req, res) {
     const loginData = req.body.loginData;
@@ -12,11 +13,6 @@ async function login(req, res) {
     }
 
     return res.status(result.status).json(result.errorMessage);
-}
-
-function putAccountInSession(session, loginResult) {
-    session.account = loginResult.account;
-    session.save();
 }
 
 

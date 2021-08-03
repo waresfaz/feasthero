@@ -5,15 +5,16 @@ import Button from '../../../components/button/button';
 
 import { connect } from 'react-redux';
 import { isAtLoginPage } from '../../../services/auth/actions';
-
-import './login.scss';
-import '../auth.scss';
 import EmailValidator from '../../../validators/email';
 import { login } from '../../../services/auth/api';
 import history from '../../../history';
 import { setAccount } from '../../../services/accounts/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
+
+import './login.scss';
+import '../auth.scss';
+
 
 class Login extends React.Component {
     constructor() {

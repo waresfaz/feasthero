@@ -3,7 +3,7 @@ const Bcrypt = require("bcryptjs");
 
 const ValidateRegistrationData = require('./validate_registration_data');
 const Account = require('../../accounts/schema/account');
-const ProfileFactory = require('../../profiles/profile_factory');
+const attachProfileToAccount = require("../helpers/attach_profile_to_account");
 
 class RegistrationService {
     constructor(registrationData) {
@@ -35,20 +35,16 @@ class RegistrationService {
             ...this.registrationData,
             password: hashedPassword,
         }
-        const account = new Account(finalAccountData)
-        return await this.attachProfileToAccountAndSave(account)
+        let account = new Account(finalAccountData);
+        account = attachProfileToAccount(account);
+        account.save();
+        return account;
     }
 
     _getHashedPassword(password) {
         return Bcrypt.hashSync(password, 10);
     }
 
-    async attachProfileToAccountAndSave(account) {
-        const accountProfile = ProfileFactory.getProfile(this.registrationData.accountType);
-        account.profile = accountProfile;
-        await account.save();
-        return account;
-    }
 }
 
 module.exports = RegistrationService;

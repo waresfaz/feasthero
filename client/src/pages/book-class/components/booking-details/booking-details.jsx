@@ -65,7 +65,6 @@ class BookingDetails extends React.Component {
 
     initBookingSession = async () => {
         const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
-        console.log(initBookingSessionResult)
         if (initBookingSessionResult.error) {
             this.handleInitBookingSessionError(initBookingSessionResult.error);
             return false;
@@ -115,7 +114,6 @@ class BookingDetails extends React.Component {
 
     doesMealKitCheckHaveError = () => {
         let mealKitsBookedValidatedError = BooleanValidator.validate(this.props.bookingDetails.mealKitsBooked);
-        console.log(this.props.bookingDetails.mealKitsBooked)
         if (mealKitsBookedValidatedError) {
             mealKitsBookedValidatedError = 'meal kit value ' + mealKitsBookedValidatedError;
             this.props.setMealKitsBookedError(mealKitsBookedValidatedError)

@@ -24,6 +24,7 @@ export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`
 const AUTH_PATH = `/auth`;
 export const STANDARD_REGISTER = `${AUTH_PATH}/register`;
 export const STANDARD_LOGIN = `${AUTH_PATH}/login`;
+export const OAUTH_REGISTER = `${AUTH_PATH}/oauth/register`;
 export const LOGOUT = `${AUTH_PATH}/logout`;
 
 const ACCOUNTS_PATH = '/accounts';
