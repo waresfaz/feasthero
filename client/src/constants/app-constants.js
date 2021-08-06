@@ -34,32 +34,6 @@ export const selectDropDownStyle = {
     })
 }
 
-export const registerAccountTypeDropDownStyle = {
-    control: (base, _) => ({
-        ...base,
-        boxShadow: 'none',
-        borderRadius: '0.5rem',
-        padding: '0.7rem 0.6rem',
-        border: '1px solid #C7C8C8 !important',
-        fontSize: '1.2rem',
-        fontWeight: 'bold',
-        color: 'red'
-    }),
-    dropdownIndicator: (base, _) => ({
-        ...base,
-        color: '#586168',
-    }),
-    singleValue: (base, _) => ({
-        ...base,
-        color: '#000'
-    })
-}
-
 export const CUSTOMER = "CUSTOMER";
 export const ADMIN = "ADMIN";
 export const CHEF = "CHEF"
-
-export const accountTypes = [
-    { target: { name: 'accountType', value: CHEF }, label: 'Chef' },
-    { target: { name: 'accountType', value: CUSTOMER }, label: 'Customer' },
-]

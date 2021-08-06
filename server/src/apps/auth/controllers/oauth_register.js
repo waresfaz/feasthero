@@ -3,9 +3,9 @@ const OAuthRegistrationService = require("../services/oauth_register");
 const putAccountInSession = require('../helpers/put_account_in_session');
 
 async function oAuthRegister(req, res) {
-    const { token, accountType } = req.body;
+    const { token } = req.body;
 
-    const oAuthRegistrationService = new OAuthRegistrationService(token, accountType);
+    const oAuthRegistrationService = new OAuthRegistrationService(token);
     const registrationResult = await oAuthRegistrationService.run();
 
     if (registrationResult.status === StatusCodes.OK) {

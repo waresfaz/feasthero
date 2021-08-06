@@ -1,4 +1,3 @@
-const AccountTypeValidator = require("../../../validators/account_type");
 const EmailValidator = require("../../../validators/email");
 const NameValidator = require("../../../validators/name");
 const PasswordValidator = require("../../../validators/password");
@@ -11,8 +10,8 @@ class ValidateRegistrationData {
 
     async validate() {
         const validations = [
-            this.email(), this.firstName(), this.lastName(),
-            this.password(), this.accountType()
+            this.email(), this.firstName(), 
+            this.lastName(), this.password()
         ]
 
         for (let i = 0; i < validations.length; i++) {
@@ -42,10 +41,6 @@ class ValidateRegistrationData {
             return PasswordValidator.validate(this.registrationData.passwordOne)
 
         return passwordsMatch;
-    }
-
-    accountType() {
-        return AccountTypeValidator.validate(this.registrationData.accountType);
     }
 
     static async accountDoesExist(email) {

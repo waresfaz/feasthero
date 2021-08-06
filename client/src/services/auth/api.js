@@ -7,7 +7,6 @@ export async function register(data) {
         regData: {
             firstName: data.firstName, lastName: data.lastName, email: data.email,
             passwordOne: data.passwordOne, passwordTwo: data.passwordTwo,
-            accountType: data.accountType,
         },
 
     },

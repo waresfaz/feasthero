@@ -1,7 +1,6 @@
 import React from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import GoogleLogin from 'react-google-login';
-import Select from 'react-select';
 import { connect } from 'react-redux';
 
 import Button from '../../../components/button/button';
@@ -10,10 +9,8 @@ import Loader from '../../../components/loader/loader';
 import EmailValidator from '../../../validators/email';
 import NameValidator from '../../../validators/name';
 import PasswordValidator from '../../../validators/password';
-import AccountTypeValidator from '../../../validators/account-type';
 
-import { oAuthRegister, register as registerRequest } from '../../../services/auth/api';
-import { accountTypes, registerAccountTypeDropDownStyle } from '../../../constants/app-constants';
+import { oAuthRegister as oAuthRegisterRequest, register as registerRequest } from '../../../services/auth/api';
 import { setAccount } from '../../../services/accounts/actions';
 import history from '../../../history';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
@@ -30,7 +27,6 @@ class Register extends React.Component {
             lastName: '',
             passwordOne: '',
             passwordTwo: '',
-            accountType: '',
             formErrors: {},
             error: '',
             loading: false,
@@ -44,7 +40,7 @@ class Register extends React.Component {
         })
     }
 
-    handleSubmitForStandardRegistration = async (evt) => {
+    standardRegister = async (evt) => {
         evt.preventDefault();
         this.clearErrors();
 
@@ -67,13 +63,12 @@ class Register extends React.Component {
 
     validateDataForStandardRegistration = () => {
         let formErrors = {};
-        const { email, firstName, lastName, passwordOne, passwordTwo, accountType } = this.state;
+        const { email, firstName, lastName, passwordOne, passwordTwo } = this.state;
 
         formErrors['email'] = EmailValidator.validate(email);
         formErrors['firstName'] = NameValidator.validate(firstName);
         formErrors['lastName'] = NameValidator.validate(lastName);
         formErrors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
-        formErrors['accountType'] = AccountTypeValidator.validate(accountType)
 
         if (!formErrors['passwordOne'])
             formErrors['passwordOne'] = PasswordValidator.validate(passwordOne)
@@ -86,13 +81,10 @@ class Register extends React.Component {
         return valid;
     }
 
-    handleSubmitForOAuthRegistration = async (oAuthData) => {
+    oAuthRegister = async (oAuthData) => {
         this.clearErrors();
 
-        if (!this.validateDataForOAuthRegistration())
-            return;
-
-        const registerRequestResult = await oAuthRegister(oAuthData.tokenId, this.state.accountType);
+        const registerRequestResult = await oAuthRegisterRequest(oAuthData.tokenId);
         if (!this.handleRegisterRequestResult(registerRequestResult))
             return;
 
@@ -104,15 +96,6 @@ class Register extends React.Component {
             error: '',
             formErrors: {},
         })
-    }
-
-    validateDataForOAuthRegistration = () => {
-        let formErrors = {};
-        formErrors['accountType'] = AccountTypeValidator.validate(this.state.accountType);
-        let valid = Object.values(formErrors).every(error => error === null);
-        if (!valid)
-            this.setState({ formErrors });
-        return valid;
     }
 
     handleRegisterRequestResult = (registerResult) => {
@@ -149,7 +132,7 @@ class Register extends React.Component {
             <section id='register'>
                 <Loader show={this.state.loading} />
                 <Container>
-                    <form onSubmit={this.handleSubmitForStandardRegistration}>
+                    <form onSubmit={this.standardRegister}>
                         <div className='mb-3'>
                             <Form.Control value={this.state.email} onChange={this.handleChange} name='email' required type='email' placeholder='Email' />
                             <span className='text-danger'>{formErrors['firstName']}</span>
@@ -188,19 +171,6 @@ class Register extends React.Component {
                             <span className='text-danger'>{formErrors['passwordTwo']}</span>
                         </div>
 
-                        <div className='mb-3'>
-                            <Select
-                                required
-                                name='accountType'
-                                value={accountTypes.filter((option) => option.target.value === this.state.accountType)}
-                                styles={registerAccountTypeDropDownStyle}
-                                options={accountTypes}
-                                onChange={this.handleChange}
-                                placeholder='Account type'
-                            />
-                            <span className='text-danger'>{formErrors['accountType']}</span>
-                        </div>
-
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Register</Button>
@@ -212,7 +182,7 @@ class Register extends React.Component {
                                     className='sign-up-with-google'
                                     buttonText='Sign up with Google'
                                     clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-                                    onSuccess={this.handleSubmitForOAuthRegistration}
+                                    onSuccess={this.oAuthRegister}
                                     cookiePolicy={'single_host_origin'}
                                 />
                             </Col>

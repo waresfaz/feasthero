@@ -1,13 +1,13 @@
 const { StatusCodes } = require('http-status-codes');
+const { CUSTOMER } = require('../../../constants/app_constants');
 const Account = require('../../accounts/schema/account');
 const attachProfileToAccount = require('../helpers/attach_profile_to_account');
 const getOAuthTicket = require('../helpers/get_oauth_ticket');
 const ValidateRegistrationData = require('./validate_registration_data');
 
 class OAuthRegistrationService {
-    constructor(token, accountType) {
+    constructor(token) {
         this.token = token;
-        this.accountType = accountType;
     }
 
     async run() {
@@ -27,7 +27,7 @@ class OAuthRegistrationService {
 
     async _saveToDatabase() {
         let account = new Account(this._getRegisterData());
-        account = attachProfileToAccount(account, this.accountType);
+        account = attachProfileToAccount(account, CUSTOMER);
         account.save();
         return account;
     }
@@ -38,8 +38,8 @@ class OAuthRegistrationService {
             firstName: ticketPayload.given_name,
             lastName: ticketPayload.family_name,
             email: ticketPayload.email,
-            type: this.accountType,
             password: '',
+            type: CUSTOMER
         }
     }
 

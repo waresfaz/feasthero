@@ -4,6 +4,7 @@ const Bcrypt = require("bcryptjs");
 const ValidateRegistrationData = require('./validate_registration_data');
 const Account = require('../../accounts/schema/account');
 const attachProfileToAccount = require("../helpers/attach_profile_to_account");
+const { CUSTOMER } = require("../../../constants/app_constants");
 
 class RegistrationService {
     constructor(registrationData) {
@@ -34,9 +35,10 @@ class RegistrationService {
         const finalAccountData = {
             ...this.registrationData,
             password: hashedPassword,
+            type: CUSTOMER
         }
         let account = new Account(finalAccountData);
-        account = attachProfileToAccount(account);
+        account = attachProfileToAccount(account, CUSTOMER);
         account.save();
         return account;
     }

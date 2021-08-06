@@ -8,7 +8,7 @@ async function register(req, res) {
     const result = await register.run();
 
     if (result.status === StatusCodes.OK) {
-        putAccountInSession(req.session, result);
+        putAccountInSession(req.session, result.account);
         return res.status(result.status).json(result.account);
     }
 

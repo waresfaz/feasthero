@@ -15,9 +15,9 @@ class LoginService {
         if (!this.account)
             return { status: StatusCodes.NOT_FOUND, errorMessage: 'email not found' };
 
-        const validatedData = this.validate();
-        if (!validatedData.valid)
-            return validatedData
+        const validatedLoginData = this.validate();
+        if (!validatedLoginData.valid)
+            return validatedLoginData
 
         if (!this._passwordsMatch())
             return { status: StatusCodes.UNAUTHORIZED, errorMessage: 'incorrect password' };

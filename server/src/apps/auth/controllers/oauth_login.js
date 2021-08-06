@@ -8,7 +8,7 @@ async function oAuthLogin(req, res) {
     const result = await login.run();
 
     if (result.status === StatusCodes.OK) {
-        putAccountInSession(req.session, result);
+        putAccountInSession(req.session, result.account);
         return res.status(result.status).json(result.account);
     }
 
