@@ -1,18 +1,19 @@
-const Chef = require('../schema/chef');
+const { StatusCodes } = require('http-status-codes');
+const { CHEF } = require('../../../constants/app_constants');
+const AccountFactory = require('../../accounts/account_factory');
 
-// query to add chef ==>not currently used
 async function newChef(req, res) {
-    let chefData = new Chef(req.body);
-    return chefData
+    console.log(req.body)
+    const chefAccount = AccountFactory.getAccount(CHEF, req.body)
+    return await chefAccount
         .save()
-        .then((chefData) => {
-            return res.status(200).json({ error: false, data: chefData._id });
+        .then((chefAccountDoc) => {
+            return res.status(StatusCodes.OK).send(chefAccountDoc._id);
         })
-        .catch(async (_) => {
-            return res.status(200).send({
-                error: true,
-                data: "chef data insert Failed , please try again",
-            });
+        .catch((err) => {
+            return res.status(StatusCodes.BAD_REQUEST).send(
+                "chef data insert Failed , please try again"
+            );
         });
 };
 module.exports = newChef;

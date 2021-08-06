@@ -1,6 +1,7 @@
 const CLASSES_PATH = `/classes`;
 export const ALL_CLASSES = `${CLASSES_PATH}/all`;
 export const FIND_CLASS = `${CLASSES_PATH}/find`;
+export const FILTER_CLASSES = `${CLASSES_PATH}/filter`
 
 const BOOKING_PATH = `/booking`;
 export const INIT_BOOKING_DETAILS_SESSION = `${BOOKING_PATH}/init-session`;

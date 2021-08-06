@@ -7,11 +7,15 @@ import { CHEF, CUSTOMER } from '../../constants/app-constants';
 
 import './account.scss';
 import ChefAccount from './components/chef/chef-account';
+import CustomerAccount from './components/customer/customer-account';
 
 class Account extends React.Component {
-    chooseWhichAccountComponentToRender(accountType) {
+    chooseWhichAccountComponentToRender() {
+        const accountType = this.props.account.accountData.type;
         if (accountType === CHEF)
             return <ChefAccount account={this.props.account} />
+        if (accountType === CUSTOMER)
+            return <CustomerAccount account={this.props.account} />
         return <></>
     }
 

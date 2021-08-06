@@ -4,14 +4,14 @@ const Chef = require("./chef/schema/chef");
 const Customer = require("./customer/schema/customer");
 
 class ProfileFactory {
-    static getProfile(type) {
+    static getProfile(type, data) {
         switch (type) {
             case CUSTOMER:
-                return new Customer()
+                return new Customer(data)
             case ADMIN:
-                return new Admin()
+                return new Admin(data)
             case CHEF:
-                return new Chef()
+                return new Chef(data)
         }
     }
 }

@@ -1,10 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
-const Bcrypt = require("bcryptjs");
 
 const ValidateRegistrationData = require('./validate_registration_data');
-const Account = require('../../accounts/schema/account');
-const attachProfileToAccount = require("../helpers/attach_profile_to_account");
 const { CUSTOMER } = require("../../../constants/app_constants");
+const AccountFactory = require("../../accounts/account_factory");
 
 class RegistrationService {
     constructor(registrationData) {
@@ -19,7 +17,8 @@ class RegistrationService {
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
             return { status: StatusCodes.CONFLICT, errorMessage: "account already exists" };
 
-        const account = await this._saveToDatabase();
+        const account = this._createAccount()
+        await this._saveToDatabase(account);
 
         return { status: StatusCodes.OK, account: account };
     }
@@ -30,23 +29,14 @@ class RegistrationService {
         return validatedRegistrationData;
     }
 
-    async _saveToDatabase() {
-        const hashedPassword = this._getHashedPassword(this.registrationData.passwordOne);
-        const finalAccountData = {
-            ...this.registrationData,
-            password: hashedPassword,
-            type: CUSTOMER
-        }
-        let account = new Account(finalAccountData);
-        account = attachProfileToAccount(account, CUSTOMER);
-        account.save();
+    _createAccount() {
+        return AccountFactory.getAccount(CUSTOMER, this.registrationData);
+    }
+
+    async _saveToDatabase(account) {
+        await account.save()
         return account;
     }
-
-    _getHashedPassword(password) {
-        return Bcrypt.hashSync(password, 10);
-    }
-
 }
 
 module.exports = RegistrationService;

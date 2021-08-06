@@ -1,7 +1,6 @@
 const { StatusCodes } = require('http-status-codes');
 const { CUSTOMER } = require('../../../constants/app_constants');
-const Account = require('../../accounts/schema/account');
-const attachProfileToAccount = require('../helpers/attach_profile_to_account');
+const AccountFactory = require('../../accounts/account_factory');
 const getOAuthTicket = require('../helpers/get_oauth_ticket');
 const ValidateRegistrationData = require('./validate_registration_data');
 
@@ -20,26 +19,29 @@ class OAuthRegistrationService {
         if (await ValidateRegistrationData.accountDoesExist(this.ticket.getPayload().email))
             return { status: StatusCodes.CONFLICT, errorMessage: 'account already exists' };
 
-        const account = await this._saveToDatabase();
+        const account = this._createAccount();
+        await this._saveToDatabase(account);
 
         return { status: StatusCodes.OK, account: account };
     }
 
-    async _saveToDatabase() {
-        let account = new Account(this._getRegisterData());
-        account = attachProfileToAccount(account, CUSTOMER);
-        account.save();
+    _createAccount() {
+        const accountData = this._getAccountData();
+        const account = AccountFactory.getAccount(CUSTOMER, accountData);
         return account;
     }
 
-    _getRegisterData() {
+    async _saveToDatabase(account) {
+        await account.save();
+    }
+
+    _getAccountData() {
         const ticketPayload = this.ticket.getPayload();
         return {
             firstName: ticketPayload.given_name,
             lastName: ticketPayload.family_name,
             email: ticketPayload.email,
             password: '',
-            type: CUSTOMER
         }
     }
 
