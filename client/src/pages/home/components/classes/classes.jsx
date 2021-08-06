@@ -14,32 +14,35 @@ class Classes extends React.Component {
         this.props.getAllClasses();
     }
 
+    tryToRenderAllClasses() {
+        if (this.props.allClasses) {
+            return (
+                <Row className='justify-content-center'>
+                    {
+                        this.props.allClasses.map((classData, key) => {
+                            return (
+                                <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
+                                    <ClassCard classData={classData} />
+                                </Col>
+                            )
+                        })
+                    }
+                </Row>
+            )
+        }
+
+        if (this.props.allClasses === false)
+            return <h4 className='text-center text-danger'>Error loading classes</h4>
+
+        return <h4 className='text-center'>Loading...</h4>
+    }
+
     render() {
         return (
             <section id='classes'>
                 <Title className='mb-4 text-center'>Hands-on cooking classes taught by world class chefs</Title>
 
-                {
-                    this.props.allClasses
-                        ?
-                        <Row className='justify-content-center'>
-                            {
-                                this.props.allClasses.map((classData, key) => {
-                                    return (
-                                        <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
-                                            <ClassCard classData={classData} />
-                                        </Col>
-                                    )
-                                })
-                            }
-                        </Row>
-                        :
-                        this.props.allClasses === false
-                            ?
-                            <h4 className='text-center text-danger'>Error loading classes</h4>
-                            :
-                            <h4 className='text-center'>Loading...</h4>
-                }
+                {this.tryToRenderAllClasses()}
             </section>
         )
     }

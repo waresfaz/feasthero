@@ -10,6 +10,14 @@ import logo from '../../assets/resources/images/logo-full.png';
 import './top-nav.scss'
 
 class TopNavbar extends React.Component {
+  chooseWhatToRegisterForAccountTab() {
+    if (this.props.accountData)
+      return <Link smooth to="/account">Account</Link>
+    if (this.props.isAtLoginPage)
+      return <Link smooth to="/auth/register">Register</Link>
+    return <Link smooth to="/auth/login">Login</Link>
+  }
+
   render() {
     return (
       <>
@@ -28,17 +36,7 @@ class TopNavbar extends React.Component {
               <Link smooth to="/#how-it-works">How It Works</Link>
               <Link smooth to="/contact#contact-us">Contact Us</Link>
               <Link smooth to="/blog">Blog</Link>
-              {
-                this.props.accountData
-                  ?
-                  <Link smooth to="/account">Account</Link>
-                  :
-                  this.props.isAtLoginPage
-                    ?
-                    <Link smooth to="/auth/register">Register</Link>
-                    :
-                    <Link smooth to="/auth/login">Login</Link>
-              }
+              {this.chooseWhatToRegisterForAccountTab()}
             </Nav>
           </Navbar.Collapse>
         </Navbar>

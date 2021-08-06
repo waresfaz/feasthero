@@ -56,34 +56,35 @@ class BookClass extends React.Component {
     this.setState({ classData: classData });
   }
 
-  render() {
+  tryToRenderBooking() {
     let { classData } = this.state;
+
+    if (classData !== null) {
+      if (classData === false)
+        return <p className='error'>Error loading class</p>
+      else
+        return (
+          <>
+            <OrderProgressBar bookingDetails />
+            <ClassSummary classData={classData} chef={classData.chefs[0]} />
+            <Row className='justify-content-center' id='booking-container'>
+              <Col lg={5}>
+                <BookingDetails classData={classData} />
+              </Col>
+              <Col lg={5}>
+                <BookingSummary classData={classData} />
+              </Col>
+            </Row>
+          </>
+        )
+    }
+    return <Loader show={this.state.classData === null} />
+  }
+
+  render() {
     return (
       <>
-        {
-          classData !== null
-            ?
-            classData === false
-              ?
-              <p className='error'>Error loading class</p>
-              :
-              <>
-                <OrderProgressBar bookingDetails />
-                <ClassSummary classData={classData} chef={classData.chefs[0]} />
-                <Row className='justify-content-center' id='booking-container'>
-                  <Col lg={5}>
-                    <BookingDetails classData={classData} />
-                  </Col>
-                  <Col lg={5}>
-                    <BookingSummary classData={classData} />
-                  </Col>
-                </Row>
-              </>
-            :
-            <Loader show={this.state.classData === null} />
-        }
-
-
+        {this.tryToRenderBooking()}
       </>
     )
   }

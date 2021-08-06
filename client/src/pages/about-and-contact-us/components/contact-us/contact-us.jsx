@@ -104,8 +104,22 @@ class ContactUs extends React.Component {
     })
   }
 
+  wasEmailSentSuccessfully() {
+    const { successfullySentEmail } = this.state;
+
+    if (successfullySentEmail === true)
+      return <h4 className='text-success'>Sent!</h4>
+    if (successfullySentEmail === true)
+      return <h4 className='text-danger'>Error, please try again</h4>
+    return <></>
+  }
+
+  shouldShowResultModal() {
+    return this.state.successfullySentEmail === true || this.state.successfullySentEmail === false
+  }
+
   render() {
-    const { formErrors, name, subject, email, message, successfullySentEmail } = this.state;
+    const { formErrors, name, subject, email, message } = this.state;
 
     return (
       <>
@@ -116,19 +130,9 @@ class ContactUs extends React.Component {
             contentClassName='text-center p-5'
             centered
             onHide={this.resetEmailSuccessfullySent}
-            show={successfullySentEmail === true || successfullySentEmail === false}
+            show={this.shouldShowResultModal()}
           >
-            {
-              successfullySentEmail === true
-                ?
-                <h4 className='text-success'>Sent!</h4>
-                :
-                successfullySentEmail === false
-                  ?
-                  <h4 className='text-danger'>Error, please try again</h4>
-                  :
-                  <></>
-            }
+            {this.wasEmailSentSuccessfully()}
           </Modal>
           <Row className='justify-content-center'>
             <Col lg={8}>
@@ -138,7 +142,7 @@ class ContactUs extends React.Component {
                 </Title>
                 <h5 className='text-muted'>
                   Want to get in touch? We'd love to hear from you, please fill out the form and we'll get back to you promptly.
-              </h5>
+                </h5>
               </div>
               <form onSubmit={this.handleSubmit}>
                 <Row>

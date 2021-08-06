@@ -72,8 +72,29 @@ class ShareConfirmation extends React.Component {
         return emails;
     }
 
+    tryToRenderSendIcon(index) {
+        if (index === 0) {
+            return (
+                <Col md={11} lg={1}>
+                    <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
+                </Col>
+            )
+        }
+        return <></>
+    }
+
+    didEmailSend() {
+        const { didSend } = this.state;
+
+        if (didSend === false)
+            return <p className='text-danger text-center mb-0'>Failed to send</p>
+        if (didSend === true)
+            return <p className='text-success text-center mb-0'>Sent</p>
+        return <></>
+    }
+
     render() {
-        const { inputs, loading, didSend } = this.state;
+        const { inputs, loading } = this.state;
         return (
             <section id='share-confirmation'>
                 <Loader show={loading} />
@@ -85,31 +106,12 @@ class ShareConfirmation extends React.Component {
                                     <Col md={11}>
                                         <Form.Control placeholder='Email Address' type='email' ref={ref} />
                                     </Col>
-                                    {
-                                        i === 0
-                                            ?
-                                            <Col md={11} lg={1}>
-                                                <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
-                                            </Col>
-                                            :
-                                            <></>
-                                    }
-
+                                    {this.tryToRenderSendIcon(i)}
                                 </Row>
                             )
                         })
                     }
-                    {
-                        didSend === false
-                            ?
-                            <p className='text-danger text-center mb-0'>Failed to send</p>
-                            :
-                            didSend === true
-                                ?
-                                <p className='text-success text-center mb-0'>Sent</p>
-                                :
-                                <></>
-                    }
+                    {this.didEmailSend()}
                     <Row className='justify-content-center'>
                         <Col lg={4}>
                             <Button isButton={true} secondary={true}>Send Confirmation</Button>

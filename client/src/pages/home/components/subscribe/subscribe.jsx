@@ -86,8 +86,25 @@ class Subscribe extends React.Component {
         })
     }
 
+    wasSubscribeSuccessful() {
+        const { successSubscribed } = this.state;
+
+        if (successSubscribed === true)
+            return <h4 className='text-success'>Thank you for subscribing!</h4>
+
+        if (successSubscribed === false)
+            return <h4 className='text-danger'>Error, please try again</h4>
+
+        return <></>
+    }
+
+    shouldShowSubscribedModal() {
+        const { successSubscribed } = this.state;
+        return successSubscribed === true || successSubscribed === false
+    }
+
     render() {
-        const { formErrors, email, successSubscribed, loading } = this.state;
+        const { formErrors, email, loading } = this.state;
         return (
             <section id='subscribe-section'>
                 <Loader show={loading} />
@@ -96,19 +113,9 @@ class Subscribe extends React.Component {
                     contentClassName='text-center p-5'
                     centered
                     onHide={this.resetSuccessSubscribed}
-                    show={successSubscribed === true || successSubscribed === false}
+                    show={this.shouldShowSubscribedModal()}
                 >
-                    {
-                        successSubscribed === true
-                            ?
-                            <h4 className='text-success'>Thank you for subscribing!</h4>
-                            :
-                            successSubscribed === false
-                                ?
-                                <h4 className='text-danger'>Error, please try again</h4>
-                                :
-                                <></>
-                    }
+                    {this.wasSubscribeSuccessful()}
                 </Modal>
                 <Container>
                     <Row className='w-100' id='subscribe-content'>
@@ -116,7 +123,7 @@ class Subscribe extends React.Component {
                             <h4>Stay in the loop</h4>
                             <p>
                                 Be the first to find out about new classes and updates.
-                        </p>
+                            </p>
                         </Col>
                         <Col lg={6} md={7} >
                             <form onSubmit={this.handleSubmit}>
