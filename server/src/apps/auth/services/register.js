@@ -16,7 +16,7 @@ class RegistrationService {
             return { status: StatusCodes.BAD_REQUEST, errors: errors };
 
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
-            return { status: StatusCodes.CONFLICT, errors: { account: "account already exists" } };
+            return { status: StatusCodes.CONFLICT, errors: { email: "account already exists" } };
 
         const account = this._createAccount()
         await this._saveToDatabase(account);

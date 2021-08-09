@@ -5,6 +5,7 @@ const NotEmptyValidator = require('../../../validators/not_empty');
 const BooleanValidator = require('../../../validators/boolean');
 const DateTimeValidator = require('../../../validators/datetime');
 const ValidateBookingDetailsCosts = require('./validate_booking_details_costs');
+const cleanErrors = require('../../../helpers/clean_errors');
 
 class ValidateBookingDetails {
     constructor(bookingDetails, classData) {
@@ -14,21 +15,17 @@ class ValidateBookingDetails {
     }
 
     async validate() {
-        if (!this.validateBookingDetailsCosts.validate())
-            return { valid: false, errorMessage: 'totals to not add up correctly' }
+        let errors = {};
+        errors['error'] = this.validateBookingDetailsCosts.validate();
+        errors['selectedClassDateTime'] = this.selectedClassDateTime();
+        errors['bookingSize'] = this.bookingSize();
+        errors['customerEmail'] = this.customerEmail();
+        errors['customerFirstName'] = this.firstName();
+        errors['customerLastName'] = this.lastName();
+        errors['companyName'] = this.companyName();
+        errors['mealKitsBooked'] = this.mealKitsBooked();
 
-        const validations = [
-            this.bookingSize(), this.selectedClassDateTime(), this.customerEmail(),
-            this.firstName(), this.lastName(), this.companyName(), this.mealKitsBooked(),
-        ]
-
-        for (let i = 0; i < validations.length; i++) {
-            const validation = validations[i];
-            if (!validation.valid)
-                return validation;
-        }
-
-        return { valid: true };
+        return cleanErrors(errors);
     }
 
     bookingSize() {
@@ -52,15 +49,11 @@ class ValidateBookingDetails {
     }
 
     companyName() {
-        let validated = NotEmptyValidator.validate(this.bookingDetails.companyName);
-        validated.errorMessage = 'company name ' + validated.errorMessage;
-        return validated;
+        return NotEmptyValidator.validate(this.bookingDetails.companyName);
     }
 
     mealKitsBooked() {
-        let validated = BooleanValidator.validate(this.bookingDetails.mealKitsBooked);
-        validated.errorMessage = 'booked meal kits is ' + validated.errorMessage;
-        return validated;
+        return BooleanValidator.validate(this.bookingDetails.mealKitsBooked);
     }
 }
 

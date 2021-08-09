@@ -17,7 +17,8 @@ class ValidateBookingDetailsCosts {
             this.grandTotal(), this.devicesTotal(),
         ];
         const valid = Object.values(validations).every(validation => validation === true);
-        return valid;
+        if (!valid)
+            return 'totals do not add up, please try again'
     }
 
     tax() {

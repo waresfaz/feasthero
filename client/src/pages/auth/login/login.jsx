@@ -86,6 +86,7 @@ class Login extends React.Component {
     }
 
     handleLoginRequestResult = (loginRequestResult) => {
+        console.log(loginRequestResult)
         if (loginRequestResult.error) {
             this.handleLoginError(loginRequestResult.error);
             return false;
@@ -97,7 +98,7 @@ class Login extends React.Component {
     handleLoginError = (error) => {
         if (this.requestErrorHasAdditionalInfo(error)) {
             this.setState({
-                error: error.data,
+                formErrors: error.data,
                 loading: false,
             })
             return
@@ -150,7 +151,6 @@ class Login extends React.Component {
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Sign In</Button>
-                                <span className='text-danger'>{this.state.error}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign in with google</span>
                                 </div>

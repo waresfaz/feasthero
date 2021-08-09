@@ -114,7 +114,7 @@ class Register extends React.Component {
             return;
         }
         this.setState({
-            formErrors: { general: 'Failed to register, please try again' },
+            formErrors: { error: 'Failed to register, please try again' },
             loading: false,
         });
     }
@@ -172,8 +172,7 @@ class Register extends React.Component {
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Register</Button>
-                                <span className='text-danger'>{formErrors['general']}</span>
-                                <span className='text-danger'>{formErrors['account']}</span>
+                                <span className='text-danger'>{formErrors['error']}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign up with google</span>
                                 </div>

@@ -30,7 +30,6 @@ class BookingDetails extends React.Component {
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
         this.state = {
             loading: false,
-            errors: [],
             formErrors: {}
         }
     }
@@ -57,38 +56,13 @@ class BookingDetails extends React.Component {
         if (!(await this.initBookingSession()))
             return;
 
-        if (this.state.errors.length > 0)
-            return;
-
         history.push('/checkout')
     }
 
-    initBookingSession = async () => {
-        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
-        if (initBookingSessionResult.error) {
-            this.handleInitBookingSessionError(initBookingSessionResult.error);
-            return false;
-        }
-        return true;
-    }
-
-    handleInitBookingSessionError = (error) => {
-        if (this.requestErrorHasAdditionalInfo(error)) {
-            this.setState(prevState => ({
-                error: [...prevState.errors, error.response.data],
-                loading: false,
-            }));
-        } else {
-            const error = 'Error creating checkout session, please try again later';
-            this.setState(prevState => ({
-                errors: [...prevState.errors, error],
-                loading: false,
-            }));
-        }
-    }
-
-    requestErrorHasAdditionalInfo = (error) => {
-        return error.response.status === 400 && error.response.data
+    clearErrors = () => {
+        this.setState({
+            formErrors: {}
+        })
     }
 
     validate = () => {
@@ -121,11 +95,32 @@ class BookingDetails extends React.Component {
         return mealKitsBookedValidatedError;
     }
 
-    clearErrors = () => {
-        this.setState({
-            errors: [],
-            formErrors: {}
-        })
+    initBookingSession = async () => {
+        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
+        if (initBookingSessionResult.error) {
+            this.handleInitBookingSessionError(initBookingSessionResult.error);
+            return false;
+        }
+        return true;
+    }
+
+    handleInitBookingSessionError = (error) => {
+        if (this.requestErrorHasAdditionalInfo(error)) {
+            this.setState({
+                formErrors: error.response.data,
+                loading: false,
+            });
+        } else {
+            const error = 'Error creating checkout session, please try again later';
+            this.setState({
+                formErrors: { error: error },
+                loading: false,
+            });
+        }
+    }
+
+    requestErrorHasAdditionalInfo = (error) => {
+        return error.response.status === 400 && error.response.data
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -210,9 +205,9 @@ class BookingDetails extends React.Component {
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />
-                        <span className='text-danger error'>{formErrors['customerEmail']}</span>
+                        <span className='text-danger'>{formErrors['customerEmail']}</span>
                     </Form.Group>
-                    <p className='text-danger error'>{this.state.errors.map(error => <span>{error}<br /></span>)}</p>
+                    <span className='text-danger'>{formErrors['error']}</span>
                     <Row>
                         <Col md={6}>
                             <Button primary={true} type='submit'

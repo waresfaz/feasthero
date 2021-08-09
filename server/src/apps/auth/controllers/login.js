@@ -12,7 +12,7 @@ async function login(req, res) {
         return res.status(result.status).json(result.account);
     }
 
-    return res.status(result.status).json(result.errorMessage);
+    return res.status(result.status).json(result.errors);
 }
 
 

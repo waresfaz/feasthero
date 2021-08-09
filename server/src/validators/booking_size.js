@@ -11,11 +11,11 @@ class BookingSizeValidator {
             return 'booking size must be a whole number';
         }
 
-        if (BookingSizeValidator._bookingSizeOutOfRange())
+        if (BookingSizeValidator._bookingSizeOutOfRange(value))
             return 'booking size out of range';
     }
 
-    static _bookingSizeOutOfRange() {
+    static _bookingSizeOutOfRange(value) {
         const bookingSizeUpperBounds = VALID_BOOKING_SIZES[VALID_BOOKING_SIZES.length - 1].value;
         const bookingSizeLowerBounds = VALID_BOOKING_SIZES[0].value
         return value > bookingSizeUpperBounds || value < bookingSizeLowerBounds

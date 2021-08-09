@@ -13,7 +13,7 @@ async function oAuthRegister(req, res) {
         res.status(registrationResult.status).json(registrationResult.account);
     }
 
-    res.status(registrationResult.status).json(registrationResult.errorMessage);
+    res.status(registrationResult.status).json(registrationResult.errors);
 }
 
 module.exports = oAuthRegister;

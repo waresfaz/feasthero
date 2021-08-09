@@ -3,7 +3,8 @@ const Bcrypt = require("bcryptjs");
 const EmailValidator = require('../../../validators/email');
 const PasswordValidator = require('../../../validators/password');
 const getAccountFromEmail = require('../../accounts/services/get_account_from_email');
-
+const cleanErrors = require('../../../helpers/clean_errors');
+const isEmpty = require('../../../helpers/is_empty');
 
 class LoginService {
     constructor(loginData) {
@@ -11,27 +12,25 @@ class LoginService {
     }
 
     async run() {
+        const errors = this.validate();
+        if (!isEmpty(errors))
+            return { status: StatusCodes.BAD_REQUEST, errors: errors }
+
         this.account = await getAccountFromEmail(this.loginData.email);
         if (!this.account)
-            return { status: StatusCodes.NOT_FOUND, errorMessage: 'email not found' };
-
-        const validatedLoginData = this.validate();
-        if (!validatedLoginData.valid)
-            return validatedLoginData
+            return { status: StatusCodes.NOT_FOUND, errors: { email: 'email not found' } };
 
         if (!this._passwordsMatch())
-            return { status: StatusCodes.UNAUTHORIZED, errorMessage: 'incorrect password' };
+            return { status: StatusCodes.UNAUTHORIZED, errors: { password: 'incorrect password' } };
 
         return { status: StatusCodes.OK, account: this.account };
     }
 
     validate() {
-        if (!EmailValidator.validate(this.loginData.email))
-            return { valid: false, status: StatusCodes.BAD_REQUEST, errorMessage: 'invalid email' }
-        if (!PasswordValidator.validate(this.loginData.password))
-            return { valid: false, status: StatusCodes.BAD_REQUEST, errorMessage: 'invalid password' }
-
-        return { valid: true }
+        let errors = {};
+        errors['email'] = EmailValidator.validate(this.loginData.email)
+        errors['password'] = PasswordValidator.validate(this.loginData.password)
+        return cleanErrors(errors);
     }
 
 

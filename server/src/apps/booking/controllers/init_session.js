@@ -3,6 +3,7 @@ const Booking = require('../schema/booking');
 const dateTimeToMoment = require('../../../helpers/date_time_to_moment');
 const findClass = require('../../classes/services/find_class');
 const ValidateBookingDetails = require('../services/validate_booking_details');
+const isEmpty = require('../../../helpers/is_empty');
 
 /**
  * This controller runs the system that is responsible for storing a client's booking
@@ -23,14 +24,14 @@ async function initSession(req, res) {
         selectedClassDateTime: formatDateTime(bookingDetailsFromBody.selectedClassDateTime)
     };
 
-    const validatedBookingDetails = await validate(bookingDetails);
-    if (!validatedBookingDetails.valid)
-        return res.status(StatusCodes.BAD_REQUEST).json('please restart your order: ' + validatedBookingDetails.errorMessage);
+    const errors = await validate(bookingDetails);
+    if (!isEmpty(errors))
+        return res.status(StatusCodes.BAD_REQUEST).json(errors);
 
     req.session.bookingDetails = Booking(bookingDetails);
     req.session.save();
 
-    return res.status(StatusCodes.OK).json('ok');
+    return res.status(StatusCodes.OK).send('ok');
 }
 
 function formatDateTime(dateTime) {
@@ -39,9 +40,9 @@ function formatDateTime(dateTime) {
 
 async function validate(bookingDetails) {
     const classData = await findClass(bookingDetails.classId);
-    const validateBookingDetails = new ValidateBookingDetails(bookingDetails, classData);
-    const validatedBookingDetails = await validateBookingDetails.validate();
-    return validatedBookingDetails
+    const validateBookingDetailsService = new ValidateBookingDetails(bookingDetails, classData);
+    const errors = await validateBookingDetailsService.validate();
+    return errors;
 }
 
 module.exports = initSession;
