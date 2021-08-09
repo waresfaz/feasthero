@@ -7,10 +7,10 @@ let ObjectId = Types.ObjectId;
 async function findPost(req, res) {
     const postId = req.params.id;
 
-    return await BlogPost.find({"_id": ObjectId(postId)}, function (err, result) {
+    return await BlogPost.find({ "_id": ObjectId(postId) }, function (err, result) {
         if (err)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ response: 'something went wrong' })
-        return res.status(StatusCodes.OK).json({ response: result });
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json('something went wrong');
+        return res.status(StatusCodes.OK).json(result);
     })
 }
 

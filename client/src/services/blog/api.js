@@ -8,7 +8,7 @@ export async function fetchAllBlogPosts() {
     if (response.error)
         return response;
 
-    return response.data.response;
+    return response.data;
 }
 
 export async function fetchBlogPost(id) {
@@ -18,5 +18,5 @@ export async function fetchBlogPost(id) {
     if (response.error)
         return response;
 
-    return response.data.response;
+    return response.data;
 }

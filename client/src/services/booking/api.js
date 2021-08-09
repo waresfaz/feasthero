@@ -17,7 +17,7 @@ export async function initBookingDetailsSession(bookingDetails) {
 
     if (response.error)
         return response;
-        
+
     return true;
 }
 
@@ -25,10 +25,8 @@ export async function getBookingDetailsFromSession() {
     const response = await feastHeroAxios.get(GET_BOOKING_DETAILS_FROM_SESSION, { withCredentials: true })
         .then((response) => response)
         .catch((error) => ({ error: didCorsFail(error) }));
-    if (response.error)
-        return response.status;
 
-    return response.data.response;
+    return response;
 }
 
 export async function bookClass(cardTokenId) {
@@ -36,10 +34,7 @@ export async function bookClass(cardTokenId) {
         .then((response) => response)
         .catch((err) => ({ error: didCorsFail(err) }));
 
-    if (response.error)
-        return response;
-
-    return response.data.response;
+    return response;
 }
 
 export async function verifyBookingSuccess() {
@@ -47,10 +42,7 @@ export async function verifyBookingSuccess() {
         .then((response) => response)
         .catch((err) => ({ error: didCorsFail(err) }));
 
-    if (response.error)
-        return response.status;
-
-    return response.data.response;
+    return response;
 }
 
 export async function isBookingSessionActive() {
@@ -66,5 +58,5 @@ export async function sendConfirmations(emails) {
         .then((response) => response)
         .catch((err) => ({ error: didCorsFail(err) }));
 
-    return response.status;
+    return response;
 }

@@ -14,9 +14,9 @@ async function shareConfirmation(req, res) {
     const classData = await findClass(bookingDetails.classId);
     const emailsToSendTo = req.body.emails;
 
-    await shareConfirmationService(emailsToSendTo, bookingDetails, classData)
-        .then((_) => res.status(StatusCodes.OK).json({ response: 'ok' }))
-        .catch((_) => res.status(StatusCodes.BAD_REQUEST).json({ response: 'error' }));
+    return await shareConfirmationService(emailsToSendTo, bookingDetails, classData)
+        .then((_) => res.status(StatusCodes.OK).json('ok'))
+        .catch((_) => res.status(StatusCodes.BAD_REQUEST).json('error'));
 }
 
 module.exports = shareConfirmation;

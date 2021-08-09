@@ -6,17 +6,17 @@ async function subscribe(req, res) {
     const subscription = Subscription(subscriptionData);
     Subscription.find({ email: subscription.email }, function (err, docs) {
         if (docs.length) {
-            return res.status(StatusCodes.CONFLICT).json({ response: 'email already exists' });
+            return res.status(StatusCodes.CONFLICT).json('email already exists');
         } else {
             subscription
                 .save()
                 .then((subscription) => {
-                    return res.status(StatusCodes.OK).json({ response: subscription._id });
+                    return res.status(StatusCodes.OK).json(subscription._id);
                 })
                 .catch((_) => {
                     return res
                         .status(StatusCodes.BAD_REQUEST)
-                        .send({ response: "failed to subscribe" });
+                        .send("failed to subscribe");
                 });
         }
     })

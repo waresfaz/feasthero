@@ -20,7 +20,7 @@ async function processBooking(req, res) {
         putBookingIdInSession(req.session, bookingResult);
     }
 
-    return res.status(bookingResult.statusCode).json({ response: bookingResult.info });
+    return res.status(bookingResult.statusCode).json(bookingResult.info);
 };
 
 function putBookingIdInSession(session, bookingResult) {

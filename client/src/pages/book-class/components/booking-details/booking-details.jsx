@@ -69,7 +69,7 @@ class BookingDetails extends React.Component {
         let formErrors = {};
         const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
 
-        formErrors['bookingSizeForBooking'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
+        formErrors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
         formErrors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
         formErrors['customerEmail'] = EmailValidator.validate(customerEmail);
         formErrors['customerFirstName'] = NameValidator.validate(customerFirstName);
@@ -160,7 +160,7 @@ class BookingDetails extends React.Component {
                                     value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
                                     options={validBookingSizes}
                                 />
-                                <span className='text-danger'>{formErrors['bookingSizeForBooking']}</span>
+                                <span className='text-danger'>{formErrors['bookingSize']}</span>
                             </Col>
                         </Row>
                     </Form.Group>

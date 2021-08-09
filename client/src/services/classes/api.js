@@ -10,7 +10,7 @@ async function fetchAllClasses() {
     if (classesReponse.error)
         return false;
 
-    return classesReponse.data.response;
+    return classesReponse.data;
 }
 
 async function filterClasses(filter, value) {

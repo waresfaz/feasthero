@@ -5,7 +5,7 @@ class BookingSizeValidator {
         value = Number(value);
 
         if (!value)
-            return 'booking size cannot be empty';
+            return 'booking size must be a number';
 
         if (value % 1 !== 0) {
             return 'booking size must be a whole number';

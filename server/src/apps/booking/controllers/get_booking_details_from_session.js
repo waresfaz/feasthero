@@ -4,9 +4,9 @@ function getBookingDetailsFromSession(req, res) {
     const bookingDetails = req.session.bookingDetails;
 
     if (!bookingDetails)
-        return res.status(StatusCodes.REQUEST_TIMEOUT).json({ response: 'no booking details in session' });
+        return res.status(StatusCodes.REQUEST_TIMEOUT).json('no booking details in session');
 
-    return res.status(StatusCodes.OK).json({ response: bookingDetails });
+    return res.status(StatusCodes.OK).json(bookingDetails);
 }
 
 module.exports = getBookingDetailsFromSession;

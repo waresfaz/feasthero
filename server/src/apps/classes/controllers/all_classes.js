@@ -7,9 +7,9 @@ async function allClasses(_, res) {
         .catch((error) => ({ error: error }));
 
     if (classes.error)
-        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ response: classes.error });
+        return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json(classes.error);
 
-    return res.status(StatusCodes.OK).json({ response: classes });
+    return res.status(StatusCodes.OK).json(classes);
 
 };
 

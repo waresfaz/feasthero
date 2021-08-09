@@ -19,14 +19,15 @@ export const statusEnum = { error: 1, sessionNotActive: 2 };
 export async function sessionActiveWrapper(apiCallFn, ...args) {
     const response = await apiCallFn(...args);
 
-    if (response.error === 408) {
-        store.dispatch(newError(BOOKING_SESSION_NOT_ACTIVE_ERROR));
-        history.push('/');
-        return { status: statusEnum.sessionNotActive };
-    }
-
-    if (response.error)
+    if (response.error) {
+        if (response.error.status === 408) {
+            store.dispatch(newError(BOOKING_SESSION_NOT_ACTIVE_ERROR));
+            history.push('/');
+            return { status: statusEnum.sessionNotActive };
+        }
         return { status: statusEnum.error, error: response.error };
 
-    return response;
+    }
+
+    return response.data;
 }

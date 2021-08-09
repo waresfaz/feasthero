@@ -7,12 +7,12 @@ async function addSchedule(req, res) {
     return schedule
         .save()
         .then((schedule) => {
-            return res.status(StatusCodes.OK).json({ response: schedule._id });
+            return res.status(StatusCodes.OK).json(schedule._id);
         })
         .catch((_) => {
             return res
                 .status(StatusCodes.BAD_REQUEST)
-                .send({ response: "schedule Booking Failed" });
+                .send("schedule Booking Failed");
         });
 };
 
