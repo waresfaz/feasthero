@@ -3,6 +3,7 @@ const { StatusCodes } = require("http-status-codes");
 const ValidateRegistrationData = require('./validate_registration_data');
 const { CUSTOMER } = require("../../../constants/app_constants");
 const AccountFactory = require("../../accounts/account_factory");
+const isEmpty = require("../../../helpers/is_empty");
 
 class RegistrationService {
     constructor(registrationData) {
@@ -11,7 +12,7 @@ class RegistrationService {
 
     async run() {
         const errors = this._validate();
-        if (errors)
+        if (!isEmpty(errors))
             return { status: StatusCodes.BAD_REQUEST, errors: errors };
 
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
