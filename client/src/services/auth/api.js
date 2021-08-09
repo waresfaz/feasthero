@@ -22,7 +22,7 @@ export async function register(data) {
 export async function login(data) {
     const response = await feastHeroAxios.post(
         STANDARD_LOGIN,
-        { loginData: { email: 'test', password: data.password } },
+        { loginData: { email: data.email, password: data.password } },
         { withCredentials: true },
     )
         .then((response) => response)

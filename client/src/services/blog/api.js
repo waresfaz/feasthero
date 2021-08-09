@@ -3,20 +3,16 @@ import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function fetchAllBlogPosts() {
     const response = await feastHeroAxios.get(ALL_BLOG_POSTS)
-        .then((response) => response)
+        .then((response) => response.data)
         .catch((_) => ({ error: true }));
-    if (response.error)
-        return response;
 
     return response.data;
 }
 
 export async function fetchBlogPost(id) {
     const response = await feastHeroAxios.get(`${FIND_BLOG_POST}/${id}`)
-        .then((response) => response)
+        .then((response) => response.data)
         .catch((_) => ({ error: true }));
-    if (response.error)
-        return response;
 
     return response.data;
 }

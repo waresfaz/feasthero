@@ -13,12 +13,9 @@ import didCorsFail from '../../helpers/cors-failed';
 export async function initBookingDetailsSession(bookingDetails) {
     const response = await feastHeroAxios.post(INIT_BOOKING_DETAILS_SESSION, bookingDetails, { withCredentials: true })
         .then((response) => response)
-        .catch((err) => ({ error: err }));
+        .catch((err) => ({ error: err.response.data }));
 
-    if (response.error)
-        return response;
-
-    return true;
+    return response;
 }
 
 export async function getBookingDetailsFromSession() {

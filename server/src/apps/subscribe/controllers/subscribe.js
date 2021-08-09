@@ -4,9 +4,9 @@ const { StatusCodes } = require("http-status-codes");
 async function subscribe(req, res) {
     const subscriptionData = req.body;
     const subscription = Subscription(subscriptionData);
-    Subscription.find({ email: subscription.email }, function (err, docs) {
+    Subscription.find({ email: subscription.email }, function (_, docs) {
         if (docs.length) {
-            return res.status(StatusCodes.CONFLICT).json('email already exists');
+            return res.status(StatusCodes.CONFLICT).json( { error: 'email already exists' });
         } else {
             subscription
                 .save()
@@ -15,8 +15,8 @@ async function subscribe(req, res) {
                 })
                 .catch((_) => {
                     return res
-                        .status(StatusCodes.BAD_REQUEST)
-                        .send("failed to subscribe");
+                        .status(StatusCodes.INTERNAL_SERVER_ERROR)
+                        .send({ error: "failed to subscribe" });
                 });
         }
     })

@@ -9,7 +9,7 @@ async function findPost(req, res) {
 
     return await BlogPost.find({ "_id": ObjectId(postId) }, function (err, result) {
         if (err)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json('something went wrong');
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: 'something went wrong' });
         return res.status(StatusCodes.OK).json(result);
     })
 }

@@ -1,6 +1,6 @@
 import feastHeroAxios from '../axios/feast-hero-axios';
 
-import { ALL_CLASSES, FILTER_CLASSES } from '../../constants/api-constants';
+import { ALL_CLASSES, DELETE_CLASS_PREFIX, FILTER_CLASSES } from '../../constants/api-constants';
 
 async function fetchAllClasses() {
     const classesReponse = await feastHeroAxios.get(ALL_CLASSES, { withCredentials: true })
@@ -24,5 +24,12 @@ async function filterClasses(filter, value) {
     return response.data;
 }
 
+async function deleteClass(id) {
+    const response = await feastHeroAxios.delete(`${DELETE_CLASS_PREFIX}/${id}`)
+        .then((response) => response)
+        .catch((err) => ({ error: err.response }))
 
-export { fetchAllClasses, filterClasses };
+    return response;
+}
+
+export { fetchAllClasses, filterClasses, deleteClass };

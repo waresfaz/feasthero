@@ -104,23 +104,22 @@ class BookingDetails extends React.Component {
         return true;
     }
 
-    handleInitBookingSessionError = (error) => {
-        if (this.requestErrorHasAdditionalInfo(error)) {
+    handleInitBookingSessionError = (errors) => {
+        if (this.requestErrorHasAdditionalInfo(errors)) {
             this.setState({
-                formErrors: error.response.data,
+                formErrors: errors,
                 loading: false,
             });
         } else {
-            const error = 'Error creating checkout session, please try again later';
             this.setState({
-                formErrors: { error: error },
+                formErrors: { error: 'Error creating checkout session, please try again later' },
                 loading: false,
             });
         }
     }
 
     requestErrorHasAdditionalInfo = (error) => {
-        return error.response.status === 400 && error.response.data
+        return error.status === 400 && error.data
     }
 
     renderBookingSizeTooltip = (props) => (

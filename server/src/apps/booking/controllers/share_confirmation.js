@@ -16,7 +16,7 @@ async function shareConfirmation(req, res) {
 
     return await shareConfirmationService(emailsToSendTo, bookingDetails, classData)
         .then((_) => res.status(StatusCodes.OK).json('ok'))
-        .catch((_) => res.status(StatusCodes.BAD_REQUEST).json('error'));
+        .catch((_) => res.status(StatusCodes.BAD_REQUEST).json({ error: 'error' }));
 }
 
 module.exports = shareConfirmation;

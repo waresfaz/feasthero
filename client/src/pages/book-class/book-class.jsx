@@ -78,7 +78,11 @@ class BookClass extends React.Component {
           </>
         )
     }
-    return <Loader show={this.state.classData === null} />
+    return <Loader show={this.classDataHasNotLoaded()} />
+  }
+
+  classDataHasNotLoaded = () => {
+    return this.state.classData === null;
   }
 
   render() {

@@ -10,7 +10,7 @@ async function verifyBookingSuccess(req, res) {
         res.status(StatusCodes.OK).json({ bookingDetails: bookingDetailsFromDoc, classData: classData });
     }
     else
-        res.status(StatusCodes.BAD_REQUEST).json('not found');
+        res.status(StatusCodes.BAD_REQUEST).json({ error: 'not found' });
 }
 
 module.exports = verifyBookingSuccess;

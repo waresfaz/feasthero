@@ -23,6 +23,7 @@ import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
 import Account from '../../pages/account/account';
 import LoadAccount from '../../hoc/load-account/load-account';
+import ChefClass from '../../pages/chef/class/chef-class';
 
 import './app.scss';
 
@@ -52,6 +53,7 @@ class App extends React.Component {
                 <Route exact path='/auth/login' component={Login} />
                 <Route exact path='/auth/register' component={Register} />
                 <Route exact path='/account' component={Account} />
+                <Route exact path='/account/class/:id' component={ChefClass} />
               </Switch>
             </Container>
             <Footer />

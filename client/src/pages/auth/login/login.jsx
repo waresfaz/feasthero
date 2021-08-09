@@ -86,7 +86,6 @@ class Login extends React.Component {
     }
 
     handleLoginRequestResult = (loginRequestResult) => {
-        console.log(loginRequestResult)
         if (loginRequestResult.error) {
             this.handleLoginError(loginRequestResult.error);
             return false;

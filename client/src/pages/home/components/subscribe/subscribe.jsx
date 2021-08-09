@@ -16,7 +16,7 @@ class Subscribe extends React.Component {
             email: '',
             loading: false,
             successSubscribed: null,
-            formErrors: {}
+            error: ''
         }
     }
 
@@ -29,30 +29,16 @@ class Subscribe extends React.Component {
     handleSubmit = async (evt) => {
         evt.preventDefault();
 
-        if (this.state.formErrors)
-            this.clearFormErrors();
+        if (this.state.error)
+            this.clearError();
 
-        if (!this.validate())
+        const error = this.validate();
+        if (error)
             return;
 
-        const subscribed = await subscribe(this.state.email);
-        if (subscribed === 'already exists') {
-            let formErrors = {};
-            formErrors['email'] = 'email already exists';
-            this.setState({
-                formErrors,
-                loading: false,
-            });
-            return;
-        }
-
-        if (!subscribed) {
-            this.setState({
-                loading: false,
-                successSubscribed: false,
-            });
-            return;
-        }
+        const response = await subscribe(this.state.email);
+        if (response.error)
+            return this.handleSubscribedError(response.error);
 
         this.setState({
             loading: false,
@@ -60,23 +46,45 @@ class Subscribe extends React.Component {
         });
     }
 
-    clearFormErrors = () => {
+    clearError = () => {
         this.setState({
-            formErrors: {},
+            error: '',
         })
     }
 
+    handleSubscribedError = (errorResponse) => {
+        if (this.errorHasAdditionalInfo(errorResponse)) {
+            this.setState({
+                loading: false,
+                successSubscribed: false,
+                error: errorResponse.data['error']
+            });
+            return;
+        }
+
+        this.setState({
+            loading: false,
+            successSubscribed: false,
+            error: 'failed to subscribe',
+        })
+    }
+
+    errorHasAdditionalInfo = (errorResponse) => {
+        return (errorResponse.status === 409 || errorResponse.status === 400) && errorResponse.data['error'];
+    }
+
     validate = () => {
-        let formErrors = {};
         const { email } = this.state;
 
-        formErrors['email'] = EmailValidator.validate(email);
+        const error = EmailValidator.validate(email);
+        if (error)
+            this.setState({
+                error: error,
+                loading: false,
+                successSubscribed: false
+            })
 
-        let valid = Object.values(formErrors).every(error => error === null);
-        if (!valid)
-            this.setState({ formErrors });
-
-        return valid;
+        return Boolean(error);
     }
 
     handleChange = (evt) => {
@@ -86,25 +94,13 @@ class Subscribe extends React.Component {
         })
     }
 
-    wasSubscribeSuccessful() {
-        const { successSubscribed } = this.state;
-
-        if (successSubscribed === true)
-            return <h4 className='text-success'>Thank you for subscribing!</h4>
-
-        if (successSubscribed === false)
-            return <h4 className='text-danger'>Error, please try again</h4>
-
-        return <></>
-    }
-
     shouldShowSubscribedModal() {
         const { successSubscribed } = this.state;
-        return successSubscribed === true || successSubscribed === false
+        return successSubscribed === true;
     }
 
     render() {
-        const { formErrors, email, loading } = this.state;
+        const { error, email, loading } = this.state;
         return (
             <section id='subscribe-section'>
                 <Loader show={loading} />
@@ -115,7 +111,7 @@ class Subscribe extends React.Component {
                     onHide={this.resetSuccessSubscribed}
                     show={this.shouldShowSubscribedModal()}
                 >
-                    {this.wasSubscribeSuccessful()}
+                    <h4 className='text-success'>Thank you for subscribing!</h4>
                 </Modal>
                 <Container>
                     <Row className='w-100' id='subscribe-content'>
@@ -138,7 +134,7 @@ class Subscribe extends React.Component {
                                                 onChange={this.handleChange}
                                                 placeholder='mail@example.com'
                                             />
-                                            <span className='text-danger'>{formErrors['email']}</span>
+                                            <span className='text-danger'>{error}</span>
                                         </Col>
                                         <Col xl={4} lg={6}>
                                             <Button className='w-100' type='submit' isButton={true} secondary={true}>Stay Connected</Button>

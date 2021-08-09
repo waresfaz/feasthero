@@ -12,7 +12,7 @@ async function contact(req, res) {
 
     const msg = genMessage(name, email, message, subject);
     if ((await sendEmail(msg)) === false)
-        return res.status(StatusCodes.BAD_REQUEST).json('error');
+        return res.status(StatusCodes.BAD_REQUEST).json({ error: 'error' });
 
     return res.status(StatusCodes.OK).json('ok');
 
