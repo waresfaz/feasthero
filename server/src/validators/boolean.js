@@ -1,8 +1,7 @@
 class BooleanValidator {
     static validate(value) {
         if (BooleanValidator._isNotABoolean(value))
-            return { valid: false, errorMessage: 'not true or false' }
-        return { valid: true };
+            return 'not true or false'
     }
 
     static _isNotABoolean(value) {

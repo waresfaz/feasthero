@@ -1,3 +1,4 @@
+const cleanErrors = require("../../../helpers/clean_errors");
 const EmailValidator = require("../../../validators/email");
 const NameValidator = require("../../../validators/name");
 const PasswordValidator = require("../../../validators/password");
@@ -8,19 +9,14 @@ class ValidateRegistrationData {
         this.registrationData = registrationData;
     }
 
-    async validate() {
-        const validations = [
-            this.email(), this.firstName(), 
-            this.lastName(), this.password()
-        ]
+    validate() {
+        let errors = {}
+        errors['email'] = this.email();
+        errors['firstName'] = this.firstName();
+        errors['lastName'] = this.lastName();
+        errors['passwordOne'] = this.password();
 
-        for (let i = 0; i < validations.length; i++) {
-            const validation = validations[i];
-            if (!validation.valid)
-                return validation;
-        }
-
-        return { valid: true };
+        return cleanErrors(errors);
     }
 
     email() {

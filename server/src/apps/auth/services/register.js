@@ -10,12 +10,12 @@ class RegistrationService {
     }
 
     async run() {
-        const validatedRegistrationData = await this._validate();
-        if (!validatedRegistrationData.valid)
-            return { status: StatusCodes.BAD_REQUEST, errorMessage: validatedRegistrationData.errorMessage };
+        const errors = this._validate();
+        if (errors)
+            return { status: StatusCodes.BAD_REQUEST, errors: errors };
 
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
-            return { status: StatusCodes.CONFLICT, errorMessage: "account already exists" };
+            return { status: StatusCodes.CONFLICT, errors: { account: "account already exists" } };
 
         const account = this._createAccount()
         await this._saveToDatabase(account);
@@ -25,8 +25,8 @@ class RegistrationService {
 
     _validate() {
         const registrationDataValidator = new ValidateRegistrationData(this.registrationData);
-        const validatedRegistrationData = registrationDataValidator.validate();
-        return validatedRegistrationData;
+        const errors = registrationDataValidator.validate();
+        return errors;
     }
 
     _createAccount() {

@@ -5,16 +5,14 @@ class BookingSizeValidator {
         value = Number(value);
 
         if (!value)
-            return { valid: false, errorMessage: 'booking size cannot be empty' };
+            return 'booking size cannot be empty';
 
         if (value % 1 !== 0) {
-            return { valid: false, errorMessage: 'booking size must be a whole number' };
+            return 'booking size must be a whole number';
         }
 
         if (BookingSizeValidator._bookingSizeOutOfRange())
-            return { valid: false, errorMessage: 'booking size out of range' };
-
-        return { valid: true };
+            return 'booking size out of range';
     }
 
     static _bookingSizeOutOfRange() {

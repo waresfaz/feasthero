@@ -28,7 +28,6 @@ class Register extends React.Component {
             passwordOne: '',
             passwordTwo: '',
             formErrors: {},
-            error: '',
             loading: false,
         }
     }
@@ -93,7 +92,6 @@ class Register extends React.Component {
 
     clearErrors = () => {
         this.setState({
-            error: '',
             formErrors: {},
         })
     }
@@ -110,13 +108,13 @@ class Register extends React.Component {
     handleRegisterError = (error) => {
         if (this.requestErrorHasAdditionalInfo(error)) {
             this.setState({
-                error: error.data,
+                formErrors: error.data,
                 loading: false,
             });
             return;
         }
         this.setState({
-            error: 'Failed to register, please try again',
+            formErrors: { general: 'Failed to register, please try again' },
             loading: false,
         });
     }
@@ -135,7 +133,7 @@ class Register extends React.Component {
                     <form onSubmit={this.standardRegister}>
                         <div className='mb-3'>
                             <Form.Control value={this.state.email} onChange={this.handleChange} name='email' required type='email' placeholder='Email' />
-                            <span className='text-danger'>{formErrors['firstName']}</span>
+                            <span className='text-danger'>{formErrors['email']}</span>
                         </div>
 
                         <Row className='mb-3'>
@@ -174,7 +172,8 @@ class Register extends React.Component {
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Register</Button>
-                                <span className='text-danger'>{this.state.error}</span>
+                                <span className='text-danger'>{formErrors['general']}</span>
+                                <span className='text-danger'>{formErrors['account']}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign up with google</span>
                                 </div>
