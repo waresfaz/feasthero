@@ -12,7 +12,7 @@ class OAuthRegistrationService {
     async run() {
         try {
             this.ticket = await getOAuthTicket(this.token)
-        } catch (e) {
+        } catch (_) {
             return { status: StatusCodes.BAD_REQUEST, response: { errors: { error: 'invalid oauth token, please try again' } } }
         }
 

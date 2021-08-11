@@ -9,8 +9,6 @@ import { Container } from 'react-bootstrap';
 import { initSettings } from '../../settings';
 import history from '../../history';
 import Home from '../../pages/home/home';
-import BookClass from '../../pages/book-class/book-class';
-import Checkout from '../../pages/checkout/checkout';
 import BookingSuccess from '../../pages/booking-success/booking-success';
 import AboutAndContactUs from '../../pages/about-and-contact-us/about-and-contact-us';
 import Faq from '../../pages/faq/faq';
@@ -22,8 +20,11 @@ import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
 import Account from '../../pages/account/account';
-import LoadAccount from '../../hoc/load-account/load-account';
+import BookClass from '../../pages/book-class/book-class';
 import ChefClass from '../../pages/chef/class/chef-class';
+import Checkout from '../../pages/checkout/checkout';
+
+import LoadAccount from '../../hoc/load-account/load-account';
 
 import './app.scss';
 

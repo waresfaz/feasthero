@@ -5,15 +5,13 @@ import { Spinner } from 'react-bootstrap'
 import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
 
 import { getAllClasses } from '../../../services/chef/actions'
-import DeleteClass from './components/delete-class/delete-class'
+import ChefClassOptions from './components/chef-class-options/chef-class-options'
 
-//TODO make sure only class owner can access this
 class ChefClass extends React.Component {
     constructor() {
         super();
         this.state = {
             classData: null,
-            errors: {}
         };
     }
 
@@ -37,7 +35,7 @@ class ChefClass extends React.Component {
         this.setState({ classData: classData });
     }
 
-    tryToRenderClass = () => {
+    tryToRenderClassPage = () => {
         let { classData } = this.state;
 
         if (classData !== null) {
@@ -46,9 +44,7 @@ class ChefClass extends React.Component {
             else
                 return (
                     <>
-                        {
-                            JSON.stringify(this.state.classData)
-                        }
+                        <ChefClassOptions classData={classData} />
                     </>
                 )
         }
@@ -60,11 +56,9 @@ class ChefClass extends React.Component {
     }
 
     render() {
-
         return (
             <>
-                {this.tryToRenderClass()}
-                <DeleteClass classData={this.state.classData} />
+                {this.tryToRenderClassPage()}
             </>
         )
     }

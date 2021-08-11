@@ -7,10 +7,10 @@ async function verifyBookingSuccess(req, res) {
     const bookingDetailsFromDoc = await Booking.findOne({ _id: bookingId });
     if (bookingDetailsFromDoc) {
         const classData = await findClass(bookingDetailsFromDoc.classId);
-        res.status(StatusCodes.OK).json({ bookingDetails: bookingDetailsFromDoc, classData: classData });
+        return res.status(StatusCodes.OK).json({ bookingDetails: bookingDetailsFromDoc, classData: classData });
     }
-    else
-        res.status(StatusCodes.BAD_REQUEST).json({ error: 'not found' });
+
+    return res.status(StatusCodes.BAD_REQUEST).json({ error: 'not found' });
 }
 
 module.exports = verifyBookingSuccess;
