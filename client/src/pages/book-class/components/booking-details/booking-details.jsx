@@ -30,7 +30,7 @@ class BookingDetails extends React.Component {
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
         this.state = {
             loading: false,
-            formErrors: {}
+            errors: {}
         }
     }
 
@@ -61,27 +61,27 @@ class BookingDetails extends React.Component {
 
     clearErrors = () => {
         this.setState({
-            formErrors: {}
+            errors: {}
         })
     }
 
     validate = () => {
-        let formErrors = {};
+        let errors = {};
         const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
 
-        formErrors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
-        formErrors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
-        formErrors['customerEmail'] = EmailValidator.validate(customerEmail);
-        formErrors['customerFirstName'] = NameValidator.validate(customerFirstName);
-        formErrors['customerLastName'] = NameValidator.validate(customerLastName);
-        formErrors['comanyName'] = NotEmptyValidator.validate(companyName);
+        errors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
+        errors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
+        errors['customerEmail'] = EmailValidator.validate(customerEmail);
+        errors['customerFirstName'] = NameValidator.validate(customerFirstName);
+        errors['customerLastName'] = NameValidator.validate(customerLastName);
+        errors['comanyName'] = NotEmptyValidator.validate(companyName);
 
-        let valid = Object.values(formErrors).every(error => error === null);
+        let valid = Object.values(errors).every(error => error === null);
         if (this.doesMealKitCheckHaveError())
             valid = false;
 
         if (!valid)
-            this.setState({ formErrors });
+            this.setState({ errors });
 
         return true;
     }
@@ -104,22 +104,22 @@ class BookingDetails extends React.Component {
         return true;
     }
 
-    handleInitBookingSessionError = (errors) => {
-        if (this.requestErrorHasAdditionalInfo(errors)) {
+    handleInitBookingSessionError = (errorResponse) => {
+        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
             this.setState({
-                formErrors: errors,
+                errors: errorResponse.data['errors'],
                 loading: false,
             });
         } else {
             this.setState({
-                formErrors: { error: 'Error creating checkout session, please try again later' },
+                errors: { error: 'Error creating checkout session, please try again later' },
                 loading: false,
             });
         }
     }
 
-    requestErrorHasAdditionalInfo = (error) => {
-        return error.status === 400 && error.data
+    requestErrorHasAdditionalInfo = (errorResponse) => {
+        return errorResponse.status === 400 && errorResponse.data['errors']
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -132,7 +132,7 @@ class BookingDetails extends React.Component {
 
     render() {
         const { bookingDetails } = this.props;
-        const { formErrors } = this.state;
+        const { errors } = this.state;
 
         return (
             <div id='booking-details-container'>
@@ -159,7 +159,7 @@ class BookingDetails extends React.Component {
                                     value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
                                     options={validBookingSizes}
                                 />
-                                <span className='text-danger'>{formErrors['bookingSize']}</span>
+                                <span className='text-danger'>{errors['bookingSize']}</span>
                             </Col>
                         </Row>
                     </Form.Group>
@@ -172,7 +172,7 @@ class BookingDetails extends React.Component {
                             placeholder='Select Date & Time'
                             options={this.scheduleOptions}
                         />
-                        <span className='text-danger'>{formErrors['classDateTime']}</span>
+                        <span className='text-danger'>{errors['classDateTime']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -180,7 +180,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='First Name'
                             name='customerFirstName'
                         />
-                        <span className='text-danger'>{formErrors['customerFirstName']}</span>
+                        <span className='text-danger'>{errors['customerFirstName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -188,7 +188,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Last Name'
                             name='customerLastName'
                         />
-                        <span className='text-danger'>{formErrors['customerLastName']}</span>
+                        <span className='text-danger'>{errors['customerLastName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -196,7 +196,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Company Name'
                             name='companyName'
                         />
-                        <span className='text-danger'>{formErrors['companyName']}</span>
+                        <span className='text-danger'>{errors['companyName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -204,9 +204,9 @@ class BookingDetails extends React.Component {
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />
-                        <span className='text-danger'>{formErrors['customerEmail']}</span>
+                        <span className='text-danger'>{errors['customerEmail']}</span>
                     </Form.Group>
-                    <span className='text-danger'>{formErrors['error']}</span>
+                    <span className='text-danger'>{errors['error']}</span>
                     <Row>
                         <Col md={6}>
                             <Button primary={true} type='submit'

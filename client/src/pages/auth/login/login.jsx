@@ -22,8 +22,7 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            formErrors: {},
-            error: '',
+            errors: {},
             loading: false,
         }
     }
@@ -58,12 +57,12 @@ class Login extends React.Component {
     }
 
     validateStandardLoginData = () => {
-        let formErrors = {};
-        formErrors['email'] = EmailValidator.validate(this.state.email);
+        let errors = {};
+        errors['email'] = EmailValidator.validate(this.state.email);
 
-        let valid = Object.values(formErrors).every(error => error === null);
+        let valid = Object.values(errors).every(error => error === null);
         if (!valid)
-            this.setState({ formErrors });
+            this.setState({ errors });
 
         return valid;
     }
@@ -80,8 +79,7 @@ class Login extends React.Component {
 
     clearErrors = () => {
         this.setState({
-            error: '',
-            formErrors: {},
+            errors: {},
         })
     }
 
@@ -94,23 +92,23 @@ class Login extends React.Component {
         return true;
     }
 
-    handleLoginError = (error) => {
-        if (this.requestErrorHasAdditionalInfo(error)) {
+    handleLoginError = (errorResponse) => {
+        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
             this.setState({
-                formErrors: error.data,
+                errors: errorResponse.data['errors'],
                 loading: false,
             })
             return
         }
 
         this.setState({
-            error: 'failed to login, please try again later',
+            errors: { error: 'failed to login, please try again later' },
             loading: false,
         })
     }
 
-    requestErrorHasAdditionalInfo = (error) => {
-        return (error.status === 400 || error.status === 404 || error.status === 401) && error.data;
+    requestErrorHasAdditionalInfo = (errorResponse) => {
+        return (errorResponse.status === 400 || errorResponse.status === 404 || errorResponse.status === 401) && errorResponse.data['errors'];
     }
 
 
@@ -135,7 +133,7 @@ class Login extends React.Component {
                                 name='email' required
                                 type='email' placeholder='Email'
                             />
-                            <span className='text-danger'>{this.state.formErrors['email']}</span>
+                            <span className='text-danger'>{this.state.errors['email']}</span>
                         </div>
                         <div className='mb-3'>
                             <Form.Control
@@ -150,6 +148,7 @@ class Login extends React.Component {
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Sign In</Button>
+                                <span className='text-danger'>{this.state.errors['error']}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign in with google</span>
                                 </div>

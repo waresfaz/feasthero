@@ -10,10 +10,10 @@ async function oAuthRegister(req, res) {
 
     if (registrationResult.status === StatusCodes.OK) {
         putAccountInSession(req.session, registrationResult.account);
-        res.status(registrationResult.status).json(registrationResult.account);
+        return res.status(registrationResult.status).json(registrationResult.account);
     }
 
-    res.status(registrationResult.status).json(registrationResult.errors);
+    res.status(registrationResult.status).json(registrationResult.response);
 }
 
 module.exports = oAuthRegister;

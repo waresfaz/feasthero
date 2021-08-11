@@ -13,10 +13,10 @@ class RegistrationService {
     async run() {
         const errors = this._validate();
         if (!isEmpty(errors))
-            return { status: StatusCodes.BAD_REQUEST, errors: errors };
+            return { status: StatusCodes.BAD_REQUEST, response: { errors: errors } };
 
         if (await ValidateRegistrationData.accountDoesExist(this.registrationData.email))
-            return { status: StatusCodes.CONFLICT, errors: { error: "account already exists" } };
+            return { status: StatusCodes.CONFLICT, response: { errors: { error: "account already exists" } } };
 
         const account = this._createAccount()
         await this._saveToDatabase(account);

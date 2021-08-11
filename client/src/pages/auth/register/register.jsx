@@ -27,7 +27,7 @@ class Register extends React.Component {
             lastName: '',
             passwordOne: '',
             passwordTwo: '',
-            formErrors: {},
+            errors: {},
             loading: false,
         }
     }
@@ -61,21 +61,21 @@ class Register extends React.Component {
     }
 
     validateDataForStandardRegistration = () => {
-        let formErrors = {};
+        let errors = {};
         const { email, firstName, lastName, passwordOne, passwordTwo } = this.state;
 
-        formErrors['email'] = EmailValidator.validate(email);
-        formErrors['firstName'] = NameValidator.validate(firstName);
-        formErrors['lastName'] = NameValidator.validate(lastName);
-        formErrors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
+        errors['email'] = EmailValidator.validate(email);
+        errors['firstName'] = NameValidator.validate(firstName);
+        errors['lastName'] = NameValidator.validate(lastName);
+        errors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
 
-        if (!formErrors['passwordOne'])
-            formErrors['passwordOne'] = PasswordValidator.validate(passwordOne)
+        if (!errors['passwordOne'])
+            errors['passwordOne'] = PasswordValidator.validate(passwordOne)
 
 
-        let valid = Object.values(formErrors).every(error => error === null);
+        let valid = Object.values(errors).every(error => error === null);
         if (!valid)
-            this.setState({ formErrors });
+            this.setState({ errors });
 
         return valid;
     }
@@ -92,7 +92,7 @@ class Register extends React.Component {
 
     clearErrors = () => {
         this.setState({
-            formErrors: {},
+            errors: {},
         })
     }
 
@@ -105,26 +105,26 @@ class Register extends React.Component {
         return true;
     }
 
-    handleRegisterError = (error) => {
-        if (this.requestErrorHasAdditionalInfo(error)) {
+    handleRegisterError = (errorResponse) => {
+        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
             this.setState({
-                formErrors: error.data,
+                errors: errorResponse.data['errors'],
                 loading: false,
             });
             return;
         }
         this.setState({
-            formErrors: { error: 'Failed to register, please try again' },
+            errors: { error: 'Failed to register, please try again' },
             loading: false,
         });
     }
 
-    requestErrorHasAdditionalInfo = (error) => {
-        return (error.status === 400 || error.status === 409) && error.data;
+    requestErrorHasAdditionalInfo = (errorResponse) => {
+        return (errorResponse.status === 400 || errorResponse.status === 409) && errorResponse.data['errors'];
     }
 
     render() {
-        const { formErrors } = this.state;
+        const { errors } = this.state;
 
         return (
             <section id='register'>
@@ -133,17 +133,17 @@ class Register extends React.Component {
                     <form onSubmit={this.standardRegister}>
                         <div className='mb-3'>
                             <Form.Control value={this.state.email} onChange={this.handleChange} name='email' required type='email' placeholder='Email' />
-                            <span className='text-danger'>{formErrors['email']}</span>
+                            <span className='text-danger'>{errors['email']}</span>
                         </div>
 
                         <Row className='mb-3'>
                             <Col md={6}>
                                 <Form.Control value={this.state.firstName} onChange={this.handleChange} name='firstName' required type='text' placeholder='First Name' />
-                                <span className='text-danger'>{formErrors['firstName']}</span>
+                                <span className='text-danger'>{errors['firstName']}</span>
                             </Col>
                             <Col md={6}>
                                 <Form.Control value={this.state.lastName} onChange={this.handleChange} name='lastName' required type='text' placeholder='Last Name' />
-                                <span className='text-danger'>{formErrors['lastName']}</span>
+                                <span className='text-danger'>{errors['lastName']}</span>
                             </Col>
                         </Row>
 
@@ -155,7 +155,7 @@ class Register extends React.Component {
                                 type='password'
                                 placeholder='Password'
                             />
-                            <span className='text-danger'>{formErrors['passwordOne']}</span>
+                            <span className='text-danger'>{errors['passwordOne']}</span>
                         </div>
 
                         <div className='mb-3'>
@@ -166,13 +166,13 @@ class Register extends React.Component {
                                 type='password'
                                 placeholder='Re-enter Password'
                             />
-                            <span className='text-danger'>{formErrors['passwordTwo']}</span>
+                            <span className='text-danger'>{errors['passwordTwo']}</span>
                         </div>
 
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Register</Button>
-                                <span className='text-danger'>{formErrors['error']}</span>
+                                <span className='text-danger'>{errors['error']}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign up with google</span>
                                 </div>

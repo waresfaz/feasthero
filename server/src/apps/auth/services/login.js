@@ -14,14 +14,14 @@ class LoginService {
     async run() {
         const errors = this.validate();
         if (!isEmpty(errors))
-            return { status: StatusCodes.BAD_REQUEST, errors: errors }
+            return { status: StatusCodes.BAD_REQUEST, response: { errors: errors } }
 
         this.account = await getAccountFromEmail(this.loginData.email);
         if (!this.account)
-            return { status: StatusCodes.NOT_FOUND, errors: { email: 'email not found' } };
+            return { status: StatusCodes.NOT_FOUND, response: { errors: { email: 'email not found' } } };
 
         if (!this._passwordsMatch())
-            return { status: StatusCodes.UNAUTHORIZED, errors: { password: 'incorrect password' } };
+            return { status: StatusCodes.UNAUTHORIZED, response: { errors: { password: 'incorrect password' } } };
 
         return { status: StatusCodes.OK, account: this.account };
     }

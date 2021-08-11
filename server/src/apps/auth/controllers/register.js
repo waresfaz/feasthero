@@ -12,7 +12,7 @@ async function register(req, res) {
         return res.status(result.status).json(result.account);
     }
 
-    return res.status(result.status).json(result.errors);
+    return res.status(result.status).json(result.response);
 }
 
 

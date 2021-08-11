@@ -26,7 +26,7 @@ async function initSession(req, res) {
 
     const errors = await validate(bookingDetails);
     if (!isEmpty(errors))
-        return res.status(StatusCodes.BAD_REQUEST).json(errors);
+        return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors });
 
     req.session.bookingDetails = Booking(bookingDetails);
     req.session.save();
