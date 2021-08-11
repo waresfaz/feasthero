@@ -1,6 +1,5 @@
 import React from 'react';
-
-import Loader from '../../components/loader/loader';
+import { Spinner } from 'react-bootstrap';
 
 /**
  * Ensure that an http request succeeds.
@@ -60,7 +59,9 @@ const HttpRequestDidSucceed = (WrappedComponent, requestFn, responsePropName, ..
             return (
                 this.requestHasNotCompleted()
                     ?
-                    <Loader show={this.requestHasNotCompleted()} />
+                    <div className='d-flex justify-content-center'>
+                        <Spinner animation='border' />
+                    </div>
                     :
                     <WrappedComponent {...dynamicProp} httpRequestError={error} />
             )

@@ -108,9 +108,9 @@
 }
 
 @mixin default-input {
-	box-shadow: none;
-	border: 1px solid $input-border;
-	border-radius: 0.5rem;
+	box-shadow: none !important;
+	border: 1px solid $input-border !important;
+	border-radius: 0.5rem !important;
 	padding-top: 2rem;
 	font-size: 1.3rem;
 	font-weight: bold;

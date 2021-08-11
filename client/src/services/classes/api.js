@@ -25,7 +25,7 @@ async function filterClasses(filter, value) {
 }
 
 async function deleteClass(id) {
-    const response = await feastHeroAxios.delete(`${DELETE_CLASS_PREFIX}/${id}`)
+    const response = await feastHeroAxios.delete(`${DELETE_CLASS_PREFIX}/${id}`, { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response }))
 

@@ -19,7 +19,7 @@ class IncludeMealKits extends React.Component {
                         onChange={this.toggleIncludeMealKits} type='checkbox'
                         defaultChecked={bookingDetails.mealKitsBooked}
                         value={bookingDetails.mealKitsBooked}
-                        label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitPrice}/device.</span></p>}
+                        label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitCost}/device.</span></p>}
                     />
                     <span className='text-danger error'>{mealKitsBookedError}</span>
                 </Form.Group>

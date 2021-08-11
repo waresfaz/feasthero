@@ -9,7 +9,7 @@ class DeleteClass extends React.Component {
     constructor() {
         super();
         this.state = {
-            error: null
+            errors: {}
         }
     }
 
@@ -24,26 +24,27 @@ class DeleteClass extends React.Component {
     handleDeleteClassError = (errorResponse) => {
         if (this.errorHasMoreInfo(errorResponse)) {
             this.setState({
-                error: errorResponse.data['error']
+                errors: errorResponse.data['errors']
             });
             return;
         }
         this.setState({
-            error: 'error deleting class'
+            errors: 'error deleting class'
         });
     }
 
     errorHasMoreInfo(errorResponse) {
-        return errorResponse.status === 400 && errorResponse.data['error'];
+        console.log(errorResponse);
+        return (errorResponse.status === 400 || errorResponse.status === 401) && errorResponse.data['errors'];
     }
 
     render() {
-        const { error } = this.state;
+        const { errors } = this.state;
         return (
-            <>
+            <div className='mt-5'>
                 <Button className='w-25 py-3' onClick={this.deleteClass} secondary>Delete</Button>
-                <span className='text-danger d-block mt-2'>{error}</span>
-            </>
+                <span className='text-danger d-block mt-2'>{errors['error']}</span>
+            </div>
         )
     }
 }

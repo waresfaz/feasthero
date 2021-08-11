@@ -25,7 +25,7 @@ async function getAllClasses() {
                 duration: 1,
                 chefId: 1,
                 hasMealKit: 1,
-                mealKitPrice: 1,
+                mealKitCost: 1,
             },
         },
         {

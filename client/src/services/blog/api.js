@@ -6,7 +6,7 @@ export async function fetchAllBlogPosts() {
         .then((response) => response.data)
         .catch((_) => ({ error: true }));
 
-    return response.data;
+    return response;
 }
 
 export async function fetchBlogPost(id) {
@@ -14,5 +14,5 @@ export async function fetchBlogPost(id) {
         .then((response) => response.data)
         .catch((_) => ({ error: true }));
 
-    return response.data;
+    return response;
 }

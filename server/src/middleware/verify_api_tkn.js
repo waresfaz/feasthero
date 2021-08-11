@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 
 function verifyApiTkn(req, res, next) {
     if (!apiTokenValid(req.headers.authorization))
-        return res.status(StatusCodes.UNAUTHORIZED).json({ error: 'invalid api token' });
+        return res.status(StatusCodes.UNAUTHORIZED).json({ errors: { error: 'invalid api token' } });
     next();
 }
 

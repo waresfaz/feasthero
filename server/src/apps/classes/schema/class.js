@@ -13,7 +13,7 @@ const Class = new Schema({
     type: Boolean,
     default: false,
   },
-  mealKitPrice: {
+  mealKitCost: {
     type: Number,
     default: 0,
   },

@@ -16,7 +16,7 @@ class Subscribe extends React.Component {
             email: '',
             loading: false,
             successSubscribed: null,
-            error: ''
+            errors: ''
         }
     }
 
@@ -29,11 +29,11 @@ class Subscribe extends React.Component {
     handleSubmit = async (evt) => {
         evt.preventDefault();
 
-        if (this.state.error)
+        if (this.state.errors)
             this.clearError();
 
-        const error = this.validate();
-        if (error)
+        const errors = this.validate();
+        if (errors)
             return;
 
         const response = await subscribe(this.state.email);
@@ -48,7 +48,7 @@ class Subscribe extends React.Component {
 
     clearError = () => {
         this.setState({
-            error: '',
+            errors: '',
         })
     }
 
@@ -57,7 +57,7 @@ class Subscribe extends React.Component {
             this.setState({
                 loading: false,
                 successSubscribed: false,
-                error: errorResponse.data['error']
+                errors: errorResponse.data['errors']
             });
             return;
         }
@@ -65,12 +65,12 @@ class Subscribe extends React.Component {
         this.setState({
             loading: false,
             successSubscribed: false,
-            error: 'failed to subscribe',
+            errors: 'failed to subscribe',
         })
     }
 
     errorHasAdditionalInfo = (errorResponse) => {
-        return (errorResponse.status === 409 || errorResponse.status === 400) && errorResponse.data['error'];
+        return (errorResponse.status === 409 || errorResponse.status === 400) && errorResponse.data['errors'];
     }
 
     validate = () => {
@@ -100,7 +100,7 @@ class Subscribe extends React.Component {
     }
 
     render() {
-        const { error, email, loading } = this.state;
+        const { errors, email, loading } = this.state;
         return (
             <section id='subscribe-section'>
                 <Loader show={loading} />
@@ -134,7 +134,7 @@ class Subscribe extends React.Component {
                                                 onChange={this.handleChange}
                                                 placeholder='mail@example.com'
                                             />
-                                            <span className='text-danger'>{error}</span>
+                                            <span className='text-danger'>{errors['error']}</span>
                                         </Col>
                                         <Col xl={4} lg={6}>
                                             <Button className='w-100' type='submit' isButton={true} secondary={true}>Stay Connected</Button>

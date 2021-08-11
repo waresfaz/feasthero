@@ -18,7 +18,7 @@ class BookingSummary extends React.Component {
 
     getValuesForCostCalculation = () => {
         let { bookingSize, mealKitsBooked } = this.props.bookingDetails;
-        let { mealKitPrice, costPerDevice } = this.props.classData;
+        let { mealKitCost, costPerDevice } = this.props.classData;
 
         if (this.bookingSizeDoesNotExist())
             bookingSize = 0;
@@ -26,7 +26,7 @@ class BookingSummary extends React.Component {
         return {
             bookingSize: bookingSize,
             costPerDevice: costPerDevice,
-            mealKitPrice: mealKitPrice,
+            mealKitCost: mealKitCost,
             bookingSizeWithMealKit: bookingSize,
             mealKitsBooked: mealKitsBooked,
         }

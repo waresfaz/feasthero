@@ -6,7 +6,7 @@ class ValidateBookingDetailsCosts {
         this.classData = classData;
         this.totals = CalculateTotals.totals(
             bookingDetails.bookingSize, classData.costPerDevice,
-            classData.mealKitPrice, bookingDetails.bookingSize,
+            classData.mealKitCost, bookingDetails.bookingSize,
             bookingDetails.mealKitsBooked
         );
     }
