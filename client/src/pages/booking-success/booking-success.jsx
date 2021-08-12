@@ -70,8 +70,8 @@ class BookingSuccess extends React.Component {
                         <p>An email will be sent shortly with your booking confirmation</p>
                     </div>
                     <Container id='booking-success-container'>
-                        <ConfirmationDetails {...this.props} />
-                        <ShareConfirmation />
+                        <ConfirmationDetails classData={this.state.classData} bookingDetails={this.state.bookingDetails} />
+                        <ShareConfirmation bookingDetails={this.state.bookingDetails} />
                     </Container>
                 </div>
             )

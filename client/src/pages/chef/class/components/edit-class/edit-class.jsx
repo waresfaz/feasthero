@@ -133,7 +133,9 @@ class EditClass extends React.Component {
                         <Form.Check onChange={this.handleChange} name='hasMealKit' checked={this.state.hasMealKit} />
                         <span className='text-danger'>{errors['hasMealKit']}</span>
                     </Form.Group>
-                    <span className='text-danger text-center'>{errors['error']}</span>
+                    <div className='w-100'>
+                        <span className='text-danger d-block text-center'>{errors['error']}</span>
+                    </div>
                     <Button isButton={true} className='p-3 w-100'>Update</Button>
                 </form>
             </section>

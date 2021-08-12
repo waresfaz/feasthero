@@ -40,10 +40,14 @@ class ChefClass extends React.Component {
         return this.state.classData === false || this.state.classData === undefined;
     }
 
+    classDataRequestHasCompleted = () => {
+        return this.state.classData !== null;
+    }
+
     render() {
         const { classData } = this.state;
 
-        if (classData !== null) {
+        if (this.classDataRequestHasCompleted()) {
             if (this.errorLoadingClassData())
                 return <p className='text-danger text-center'>Error loading class</p>
             else

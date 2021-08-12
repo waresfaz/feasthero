@@ -1,4 +1,3 @@
-const Class = require('../schema/class');
 const findSingleClass = require('../services/find_class');
 
 async function findClass(req, res) {

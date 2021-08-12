@@ -16,7 +16,7 @@ async function findClass(id) {
         },
         {
             $lookup: {
-                from: "chefs",
+                from: "accounts",
                 localField: "chefId",
                 foreignField: "_id",
                 as: "chefs",

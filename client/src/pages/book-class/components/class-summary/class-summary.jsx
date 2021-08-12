@@ -25,7 +25,7 @@ class ClassSummary extends React.Component {
 
         return (
             <div id='class-summary'>
-                <Image src={chef.photo} />
+                <Image src={chef.profile.photo} />
                 <h1>{classData.title}</h1>
                 <p id='content'>
                     {

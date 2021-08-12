@@ -55,7 +55,7 @@ async function getAllClasses() {
         },
         {
             $lookup: {
-                from: "chefs",
+                from: "accounts",
                 localField: "chefId",
                 foreignField: "_id",
                 as: "chefs",

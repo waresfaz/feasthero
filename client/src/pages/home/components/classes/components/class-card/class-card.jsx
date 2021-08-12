@@ -3,6 +3,8 @@ import { Col, Container, Image, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 
+import getChefFullName from '../../../../../../helpers/get-chef-full-name'
+
 import Button from '../../../../../../components/button/button';
 
 import './class-card.scss';
@@ -20,7 +22,7 @@ class ClassCard extends React.Component {
                                 classData.chefs.map((chef, key) => {
                                     return (
                                         <Col className='align-self-center chef-photo-container' key={key} md={2} lg={3} xl={2}>
-                                            <Image fluid className='chef-photo' src={chef.photo} />
+                                            <Image fluid className='chef-photo' src={chef.profile.photo} />
                                             {
                                                 /**
                                                  * the popup is not needed on tablet and smaller screens because it will be
@@ -34,14 +36,14 @@ class ClassCard extends React.Component {
                                                             <Row>
                                                                 <Col md={4}>
                                                                     <Image
-                                                                        src={chef.photo}
+                                                                        src={chef.profile.photo}
                                                                         alt={`${chef.name}'s photo`}
                                                                     />
                                                                 </Col>
                                                                 <Col md={8}>
                                                                     <div className="chef-info-popup-content">
-                                                                        <h3>{chef.name}</h3>
-                                                                        <p>{chef.bio}</p>
+                                                                        <h3>{getChefFullName(chef)}</h3>
+                                                                        <p>{chef.profile.bio}</p>
                                                                     </div>
                                                                 </Col>
                                                             </Row>

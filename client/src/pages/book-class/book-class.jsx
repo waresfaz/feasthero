@@ -55,11 +55,19 @@ class BookClass extends React.Component {
         this.setState({ classData: classData });
     }
 
+    classDataRequestHasCompleted = () => {
+        return this.state.classData !== null;
+    }
+
+    errorLoadingClassData = () => {
+        return this.state.classData === false || this.state.classData === undefined;
+    }
+
     tryToRenderBooking() {
         let { classData } = this.state;
 
-        if (classData !== null) {
-            if (classData === false)
+        if (this.classDataRequestHasCompleted()) {
+            if (this.errorLoadingClassData())
                 return <p className='text-danger text-center'>Error loading class</p>
             else
                 return (
