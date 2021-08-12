@@ -9,7 +9,6 @@ const { connectToDb } = require('./database/connect.js');
 const { settings } = require("./feasthero/settings.js");
 
 const classesRouter = require('./apps/classes/routes');
-const chefsRouter = require('./apps/chefs/routes');
 const bookingRouter = require('./apps/booking/routes');
 const contactRouter = require('./apps/contact/routes');
 const scheduleRouter = require('./apps/schedule/routes');
@@ -48,7 +47,6 @@ function initMiddleware() {
 
 function initRoutes() {
   app.use('/classes', classesRouter);
-  app.use('/chefs', chefsRouter);
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
   app.use('/schedule', scheduleRouter);
