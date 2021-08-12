@@ -112,10 +112,6 @@ html {
     animation: spin 2s linear infinite;
 }
 
-input, textarea {
-    @include default-input;
-}
-
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

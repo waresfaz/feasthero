@@ -5,11 +5,13 @@ const newClass = require('./controllers/new_class');
 const wait = require('../../middleware/async');
 const filterClasses = require('./controllers/filter_classes');
 const deleteClass = require('./controllers/delete_class');
+const updateClass = require('./controllers/update_class');
 const verifyChefIsAccessingTheirClass = require('../../middleware/verify_chef_is_accessing_their_class');
 
 classesRouter.get('/all', wait(allClasses));
 classesRouter.get('/filter', wait(filterClasses))
 classesRouter.post('/new', wait(newClass));
 classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
+classesRouter.patch('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(updateClass))
 
 module.exports = classesRouter;

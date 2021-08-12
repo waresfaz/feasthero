@@ -1,12 +1,16 @@
 import React from 'react';
 import { connect } from 'react-redux';
-import { Spinner } from 'react-bootstrap';
+import { Spinner, Row, Col } from 'react-bootstrap';
 
 import { getAllClasses } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
-import BookClassDetails from './components/book-class-details/book-class-details';
+import BookingDetails from './components/booking-details/booking-details';
+import BookingSummary from './components/booking-summary/booking-summary';
+import ClassSummary from './components/class-summary/class-summary';
+
+import './book-class.scss'
 
 /**
  * This component gathers the information needed to start a booking.
@@ -20,6 +24,7 @@ import BookClassDetails from './components/book-class-details/book-class-details
  * A session is a way to persistently store data belonging to a client on the server.
  * @link https://en.wikipedia.org/wiki/Session_(computer_science)
  */
+
 class BookClass extends React.Component {
     constructor(props) {
         super(props);
@@ -55,11 +60,19 @@ class BookClass extends React.Component {
 
         if (classData !== null) {
             if (classData === false)
-                return <p className='error'>Error loading class</p>
+                return <p className='text-danger text-center'>Error loading class</p>
             else
                 return (
                     <>
-                        <BookClassDetails {...this.props} classData={classData} />
+                        <ClassSummary classData={classData} chef={classData.chefs[0]} />
+                        <Row className='justify-content-center' id='booking-container'>
+                            <Col lg={5}>
+                                <BookingDetails classData={classData} />
+                            </Col>
+                            <Col lg={5}>
+                                <BookingSummary classData={classData} />
+                            </Col>
+                        </Row>
                     </>
                 )
         }

@@ -3,9 +3,10 @@ import { connect } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 
 import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
+import EditClass from './components/edit-class/edit-class'
+import DeleteClass from './components/delete-class/delete-class'
 
 import { getAllClasses } from '../../../services/chef/actions'
-import ChefClassOptions from './components/chef-class-options/chef-class-options'
 
 class ChefClass extends React.Component {
     constructor() {
@@ -35,8 +36,12 @@ class ChefClass extends React.Component {
         this.setState({ classData: classData });
     }
 
-    tryToRenderClassOptions = () => {
-        let { classData } = this.state;
+    errorLoadingClassData = () => {
+        return this.state.classData === false || this.state.classData === undefined;
+    }
+
+    render() {
+        const { classData } = this.state;
 
         if (classData !== null) {
             if (this.errorLoadingClassData())
@@ -44,7 +49,8 @@ class ChefClass extends React.Component {
             else
                 return (
                     <>
-                        <ChefClassOptions classData={classData} />
+                        <EditClass classData={classData} />
+                        <DeleteClass classData={classData} />
                     </>
                 )
         }
@@ -52,18 +58,6 @@ class ChefClass extends React.Component {
             <div className='d-flex justify-content-center'>
                 <Spinner animation='border' />
             </div>
-        )
-    }
-
-    errorLoadingClassData = () => {
-        return this.state.classData === false || this.state.classData === undefined;
-    }
-
-    render() {
-        return (
-            <>
-                {this.tryToRenderClassOptions()}
-            </>
         )
     }
 }

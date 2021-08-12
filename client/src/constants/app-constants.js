@@ -25,8 +25,12 @@ export const selectDropDownStyle = {
         ...base,
         boxShadow: 'none',
         borderRadius: '0.5rem',
-        padding: '0.9rem 0',
-        border: '1px solid #C7C8C8 !important'
+        padding: '0.8rem 0',
+        border: '1px solid #C7C8C8 !important',
+
+    }),
+    singleValue: () => ({
+        color: '#495057',
     }),
     dropdownIndicator: (base, state) => ({
         ...base,

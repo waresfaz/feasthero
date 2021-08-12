@@ -108,13 +108,13 @@
 }
 
 @mixin default-input {
-	box-shadow: none !important;
-	border: 1px solid $input-border !important;
-	border-radius: 0.5rem !important;
+	box-shadow: none;
+	border: 1px solid $input-border;
+	border-radius: 0.5rem;
 	padding-top: 2rem;
+	padding-bottom: 2rem;
 	font-size: 1.3rem;
 	font-weight: bold;
-	padding-bottom: 2rem;
 }
 
 @mixin v-center {

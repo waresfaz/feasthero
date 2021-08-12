@@ -1,10 +1,15 @@
 import React from 'react';
+import { Spinner, Container } from 'react-bootstrap';
 
 import { verifyBookingSuccess as verifyBookingSuccessRequest } from '../../services/booking/api';
 import { sessionActiveWrapper, statusEnum } from '../../helpers/session-active-wrapper';
+
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
-import BookingSuccessDetails from './components/booking-success-details/booking-success-details';
-import { Spinner } from 'react-bootstrap';
+import Checkmark from './components/checkmark/checkmark';
+import ShareConfirmation from './components/share-confirmation/share-confirmation';
+import ConfirmationDetails from './components/confirmation-details/confirmation-details';
+
+import './booking-success.scss';
 
 /**
  * This component displays the user's full order upon booking success.
@@ -53,11 +58,23 @@ class BookingSuccess extends React.Component {
         return this.state.bookingDetails && this.state.classData;
     }
 
-    tryToRenderBookingSuccessDetails = () => {
+    tryToRenderBookingSuccess = () => {
         if (this.state.error)
             return <p className='text-center text-danger'>{this.state.error}</p>
         if (this.dataHasLoaded())
-            return <BookingSuccessDetails classData={this.state.classData} bookingDetails={this.state.bookingDetails} {...this.props} />
+            return (
+                <div id='booking-success'>
+                    <div className='text-center'>
+                        <Checkmark />
+                        <h2 className='mt-2'>Class Booked Successfully!</h2>
+                        <p>An email will be sent shortly with your booking confirmation</p>
+                    </div>
+                    <Container id='booking-success-container'>
+                        <ConfirmationDetails {...this.props} />
+                        <ShareConfirmation />
+                    </Container>
+                </div>
+            )
 
         return (
             <div className='d-flex justify-content-center'>
@@ -70,7 +87,7 @@ class BookingSuccess extends React.Component {
         return (
             <>
                 <OrderProgressBar confirmation={true} />
-                {this.tryToRenderBookingSuccessDetails()}
+                {this.tryToRenderBookingSuccess()}
             </>
         )
     }
