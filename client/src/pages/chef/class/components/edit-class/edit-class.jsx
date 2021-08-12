@@ -60,6 +60,17 @@ class EditClass extends React.Component {
         return valid;
     }
 
+    classDataFromState = () => {
+        return {
+            title: this.state.title,
+            description: this.state.description,
+            duration: this.state.duration,
+            cost: this.state.cost,
+            mealKitCost: this.state.mealKitCost,
+            hasMealKit: this.state.hasMealKit,
+        }
+    }
+
     handleUpdateError = (errorResponse) => {
         if (this.requestErrorHasAdditionalInfo(errorResponse)) {
             this.setState({
@@ -76,17 +87,6 @@ class EditClass extends React.Component {
 
     requestErrorHasAdditionalInfo = (errorResponse) => {
         return (errorResponse.status === 400 || errorResponse.status === 409) && errorResponse.data['errors'];
-    }
-
-    classDataFromState = () => {
-        return {
-            title: this.state.title,
-            description: this.state.description,
-            duration: this.state.duration,
-            cost: this.state.cost,
-            mealKitCost: this.state.mealKitCost,
-            hasMealKit: this.state.hasMealKit,
-        }
     }
 
     handleChange = (evt) => {

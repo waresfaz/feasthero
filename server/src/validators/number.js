@@ -1,6 +1,6 @@
 class NumberValidator {
     static validate(value) {
-        if (typeof value !== Number)
+        if (typeof value === Number)
             return null;
         if (isNaN(value))
             return 'not a number';
