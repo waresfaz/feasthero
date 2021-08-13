@@ -12,6 +12,7 @@ import Button from '../../../../../components/button/button'
 import Loader from '../../../../../components/loader/loader'
 
 import './edit-class.scss'
+import classDataFromState from '../../../../../helpers/class-data-from-state';
 
 
 class EditClass extends React.Component {
@@ -38,7 +39,7 @@ class EditClass extends React.Component {
         if (!this.validate())
             return;
         this.setState({ loading: true });
-        const updateClassResponse = await updateClass(this.props.classData._id, this.classDataFromState());
+        const updateClassResponse = await updateClass(this.props.classData._id, classDataFromState(this.state));
         if (updateClassResponse.error)
             this.handleUpdateError(updateClassResponse.error);
         this.setState({ loading: false });
@@ -66,18 +67,6 @@ class EditClass extends React.Component {
             this.setState({ errors });
 
         return valid;
-    }
-
-    classDataFromState = () => {
-        return {
-            title: this.state.title,
-            description: this.state.description,
-            duration: this.state.duration,
-            costPerDevice: this.state.costPerDevice,
-            mealKitCost: this.state.mealKitCost,
-            hasMealKit: this.state.hasMealKit,
-            thumbnail: this.state.thumbnail,
-        }
     }
 
     handleUpdateError = (errorResponse) => {

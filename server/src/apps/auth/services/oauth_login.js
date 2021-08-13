@@ -12,13 +12,13 @@ class OAuthLoginService {
         try {
             ticket = await getOAuthTicket(this.token)
         } catch (e) {
-            return { status: StatusCodes.BAD_REQUEST, response: { token: 'invalid oauth token, please try again' } }
+            return { status: StatusCodes.BAD_REQUEST, errors: { errors: { token: 'invalid oauth token, please try again' } } };
         }
 
         const loginData = ticket.getPayload();
         this.account = await getAccountFromEmail(loginData.email);
         if (!this.account)
-            return { status: StatusCodes.NOT_FOUND, response: { email: 'email not found' } };
+            return { status: StatusCodes.NOT_FOUND, errors: { errors: { error: 'email not found' } } };
 
         return { status: StatusCodes.OK, account: this.account };
     }

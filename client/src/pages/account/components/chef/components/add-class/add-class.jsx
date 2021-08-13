@@ -13,6 +13,7 @@ import Button from '../../../../../../components/button/button';
 import './add-class.scss'
 import { connect } from 'react-redux';
 import { getAllClasses } from '../../../../../../services/chef/actions';
+import classDataFromState from '../../../../../../helpers/class-data-from-state';
 
 class AddClass extends React.Component {
     constructor() {
@@ -34,12 +35,14 @@ class AddClass extends React.Component {
     handleSubmit = async (evt) => {
         evt.preventDefault();
 
+        this.clearErrors();
+
         if (!this.validate())
             return;
 
         this.setState({ loading: true });
 
-        const newClassResponse = await newClass(this.classDataFromState());
+        const newClassResponse = await newClass(classDataFromState(this.state));
         if (newClassResponse.error)
             return this.handleAddError(newClassResponse.error);
 
@@ -49,7 +52,12 @@ class AddClass extends React.Component {
             loading: false,
             showModal: false,
         });
+    }
 
+    clearErrors = () => {
+        this.setState({
+            errors: {}
+        });
     }
 
     validate = () => {
@@ -68,18 +76,6 @@ class AddClass extends React.Component {
             this.setState({ errors });
 
         return valid;
-    }
-
-    classDataFromState = () => {
-        return {
-            title: this.state.title,
-            description: this.state.description,
-            duration: this.state.duration,
-            costPerDevice: this.state.costPerDevice,
-            mealKitCost: this.state.mealKitCost,
-            hasMealKit: this.state.hasMealKit,
-            thumbnail: this.state.thumbnail,
-        }
     }
 
     handleAddError = (errorResponse) => {
