@@ -11,7 +11,7 @@ const validateClassDataMiddleware = require('../../middleware/validate_class_dat
 
 classesRouter.get('/all', wait(allClasses));
 classesRouter.get('/filter', wait(filterClasses))
-classesRouter.post('/new', wait(newClass));
+classesRouter.post('/new', validateClassDataMiddleware, wait(newClass));
 classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
 classesRouter.patch('/class/:classId', wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, wait(updateClass))
 

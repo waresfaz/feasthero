@@ -5,11 +5,14 @@ import { updateClass } from '../../../../../services/classes/api';
 
 import BooleanValidator from '../../../../../validators/boolean';
 import NumberValidator from '../../../../../validators/number';
+import UrlValidator from '../../../../../validators/url';
+import NotEmptyValidator from '../../../../../validators/not-empty';
 
 import Button from '../../../../../components/button/button'
 import Loader from '../../../../../components/loader/loader'
 
 import './edit-class.scss'
+
 
 class EditClass extends React.Component {
     constructor(props) {
@@ -20,9 +23,10 @@ class EditClass extends React.Component {
             title: classData.title,
             description: classData.description,
             duration: classData.duration,
-            cost: classData.cost,
+            costPerDevice: classData.costPerDevice,
             mealKitCost: classData.mealKitCost,
             hasMealKit: classData.hasMealKit,
+            thumbnail: classData.thumbnail,
             errors: {},
             loading: false,
         }
@@ -49,7 +53,11 @@ class EditClass extends React.Component {
     validate = () => {
         let errors = {};
 
-        errors['cost'] = NumberValidator.validate(this.state.cost);
+        errors['title'] = NotEmptyValidator.validate(this.state.description);
+        errors['description'] = NotEmptyValidator.validate(this.state.description);
+        errors['thumbnail'] = UrlValidator.validate(this.state.thumbnail);
+        errors['costPerDevice'] = NumberValidator.validate(this.state.costPerDevice);
+        errors['duration'] = NumberValidator.validate(this.state.duration);
         errors['mealKitCost'] = NumberValidator.validate(this.state.mealKitCost);
         errors['hasMealKit'] = BooleanValidator.validate(this.state.hasMealKit);
 
@@ -65,9 +73,10 @@ class EditClass extends React.Component {
             title: this.state.title,
             description: this.state.description,
             duration: this.state.duration,
-            cost: this.state.cost,
+            costPerDevice: this.state.costPerDevice,
             mealKitCost: this.state.mealKitCost,
             hasMealKit: this.state.hasMealKit,
+            thumbnail: this.state.thumbnail,
         }
     }
 
@@ -91,6 +100,15 @@ class EditClass extends React.Component {
 
     handleChange = (evt) => {
         const { name, value } = evt.target;
+
+        this.setState({
+            [name]: value,
+        })
+    }
+
+    handleCheckBoxChange = (evt) => {
+        const { name } = evt.target;
+        let value = !this.state[name];
         this.setState({
             [name]: value,
         })
@@ -114,14 +132,19 @@ class EditClass extends React.Component {
                         <span className='text-danger'>{errors['description']}</span>
                     </Form.Group>
                     <Form.Group>
+                        <Form.Label>Thumbnail</Form.Label>
+                        <Form.Control onChange={this.handleChange} type='url' name='thumbnail' value={this.state.thumbnail} />
+                        <span className='text-danger'>{errors['thumbnail']}</span>
+                    </Form.Group>
+                    <Form.Group>
                         <Form.Label>Duration</Form.Label>
                         <Form.Control onChange={this.handleChange} type='number' name='duration' value={this.state.duration} />
                         <span className='text-danger'>{errors['duration']}</span>
                     </Form.Group>
                     <Form.Group>
-                        <Form.Label>Cost</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='number' name='cost' value={this.state.cost} />
-                        <span className='text-danger'>{errors['cost']}</span>
+                        <Form.Label>Cost Per Device</Form.Label>
+                        <Form.Control onChange={this.handleChange} type='number' name='costPerDevice' value={this.state.costPerDevice} />
+                        <span className='text-danger'>{errors['costPerDevice']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Meal Kit Cost</Form.Label>
@@ -130,7 +153,7 @@ class EditClass extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Offers Meal Kit</Form.Label>
-                        <Form.Check onChange={this.handleChange} name='hasMealKit' checked={this.state.hasMealKit} />
+                        <Form.Check onChange={this.handleCheckBoxChange} name='hasMealKit' checked={this.state.hasMealKit} />
                         <span className='text-danger'>{errors['hasMealKit']}</span>
                     </Form.Group>
                     <div className='w-100'>

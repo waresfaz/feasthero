@@ -1,7 +1,9 @@
 import React from 'react';
 
-import './chef-account.scss';
+import AddClass from './components/add-class/add-class';
 import Classes from './components/classes/classes';
+
+import './chef-account.scss';
 
 class ChefAccount extends React.Component {
     render() {
@@ -9,6 +11,7 @@ class ChefAccount extends React.Component {
             <>
                 <p>{JSON.stringify(this.props.account.accountData)}</p>
                 <Classes />
+                <AddClass />
             </>
         )
     }

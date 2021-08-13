@@ -23,9 +23,9 @@ class BookingSuccess extends React.Component {
     constructor() {
         super();
         this.state = {
-            bookingDetails: undefined,
-            classData: undefined,
-            error: undefined
+            bookingDetails: null,
+            classData: null,
+            error: null
         }
     }
 

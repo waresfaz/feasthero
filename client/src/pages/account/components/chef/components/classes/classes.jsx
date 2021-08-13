@@ -37,6 +37,7 @@ class Classes extends React.Component {
                         this.props.allClasses.map((classData) => {
                             return (
                                 <>
+                                    <p>{JSON.stringify(classData)}</p>
                                     <Button className='my-4 p-3' secondary to={`account/class/${classData._id}`}>Edit Class</Button>
                                 </>
                             )

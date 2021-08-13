@@ -4,6 +4,7 @@ export const FIND_CLASS = `${CLASSES_PATH}/find`;
 export const FILTER_CLASSES = `${CLASSES_PATH}/filter`
 export const DELETE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
 export const UPDATE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
+export const NEW_CLASS = `${CLASSES_PATH}/new`;
 
 const BOOKING_PATH = `/booking`;
 export const INIT_BOOKING_DETAILS_SESSION = `${BOOKING_PATH}/init-session`;

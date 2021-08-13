@@ -14,7 +14,21 @@
 
     .class-container-background {
         width: 100%;
+        height: 40vh;
         border-radius: 1.1rem;
+        object-fit: cover;
+
+        @include for-desktop {
+            height: 60vh;
+        }
+
+        @include for-tablet {
+            height: 50vh;
+        }
+
+        @include for-phone {
+            height: 35vh;
+        }
     }
 
     .chef-photo:hover {
@@ -96,7 +110,7 @@
 
         @include for-large-desktop {
             padding: 0.5rem;
-            top: 55%;
+            top: 60%;
         }
 
         @include for-desktop {

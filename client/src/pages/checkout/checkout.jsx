@@ -17,8 +17,8 @@ class Checkout extends React.Component {
     constructor() {
         super();
         this.state = {
-            bookingDetails: undefined,
-            error: undefined,
+            bookingDetails: null,
+            error: null,
         }
     }
 
