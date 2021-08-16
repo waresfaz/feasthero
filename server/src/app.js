@@ -19,6 +19,7 @@ const errorMiddleware = require('./middleware/error');
 const verifyApiTkn = require('./middleware/verify_api_tkn');
 const authRouter = require("./apps/auth/routes.js");
 const accountsRouter = require("./apps/accounts/routes.js");
+const upload = require("./middleware/upload_image.js");
 
 function init() {
   connectToDb();
@@ -33,6 +34,7 @@ function initMiddleware() {
   app.use(express.urlencoded({ extended: true }));
   app.use(errorMiddleware);
   app.use(cookieParser());
+  app.use(upload.any());
   app.use(session({
     secret: process.env.SESSION_SECRET,
     resave: false,

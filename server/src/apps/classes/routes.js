@@ -8,11 +8,13 @@ const deleteClass = require('./controllers/delete_class');
 const updateClass = require('./controllers/update_class');
 const verifyChefIsAccessingTheirClass = require('../../middleware/verify_chef_is_accessing_their_class');
 const validateClassDataMiddleware = require('../../middleware/validate_class_data');
+const upload = require('../../middleware/upload_image');
+const parseClassData = require('../../middleware/parse_class_data');
 
 classesRouter.get('/all', wait(allClasses));
 classesRouter.get('/filter', wait(filterClasses))
-classesRouter.post('/new', validateClassDataMiddleware, wait(newClass));
+classesRouter.post('/new', parseClassData, validateClassDataMiddleware, upload.single('thumbnail'), wait(newClass));
 classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
-classesRouter.patch('/class/:classId', wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, wait(updateClass))
+classesRouter.patch('/class/:classId', wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, upload.single('imageData.thumbnail'), wait(updateClass))
 
 module.exports = classesRouter;

@@ -1,6 +1,7 @@
 import feastHeroAxios from '../axios/feast-hero-axios';
 
 import { ALL_CLASSES, DELETE_CLASS_PREFIX, FILTER_CLASSES, NEW_CLASS, UPDATE_CLASS_PREFIX } from '../../constants/api-constants';
+import formDataFromObject from '../../helpers/form-data-from-object';
 
 async function fetchAllClasses() {
     const classesReponse = await feastHeroAxios.get(ALL_CLASSES, { withCredentials: true })
@@ -41,7 +42,7 @@ async function updateClass(id, newClassData) {
 }
 
 async function newClass(classData) {
-    const response = await feastHeroAxios.post(NEW_CLASS, { classData: classData }, { withCredentials: true })
+    const response = await feastHeroAxios.post(NEW_CLASS, formDataFromObject(classData), { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response }));
 

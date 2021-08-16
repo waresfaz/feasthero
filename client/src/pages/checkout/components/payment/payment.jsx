@@ -66,6 +66,7 @@ class Payment extends React.Component {
         }
 
         const bookingResponse = await sessionActiveWrapper(bookClass, cardTokenResponse.token.id, this.recaptchaRef.current.getValue());
+        this.resetReCaptcha();
         if (bookingResponse.status === statusEnum.error) {
             return this.handleBookingRequestError(bookingResponse.error);
         }
@@ -101,7 +102,9 @@ class Payment extends React.Component {
         return (errorResponse.status === 400) && errorResponse.data['errors'];
     }
 
-
+    resetReCaptcha = () => {
+        window.grecaptcha.reset();
+    }
 
     cardElementOptions = () => {
         return {

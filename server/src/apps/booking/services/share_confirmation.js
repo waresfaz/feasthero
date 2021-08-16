@@ -1,4 +1,4 @@
-const { getMessageTemplate, mailSender } = require('../../../helpers/send_email');
+const { getMessageTemplate, mailSender } = require('../../../services/send_email');
 const genCustomerBookingConfirmedData = require('../templates/customer_booking_confirmed_data');
 const customerBookingConfirmedEmailTemplate = require('../templates/customer_booking_confirmed_template');
 

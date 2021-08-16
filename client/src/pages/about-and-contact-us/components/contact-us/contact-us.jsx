@@ -28,6 +28,7 @@ class ContactUs extends React.Component {
       message: '',
       errors: {},
       loading: false,
+      successfullySentEmail: false,
     }
   }
 
@@ -35,7 +36,7 @@ class ContactUs extends React.Component {
     event.preventDefault();
 
     if (this.state.errors)
-      this.clearerrors();
+      this.clearErrors();
 
     const { name, email, subject, message } = this.state;
 
@@ -47,9 +48,9 @@ class ContactUs extends React.Component {
     });
 
     const response = await sendEmail(name, email, subject, message, this.recaptchaRef.current.getValue());
-    if (response.error) {
+    this.resetReCaptcha();
+    if (response.error) 
       return this.handleContactRequestError(response.error)
-    }
 
     this.setState({
       successfullySentEmail: true,
@@ -57,7 +58,7 @@ class ContactUs extends React.Component {
     });
   }
 
-  clearerrors = () => {
+  clearErrors = () => {
     this.setState({
       errors: {},
     })
@@ -101,6 +102,16 @@ class ContactUs extends React.Component {
     this.setState({
       [name]: value
     });
+  }
+
+  resetReCaptcha = () => {
+    window.grecaptcha.reset();
+  }
+
+  resetEmailSuccessfullySent = () => {
+    this.setState({
+      successfullySentEmail: false
+    })
   }
 
   render() {

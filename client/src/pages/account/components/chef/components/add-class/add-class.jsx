@@ -1,19 +1,18 @@
 import React from 'react'
 import { Form, Modal, Spinner } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import BooleanValidator from '../../../../../../validators/boolean';
 import NotEmptyValidator from '../../../../../../validators/not-empty';
 import NumberValidator from '../../../../../../validators/number';
-import UrlValidator from '../../../../../../validators/url';
 
 import { newClass } from '../../../../../../services/classes/api';
+import { getAllClasses } from '../../../../../../services/chef/actions';
+import classDataFromState from '../../../../../../helpers/class-data-from-state';
 
 import Button from '../../../../../../components/button/button';
 
 import './add-class.scss'
-import { connect } from 'react-redux';
-import { getAllClasses } from '../../../../../../services/chef/actions';
-import classDataFromState from '../../../../../../helpers/class-data-from-state';
 
 class AddClass extends React.Component {
     constructor() {
@@ -65,7 +64,7 @@ class AddClass extends React.Component {
 
         errors['title'] = NotEmptyValidator.validate(this.state.title);
         errors['description'] = NotEmptyValidator.validate(this.state.description);
-        errors['thumbnail'] = UrlValidator.validate(this.state.thumbnail);
+        errors['thumbnail'] = NotEmptyValidator.validate(this.state.thumbnail);
         errors['costPerDevice'] = NumberValidator.validate(this.state.costPerDevice);
         errors['duration'] = NumberValidator.validate(this.state.duration);
         errors['mealKitCost'] = NumberValidator.validate(this.state.mealKitCost);
@@ -109,6 +108,15 @@ class AddClass extends React.Component {
         this.setState({
             [name]: value,
         })
+    }
+
+    handleFileUploadChange = (evt) => {
+        const file = evt.target.files[0];
+        const { name } = evt.target;
+
+        this.setState({
+            [name]: file
+        });
     }
 
     showModal = () => {
@@ -158,11 +166,9 @@ class AddClass extends React.Component {
                             </Form.Group>
                             <Form.Group>
                                 <Form.Control
-                                    onChange={this.handleChange}
-                                    value={this.state.thumbnail}
-                                    type='text'
-                                    placeholder='thumbnail'
+                                    type='file'
                                     name='thumbnail'
+                                    onChange={this.handleFileUploadChange}
                                 />
                                 <span className='text-danger'>{errors['thumbnail']}</span>
                             </Form.Group>
@@ -199,7 +205,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Label>Offers Meal Kit</Form.Label>
                                 <Form.Check
-                                    onCheck={this.handleCheckBoxChange}
+                                    onChange={this.handleCheckBoxChange}
                                     value={this.state.hasMealKit}
                                     name='hasMealKit'
                                 />

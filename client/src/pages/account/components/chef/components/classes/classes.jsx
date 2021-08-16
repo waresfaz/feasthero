@@ -34,12 +34,12 @@ class Classes extends React.Component {
             return (
                 <>
                     {
-                        this.props.allClasses.map((classData) => {
+                        this.props.allClasses.map((classData, key) => {
                             return (
-                                <>
+                                <div key={key}>
                                     <p>{JSON.stringify(classData)}</p>
                                     <Button className='my-4 p-3' secondary to={`account/class/${classData._id}`}>Edit Class</Button>
-                                </>
+                                </div>
                             )
                         })
                     }
