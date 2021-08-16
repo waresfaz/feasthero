@@ -26,26 +26,16 @@ class ContactUs extends React.Component {
       subject: '',
       email: '',
       message: '',
-      formErrors: {},
+      errors: {},
       loading: false,
-      successfullySentEmail: null,
     }
   }
 
   handleSubmit = async (event) => {
     event.preventDefault();
 
-    if (this.state.formErrors)
-      this.clearFormErrors();
-
-    if (!this.recaptchaRef.current.getValue()) {
-      this.setState({
-        formErrors: {
-          recaptcha: 'Please submit the recaptcha'
-        }
-      });
-      return;
-    }
+    if (this.state.errors)
+      this.clearerrors();
 
     const { name, email, subject, message } = this.state;
 
@@ -56,12 +46,9 @@ class ContactUs extends React.Component {
       loading: true,
     });
 
-    if (!(await sendEmail(name, email, subject, message))) {
-      this.setState({
-        successfullySentEmail: false,
-        loading: false,
-      });
-      return;
+    const response = await sendEmail(name, email, subject, message, this.recaptchaRef.current.getValue());
+    if (response.error) {
+      return this.handleContactRequestError(response.error)
     }
 
     this.setState({
@@ -70,25 +57,43 @@ class ContactUs extends React.Component {
     });
   }
 
-  clearFormErrors = () => {
+  clearerrors = () => {
     this.setState({
-      formErrors: {},
+      errors: {},
     })
   }
 
   validate = (name, email, subject, message) => {
-    let formErrors = {};
+    let errors = {};
 
-    formErrors['name'] = NameValidator.validate(name)
-    formErrors['email'] = EmailValidator.validate(email);
-    formErrors['subject'] = NotEmptyValidator.validate(subject);
-    formErrors['message'] = NotEmptyValidator.validate(message);
+    errors['name'] = NameValidator.validate(name)
+    errors['email'] = EmailValidator.validate(email);
+    errors['subject'] = NotEmptyValidator.validate(subject);
+    errors['message'] = NotEmptyValidator.validate(message);
 
-    let valid = Object.values(formErrors).every(error => error === null);
+    let valid = Object.values(errors).every(error => error === null);
     if (!valid)
-      this.setState({ formErrors });
+      this.setState({ errors });
 
     return valid;
+  }
+
+  handleContactRequestError = (errorResponse) => {
+    console.log(errorResponse)
+    if (this.responseErrorHasMoreInfo(errorResponse))
+      this.setState({
+        errors: errorResponse.data['errors'],
+        loading: false
+      });
+    else
+      this.setState({
+        errors: { error: 'failed to send email' },
+        loading: false
+      })
+  }
+
+  responseErrorHasMoreInfo = (errorResponse) => {
+    return errorResponse.status === 400 && errorResponse.data['errors'];
   }
 
   handleFormChange = (event) => {
@@ -98,28 +103,8 @@ class ContactUs extends React.Component {
     });
   }
 
-  resetEmailSuccessfullySent = () => {
-    this.setState({
-      successfullySentEmail: null,
-    })
-  }
-
-  wasEmailSentSuccessfully() {
-    const { successfullySentEmail } = this.state;
-
-    if (successfullySentEmail === true)
-      return <h4 className='text-success'>Sent!</h4>
-    if (successfullySentEmail === true)
-      return <h4 className='text-danger'>Error, please try again</h4>
-    return <></>
-  }
-
-  shouldShowResultModal() {
-    return this.state.successfullySentEmail === true || this.state.successfullySentEmail === false
-  }
-
   render() {
-    const { formErrors, name, subject, email, message } = this.state;
+    const { errors, name, subject, email, message } = this.state;
 
     return (
       <>
@@ -130,9 +115,9 @@ class ContactUs extends React.Component {
             contentClassName='text-center p-5'
             centered
             onHide={this.resetEmailSuccessfullySent}
-            show={this.shouldShowResultModal()}
+            show={this.state.successfullySentEmail === true}
           >
-            {this.wasEmailSentSuccessfully()}
+            <h4 className='text-success'>Sent! We will get back to you shortly...</h4>
           </Modal>
           <Row className='justify-content-center'>
             <Col lg={8}>
@@ -153,7 +138,7 @@ class ContactUs extends React.Component {
                         value={email} name='email'
                         required size='lg' type='email'
                         placeholder='Email...' />
-                      <span className='text-danger'>{formErrors['email']}</span>
+                      <span className='text-danger'>{errors['email']}</span>
                     </Form.Group>
                   </Col>
                   <Col lg={6}>
@@ -163,7 +148,7 @@ class ContactUs extends React.Component {
                         value={name} name='name'
                         required size='lg' type='text'
                         placeholder='Name...' />
-                      <span className='text-danger'>{formErrors['name']}</span>
+                      <span className='text-danger'>{errors['name']}</span>
                     </Form.Group>
                   </Col>
                 </Row>
@@ -173,7 +158,7 @@ class ContactUs extends React.Component {
                     value={subject} name='subject'
                     required size='lg' type='text'
                     placeholder='Subject...' />
-                  <span className='text-danger'>{formErrors['subject']}</span>
+                  <span className='text-danger'>{errors['subject']}</span>
                 </Form.Group>
                 <Form.Group>
                   <Form.Control
@@ -181,15 +166,16 @@ class ContactUs extends React.Component {
                     value={message} name='message'
                     required size='lg' as='textarea'
                     placeholder='Your Message...' />
-                  <span className='text-danger'>{formErrors['message']}</span>
+                  <span className='text-danger'>{errors['message']}</span>
                 </Form.Group>
                 <Form.Group>
                   <ReCAPTCHA
                     ref={this.recaptchaRef}
                     sitekey={settings.RECAPTCHA_SITE_KEY}
                   />
-                  <span className='text-danger'>{formErrors['recaptcha']}</span>
+                  <span className='text-danger'>{errors['recaptcha']}</span>
                 </Form.Group>
+                <span className='text-danger'>{errors['error']}</span>
                 <Button isButton={true} type='submit'>Send</Button>
               </form>
             </Col>

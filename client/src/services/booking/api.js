@@ -26,8 +26,8 @@ export async function getBookingDetailsFromSession() {
     return response;
 }
 
-export async function bookClass(cardTokenId) {
-    const response = await feastHeroAxios.post(BOOK_CLASS, { 'cardTokenId': cardTokenId }, { withCredentials: true })
+export async function bookClass(cardTokenId, recaptchaData) {
+    const response = await feastHeroAxios.post(BOOK_CLASS, { 'cardTokenId': cardTokenId, 'recaptchaData': recaptchaData }, { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: didCorsFail(err) }));
 

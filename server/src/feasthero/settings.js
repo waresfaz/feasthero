@@ -14,12 +14,12 @@ let settings = {
 
 function initSettings() {
     require("dotenv").config();
-    
+
     if (process.env.DEBUG === 'true')
         settings.DEBUG = true;
     else
         settings.DEBUG = false;
-        
+
     settings.PORT = normalizePort(process.env.PORT || '8080');
 
     if (settings.DEBUG) {

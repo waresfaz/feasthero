@@ -8,8 +8,9 @@ const wait = require('../../middleware/async');
 const formatSelectedClassDateTime = require('../../middleware/format_selected_class_datetime')
 const isBookingDetailsSessionActive = require('../../middleware/is_booking_session_active');
 const shareConfirmation = require('./controllers/share_confirmation');
+const validateReCaptcha = require('../../middleware/validate_recaptcha');
 
-bookingRouter.post('/book', isBookingDetailsSessionActive, formatSelectedClassDateTime, wait(bookClass));
+bookingRouter.post('/book', validateReCaptcha, isBookingDetailsSessionActive, formatSelectedClassDateTime, wait(bookClass));
 bookingRouter.post('/init-session', initSession);
 bookingRouter.get('/details-from-session', isBookingDetailsSessionActive, getBookingDetailsFromSession);
 bookingRouter.get('/verify-success', isBookingDetailsSessionActive, wait(verifyBookingSuccess))

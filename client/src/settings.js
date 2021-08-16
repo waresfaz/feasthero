@@ -3,7 +3,6 @@ let settings = {
     SERVER_ORIGIN: '',
     STRIPE_PUBLISHABLE_KEY: '',
     STRIPE_SECRET_KEY: '',
-    RECAPTCHA_SECRET_KEY: '',
     RECAPTCHA_SITE_KEY: '',
     FEASTHERO_API_TOKEN: ''
 };
@@ -27,8 +26,7 @@ function initSettings() {
             SERVER_ORIGIN: process.env.REACT_APP_SERVER_ORIGIN,
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY_TEST,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY_TEST,
-            RECAPTCHA_SITE_KEY: '6LeIxAcTAAAAAJcZVRqyHh71UMIEGNQ_MXjiZKhI',
-            RECAPTCHA_SECRET_KEY: 'vFI1TnRWxMZNFuojJ4WifJWe',
+            RECAPTCHA_SITE_KEY: process.env.REACT_APP_RECAPTCHA_SITE_KEY,
         };
     } else {
         settings = {
@@ -37,7 +35,6 @@ function initSettings() {
             STRIPE_PUBLISHABLE_KEY: process.env.REACT_APP_STRIPE_PUBLISHABLE_KEY,
             STRIPE_SECRET_KEY: process.env.REACT_APP_STRIPE_SECRET_KEY,
             RECAPTCHA_SITE_KEY: process.env.REACT_APP_RECAPTCHA_SITE_KEY,
-            RECAPTCHA_SECRET_KEY: process.env.REACT_APP_RECAPTCHA_SECRET_KEY,
         };
     }
 
