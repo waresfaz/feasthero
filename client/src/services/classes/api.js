@@ -34,7 +34,7 @@ async function deleteClass(id) {
 }
 
 async function updateClass(id, newClassData) {
-    const response = await feastHeroAxios.patch(`${UPDATE_CLASS_PREFIX}/${id}`, { classData: newClassData }, { withCredentials: true })
+    const response = await feastHeroAxios.patch(`${UPDATE_CLASS_PREFIX}/${id}`, formDataFromObject(newClassData), { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response }));
 

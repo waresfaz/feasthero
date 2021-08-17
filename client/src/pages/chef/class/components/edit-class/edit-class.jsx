@@ -2,17 +2,16 @@ import React from 'react'
 import { Form } from 'react-bootstrap'
 
 import { updateClass } from '../../../../../services/classes/api';
+import classDataFromState from '../../../../../helpers/class-data-from-state';
 
 import BooleanValidator from '../../../../../validators/boolean';
 import NumberValidator from '../../../../../validators/number';
-import UrlValidator from '../../../../../validators/url';
 import NotEmptyValidator from '../../../../../validators/not-empty';
 
 import Button from '../../../../../components/button/button'
 import Loader from '../../../../../components/loader/loader'
 
 import './edit-class.scss'
-import classDataFromState from '../../../../../helpers/class-data-from-state';
 
 
 class EditClass extends React.Component {
@@ -27,7 +26,6 @@ class EditClass extends React.Component {
             costPerDevice: classData.costPerDevice,
             mealKitCost: classData.mealKitCost,
             hasMealKit: classData.hasMealKit,
-            thumbnail: classData.thumbnail,
             errors: {},
             loading: false,
         }
@@ -56,7 +54,6 @@ class EditClass extends React.Component {
 
         errors['title'] = NotEmptyValidator.validate(this.state.description);
         errors['description'] = NotEmptyValidator.validate(this.state.description);
-        errors['thumbnail'] = UrlValidator.validate(this.state.thumbnail);
         errors['costPerDevice'] = NumberValidator.validate(this.state.costPerDevice);
         errors['duration'] = NumberValidator.validate(this.state.duration);
         errors['mealKitCost'] = NumberValidator.validate(this.state.mealKitCost);
@@ -103,6 +100,15 @@ class EditClass extends React.Component {
         })
     }
 
+    handleFileUploadChange = (evt) => {
+        const file = evt.target.files[0];
+        const { name } = evt.target;
+
+        this.setState({
+            [name]: file
+        });
+    }
+
     render() {
         const { errors } = this.state;
 
@@ -122,7 +128,7 @@ class EditClass extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Label>Thumbnail</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='url' name='thumbnail' value={this.state.thumbnail} />
+                        <Form.Control type='file' name='thumbnail' onChange={this.handleFileUploadChange} />
                         <span className='text-danger'>{errors['thumbnail']}</span>
                     </Form.Group>
                     <Form.Group>
