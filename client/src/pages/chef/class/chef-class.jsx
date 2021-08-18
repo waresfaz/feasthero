@@ -7,6 +7,7 @@ import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
 import { getAllClasses } from '../../../services/chef/actions'
+import formatClassSchedule from '../../../helpers/format-class-schedule'
 
 class ChefClass extends React.Component {
     constructor() {
@@ -32,7 +33,7 @@ class ChefClass extends React.Component {
     }
 
     initClassData = (props) => {
-        const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
+        const classData = formatClassSchedule(props.allClasses.find(class_ => class_._id === props.match.params.id));
         this.setState({ classData: classData });
     }
 

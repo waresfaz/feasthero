@@ -32,7 +32,7 @@ class Faq extends React.Component {
                                     </Accordion.Collapse>
                                 </Card>
                                 <Card>
-                                    <Accordion.Toggle as={Card.Header} eventKey="1">
+                                    <Accordion.Toggle as={Card.Header} eventKey="2">
                                         Why do I have to cancel/reschedule 72 hours in advance?
                                 </Accordion.Toggle>
                                     <Accordion.Collapse eventKey="2">
