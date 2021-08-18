@@ -3,7 +3,9 @@ const Class = require("../apps/classes/schema/class");
 
 async function verifyChefIsAccessingTheirClass(req, res, next) {
     const account = req.session.account;
-    const classId = req.params.classId;
+    let classId = req.params.classId;
+    if (!classId)
+        classId = req.body.classId;
 
     const classes = await getAllClassesForAChef(account._id);
 

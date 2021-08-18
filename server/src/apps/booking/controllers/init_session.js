@@ -21,8 +21,10 @@ async function initSession(req, res) {
     let bookingDetailsFromBody = req.body;
     const bookingDetails = {
         ...bookingDetailsFromBody,
-        selectedClassDateTime: formatDateTime(bookingDetailsFromBody.selectedClassDateTime)
+        selectedClassDateTime: new Date(bookingDetailsFromBody.selectedClassDateTime)
     };
+
+    console.log(bookingDetails)
 
     const errors = await validate(bookingDetails);
     if (!isEmpty(errors))
@@ -32,10 +34,6 @@ async function initSession(req, res) {
     req.session.save();
 
     return res.status(StatusCodes.OK).send('ok');
-}
-
-function formatDateTime(dateTime) {
-    return new Date(dateTimeToMoment(dateTime))
 }
 
 async function validate(bookingDetails) {
