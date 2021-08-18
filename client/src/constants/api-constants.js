@@ -35,3 +35,6 @@ export const LOGOUT = `${AUTH_PATH}/logout`;
 
 const ACCOUNTS_PATH = '/accounts';
 export const GET_ACCOUNT =`${ACCOUNTS_PATH}/get-account`;
+
+const SCHEDULE_PATH = '/schedule'
+export const ADD_SCHEDULE = `${SCHEDULE_PATH}/add`

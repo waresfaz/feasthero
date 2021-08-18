@@ -10,6 +10,7 @@ import NotEmptyValidator from '../../../../../validators/not-empty';
 
 import Button from '../../../../../components/button/button'
 import Loader from '../../../../../components/loader/loader'
+import EditSchedule from './components/edit-schedule/edit-schedule';
 
 import './edit-class.scss'
 
@@ -113,50 +114,55 @@ class EditClass extends React.Component {
         const { errors } = this.state;
 
         return (
-            <section id='edit-class'>
-                <Loader show={this.state.loading} />
-                <form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                        <Form.Label>Title</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='text' name='title' value={this.state.title} />
-                        <span className='text-danger'>{errors['title']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Description</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='text' as='textarea' name='description' value={this.state.description} />
-                        <span className='text-danger'>{errors['description']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Thumbnail</Form.Label>
-                        <Form.Control type='file' name='thumbnail' onChange={this.handleFileUploadChange} />
-                        <span className='text-danger'>{errors['thumbnail']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Duration</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='number' name='duration' value={this.state.duration} />
-                        <span className='text-danger'>{errors['duration']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Cost Per Device</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='number' name='costPerDevice' value={this.state.costPerDevice} />
-                        <span className='text-danger'>{errors['costPerDevice']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Meal Kit Cost</Form.Label>
-                        <Form.Control onChange={this.handleChange} type='number' name='mealKitCost' value={this.state.mealKitCost} />
-                        <span className='text-danger'>{errors['mealKitCost']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Label>Offers Meal Kit</Form.Label>
-                        <Form.Check onChange={this.handleCheckBoxChange} name='hasMealKit' checked={this.state.hasMealKit} />
-                        <span className='text-danger'>{errors['hasMealKit']}</span>
-                    </Form.Group>
-                    <div className='w-100'>
-                        <span className='text-danger d-block text-center'>{errors['error']}</span>
-                    </div>
-                    <Button isButton={true} className='p-3 w-100'>Update</Button>
-                </form>
-            </section>
+            <>
+                <section id='edit-class'>
+                    <Loader show={this.state.loading} />
+                    <form onSubmit={this.handleSubmit}>
+                        <Form.Group>
+                            <Form.Label>Title</Form.Label>
+                            <Form.Control onChange={this.handleChange} type='text' name='title' value={this.state.title} />
+                            <span className='text-danger'>{errors['title']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Description</Form.Label>
+                            <Form.Control onChange={this.handleChange} type='text' as='textarea' name='description' value={this.state.description} />
+                            <span className='text-danger'>{errors['description']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Thumbnail</Form.Label>
+                            <Form.Control type='file' name='thumbnail' onChange={this.handleFileUploadChange} />
+                            <span className='text-danger'>{errors['thumbnail']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Duration</Form.Label>
+                            <Form.Control onChange={this.handleChange} type='number' name='duration' value={this.state.duration} />
+                            <span className='text-danger'>{errors['duration']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Cost Per Device</Form.Label>
+                            <Form.Control onChange={this.handleChange} type='number' name='costPerDevice' value={this.state.costPerDevice} />
+                            <span className='text-danger'>{errors['costPerDevice']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Meal Kit Cost</Form.Label>
+                            <Form.Control onChange={this.handleChange} type='number' name='mealKitCost' value={this.state.mealKitCost} />
+                            <span className='text-danger'>{errors['mealKitCost']}</span>
+                        </Form.Group>
+                        <Form.Group>
+                            <Form.Label>Offers Meal Kit</Form.Label>
+                            <Form.Check onChange={this.handleCheckBoxChange} name='hasMealKit' checked={this.state.hasMealKit} />
+                            <span className='text-danger'>{errors['hasMealKit']}</span>
+                        </Form.Group>
+                        <div className='w-100'>
+                            <span className='text-danger d-block text-center'>{errors['error']}</span>
+                        </div>
+                        <Button isButton={true} className='p-3 w-100'>Update</Button>
+                    </form>
+                </section>
+                <section className='mt-4'>
+                    <EditSchedule classData={this.props.classData} />
+                </section>
+            </>
         )
     }
 }

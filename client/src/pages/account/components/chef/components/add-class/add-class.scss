@@ -1,13 +1,6 @@
 @import '../../../../../../sass/mixins';
 
 #add-class-modal {
-    .modal-btn {
-        box-shadow: none;
-        font-size: 1rem;
-        width: auto;
-        padding: 0.35rem 1rem;
-    }
-
     input, textarea {
         @include default-input;
         font-size: 1rem;

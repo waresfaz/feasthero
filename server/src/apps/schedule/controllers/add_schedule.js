@@ -2,7 +2,7 @@ const Schedule = require('../schema/schedule');
 const { StatusCodes } = require("http-status-codes");
 
 async function addSchedule(req, res) {
-    let requestData = req.body.data;
+    let requestData = req.body;
     let schedule = new Schedule(requestData);
     return schedule
         .save()
@@ -12,7 +12,7 @@ async function addSchedule(req, res) {
         .catch((_) => {
             return res
                 .status(StatusCodes.BAD_REQUEST)
-                .send("schedule Booking Failed");
+                .json({ errors: { error: "schedule Booking Failed" } });
         });
 };
 

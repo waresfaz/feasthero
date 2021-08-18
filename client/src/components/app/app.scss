@@ -112,6 +112,17 @@ html {
     animation: spin 2s linear infinite;
 }
 
+.modal-btn {
+    box-shadow: none;
+    font-size: 1rem;
+    width: auto;
+    padding: 0.35rem 1rem;
+}
+
+.modal-btn:hover {
+    box-shadow: initial;
+}
+
 @keyframes spin {
     0% { transform: rotate(0deg); }
     100% { transform: rotate(360deg); }

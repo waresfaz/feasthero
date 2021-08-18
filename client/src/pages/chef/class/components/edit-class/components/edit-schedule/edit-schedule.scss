@@ -1,0 +1,23 @@
+#edit-schedule {
+    text-align: center;
+
+    .schedule {
+        background-color: #fff;
+    }
+
+    .trash {
+        color: #ff0000;
+    }
+
+    .plus {
+        color: #008000;
+    }
+
+    .show-add-schedule-modal-btn {
+        width: 100%;
+    }
+
+    .show-add-schedule-modal-btn:hover {
+        cursor: pointer;
+    }
+}
