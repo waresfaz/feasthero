@@ -1,4 +1,4 @@
-import { ADD_SCHEDULE } from "../../constants/api-constants";
+import { ADD_SCHEDULE, DELETE_SCHEDULE_PREFIX } from "../../constants/api-constants";
 import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function addSchedule(classId, dateTime) {
@@ -10,4 +10,12 @@ export async function addSchedule(classId, dateTime) {
         return false;
 
     return response.data;
+}
+
+export async function deleteSchedule(scheduleId) {
+    const response = await feastHeroAxios.delete(`${DELETE_SCHEDULE_PREFIX}/${scheduleId}`, { withCredentials: true })
+        .then((response) => response)
+        .catch((error) => ({ error: error.response }));
+
+    return response;
 }

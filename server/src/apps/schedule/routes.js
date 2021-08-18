@@ -5,8 +5,10 @@ const addSchedule = require('./controllers/add_schedule');
 const wait = require('../../middleware/async');
 const verifyChefIsAccessingTheirClass = require('../../middleware/verify_chef_is_accessing_their_class');
 const verifyUserIsChef = require('../../middleware/verify_user_is_chef');
+const deleteSchedule = require('./controllers/delete_schedule');
 
-scheduleRouter.get("/:classId", wait(getClassSchedule));
-scheduleRouter.post("/add", verifyUserIsChef, verifyChefIsAccessingTheirClass, wait(addSchedule));
+scheduleRouter.get('/:classId', wait(getClassSchedule));
+scheduleRouter.post('/add', verifyUserIsChef, verifyChefIsAccessingTheirClass, wait(addSchedule));
+scheduleRouter.delete('/:scheduleId', verifyUserIsChef, verifyChefIsAccessingTheirClass, wait(deleteSchedule));
 
 module.exports = scheduleRouter;

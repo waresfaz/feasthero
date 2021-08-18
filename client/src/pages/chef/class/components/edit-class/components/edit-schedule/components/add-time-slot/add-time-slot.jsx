@@ -1,3 +1,5 @@
+import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
@@ -8,16 +10,31 @@ import Button from '../../../../../../../../../components/button/button';
 import { getAllClasses } from '../../../../../../../../../services/chef/actions';
 import { addSchedule } from '../../../../../../../../../services/schedule/api';
 
+import './add-time-slot.scss';
 
-class AddScheduleModal extends React.Component {
+class AddTimeSlot extends React.Component {
     constructor() {
         super();
         this.state = {
             dateTime: null,
             errors: {},
             loading: false,
+            showAddTimeSlotModal: false,
         }
     }
+
+    showAddTimeSlotModal = () => {
+        this.setState({
+            showAddTimeSlotModal: true,
+        })
+    }
+
+    hideAddTimeSlotModal = () => {
+        this.setState({
+            showAddTimeSlotModal: false,
+        })
+    }
+
 
     startLoading = () => {
         this.setState({
@@ -37,7 +54,7 @@ class AddScheduleModal extends React.Component {
         })
     }
 
-    addSchedule = async () => {
+    addTimeSlot = async () => {
         this.startLoading();
         const response = await addSchedule(this.props.classId, this.state.dateTime);
         if (!response) {
@@ -50,13 +67,13 @@ class AddScheduleModal extends React.Component {
 
         this.props.getAllClasses();
         this.stopLoading();
-        this.props.hide();
+        this.hideAddTimeSlotModal();
     }
 
     render() {
         return (
-            <>
-                <Modal show={this.props.shouldShow} onHide={this.props.hide}>
+            <div id='add-time-slot'>
+                <Modal show={this.state.showAddTimeSlotModal} onHide={this.hideAddTimeSlotModal}>
                     <Modal.Header>
                         <Modal.Title>Add Schedule</Modal.Title>
                     </Modal.Header>
@@ -66,25 +83,28 @@ class AddScheduleModal extends React.Component {
                             <span className='text-danger'>{this.state.errors['error']}</span>
                         </div>
                         {
-                                this.state.loading
-                                    ?
-                                    <div className='d-flex mt-2 justify-content-center'>
-                                        <Spinner animation='border' />
-                                    </div>
-                                    :
-                                    <></>
-                            }
+                            this.state.loading
+                                ?
+                                <div className='d-flex mt-2 justify-content-center'>
+                                    <Spinner animation='border' />
+                                </div>
+                                :
+                                <></>
+                        }
                     </Modal.Body>
                     <Modal.Footer>
-                        <Button className='modal-btn' secondary onClick={this.props.hide}>
+                        <Button className='modal-btn' secondary onClick={this.hideAddTimeSlotModal}>
                             Close
                         </Button>
-                        <Button type='submit' onClick={this.addSchedule} className='modal-btn'>
+                        <Button type='submit' onClick={this.addTimeSlot} className='modal-btn'>
                             Add Schedule
                         </Button>
                     </Modal.Footer>
                 </Modal>
-            </>
+                <div id='add-time-slot-btn' onClick={this.showAddTimeSlotModal}>
+                    <FontAwesomeIcon className='plus' icon={faPlus} />
+                </div>
+            </div>
         );
     }
 }
@@ -95,4 +115,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddScheduleModal);
+export default connect(null, mapDispatchToProps)(AddTimeSlot);

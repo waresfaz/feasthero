@@ -38,3 +38,4 @@ export const GET_ACCOUNT =`${ACCOUNTS_PATH}/get-account`;
 
 const SCHEDULE_PATH = '/schedule'
 export const ADD_SCHEDULE = `${SCHEDULE_PATH}/add`
+export const DELETE_SCHEDULE_PREFIX = `${SCHEDULE_PATH}/`;

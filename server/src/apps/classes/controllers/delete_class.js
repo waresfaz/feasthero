@@ -6,9 +6,9 @@ async function deleteClass(req, res) {
 
     return await Class.deleteOne({ _id: classId }, function (err, doc) {
         if (!doc.acknowledged && doc.deletedCount !== 1)
-            return res.status(StatusCodes.BAD_REQUEST).json({ error: 'class does not exist' });
+            return res.status(StatusCodes.BAD_REQUEST).json({ errors: { error: 'class does not exist' } });
         if (err)
-            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: err });
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ errors: { error: err } });
         if (!err)
             return res.status(StatusCodes.OK).json('ok');
 
