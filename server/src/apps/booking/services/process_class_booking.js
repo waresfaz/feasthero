@@ -51,6 +51,7 @@ class ProcessClassBookingService {
     }
 
     async _bookSlot() {
+        console.log(this.bookingDetails);
         await Schedule.updateOne(
             {
                 classId: ObjectId(this.bookingDetails.classId),

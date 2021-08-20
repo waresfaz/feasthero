@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Button from '../../../../../../../../../components/button/button';
 
 import { getAllClasses } from '../../../../../../../../../services/chef/actions';
-import { addSchedule } from '../../../../../../../../../services/schedule/api';
+import { addTimeSlot } from '../../../../../../../../../services/schedule/api';
 
 import './add-time-slot.scss';
 
@@ -56,7 +56,7 @@ class AddTimeSlot extends React.Component {
 
     addTimeSlot = async () => {
         this.startLoading();
-        const response = await addSchedule(this.props.classId, this.state.dateTime);
+        const response = await addTimeSlot(this.props.classId, this.state.dateTime);
         if (!response) {
             this.setState({
                 errors: { error: 'error adding schedule' },

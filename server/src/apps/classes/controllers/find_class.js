@@ -1,7 +1,7 @@
 const findSingleClass = require('../services/find_class');
 
 async function findClass(req, res) {
-    let class_ = (await findSingleClass(req.params.id))[0];
+    const class_ = await findSingleClass(req.params.classId);
     return res.json(class_);
 };
 

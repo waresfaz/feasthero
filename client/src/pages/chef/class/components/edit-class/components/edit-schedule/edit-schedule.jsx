@@ -18,7 +18,7 @@ class EditSchedule extends React.Component {
                                 <div key={key} className='schedule'>
                                     <Row className='justify-content-center'>
                                         <Col sm={1}>
-                                            <DeleteTimeSlot timeSlotId={timeSlot._id} />
+                                            <DeleteTimeSlot classId={this.props.classData._id} timeSlotId={timeSlot._id} />
                                         </Col>
                                         <Col sm={4}>
                                             <p>{timeSlot.dateTime}</p>
@@ -28,10 +28,10 @@ class EditSchedule extends React.Component {
                             )
                         })
                     }
-                    <div>
-                        <AddTimeSlot classId={this.props.classData._id} />
-                    </div>
                 </section>
+                <div>
+                    <AddTimeSlot classId={this.props.classData._id} />
+                </div>
             </>
         )
     }

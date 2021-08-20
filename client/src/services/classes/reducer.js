@@ -1,4 +1,4 @@
-import { GET_CLASSES } from './types';
+import { GET_CLASS, GET_CLASSES } from './types';
 
 function classesReducer(state = [], action) {
     switch (action.type) {
@@ -7,6 +7,11 @@ function classesReducer(state = [], action) {
                 ...state,
                 allClasses: action.value
             };
+        case GET_CLASS:
+            return {
+                ...state,
+                selectedClass: action.value,
+            }
         default:
             return state;
     }

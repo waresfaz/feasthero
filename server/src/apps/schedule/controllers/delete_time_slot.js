@@ -1,10 +1,10 @@
 const { StatusCodes } = require("http-status-codes");
 const Schedule = require("../schema/schedule");
 
-async function deleteSchedule(req, res) {
-    const { scheduleId } = req.params;
+async function deleteTimeSlot(req, res) {
+    const { slotId } = req.params;
 
-    return await Schedule.findByIdAndDelete(scheduleId, null, function (err, doc) {
+    return await Schedule.deleteOne({ _id: slotId }, function (err, doc) {
         if (!doc.acknowledged && doc.deletedCount !== 1)
             return res.status(StatusCodes.BAD_REQUEST).json({ errors: { error: 'schedule does not exist' } });
         if (err)
@@ -14,4 +14,4 @@ async function deleteSchedule(req, res) {
     })
 }
 
-module.exports = deleteSchedule;
+module.exports = deleteTimeSlot;

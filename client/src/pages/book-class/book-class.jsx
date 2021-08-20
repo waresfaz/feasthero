@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
-import { getAllClasses } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
+import { getClass } from '../../services/classes/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -29,42 +29,31 @@ class BookClass extends React.Component {
     constructor(props) {
         super(props);
         props.reset();
-        this.state = {
-            classData: null,
-        }
     }
 
     componentDidMount() {
-        if (!this.props.allClasses) {
-            this.props.getAllClasses();
-        } else {
-            this.initClassData(this.props);
-        }
+        if (!this.props.selectedClass)
+            this.props.getClass(this.props.match.params.id);
+        else
+            this.props.updateClassId(this.props.selectedClass._id);
     }
 
     componentDidUpdate(prevProps) {
-        const hasChanged = this.props.allClasses !== prevProps.allClasses;
-        if (hasChanged) {
-            this.initClassData(this.props);
-        }
-    }
-
-    initClassData = (props) => {
-        const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
-        props.updateClassId(classData._id);
-        this.setState({ classData: classData });
+        const hasChanged = this.props.selectedClass !== prevProps.selectedClass;
+        if (hasChanged)
+            this.props.updateClassId(this.props.selectedClass._id);
     }
 
     classDataRequestHasCompleted = () => {
-        return this.state.classData !== null;
+        return this.props.selectedClass !== null && this.props.selectedClass !== undefined;
     }
 
     errorLoadingClassData = () => {
-        return this.state.classData === false || this.state.classData === undefined;
+        return this.props.selectedClass === false;
     }
 
     tryToRenderBooking() {
-        let { classData } = this.state;
+        const classData = this.props.selectedClass;
 
         if (this.classDataRequestHasCompleted()) {
             if (this.errorLoadingClassData())
@@ -107,15 +96,15 @@ class BookClass extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        allClasses: state.classes.allClasses,
+        selectedClass: state.classes.selectedClass,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllClasses: () => dispatch(getAllClasses()),
         reset: () => dispatch(reset()),
-        updateClassId: (classId) => dispatch(updateClassId(classId))
+        updateClassId: (classId) => dispatch(updateClassId(classId)),
+        getClass: (classId) => dispatch(getClass(classId))
     }
 }
 

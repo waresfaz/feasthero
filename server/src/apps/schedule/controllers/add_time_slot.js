@@ -1,7 +1,7 @@
 const Schedule = require('../schema/schedule');
 const { StatusCodes } = require("http-status-codes");
 
-async function addSchedule(req, res) {
+async function addTimeSlot(req, res) {
     let requestData = req.body;
     let schedule = new Schedule(requestData);
     return schedule
@@ -16,4 +16,4 @@ async function addSchedule(req, res) {
         });
 };
 
-module.exports = addSchedule;
+module.exports = addTimeSlot;

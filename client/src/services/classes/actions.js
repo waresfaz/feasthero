@@ -1,5 +1,5 @@
-import { GET_CLASSES } from './types';
-import { fetchAllClasses } from './api';
+import { GET_CLASS, GET_CLASSES } from './types';
+import { fetchAllClasses, getClass as getClassRequest } from './api';
 import asAction from '../../helpers/as-redux-action';
 
 function getAllClasses() {
@@ -9,4 +9,11 @@ function getAllClasses() {
     }
 }
 
-export { getAllClasses }
+function getClass(classId) {
+    return async (dispatch) => {
+        const classData = await getClassRequest(classId);
+        dispatch(asAction(GET_CLASS, classData));
+    }
+}
+
+export { getAllClasses, getClass }

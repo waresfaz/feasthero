@@ -1,10 +1,10 @@
 const CLASSES_PATH = `/classes`;
 export const ALL_CLASSES = `${CLASSES_PATH}/all`;
 export const ALL_CHEFS_CLASSES = `${CLASSES_PATH}/current-chef/all`;
-export const FIND_CLASS = `${CLASSES_PATH}/find`;
 export const FILTER_CLASSES = `${CLASSES_PATH}/filter`
 export const DELETE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
 export const UPDATE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
+export const FIND_CLASS_PREFIX = `${CLASSES_PATH}/class`;
 export const NEW_CLASS = `${CLASSES_PATH}/new`;
 
 const BOOKING_PATH = `/booking`;
@@ -37,5 +37,5 @@ const ACCOUNTS_PATH = '/accounts';
 export const GET_ACCOUNT =`${ACCOUNTS_PATH}/get-account`;
 
 const SCHEDULE_PATH = '/schedule'
-export const ADD_SCHEDULE = `${SCHEDULE_PATH}/add`
-export const DELETE_SCHEDULE_PREFIX = `${SCHEDULE_PATH}/`;
+export const ADD_TIME_SLOT = `${SCHEDULE_PATH}/add`
+export const DELETE_TIME_SLOT_PREFIX = `${SCHEDULE_PATH}`;
