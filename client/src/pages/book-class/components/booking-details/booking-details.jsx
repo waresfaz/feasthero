@@ -27,6 +27,7 @@ import './booking-details.scss';
 class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
+        console.log(props.classData)
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
         this.state = {
             loading: false,

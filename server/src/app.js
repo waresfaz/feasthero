@@ -11,7 +11,6 @@ const { settings } = require("./feasthero/settings.js");
 const classesRouter = require('./apps/classes/routes');
 const bookingRouter = require('./apps/booking/routes');
 const contactRouter = require('./apps/contact/routes');
-const scheduleRouter = require('./apps/schedule/routes');
 const subscribeRouter = require("./apps/subscribe/routes");
 const blogRouter = require('./apps/blog/routes');
 
@@ -51,7 +50,6 @@ function initRoutes() {
   app.use('/classes', classesRouter);
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
-  app.use('/schedule', scheduleRouter);
   app.use('/subscribe', subscribeRouter);
   app.use('/blog', blogRouter);
   app.use('/auth', authRouter);

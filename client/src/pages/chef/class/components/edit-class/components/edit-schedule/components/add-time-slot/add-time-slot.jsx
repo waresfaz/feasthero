@@ -8,7 +8,7 @@ import { connect } from 'react-redux';
 import Button from '../../../../../../../../../components/button/button';
 
 import { getAllClasses } from '../../../../../../../../../services/chef/actions';
-import { addTimeSlot } from '../../../../../../../../../services/schedule/api';
+import { addTimeSlot } from '../../../../../../../../../services/classes/api';
 
 import './add-time-slot.scss';
 

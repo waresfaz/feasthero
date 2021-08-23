@@ -1,4 +1,4 @@
-const Class = require("../schema/class");
+const Class = require("../schemas/class");
 const moment = require('moment-timezone');
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -68,43 +68,8 @@ class ClassQueryBuilder {
     }
 
     _buildScheduleQuery() {
-        if (this.includeScheduleVar) {
-            if (this.onlyIncludeBookableTimeSlotsVar) {
-                return {
-                    $lookup: {
-                        from: "schedules",
-                        as: "schedule",
-                        let: { id: "$_id" },
-                        pipeline: [
-                            {
-                                $match: {
-                                    "dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
-                                    $expr: {
-                                        $and: [
-                                            { $eq: ['$available', true] },
-                                            { $eq: ['$classId', '$$id'] },
-                                        ]
-                                    }
-                                }
-                            },
-                            {
-                                $sort: {
-                                    dateTime: 1
-                                },
-                            },
-                        ],
-                    },
-                }
-            }
-            return {
-                $lookup: {
-                    from: "schedules",
-                    localField: "_id",
-                    foreignField: "classId",
-                    as: "schedule",
-                },
-            }
-        }
+
+
         return { $match: {} }
     }
 
@@ -119,7 +84,7 @@ class ClassQueryBuilder {
     }
 
     _buildFilterByChefIdQuery() {
-        if (this.filterByChefIdVar) 
+        if (this.filterByChefIdVar)
             return {
                 $match: { chefId: ObjectId(this.filterByChefIdVar) },
             }
@@ -170,7 +135,17 @@ class ClassQueryBuilder {
             this._buildFilterByClassIdQuery(),
             this._buildFilterByChefIdQuery(),
             this._buildChefQuery(),
-            this._buildScheduleQuery(),
+            {
+                $unwind: '$schedule'
+            },
+            {
+                $match: {
+                    "schedule.dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
+                    $expr: {
+                        $eq: ['$schedule.avaliable', true]
+                    },
+                },
+            },
             this._buildSortScheduleQuery(),
         ]);
 

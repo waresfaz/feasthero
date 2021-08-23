@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const Class = require("../apps/classes/schema/class");
+const Class = require("../apps/classes/schemas/class");
 
 async function verifyChefIsAccessingTheirClass(req, res, next) {
     const account = req.session.account;

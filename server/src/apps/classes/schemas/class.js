@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 const ObjectId = Schema.ObjectId;
 
-const Schedule = require("../../schedule/schema/schedule").schema;
+const TimeSlot = require("./time_slot").schema;
 
 const Class = new Schema({
   title: String,
@@ -20,7 +20,7 @@ const Class = new Schema({
     default: 0,
   },
   schedule: {
-    type: [Schedule]
+    type: [TimeSlot]
   }
 });
 

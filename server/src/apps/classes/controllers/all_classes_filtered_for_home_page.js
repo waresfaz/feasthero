@@ -1,7 +1,7 @@
 const { StatusCodes } = require("http-status-codes");
 const ClassQueryBuilder = require('../services/query_builder');
 
-async function allClassesFilteredForBooking(_, res) {
+async function allClassesFilteredForHomePage(_, res) {
     const query = new ClassQueryBuilder().includeChef().hideImportantChefDetails();
     let classes = await query.run()
         .then((response) => response)
@@ -14,4 +14,4 @@ async function allClassesFilteredForBooking(_, res) {
 
 };
 
-module.exports = allClassesFilteredForBooking;
+module.exports = allClassesFilteredForHomePage;

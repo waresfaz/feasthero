@@ -1,5 +1,5 @@
 const Booking = require('../schema/booking');
-const Schedule = require('../../schedule/schema/schedule');
+const Class = require('../../classes/schemas/class');
 const { StatusCodes } = require("http-status-codes");
 const ProcessPaymentService = require('./process_payment');
 
@@ -43,30 +43,30 @@ class ProcessClassBookingService {
     }
 
     async _isClassBooked() {
-        let bookedTime = await Schedule.findOne({
+        let bookedTime = await Class.findOne({
             classId: ObjectId(this.bookingDetails.classId),
-            dateTime: this.bookingDetails.selectedClassDateTime,
+            "schedule.dateTime": this.bookingDetails.selectedClassDateTime,
         });
         return bookedTime.avaliable === false;
     }
 
     async _bookSlot() {
-        await Schedule.updateOne(
+        await Class.updateOne(
             {
                 classId: ObjectId(this.bookingDetails.classId),
-                dateTime: this.bookingDetails.selectedClassDateTime,
+                "schedule.dateTime": this.bookingDetails.selectedClassDateTime,
             },
             { available: false }
         );
     }
 
-async _saveBookedClass() {
-    let bookedClass = new Booking(this.bookingDetails);
-    return bookedClass
-        .save()
-        .then((bookedClass) => { return bookedClass._id })
-        .catch((_) => { return false });
-}
+    async _saveBookedClass() {
+        let bookedClass = new Booking(this.bookingDetails);
+        return bookedClass
+            .save()
+            .then((bookedClass) => { return bookedClass._id })
+            .catch((_) => { return false });
+    }
 }
 
 module.exports = ProcessClassBookingService;

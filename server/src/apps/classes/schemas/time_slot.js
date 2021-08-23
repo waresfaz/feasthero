@@ -1,9 +1,7 @@
 const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
-const ObjectId = mongoose.Types.ObjectId;
 
-let Schedule = new Schema({
-  classId: ObjectId,
+let TimeSlot = new Schema({
   dateTime: Date,
   available: {
     type: Boolean,
@@ -11,4 +9,4 @@ let Schedule = new Schema({
   },
 });
 
-module.exports = mongoose.model("Schedule", Schedule);
+module.exports = mongoose.model("TimeSlot", TimeSlot);
