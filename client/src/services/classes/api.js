@@ -1,10 +1,10 @@
 import feastHeroAxios from '../axios/feast-hero-axios';
 
-import { ALL_CLASSES_FILTERED_FOR_BOOKING, DELETE_CLASS_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX } from '../../constants/api-constants';
+import { GET_ALL_CLASSES_FOR_HOME_PAGE, DELETE_CLASS_PREFIX, FIND_CLASS_FILTERED_FOR_BOOKING_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX } from '../../constants/api-constants';
 import formDataFromObject from '../../helpers/form-data-from-object';
 
-async function getAllClassesForBooking() {
-    const classesReponse = await feastHeroAxios.get(ALL_CLASSES_FILTERED_FOR_BOOKING, { withCredentials: true })
+async function fetchAllClassesForHomePage() {
+    const classesReponse = await feastHeroAxios.get(GET_ALL_CLASSES_FOR_HOME_PAGE, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 
@@ -38,4 +38,16 @@ async function newClass(classData) {
     return response;
 }
 
-export { getAllClassesForBooking, deleteClass, updateClass, newClass };
+async function getClassForBooking(classId) {
+    const response = await feastHeroAxios.get(`${FIND_CLASS_FILTERED_FOR_BOOKING_PREFIX}/${classId}`, { withCredentials: true })
+        .then((response) => response)
+        .catch((_) => ({error: true}));
+
+
+    if (response.error)
+        return false;
+
+    return response.data
+}
+
+export { fetchAllClassesForHomePage, deleteClass, updateClass, newClass, getClassForBooking };

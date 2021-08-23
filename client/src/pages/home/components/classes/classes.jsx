@@ -1,27 +1,36 @@
 import React from 'react';
-import { connect } from 'react-redux';
 import { Row, Col } from 'react-bootstrap';
-
-import { getAllClassesForBooking } from '../../../../services/classes/actions';
 
 import ClassCard from './components/class-card/class-card';
 import Title from '../../../../components/title/title';
 
+import { fetchAllClassesForHomePage } from '../../../../services/classes/api';
+
 import './classes.scss';
 
 class Classes extends React.Component {
-    componentDidMount() {
-        this.props.getAllClasses();
+    constructor() {
+        super();
+        this.state = {
+            classes: null,
+        }
+    }
+
+    async componentDidMount() {
+        const classes = await fetchAllClassesForHomePage();
+        this.setState({
+            classes: classes,
+        })
     }
 
     tryToRenderAllClasses() {
-        const { allClasses } = this.props;
+        const { classes } = this.state;
 
-        if (allClasses) {
+        if (classes) {
             return (
                 <Row className='justify-content-center'>
                     {
-                        allClasses.map((classData, key) => {
+                        classes.map((classData, key) => {
                             return (
                                 <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
                                     <ClassCard classData={classData} />
@@ -33,7 +42,7 @@ class Classes extends React.Component {
             )
         }
 
-        if (allClasses === false)
+        if (classes === false)
             return <h4 className='text-center text-danger'>Error loading classes</h4>
 
         return <h4 className='text-center'>Loading...</h4>
@@ -50,16 +59,4 @@ class Classes extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        allClasses: state.classes.allClassesForBooking,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getAllClasses: () => dispatch(getAllClassesForBooking()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Classes);
+export default Classes;

@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
-import { getAllClassesForBooking } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
+import { getClassForBooking } from '../../services/classes/api';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -34,37 +34,24 @@ class BookClass extends React.Component {
         }
     }
 
-    componentDidMount() {
-        if (!this.props.allClasses) {
-            this.props.getAllClasses();
-        } else {
-            this.initClassData(this.props);
-        }
-    }
-
-    componentDidUpdate(prevProps) {
-        const hasChanged = this.props.allClasses !== prevProps.allClasses;
-        if (hasChanged) {
-            this.initClassData(this.props);
-        }
-    }
-
-    initClassData = (props) => {
-        const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
-        props.updateClassId(classData._id);
-        this.setState({ classData: classData });
+    async componentDidMount() {
+        const classData = await getClassForBooking(this.props.match.params.id);
+        this.setState({
+            classData: classData,
+        });
+        this.props.updateClassId(this.props.match.params.id);
     }
 
     classDataRequestHasCompleted = () => {
-        return this.state.classData !== null;
+        return this.state.classData !== null && this.state.classData !== undefined;
     }
 
     errorLoadingClassData = () => {
-        return this.state.classData === false || this.state.classData === undefined;
+        return this.state.selectedClass === false;
     }
 
     tryToRenderBooking() {
-        let { classData } = this.state;
+        const { classData } = this.state;
 
         if (this.classDataRequestHasCompleted()) {
             if (this.errorLoadingClassData())
@@ -105,18 +92,11 @@ class BookClass extends React.Component {
     }
 }
 
-const mapStateToProps = (state) => {
-    return {
-        allClasses: state.classes.allClassesForBooking,
-    }
-}
-
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllClasses: () => dispatch(getAllClassesForBooking()),
         reset: () => dispatch(reset()),
-        updateClassId: (classId) => dispatch(updateClassId(classId))
+        updateClassId: (classId) => dispatch(updateClassId(classId)),
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(BookClass);
+export default connect(null, mapDispatchToProps)(BookClass);
