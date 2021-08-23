@@ -1,7 +1,11 @@
 const Class = require("../schema/class");
+const mongoose = require("mongoose");
 const moment = require('moment-timezone');
+const Types = mongoose.Types;
 
-async function getAllClasses() {
+let ObjectId = Types.ObjectId;
+
+async function findClass(id) {
     const WEEK_FROM = moment
         .utc(new Date().toISOString())
         .tz('US/Eastern')
@@ -14,19 +18,14 @@ async function getAllClasses() {
         .add(12, 'w')
         .toDate();
 
-    return await Class.aggregate([
+    return (await Class.aggregate([
         {
-            $project: {
-                _id: 1,
-                title: 1,
-                costPerDevice: 1,
-                thumbnail: 1,
-                description: 1,
-                duration: 1,
-                chefId: 1,
-                hasMealKit: 1,
-                mealKitCost: 1,
+            $match: {
+                _id: new ObjectId(id),
             },
+        },
+        {
+            $limit: 1
         },
         {
             $lookup: {
@@ -56,12 +55,26 @@ async function getAllClasses() {
         {
             $lookup: {
                 from: "accounts",
-                localField: "chefId",
-                foreignField: "_id",
                 as: "chefs",
+                let: { chefId: "$chefId" },
+                pipeline: [
+                    {
+                        $match: {
+                            $expr: {
+                                $eq: ["$_id", "$$chefId"]
+                            }
+                        },
+                    },
+                    {
+                        '$project': {
+                            'profile.zoom': 0,
+                            'email': 0,
+                        }
+                    }
+                ]
             },
         },
-    ]);
+    ]))[0];
 }
 
-module.exports = getAllClasses;
+module.exports = findClass;

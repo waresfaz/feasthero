@@ -1,7 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const Booking = require('../schema/booking');
-const dateTimeToMoment = require('../../../helpers/date_time_to_moment');
-const findClass = require('../../classes/services/find_class');
+const findClass = require('../../classes/services/find_class_filtered_for_display');
 const ValidateBookingDetails = require('../services/validate_booking_details');
 const isEmpty = require('../../../helpers/is_empty');
 

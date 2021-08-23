@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const findClass = require('../../classes/services/find_class');
+const findClass = require('../../classes/services/find_class_unfiltered');
 const Booking = require('../schema/booking');
 
 async function verifyBookingSuccess(req, res) {

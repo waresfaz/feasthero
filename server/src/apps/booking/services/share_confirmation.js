@@ -13,7 +13,7 @@ async function shareConfirmation(emails, bookingDetails, classData) {
     msg.html = preAppendSignature(
         text,
         bookingDetails.customerFirstName);
-
+        
     await mailSender(msg);
 }
 

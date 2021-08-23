@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 
-const findClass = require('../../classes/services/find_class');
+const findClass = require('../../classes/services/find_class_unfiltered');
 const shareConfirmationService = require('../services/share_confirmation');
 
 /**
@@ -16,7 +16,7 @@ async function shareConfirmation(req, res) {
 
     return await shareConfirmationService(emailsToSendTo, bookingDetails, classData)
         .then((_) => res.status(StatusCodes.OK).json('ok'))
-        .catch((_) => res.status(StatusCodes.BAD_REQUEST).json({ error: 'error' }));
+        .catch((err) => { console.log(err); return res.status(StatusCodes.BAD_REQUEST).json({ error: 'error' }) });
 }
 
 module.exports = shareConfirmation;

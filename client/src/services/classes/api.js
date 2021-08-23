@@ -52,7 +52,7 @@ async function newClass(classData) {
 async function getClass(classId) {
     const response = await feastHeroAxios.get(`${FIND_CLASS_PREFIX}/${classId}`, { withCredentials: true })
         .then((response) => response)
-        .catch((err) => { console.log(err); return {error: true }});
+        .catch((_) => ({error: true}));
 
 
     if (response.error)

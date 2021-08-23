@@ -51,7 +51,6 @@ class ProcessClassBookingService {
     }
 
     async _bookSlot() {
-        console.log(this.bookingDetails);
         await Schedule.updateOne(
             {
                 classId: ObjectId(this.bookingDetails.classId),
@@ -61,13 +60,13 @@ class ProcessClassBookingService {
         );
     }
 
-    async _saveBookedClass() {
-        let bookedClass = new Booking(this.bookingDetails);
-        return bookedClass
-            .save()
-            .then((bookedClass) => { return bookedClass._id })
-            .catch((_) => { return false });
-    }
+async _saveBookedClass() {
+    let bookedClass = new Booking(this.bookingDetails);
+    return bookedClass
+        .save()
+        .then((bookedClass) => { return bookedClass._id })
+        .catch((_) => { return false });
+}
 }
 
 module.exports = ProcessClassBookingService;
