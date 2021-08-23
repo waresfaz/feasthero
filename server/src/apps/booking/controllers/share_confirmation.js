@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 
-const findClass = require('../../classes/services/find_class_unfiltered');
+const ClassQueryBuilder = require("../../classes/services/query_builder");
 const shareConfirmationService = require('../services/share_confirmation');
 
 /**
@@ -11,7 +11,8 @@ const shareConfirmationService = require('../services/share_confirmation');
  */
 async function shareConfirmation(req, res) {
     const bookingDetails = req.session.bookingDetails;
-    const classData = await findClass(bookingDetails.classId);
+    const query = new ClassQueryBuilder(bookingDetails.classId).filterByClassId().includeChef().onlyFirstIndex();
+    const classData = await query.run();
     const emailsToSendTo = req.body.emails;
 
     return await shareConfirmationService(emailsToSendTo, bookingDetails, classData)

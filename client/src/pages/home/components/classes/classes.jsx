@@ -4,7 +4,7 @@ import { Row, Col } from 'react-bootstrap';
 import ClassCard from './components/class-card/class-card';
 import Title from '../../../../components/title/title';
 
-import { fetchAllClasses } from '../../../../services/classes/api';
+import { fetchAllClassesForHomePage } from '../../../../services/classes/api';
 
 import './classes.scss';
 
@@ -17,8 +17,9 @@ class Classes extends React.Component {
     }
 
     async componentDidMount() {
+        const classes = await fetchAllClassesForHomePage();
         this.setState({
-            classes: await fetchAllClasses(),
+            classes: classes,
         })
     }
 

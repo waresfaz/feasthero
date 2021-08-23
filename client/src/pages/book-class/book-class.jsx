@@ -3,7 +3,7 @@ import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
 import { reset, updateClassId } from '../../services/booking/actions';
-import { getClass } from '../../services/classes/api';
+import { getClassForBookingPage } from '../../services/classes/api';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -35,9 +35,8 @@ class BookClass extends React.Component {
     }
 
     async componentDidMount() {
-        console.log(await getClass(this.props.match.params.id))
         this.setState({
-            classData: await getClass(this.props.match.params.id),
+            classData: await getClassForBookingPage(this.props.match.params.id),
         });
         this.props.updateClassId(this.props.match.params.id);
     }

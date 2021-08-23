@@ -1,11 +1,9 @@
 const { StatusCodes } = require('http-status-codes');
-const getAllChefsClasses = require("../services/chefs_classes");
+const ClassQueryBuilder = require('../services/query_builder');
 
 async function chefClasses(req, res) {
-    const chefId = req.session.account._id;
-
-    const classes = await getAllChefsClasses(chefId);
-
+    const query = new ClassQueryBuilder().filterByChefId(req.session.account._id).includeSchedule().sortSchedule();
+    const classes = await query.run();
     return res.status(StatusCodes.OK).json(classes);
 }
 

@@ -3,7 +3,7 @@ const customerBookingConfirmedEmailTemplate = require('../templates/customer_boo
 const genCustomerBookingConfirmedData = require('../templates/customer_booking_confirmed_data');
 const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_confirmed_template');
 const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed_data');
-const findClass = require('../../classes/services/find_class_unfiltered');
+const ClassQueryBuilder = require('../../classes/services/query_builder');
 
 class SendConfirmedEmails {
     constructor(bookingDetails) {
@@ -11,7 +11,8 @@ class SendConfirmedEmails {
     }
 
     async sendMailToChefAndCustomer() {
-        let classData = await findClass(this.bookingDetails.classId);
+        const query = new ClassQueryBuilder().filterByClassId(this.bookingDetails.classId).includeChef().onlyFirstIndex();
+        let classData = await query.run();
         await this._sendMailToCustomer(classData);
         await this._sendMailToChef(classData);
     }

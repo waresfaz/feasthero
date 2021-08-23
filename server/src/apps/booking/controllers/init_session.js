@@ -1,8 +1,8 @@
 const { StatusCodes } = require("http-status-codes");
 const Booking = require('../schema/booking');
-const findClass = require('../../classes/services/find_class_unfiltered');
 const ValidateBookingDetails = require('../services/validate_booking_details');
 const isEmpty = require('../../../helpers/is_empty');
+const ClassQueryBuilder = require('../../classes/services/query_builder');
 
 /**
  * This controller runs the system that is responsible for storing a client's booking
@@ -36,7 +36,8 @@ async function initSession(req, res) {
 }
 
 async function validate(bookingDetails) {
-    const classData = await findClass(bookingDetails.classId);
+    const query = new ClassQueryBuilder().filterByClassId(bookingDetails.classId).includeSchedule().onlyIncludeBookableTimeSlots().onlyFirstIndex();
+    const classData = await query.run();
     const validateBookingDetailsService = new ValidateBookingDetails(bookingDetails, classData);
     const errors = await validateBookingDetailsService.validate();
     return errors;

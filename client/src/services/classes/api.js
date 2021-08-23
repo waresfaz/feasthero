@@ -1,10 +1,10 @@
 import feastHeroAxios from '../axios/feast-hero-axios';
 
-import { ALL_CLASSES, DELETE_CLASS_PREFIX, FILTER_CLASSES, FIND_CLASS_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX } from '../../constants/api-constants';
+import { ALL_CLASSES_FOR_HOME_PAGE, DELETE_CLASS_PREFIX, FIND_CLASS_FOR_BOOKING_PAGE_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX } from '../../constants/api-constants';
 import formDataFromObject from '../../helpers/form-data-from-object';
 
-async function fetchAllClasses() {
-    const classesReponse = await feastHeroAxios.get(ALL_CLASSES, { withCredentials: true })
+async function fetchAllClassesForHomePage() {
+    const classesReponse = await feastHeroAxios.get(ALL_CLASSES_FOR_HOME_PAGE, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({ error: true }));
 
@@ -12,17 +12,6 @@ async function fetchAllClasses() {
         return false;
 
     return classesReponse.data;
-}
-
-async function filterClasses(filter, value) {
-    const response = await feastHeroAxios.get(`${FILTER_CLASSES}?filter=${filter}&value=${value}`)
-        .then((response) => response)
-        .catch((_) => ({ error: true }));
-
-    if (response.error)
-        return false;
-
-    return response.data;
 }
 
 async function deleteClass(id) {
@@ -49,8 +38,8 @@ async function newClass(classData) {
     return response;
 }
 
-async function getClass(classId) {
-    const response = await feastHeroAxios.get(`${FIND_CLASS_PREFIX}/${classId}`, { withCredentials: true })
+async function getClassForBookingPage(classId) {
+    const response = await feastHeroAxios.get(`${FIND_CLASS_FOR_BOOKING_PAGE_PREFIX}/${classId}`, { withCredentials: true })
         .then((response) => response)
         .catch((_) => ({error: true}));
 
@@ -61,4 +50,4 @@ async function getClass(classId) {
     return response.data
 }
 
-export { fetchAllClasses, filterClasses, deleteClass, updateClass, newClass, getClass };
+export { fetchAllClassesForHomePage, deleteClass, updateClass, newClass, getClassForBookingPage };
