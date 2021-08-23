@@ -1,8 +1,8 @@
-const getAllClassesForPreviewDisplay = require('../services/all_classes_for_preview_display');
+const getAllClassesFilteredForDisplay = require('../services/all_classes_filtered_for_display');
 const { StatusCodes } = require("http-status-codes");
 
-async function allClasses(_, res) {
-    let classes = await getAllClassesForPreviewDisplay()
+async function allClassesFilteredForDisplay(_, res) {
+    let classes = await getAllClassesFilteredForDisplay()
         .then((response) => response)
         .catch((error) => ({ error: error }));
 
@@ -13,4 +13,4 @@ async function allClasses(_, res) {
 
 };
 
-module.exports = allClasses;
+module.exports = allClassesFilteredForDisplay;
