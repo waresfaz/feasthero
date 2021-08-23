@@ -121,7 +121,7 @@ class ClassQueryBuilder {
     _buildFilterByChefIdQuery() {
         if (this.filterByChefIdVar) 
             return {
-                $match: { chefId: ObjectId(filterByChefIdVar) },
+                $match: { chefId: ObjectId(this.filterByChefIdVar) },
             }
 
         return { $match: {} }

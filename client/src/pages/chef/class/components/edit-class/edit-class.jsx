@@ -41,6 +41,7 @@ class EditClass extends React.Component {
         const updateClassResponse = await updateClass(this.props.classData._id, classDataFromState(this.state));
         if (updateClassResponse.error)
             this.handleUpdateError(updateClassResponse.error);
+            
         this.setState({ loading: false });
     }
 
