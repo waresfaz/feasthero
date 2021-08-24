@@ -16,11 +16,6 @@ const WEEK_TO = moment
 
 
 class ClassQueryBuilder {
-    includeSchedule() {
-        this.includeScheduleVar = true;
-        return this;
-    }
-
     onlyIncludeBookableTimeSlots() {
         this.onlyIncludeBookableTimeSlotsVar = true;
         return this;
@@ -56,22 +51,65 @@ class ClassQueryBuilder {
         return this;
     }
 
-    _buildSortScheduleQuery() {
-        if (this.sortSchedule)
-            return {
-                $sort: {
-                    "schedule.dateTime": 1,
-                },
-            }
+    _rebuildUnwind() {
+        return {
+            $group: {
+                '_id': '$_id',
+                'recipe': { '$first': '$recipe' },
+                'title': { '$first': '$title' },
+                'cost': { '$first': '$cost' },
+                'thumbnail': { '$first': '$thumbnail' },
+                'description': { '$first': '$description' },
+                'duration': { '$first': '$duration' },
+                'chefId': { '$first': '$chefId' },
+                'hasMealKit': { '$first': '$hasMealKit' },
+                'costPerDevice': { '$first': '$costPerDevice' },
+                'mealKitCost': { '$first': '$mealKitCost' },
+                'schedule': { '$push': '$schedule' },
+                'chefs': { '$first': '$chefs' }
 
-        return { $match: {} }
+            }
+        };
+    }
+
+    _emptyStage() {
+        return { $match: {} };
     }
 
     _buildScheduleQuery() {
+        if (this.onlyIncludeBookableTimeSlotsVar || this.sortScheduleVar) {
+            return [
+                {
+                    $unwind: '$schedule'
+                },
+                this.onlyIncludeBookableTimeSlotsVar
+                    ?
+                    {
+                        $match: {
+                            "schedule.dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
+                            $expr: {
+                                $eq: ['$schedule.avaliable', true]
+                            },
+                        },
+                    }
+                    :
+                    this._emptyStage(),
+                this.sortScheduleVar
+                    ?
+                    {
+                        $sort: {
+                            'schedule.dateTime': 1
+                        }
+                    }
+                    :
+                    this._emptyStage(),
+                this._rebuildUnwind(),
+            ]
+        }
 
-
-        return { $match: {} }
+        return [this._emptyStage()]
     }
+
 
     _buildFilterByClassIdQuery() {
         if (this.filterByClassIdVar)
@@ -80,7 +118,7 @@ class ClassQueryBuilder {
                     _id: ObjectId(this.filterByClassIdVar),
                 }
             }
-        return { $match: {} }
+        return this._emptyStage()
     }
 
     _buildFilterByChefIdQuery() {
@@ -127,7 +165,7 @@ class ClassQueryBuilder {
                 },
             }
         }
-        return { $match: {} }
+        return this._emptyStage()
     }
 
     async run() {
@@ -135,18 +173,7 @@ class ClassQueryBuilder {
             this._buildFilterByClassIdQuery(),
             this._buildFilterByChefIdQuery(),
             this._buildChefQuery(),
-            {
-                $unwind: '$schedule'
-            },
-            {
-                $match: {
-                    "schedule.dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
-                    $expr: {
-                        $eq: ['$schedule.avaliable', true]
-                    },
-                },
-            },
-            this._buildSortScheduleQuery(),
+            ...this._buildScheduleQuery(),
         ]);
 
         return this.onlyFirstIndexVar ? result[0] : result;

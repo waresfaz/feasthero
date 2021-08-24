@@ -1,5 +1,6 @@
 const CLASSES_PATH = `/classes`;
 export const ALL_CLASSES_FILTERED_FOR_BOOKING = `${CLASSES_PATH}/for-booking/all`;
+export const FIND_CLASS_FOR_BOOKING_PAGE_PREFIX = `${CLASSES_PATH}/for-booking/class`;
 export const ALL_CHEFS_CLASSES = `${CLASSES_PATH}/current-chef/all`;
 export const DELETE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
 export const UPDATE_CLASS_PREFIX = `${CLASSES_PATH}/class`;

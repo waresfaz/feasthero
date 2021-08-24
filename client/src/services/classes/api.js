@@ -1,6 +1,6 @@
 import feastHeroAxios from '../axios/feast-hero-axios';
 
-import { ALL_CLASSES_FILTERED_FOR_BOOKING, DELETE_CLASS_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX, ADD_TIME_SLOT_PREFIX, DELETE_TIME_SLOT_PREFIX } from '../../constants/api-constants';
+import { ALL_CLASSES_FILTERED_FOR_BOOKING, DELETE_CLASS_PREFIX, NEW_CLASS, UPDATE_CLASS_PREFIX, ADD_TIME_SLOT_PREFIX, DELETE_TIME_SLOT_PREFIX, FIND_CLASS_FOR_BOOKING_PAGE_PREFIX } from '../../constants/api-constants';
 import formDataFromObject from '../../helpers/form-data-from-object';
 
 async function getAllClassesForBooking() {
@@ -57,4 +57,16 @@ async function deleteTimeSlot(timeSlotId, classId) {
     return response;
 }
 
-export { getAllClassesForBooking, deleteClass, updateClass, newClass, addTimeSlot, deleteTimeSlot };
+async function getClassForBooking(classId) {
+    const response = await feastHeroAxios.get(`${FIND_CLASS_FOR_BOOKING_PAGE_PREFIX}/${classId}`, { withCredentials: true })
+        .then((response) => response)
+        .catch((_) => ({ error: true }));
+
+
+    if (response.error)
+        return false;
+
+    return response.data
+}
+
+export { getAllClassesForBooking, deleteClass, updateClass, newClass, addTimeSlot, deleteTimeSlot, getClassForBooking };

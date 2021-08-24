@@ -11,6 +11,7 @@ import BookingSummary from './components/booking-summary/booking-summary';
 import ClassSummary from './components/class-summary/class-summary';
 
 import './book-class.scss'
+import { getClassForBooking } from '../../services/classes/api';
 
 /**
  * This component gathers the information needed to start a booking.
@@ -34,24 +35,20 @@ class BookClass extends React.Component {
         }
     }
 
-    componentDidMount() {
+    async componentDidMount() {
         if (!this.props.allClasses) {
-            this.props.getAllClasses();
+            const classData = await getClassForBooking(this.props.match.params.id);
+            this.setState({
+                classData: classData,
+            });
         } else {
-            this.initClassData(this.props);
+            this.classDataFromAllClasses();
         }
     }
 
-    componentDidUpdate(prevProps) {
-        const hasChanged = this.props.allClasses !== prevProps.allClasses;
-        if (hasChanged) {
-            this.initClassData(this.props);
-        }
-    }
-
-    initClassData = (props) => {
-        const classData = props.allClasses.find(class_ => class_._id === props.match.params.id)
-        props.updateClassId(classData._id);
+    classDataFromAllClasses = () => {
+        const classData = this.props.allClasses.find(class_ => class_._id === this.props.match.params.id)
+        this.props.updateClassId(classData._id);
         this.setState({ classData: classData });
     }
 
