@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const ClassQueryBuilder = require("../../classes/services/query_builder");
+const ClassQueryBuilder = require("../../classes/services/class_query_builder");
 const Booking = require('../schema/booking');
 
 async function verifyBookingSuccess(req, res) {
@@ -8,7 +8,6 @@ async function verifyBookingSuccess(req, res) {
     if (bookingDetailsFromDoc) {
         const query = new ClassQueryBuilder().filterByClassId(bookingDetailsFromDoc.classId).includeChef().onlyFirstIndex();
         const classData = await query.run();
-        console.log(classData)
         return res.status(StatusCodes.OK).json({ bookingDetails: bookingDetailsFromDoc, classData: classData });
     }
 

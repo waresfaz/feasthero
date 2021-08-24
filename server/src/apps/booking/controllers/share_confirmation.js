@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 
-const ClassQueryBuilder = require("../../classes/services/query_builder");
+const ClassQueryBuilder = require("../../classes/services/class_query_builder");
 const shareConfirmationService = require('../services/share_confirmation');
 
 /**

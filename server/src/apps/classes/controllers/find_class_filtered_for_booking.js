@@ -1,5 +1,5 @@
 
-const ClassQueryBuilder = require('../services/query_builder');
+const ClassQueryBuilder = require('../services/class_query_builder');
 
 async function findClassFilteredForBooking(req, res) {
     const query = new ClassQueryBuilder().

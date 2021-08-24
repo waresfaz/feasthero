@@ -88,7 +88,7 @@ class ClassQueryBuilder {
                         $match: {
                             "schedule.dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
                             $expr: {
-                                $eq: ['$schedule.avaliable', true]
+                                $eq: ['$schedule.available', true]
                             },
                         },
                     }

@@ -80,7 +80,6 @@ class ContactUs extends React.Component {
   }
 
   handleContactRequestError = (errorResponse) => {
-    console.log(errorResponse)
     if (this.responseErrorHasMoreInfo(errorResponse))
       this.setState({
         errors: errorResponse.data['errors'],

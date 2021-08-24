@@ -3,7 +3,6 @@ const Class = require('../../classes/schemas/class');
 const { StatusCodes } = require("http-status-codes");
 const ProcessPaymentService = require('./process_payment');
 
-const ObjectId = require("mongoose").Types.ObjectId;
 
 class ProcessClassBookingService {
     constructor(bookingDetails, cardTokenId) {
@@ -11,18 +10,18 @@ class ProcessClassBookingService {
         this.bookingDetails = bookingDetails;
     }
 
-    async process() {
+    async book() {
         if (await this._isClassBooked()) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: `${this.bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
+                errors: { errors: { booking: `${dateTimeToMoment(new Date(this.bookingDetails.selectedClassDateTime))} time slot is unavailable , please select a different slot` } }
             };
         }
 
         if ((await this.processPayment.process()) === false) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: 'payment failed'
+                errors: { errors: { payment: 'payment failed' } }
             }
         }
 
@@ -32,7 +31,7 @@ class ProcessClassBookingService {
         if (!bookedClass) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: 'class booking failed'
+                errors: { errors: { booking: 'class booking failed' } }
             }
         } else {
             return {
@@ -43,20 +42,17 @@ class ProcessClassBookingService {
     }
 
     async _isClassBooked() {
-        let bookedTime = await Class.findOne({
-            classId: ObjectId(this.bookingDetails.classId),
-            "schedule.dateTime": this.bookingDetails.selectedClassDateTime,
-        });
-        return bookedTime.avaliable === false;
+        const bookedTimeSlot = await Class.findOne(
+            { _id: this.bookingDetails.classId, },
+            { 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } }
+        ).then((doc) => doc.schedule[0])
+        return bookedTimeSlot.available === false;
     }
 
     async _bookSlot() {
         await Class.updateOne(
-            {
-                classId: ObjectId(this.bookingDetails.classId),
-                "schedule.dateTime": this.bookingDetails.selectedClassDateTime,
-            },
-            { available: false }
+            { _id: this.bookingDetails.classId, 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } },
+            { '$set': { 'schedule.$.available': false } },
         );
     }
 

@@ -2,7 +2,7 @@ const { StatusCodes } = require("http-status-codes");
 const Booking = require('../schema/booking');
 const ValidateBookingDetails = require('../services/validate_booking_details');
 const isEmpty = require('../../../helpers/is_empty');
-const ClassQueryBuilder = require('../../classes/services/query_builder');
+const ClassQueryBuilder = require('../../classes/services/class_query_builder');
 
 /**
  * This controller runs the system that is responsible for storing a client's booking
@@ -23,8 +23,6 @@ async function initSession(req, res) {
         selectedClassDateTime: new Date(bookingDetailsFromBody.selectedClassDateTime)
     };
 
-    console.log(bookingDetails)
-
     const errors = await validate(bookingDetails);
     if (!isEmpty(errors))
         return res.status(StatusCodes.BAD_REQUEST).json({ errors: errors });
@@ -38,7 +36,6 @@ async function initSession(req, res) {
 async function validate(bookingDetails) {
     const query = new ClassQueryBuilder().filterByClassId(bookingDetails.classId).onlyIncludeBookableTimeSlots().onlyFirstIndex();
     const classData = await query.run();
-    console.log(classData);
     const validateBookingDetailsService = new ValidateBookingDetails(bookingDetails, classData);
     const errors = await validateBookingDetailsService.validate();
     return errors;

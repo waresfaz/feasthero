@@ -27,7 +27,6 @@ import './booking-details.scss';
 class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
-        console.log(props.classData)
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
         this.state = {
             loading: false,
@@ -69,7 +68,6 @@ class BookingDetails extends React.Component {
     validate = () => {
         let errors = {};
         const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
-
         errors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
         errors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
         errors['customerEmail'] = EmailValidator.validate(customerEmail);
@@ -84,7 +82,7 @@ class BookingDetails extends React.Component {
         if (!valid)
             this.setState({ errors });
 
-        return true;
+        return valid;
     }
 
     doesMealKitCheckHaveError = () => {

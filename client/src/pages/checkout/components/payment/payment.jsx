@@ -162,6 +162,7 @@ class Payment extends React.Component {
                             <button className='pay-btn mat-btn mt-3 danger' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
                                 Cancel
                             </button>
+                            <span className='text-danger d-block text-center'>{this.state.errors['booking']}</span>
                             <span className='text-danger d-block text-center'>{this.state.errors['payment']}</span>
                         </Form.Group>
                         <Row className='secure-checkout'>

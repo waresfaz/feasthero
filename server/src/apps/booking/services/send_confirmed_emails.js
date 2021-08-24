@@ -3,7 +3,7 @@ const customerBookingConfirmedEmailTemplate = require('../templates/customer_boo
 const genCustomerBookingConfirmedData = require('../templates/customer_booking_confirmed_data');
 const chefBookingConfirmedEmailTemplate = require('../templates/chef_booking_confirmed_template');
 const genChefBookingConfirmedData = require('../templates/chef_booking_confirmed_data');
-const ClassQueryBuilder = require('../../classes/services/query_builder');
+const ClassQueryBuilder = require('../../classes/services/class_query_builder');
 
 class SendConfirmedEmails {
     constructor(bookingDetails) {

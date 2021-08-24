@@ -38,6 +38,7 @@ class BookClass extends React.Component {
     async componentDidMount() {
         if (!this.props.allClasses) {
             const classData = await getClassForBooking(this.props.match.params.id);
+            this.props.updateClassId(classData._id);
             this.setState({
                 classData: classData,
             });

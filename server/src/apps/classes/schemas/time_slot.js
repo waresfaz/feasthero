@@ -3,10 +3,7 @@ const Schema = mongoose.Schema;
 
 let TimeSlot = new Schema({
   dateTime: Date,
-  available: {
-    type: Boolean,
-    default: true,
-  },
+  available: Boolean,
 });
 
 module.exports = mongoose.model("TimeSlot", TimeSlot);

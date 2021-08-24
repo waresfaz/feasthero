@@ -14,13 +14,13 @@ async function processBooking(req, res) {
     let bookingDetails = req.session.bookingDetails;
 
     const bookingService = new ProcessBookingService(bookingDetails, req.body.cardTokenId)
-    const bookingResult = await bookingService.process();
+    const bookingResult = await bookingService.book();
 
     if (bookingResult.statusCode === StatusCodes.OK) {
         putBookingIdInSession(req.session, bookingResult);
     }
 
-    return res.status(bookingResult.statusCode).json(bookingResult.info);
+    return res.status(bookingResult.statusCode).json(bookingResult.errors);
 };
 
 function putBookingIdInSession(session, bookingResult) {

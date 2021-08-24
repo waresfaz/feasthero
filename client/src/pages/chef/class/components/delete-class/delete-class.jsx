@@ -34,7 +34,6 @@ class DeleteClass extends React.Component {
     }
 
     errorHasMoreInfo(errorResponse) {
-        console.log(errorResponse);
         return (errorResponse.status === 400 || errorResponse.status === 401) && errorResponse.data['errors'];
     }
 

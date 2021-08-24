@@ -1,5 +1,5 @@
 const { StatusCodes } = require('http-status-codes');
-const ClassQueryBuilder = require('../services/query_builder');
+const ClassQueryBuilder = require('../services/class_query_builder');
 
 async function chefClasses(req, res) {
     const query = new ClassQueryBuilder().filterByChefId(req.session.account._id).sortSchedule();
