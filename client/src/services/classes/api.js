@@ -39,9 +39,9 @@ async function newClass(classData) {
 }
 
 async function addTimeSlot(classId, dateTime) {
-    const response = await feastHeroAxios.post(ADD_TIME_SLOT_PREFIX, { dateTime: dateTime, classId: classId }, { withCredentials: true })
+    const response = await feastHeroAxios.post(`${ADD_TIME_SLOT_PREFIX}/${classId}`, { dateTime: dateTime, available: true }, { withCredentials: true })
         .then((response) => response)
-        .catch((_) => ({ error: true }));
+        .catch((err) => { console.log(err); return { error: true }});
 
     if (response.error)
         return false;

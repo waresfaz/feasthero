@@ -2,14 +2,20 @@ import React from 'react';
 import { Col, Container, Image, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
+import { connect } from 'react-redux'
 
 import getChefFullName from '../../../../../../helpers/get-chef-full-name'
+import { setCurrentClass } from '../../../../../../services/classes/actions';
 
 import Button from '../../../../../../components/button/button';
 
 import './class-card.scss';
 
 class ClassCard extends React.Component {
+    handleSelect = () => {
+        this.props.setCurrentClass(this.props.classData);
+    }
+
     render() {
         const classData = this.props.classData;
         return (
@@ -62,11 +68,11 @@ class ClassCard extends React.Component {
                                     <span>
                                         {classData.duration} Hrs | ${classData.costPerDevice}
                                     </span>{" "}
-                                per device
+                                    per device
                                 </h6>
                             </Col>
                             <Col className='ml-auto align-self-center' md={4} lg={4} xl={4}>
-                                <Button to={`book/${classData._id}`} primary={true} >
+                                <Button to={`book/${classData._id}`} onClick={this.handleSelect} primary={true} >
                                     <>
                                         Book Now <FontAwesomeIcon size={'sm'} icon={faArrowRight} />
                                     </>
@@ -81,4 +87,10 @@ class ClassCard extends React.Component {
 }
 
 
-export default ClassCard;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        setCurrentClass: (classData) => dispatch(setCurrentClass(classData))
+    }
+}
+
+export default connect(null, mapDispatchToProps)(ClassCard);

@@ -3,12 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
-import { connect } from 'react-redux';
 
 import Button from '../../../../../../../../../components/button/button';
 
-import { getAllClasses } from '../../../../../../../../../services/chef/actions';
-import { addTimeSlot } from '../../../../../../../../../services/classes/api';
+import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/classes/api';
 
 import './add-time-slot.scss';
 
@@ -56,7 +54,7 @@ class AddTimeSlot extends React.Component {
 
     addTimeSlot = async () => {
         this.startLoading();
-        const response = await addTimeSlot(this.props.classId, this.state.dateTime);
+        const response = await addTimeSlotRequest(this.props.classId, this.state.dateTime);
         if (!response) {
             this.setState({
                 errors: { error: 'error adding schedule' },
@@ -65,7 +63,7 @@ class AddTimeSlot extends React.Component {
             return;
         }
 
-        this.props.getAllClasses();
+        this.props.updateClassData();
         this.stopLoading();
         this.hideAddTimeSlotModal();
     }
@@ -80,8 +78,9 @@ class AddTimeSlot extends React.Component {
                     <Modal.Body>
                         <div className='d-flex justify-content-center'>
                             <DateTimePicker value={this.state.dateTime} onChange={this.onDateTimeChange} />
-                            <span className='text-danger'>{this.state.errors['error']}</span>
                         </div>
+                        <span className='text-danger d-block text-center'>{this.state.errors['error']}</span>
+
                         {
                             this.state.loading
                                 ?
@@ -109,10 +108,4 @@ class AddTimeSlot extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getAllClasses: () => dispatch(getAllClasses()),
-    }
-}
-
-export default connect(null, mapDispatchToProps)(AddTimeSlot);
+export default AddTimeSlot;

@@ -1,4 +1,4 @@
-import { GET_CLASSES_FOR_BOOKING } from './types';
+import { GET_CLASSES_FOR_BOOKING, SET_CURRENT_CLASS } from './types';
 import { getAllClassesForBooking as getAllClassesForBookingRequest } from './api';
 import asAction from '../../helpers/as-redux-action';
 
@@ -9,4 +9,8 @@ function getAllClassesForBooking() {
     }
 }
 
-export { getAllClassesForBooking }
+function setCurrentClass(classData) {
+    return asAction(SET_CURRENT_CLASS, classData);
+}
+
+export { getAllClassesForBooking, setCurrentClass }

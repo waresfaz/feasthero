@@ -6,8 +6,8 @@ import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
 import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
-import { getAllClasses } from '../../../services/chef/actions'
 import formatClassSchedule from '../../../helpers/format-class-schedule'
+import { getClassForChef } from '../../../services/chef/api'
 
 class ChefClass extends React.Component {
     constructor() {
@@ -17,24 +17,29 @@ class ChefClass extends React.Component {
         };
     }
 
-    componentDidMount() {
-        if (!this.props.allClasses) {
-            this.props.getAllClasses();
-        } else {
-            this.initClassData(this.props);
-        }
+    async componentDidMount() {
+        await this.initClassData();
     }
 
-    componentDidUpdate(prevProps) {
-        const hasChanged = this.props.allClasses !== prevProps.allClasses;
-        if (hasChanged) {
-            this.initClassData(this.props);
-        }
+    initClassData = async () => {
+        let classData;
+
+        if (!this.props.currentClass)
+            classData = await this.getClassDataFromApi();
+        else
+            classData = this.getClassDataFromRedux();
+
+        this.setState({
+            classData: classData,
+        })
     }
 
-    initClassData = (props) => {
-        const classData = formatClassSchedule(props.allClasses.find(class_ => class_._id === props.match.params.id));
-        this.setState({ classData: classData });
+    getClassDataFromApi = async () => {
+        return await getClassForChef(this.props.match.params.id);
+    }
+
+    getClassDataFromRedux = () => {
+        return formatClassSchedule(this.props.currentClass);
     }
 
     errorLoadingClassData = () => {
@@ -54,7 +59,7 @@ class ChefClass extends React.Component {
             else
                 return (
                     <>
-                        <EditClass classData={classData} />
+                        <EditClass classData={classData} updateClassData={this.getClassDataFromApi} />
                         <DeleteClass classData={classData} />
                     </>
                 )
@@ -69,14 +74,9 @@ class ChefClass extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        allClasses: state.chef.allClasses,
+        currentClass: state.chef.currentClass,
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getAllClasses: () => dispatch(getAllClasses()),
-    }
-}
 
-export default connect(mapStateToProps, mapDispatchToProps)(MustBeChef(ChefClass));
+export default connect(mapStateToProps)(MustBeChef(ChefClass));

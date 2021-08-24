@@ -2,8 +2,8 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
-import { getAllClassesForBooking } from '../../services/classes/actions';
 import { reset, updateClassId } from '../../services/booking/actions';
+import { getClassForBooking } from '../../services/classes/api';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -11,7 +11,6 @@ import BookingSummary from './components/booking-summary/booking-summary';
 import ClassSummary from './components/class-summary/class-summary';
 
 import './book-class.scss'
-import { getClassForBooking } from '../../services/classes/api';
 
 /**
  * This component gathers the information needed to start a booking.
@@ -36,21 +35,27 @@ class BookClass extends React.Component {
     }
 
     async componentDidMount() {
-        if (!this.props.allClasses) {
-            const classData = await getClassForBooking(this.props.match.params.id);
-            this.props.updateClassId(classData._id);
-            this.setState({
-                classData: classData,
-            });
-        } else {
-            this.classDataFromAllClasses();
-        }
+        await this.initClassData();
     }
 
-    classDataFromAllClasses = () => {
-        const classData = this.props.allClasses.find(class_ => class_._id === this.props.match.params.id)
-        this.props.updateClassId(classData._id);
-        this.setState({ classData: classData });
+    initClassData = async () => {
+        let classData;
+        if (!this.props.currentClassForBooking)
+            classData = await this.classDataFromApi();
+        else
+            classData = this.classDataFromRedux();
+        this.props.updateClassIdForBookingInfo(classData._id);
+        this.setState({
+            classData: classData
+        })
+    }
+
+    classDataFromApi = async () => {
+        return await getClassForBooking(this.props.match.params.id);
+    }
+
+    classDataFromRedux = () => {
+        return this.props.currentClassForBooking;
     }
 
     classDataRequestHasCompleted = () => {
@@ -105,15 +110,14 @@ class BookClass extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        allClasses: state.classes.allClassesForBooking,
+        currentClassForBooking: state.classes.currentClassForBooking
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getAllClasses: () => dispatch(getAllClassesForBooking()),
         reset: () => dispatch(reset()),
-        updateClassId: (classId) => dispatch(updateClassId(classId))
+        updateClassIdForBookingInfo: (classId) => dispatch(updateClassId(classId))
     }
 }
 

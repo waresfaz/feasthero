@@ -12,15 +12,17 @@ const withAuth = require('../../middleware/with_auth');
 const chefClasses = require('./controllers/chef_classes');
 const verifyUserIsChef = require('../../middleware/verify_user_is_chef');
 const findClassFilteredForBooking = require('./controllers/find_class_filtered_for_booking');
-const allClassesFilteredForHomePage = require('./controllers/all_classes_filtered_for_home_page');
+const allClassesFilteredForBooking = require('./controllers/all_classes_filtered_for_booking');
 const addTimeSlot = require('./controllers/add_time_slot');
+const chefClass = require('./controllers/chef_class');
 
 classesRouter.post('/new', parseClassData, validateClassDataMiddleware, upload.single('thumbnail'), wait(newClass));
 classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
 classesRouter.patch('/class/:classId', parseClassData, wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, upload.single('thumbnail'), wait(updateClass))
-classesRouter.get('/for-booking/all', wait(allClassesFilteredForHomePage));
+classesRouter.get('/for-booking/all', wait(allClassesFilteredForBooking));
 classesRouter.get('/for-booking/class/:classId', wait(findClassFilteredForBooking));
 classesRouter.get('/current-chef/all', withAuth, verifyUserIsChef, wait(chefClasses));
+classesRouter.get('/current-chef/class/:classId', withAuth, verifyUserIsChef, verifyChefIsAccessingTheirClass, wait(chefClass))
 classesRouter.post('/schedule/add/timeslot/:classId', verifyUserIsChef, verifyChefIsAccessingTheirClass, wait(addTimeSlot));
 
 module.exports = classesRouter;
