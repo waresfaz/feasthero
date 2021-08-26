@@ -1,6 +1,7 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import dateTimeToString from '../../../../../../../helpers/date-time-to-string';
 
 import AddTimeSlot from './components/add-time-slot/add-time-slot';
 import DeleteTimeSlot from './components/delete-time-slot/delete-time-slot';
@@ -8,7 +9,6 @@ import DeleteTimeSlot from './components/delete-time-slot/delete-time-slot';
 import './edit-schedule.scss';
 
 class EditSchedule extends React.Component {
-
     render() {
         return (
             <>
@@ -22,7 +22,7 @@ class EditSchedule extends React.Component {
                                             <DeleteTimeSlot timeSlotId={timeSlot._id} />
                                         </Col>
                                         <Col sm={4}>
-                                            <p>{timeSlot.dateTime}</p>
+                                            <p>{dateTimeToString(timeSlot.dateTime)}</p>
                                         </Col>
                                     </Row>
                                 </div>

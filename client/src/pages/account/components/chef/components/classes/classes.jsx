@@ -1,8 +1,8 @@
 import React from 'react';
-import { Spinner } from 'react-bootstrap';
+import { Col, Row, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import Button from '../../../../../../components/button/button'
+import ClassCard from './class-card/class-card';
 
 import { setCurrentClass } from '../../../../../../services/chef/actions';
 import { allChefsClasses } from '../../../../../../services/chef/api';
@@ -18,12 +18,7 @@ class Classes extends React.Component {
 
     async componentDidMount() {
         const classes = await allChefsClasses();
-        console.log(classes)
         this.setState({ classes })
-    }
-
-    handleSelectClass = (classData) => {
-        this.props.setCurrentClass(classData);
     }
 
     tryToRenderAllClasses() {
@@ -41,17 +36,17 @@ class Classes extends React.Component {
         if (this.state.classes) {
             return (
                 <>
-                    {
-                        this.state.classes.map((classData, key) => {
-                            return (
-                                <div key={key}>
-                                    <p>{JSON.stringify(classData)}</p>
-                                    <Button className='my-4 p-3' secondary onClick={() => this.handleSelectClass(classData)} to={`account/class/${classData._id}`}>Edit Class</Button>
-                                </div>
-                            )
-                        })
-                    }
-
+                    <Row className='justify-content-center'>
+                        {
+                            this.state.classes.map((classData, key) => {
+                                return (
+                                    <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
+                                        <ClassCard classData={classData} />
+                                    </Col>
+                                )
+                            })
+                        }
+                    </Row>
                 </>
             )
         }

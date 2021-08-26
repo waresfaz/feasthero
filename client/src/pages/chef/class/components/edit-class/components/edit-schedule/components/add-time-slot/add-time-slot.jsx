@@ -58,6 +58,7 @@ class AddTimeSlot extends React.Component {
     addTimeSlot = async () => {
         const classId = this.props.classData._id;
         this.startLoading();
+        
         const response = await addTimeSlotRequest(classId, this.state.dateTime);
         if (!response) {
             this.setState({
@@ -68,6 +69,7 @@ class AddTimeSlot extends React.Component {
         }
 
         await this.props.updateClassData(classId);
+
         this.stopLoading();
         this.hideAddTimeSlotModal();
     }
@@ -77,7 +79,7 @@ class AddTimeSlot extends React.Component {
             <div id='add-time-slot'>
                 <Modal show={this.state.showAddTimeSlotModal} onHide={this.hideAddTimeSlotModal}>
                     <Modal.Header>
-                        <Modal.Title>Add Schedule</Modal.Title>
+                        <Modal.Title>Add Time Slot</Modal.Title>
                     </Modal.Header>
                     <Modal.Body>
                         <div className='d-flex justify-content-center'>
