@@ -35,8 +35,8 @@ class BookClass extends React.Component {
     }
 
     async componentDidMount() {
-        const classData = await this.initClassData();
-        this.setClassIdInBooking(classData);
+        await this.initClassData();
+        this.setClassIdInBooking();
     }
 
     initClassData = async () => {
@@ -49,12 +49,11 @@ class BookClass extends React.Component {
         this.setState({
             classData: classData
         })
-        return classData;
     }
 
-    setClassIdInBooking = (classData) => {
-        if (!this.errorLoadingClassData())
-            this.props.updateClassIdForBookingInfo(classData._id);
+    setClassIdInBooking = () => {
+        if (this.classDataRequestHasCompleted() && !this.errorLoadingClassData())
+            this.props.updateClassIdForBookingInfo(this.state.classData);
     }
 
     classDataFromApi = async () => {

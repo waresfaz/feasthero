@@ -1,5 +1,6 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import AddTimeSlot from './components/add-time-slot/add-time-slot';
 import DeleteTimeSlot from './components/delete-time-slot/delete-time-slot';
@@ -18,7 +19,7 @@ class EditSchedule extends React.Component {
                                 <div key={key} className='schedule'>
                                     <Row className='justify-content-center'>
                                         <Col sm={1}>
-                                            <DeleteTimeSlot classId={this.props.classData._id} timeSlotId={timeSlot._id} />
+                                            <DeleteTimeSlot timeSlotId={timeSlot._id} />
                                         </Col>
                                         <Col sm={4}>
                                             <p>{timeSlot.dateTime}</p>
@@ -30,11 +31,17 @@ class EditSchedule extends React.Component {
                     }
                 </section>
                 <div>
-                    <AddTimeSlot classId={this.props.classData._id} />
+                    <AddTimeSlot />
                 </div>
             </>
         )
     }
 }
 
-export default EditSchedule;
+const mapStateToProps = (state) => {
+    return {
+        classData: state.chef.currentClass,
+    }
+}
+
+export default connect(mapStateToProps)(EditSchedule);

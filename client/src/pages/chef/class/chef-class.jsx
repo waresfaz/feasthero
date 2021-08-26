@@ -6,61 +6,35 @@ import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
 import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
-import formatClassSchedule from '../../../helpers/format-class-schedule'
-import { getClassForChef } from '../../../services/chef/api'
+import { getClass } from '../../../services/chef/actions'
 
 class ChefClass extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            classData: null,
-        };
-    }
-
     async componentDidMount() {
         await this.initClassData();
     }
 
     initClassData = async () => {
-        let classData;
-
         if (!this.props.currentClass)
-            classData = await this.getClassDataFromApi();
-        else
-            classData = this.getClassDataFromRedux();
-
-        this.setState({
-            classData: classData,
-        })
-    }
-
-    getClassDataFromApi = async () => {
-        return await getClassForChef(this.props.match.params.id);
-    }
-
-    getClassDataFromRedux = () => {
-        return formatClassSchedule(this.props.currentClass);
+            await this.props.getClass(this.props.match.params.id)
     }
 
     errorLoadingClassData = () => {
-        return this.state.classData === false || this.state.classData === undefined;
+        return this.props.currentClass === false;
     }
 
     classDataRequestHasCompleted = () => {
-        return this.state.classData !== null;
+        return this.props.currentClass !== null && this.props.currentClass !== undefined;
     }
 
     render() {
-        const { classData } = this.state;
-
         if (this.classDataRequestHasCompleted()) {
             if (this.errorLoadingClassData())
                 return <p className='text-danger text-center'>Error loading class</p>
             else
                 return (
                     <>
-                        <EditClass classData={classData} updateClassData={this.getClassDataFromApi} />
-                        <DeleteClass classData={classData} />
+                        <EditClass />
+                        <DeleteClass />
                     </>
                 )
         }
@@ -78,5 +52,11 @@ const mapStateToProps = (state) => {
     }
 }
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getClass: (classId) => dispatch(getClass(classId))
+    }
+}
 
-export default connect(mapStateToProps)(MustBeChef(ChefClass));
+
+export default connect(mapStateToProps, mapDispatchToProps)(MustBeChef(ChefClass));

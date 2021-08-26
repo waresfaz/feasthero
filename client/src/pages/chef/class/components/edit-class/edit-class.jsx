@@ -13,6 +13,7 @@ import Loader from '../../../../../components/loader/loader'
 import EditSchedule from './components/edit-schedule/edit-schedule';
 
 import './edit-class.scss'
+import { connect } from 'react-redux';
 
 
 class EditClass extends React.Component {
@@ -161,11 +162,17 @@ class EditClass extends React.Component {
                     </form>
                 </section>
                 <section className='mt-4'>
-                    <EditSchedule classData={this.props.classData} />
+                    <EditSchedule />
                 </section>
             </>
         )
     }
 }
 
-export default EditClass;
+const mapStateToProps = (state) => {
+    return {
+        classData: state.chef.currentClass,
+    }
+}
+
+export default connect(mapStateToProps)(EditClass);

@@ -3,8 +3,11 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import React from 'react';
 import { Modal, Spinner } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
+import { connect } from 'react-redux';
 
 import Button from '../../../../../../../../../components/button/button';
+
+import { getClass } from '../../../../../../../../../services/chef/actions'
 
 import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/classes/api';
 
@@ -53,8 +56,9 @@ class AddTimeSlot extends React.Component {
     }
 
     addTimeSlot = async () => {
+        const classId = this.props.classData._id;
         this.startLoading();
-        const response = await addTimeSlotRequest(this.props.classId, this.state.dateTime);
+        const response = await addTimeSlotRequest(classId, this.state.dateTime);
         if (!response) {
             this.setState({
                 errors: { error: 'error adding schedule' },
@@ -63,7 +67,7 @@ class AddTimeSlot extends React.Component {
             return;
         }
 
-        this.props.updateClassData();
+        await this.props.updateClassData(classId);
         this.stopLoading();
         this.hideAddTimeSlotModal();
     }
@@ -108,4 +112,16 @@ class AddTimeSlot extends React.Component {
     }
 }
 
-export default AddTimeSlot;
+const mapStateToProps = (state) => {
+    return {
+        classData: state.chef.currentClass,
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateClassData: (classId) => dispatch(getClass(classId))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddTimeSlot);

@@ -1,4 +1,4 @@
-import { GET_ALL_CLASSES, SET_CURRENT_CLASS } from "./types";
+import { GET_ALL_CLASSES, GET_CLASS, SET_CURRENT_CLASS } from "./types";
 
 export default function chefReducer(state = [], action) {
     switch (action.type) {
@@ -8,6 +8,11 @@ export default function chefReducer(state = [], action) {
                 allClasses: action.value,
             }
         case SET_CURRENT_CLASS:
+            return {
+                ...state,
+                currentClass: action.value
+            }
+        case GET_CLASS:
             return {
                 ...state,
                 currentClass: action.value
