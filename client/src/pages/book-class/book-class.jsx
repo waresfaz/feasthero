@@ -35,7 +35,8 @@ class BookClass extends React.Component {
     }
 
     async componentDidMount() {
-        await this.initClassData();
+        const classData = await this.initClassData();
+        this.setClassIdInBooking(classData);
     }
 
     initClassData = async () => {
@@ -48,6 +49,12 @@ class BookClass extends React.Component {
         this.setState({
             classData: classData
         })
+        return classData;
+    }
+
+    setClassIdInBooking = (classData) => {
+        if (!this.errorLoadingClassData())
+            this.props.updateClassIdForBookingInfo(classData._id);
     }
 
     classDataFromApi = async () => {
@@ -63,7 +70,7 @@ class BookClass extends React.Component {
     }
 
     errorLoadingClassData = () => {
-        return this.state.classData === false || this.state.classData === undefined;
+        return this.state.classData.error === true || this.state.classData === undefined;
     }
 
     tryToRenderBooking() {
@@ -72,20 +79,19 @@ class BookClass extends React.Component {
         if (this.classDataRequestHasCompleted()) {
             if (this.errorLoadingClassData())
                 return <p className='text-danger text-center'>Error loading class</p>
-            else
-                return (
-                    <>
-                        <ClassSummary classData={classData} chef={classData.chefs[0]} />
-                        <Row className='justify-content-center' id='booking-container'>
-                            <Col lg={5}>
-                                <BookingDetails classData={classData} />
-                            </Col>
-                            <Col lg={5}>
-                                <BookingSummary classData={classData} />
-                            </Col>
-                        </Row>
-                    </>
-                )
+            return (
+                <>
+                    <ClassSummary classData={classData} chef={classData.chefs[0]} />
+                    <Row className='justify-content-center' id='booking-container'>
+                        <Col lg={5}>
+                            <BookingDetails classData={classData} />
+                        </Col>
+                        <Col lg={5}>
+                            <BookingSummary classData={classData} />
+                        </Col>
+                    </Row>
+                </>
+            )
         }
         return (
             <div className='d-flex justify-content-center'>
@@ -113,6 +119,7 @@ const mapStateToProps = (state) => {
         currentClassForBooking: state.classes.currentClassForBooking
     }
 }
+
 
 const mapDispatchToProps = (dispatch) => {
     return {

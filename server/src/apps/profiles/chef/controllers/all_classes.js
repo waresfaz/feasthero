@@ -1,10 +1,10 @@
 const { StatusCodes } = require('http-status-codes');
-const ClassQueryBuilder = require('../services/class_query_builder');
+const ClassQueryBuilder = require('../../../classes/services/class_query_builder');
 
-async function chefClasses(req, res) {
+async function allClasses(req, res) {
     const query = new ClassQueryBuilder().filterByChefId(req.session.account._id).sortSchedule();
     const classes = await query.run();
     return res.status(StatusCodes.OK).json(classes);
 }
 
-module.exports = chefClasses;
+module.exports = allClasses;

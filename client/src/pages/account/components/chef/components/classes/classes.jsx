@@ -18,6 +18,7 @@ class Classes extends React.Component {
 
     async componentDidMount() {
         const classes = await allChefsClasses();
+        console.log(classes)
         this.setState({ classes })
     }
 

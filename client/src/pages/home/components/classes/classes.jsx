@@ -24,6 +24,9 @@ class Classes extends React.Component {
         const { classes } = this.state;
 
         if (classes) {
+            if (classes.error)
+                return <h4 className='text-center text-danger'>Error loading classes</h4>
+
             return (
                 <Row className='justify-content-center'>
                     {
@@ -39,8 +42,7 @@ class Classes extends React.Component {
             )
         }
 
-        if (classes === false)
-            return <h4 className='text-center text-danger'>Error loading classes</h4>
+
 
         return <h4 className='text-center'>Loading...</h4>
     }

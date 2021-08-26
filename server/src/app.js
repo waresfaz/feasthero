@@ -19,6 +19,7 @@ const verifyApiTkn = require('./middleware/verify_api_tkn');
 const authRouter = require("./apps/auth/routes.js");
 const accountsRouter = require("./apps/accounts/routes.js");
 const upload = require("./middleware/upload_image.js");
+const chefRouter = require("./apps/profiles/chef/routes.js");
 
 function init() {
   connectToDb();
@@ -54,6 +55,7 @@ function initRoutes() {
   app.use('/blog', blogRouter);
   app.use('/auth', authRouter);
   app.use('/accounts', accountsRouter);
+  app.use('/chef', chefRouter);
 }
 
 init();
