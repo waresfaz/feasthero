@@ -6,7 +6,7 @@ class CustomerAccount extends React.Component {
     render() {
         return (
             <>
-                <p>{JSON.stringify(this.props.account.accountData)}</p>
+                <p>Hello {this.props.account.accountData.firstName}! Thank you for joining FeastHero! The accounts feature is not quite ready yet so sit tight!</p>
             </>
         );
     }

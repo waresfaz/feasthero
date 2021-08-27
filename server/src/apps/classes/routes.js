@@ -12,6 +12,7 @@ const verifyUserIsChef = require('../../middleware/verify_user_is_chef');
 const findClassFilteredForBooking = require('./controllers/find_class_filtered_for_booking');
 const allClassesFilteredForBooking = require('./controllers/all_classes_filtered_for_booking');
 const addTimeSlot = require('./controllers/add_time_slot');
+const deleteTimeSlot = require('./controllers/delete_time_slot');
 
 classesRouter.post('/new', parseClassData, validateClassDataMiddleware, upload.single('thumbnail'), wait(newClass));
 classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
@@ -19,6 +20,6 @@ classesRouter.patch('/class/:classId', parseClassData, wait(verifyChefIsAccessin
 classesRouter.get('/filter/booking/all', wait(allClassesFilteredForBooking));
 classesRouter.get('/filter/booking/:classId', wait(findClassFilteredForBooking));
 classesRouter.post('/schedule/add/timeslot/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass), wait(addTimeSlot));
-classesRouter.delete('/schedule/delete/timeslot/:timeSlotId/class/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass))
+classesRouter.delete('/schedule/delete/timeslot/:timeSlotId/class/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass), wait(deleteTimeSlot))
 
 module.exports = classesRouter;

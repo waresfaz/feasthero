@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Loader from '../../../../../../../../../components/loader/loader';
 
 import { deleteTimeSlot } from '../../../../../../../../../services/classes/api';
-import { getAllClasses } from '../../../../../../../../../services/chef/actions';
+import { getClass } from '../../../../../../../../../services/chef/actions';
 
 import './delete-time-slot.scss';
 
@@ -23,12 +23,12 @@ class DeleteTimeSlot extends React.Component {
         this.setState({
             loading: true
         })
-        const response = await deleteTimeSlot(this.props.timeSlotId, this.props.classId);
+        const response = await deleteTimeSlot(this.props.timeSlotId, this.props.classData._id);
 
         if (response.error)
             return this.handleDeleteTimeSlotError(response.error);
 
-        this.props.getAllClasses();
+        await this.props.updateClassData(this.props.classData._id);
 
         this.setState({
             loading: false,
@@ -68,10 +68,17 @@ class DeleteTimeSlot extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        getAllClasses: () => dispatch(getAllClasses()),
+        classData: state.chef.currentClass,
     }
 }
 
-export default connect(null, mapDispatchToProps)(DeleteTimeSlot);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        updateClassData: (classId) => dispatch(getClass(classId))
+    }
+}
+
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteTimeSlot);

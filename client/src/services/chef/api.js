@@ -2,7 +2,6 @@ import { ALL_CLASSES_FOR_CURRENT_CHEF, FIND_CLASS_FOR_CHEF_PREFIX } from '../../
 import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function allChefsClasses() {
-    console.log(ALL_CLASSES_FOR_CURRENT_CHEF)
     const response = await feastHeroAxios.get(ALL_CLASSES_FOR_CURRENT_CHEF, { withCredentials: true })
         .then((response) => response.data)
         .catch((_) => ({ error: true }));

@@ -1,5 +1,5 @@
 class ClassDataDto {
-    constructor(title, description, thumbnail, costPerDevice, duration, mealKitCost, hasMealKit) {
+    constructor(title, description, thumbnail, costPerDevice, duration, mealKitCost, hasMealKit, schedule) {
         this.title = title;
         this.description = description;
         this.thumbnail = thumbnail;
@@ -7,6 +7,7 @@ class ClassDataDto {
         this.duration = duration;
         this.mealKitCost = mealKitCost;
         this.hasMealKit = hasMealKit;
+        this.schedule = schedule;
     }
 
     static fromJson(json) {
@@ -18,6 +19,7 @@ class ClassDataDto {
             Number(json['duration']),
             Number(json['mealKitCost']),
             json['hasMealKit'] === 'true' ? true : false,
+            [],
         )
     }
 

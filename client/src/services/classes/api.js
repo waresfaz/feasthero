@@ -47,7 +47,7 @@ async function deleteTimeSlot(timeSlotId, classId) {
     const response = await feastHeroAxios.delete(DELETE_TIME_SLOT(classId, timeSlotId), { withCredentials: true })
         .then((response) => response)
         .catch((error) => ({ error: error.response }));
-
+    console.log(response);
     return response;
 }
 

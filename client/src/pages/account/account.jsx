@@ -22,7 +22,6 @@ class Account extends React.Component {
     render() {
         return (
             <>
-                <p>You are a {this.props.account.accountData.type.toLowerCase()}</p>
                 {this.chooseWhichAccountComponentToRender()}
                 <Logout />
             </>

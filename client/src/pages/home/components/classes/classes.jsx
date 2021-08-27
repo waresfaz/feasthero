@@ -28,7 +28,7 @@ class Classes extends React.Component {
                 return <h4 className='text-center text-danger'>Error loading classes</h4>
 
             return (
-                <Row className='justify-content-center'>
+                <Row className='justify-content-center' id='classes'>
                     {
                         classes.map((classData, key) => {
                             return (

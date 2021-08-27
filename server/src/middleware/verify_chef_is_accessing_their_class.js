@@ -15,6 +15,7 @@ async function verifyChefIsAccessingTheirClass(req, res, next) {
             return;
         }
     }
+
     res.status(StatusCodes.UNAUTHORIZED).json({ errors: { error: 'unauthorized' } });
 }
 

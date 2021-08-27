@@ -1,3 +1,4 @@
+const { StatusCodes } = require("http-status-codes");
 const Class = require("../schemas/class");
 
 async function deleteTimeSlot(req, res) {
@@ -10,6 +11,8 @@ async function deleteTimeSlot(req, res) {
             }
         }
     );
+
+    return res.status(StatusCodes.OK).send('ok')
 }
 
 module.exports = deleteTimeSlot;

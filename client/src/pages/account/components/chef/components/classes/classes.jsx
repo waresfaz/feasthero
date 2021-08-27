@@ -36,7 +36,7 @@ class Classes extends React.Component {
         if (this.state.classes) {
             return (
                 <>
-                    <Row className='justify-content-center'>
+                    <Row className='justify-content-center' id='chef-classes'>
                         {
                             this.state.classes.map((classData, key) => {
                                 return (
@@ -59,7 +59,7 @@ class Classes extends React.Component {
     render() {
         return (
             <>
-                <h2 className='text-center'>Classes</h2>
+                <h2 className='text-center font-weight-bold'>Classes</h2>
                 {this.tryToRenderAllClasses()}
             </>
         )
