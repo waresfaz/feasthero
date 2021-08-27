@@ -31,7 +31,9 @@ class RegistrationService {
     }
 
     _createAccount() {
-        return AccountFactory.getAccount(CUSTOMER, this.registrationData);
+        let account = AccountFactory.getAccount(CUSTOMER, this.registrationData);
+        account.set({ password: this.registrationData.passwordOne });
+        return account;
     }
 
     async _saveToDatabase(account) {
