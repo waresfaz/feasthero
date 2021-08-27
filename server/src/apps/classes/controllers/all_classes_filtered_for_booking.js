@@ -11,7 +11,6 @@ async function allClassesFilteredForBooking(_, res) {
         return res.status(StatusCodes.INTERNAL_SERVER_ERROR).json({ error: classes.error });
 
     return res.status(StatusCodes.OK).json(classes);
-
 };
 
 module.exports = allClassesFilteredForBooking;
