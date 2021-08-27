@@ -15,8 +15,7 @@ class Classes extends React.Component {
     }
 
     async componentDidMount() {
-        if (!this.props.allClasses)
-            await this.props.getAllClasses();
+        await this.props.getAllClasses();
     }
 
     tryToRenderAllClasses() {

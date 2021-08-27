@@ -10,7 +10,7 @@ import './edit-schedule.scss';
 
 class EditSchedule extends React.Component {
     timeSlotIsEmpty = (timeSlot) => {
-        return JSON.stringify(timeSlot) === '{}';
+        return JSON.stringify(timeSlot) === '{}' || !timeSlot.dateTime;
     }
 
     render() {
@@ -20,7 +20,6 @@ class EditSchedule extends React.Component {
                 <section id='edit-schedule'>
                     {
                         this.props.classData.schedule.map((timeSlot, key) => {
-                            console.log(JSON.stringify(timeSlot))
                             if (this.timeSlotIsEmpty(timeSlot))
                                 return <></>
                             return (

@@ -24,8 +24,6 @@ class DeleteClass extends React.Component {
         if (response.error)
             return this.handleDeleteClassError(response.error)
 
-        await this.props.getAllClasses();
-
         this.setState({ loading: false });
 
         history.push('/account');
