@@ -1,28 +1,27 @@
 const Booking = require('../schema/booking');
-const Schedule = require('../../schedule/schema/schedule');
-const StatusCodes = require('http-status-codes');
-const ProcessPayment = require('./process_payment');
+const Class = require('../../classes/schemas/class');
+const { StatusCodes } = require("http-status-codes");
+const ProcessPaymentService = require('./process_payment');
 
-var ObjectId = require("mongoose").Types.ObjectId;
 
-class ProcessClassBooking extends ProcessPayment {
+class ProcessClassBookingService {
     constructor(bookingDetails, cardTokenId) {
-        super(bookingDetails, cardTokenId);
+        this.processPayment = new ProcessPaymentService(bookingDetails, cardTokenId);
         this.bookingDetails = bookingDetails;
     }
 
-    async process() {
-        if (await this._isClassBooked() === true) {
+    async book() {
+        if (await this._isClassBooked()) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: `${this.bookingDetails.selectedClassDateTime} time slot is unavailable , please select a different slot`
+                errors: { errors: { booking: `${dateTimeToMoment(new Date(this.bookingDetails.selectedClassDateTime))} time slot is unavailable , please select a different slot` } }
             };
         }
 
-        if ((await super.process()) === false) {
+        if ((await this.processPayment.process()) === false) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: 'payment failed'
+                errors: { errors: { payment: 'payment failed' } }
             }
         }
 
@@ -32,31 +31,28 @@ class ProcessClassBooking extends ProcessPayment {
         if (!bookedClass) {
             return {
                 statusCode: StatusCodes.BAD_REQUEST,
-                info: 'class booking failed'
+                errors: { errors: { booking: 'class booking failed' } }
             }
         } else {
             return {
                 statusCode: StatusCodes.OK,
-                info: bookedClass,
+                bookedClassId: bookedClass,
             }
         }
     }
 
     async _isClassBooked() {
-        let bookedTime = await Schedule.findOne({
-            classId: ObjectId(this.bookingDetails.classId),
-            dateTime: this.bookingDetails.selectedClassDateTime,
-        });
-        return bookedTime.avaliable === false;
+        const bookedTimeSlot = await Class.findOne(
+            { _id: this.bookingDetails.classId, },
+            { 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } }
+        ).then((doc) => doc.schedule[0])
+        return bookedTimeSlot.available === false;
     }
 
     async _bookSlot() {
-        await Schedule.updateOne(
-            {
-                classId: ObjectId(this.bookingDetails.classId),
-                dateTime: this.bookingDetails.selectedClassDateTime,
-            },
-            { available: false }
+        await Class.updateOne(
+            { _id: this.bookingDetails.classId, 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } },
+            { '$set': { 'schedule.$.available': false } },
         );
     }
 
@@ -65,8 +61,8 @@ class ProcessClassBooking extends ProcessPayment {
         return bookedClass
             .save()
             .then((bookedClass) => { return bookedClass._id })
-            .catch((err) => { return false });
+            .catch((_) => { return false });
     }
 }
 
-module.exports = ProcessClassBooking;
+module.exports = ProcessClassBookingService;

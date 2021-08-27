@@ -1,18 +1,8 @@
-import { GET_CLASSES } from './types';
-import { fetchAllClasses } from './api';
+import { SET_CURRENT_CLASS } from './types';
+import asAction from '../../helpers/as-redux-action';
 
-function getAllClasses() {
-    return async (dispatch) => {
-        const classes = await fetchAllClasses();
-        dispatch(asAction(classes, GET_CLASSES));
-    }
+function setCurrentClass(classData) {
+    return asAction(SET_CURRENT_CLASS, classData);
 }
 
-function asAction(value, type) {
-    return {
-        type: type,
-        value: value,
-    }
-}
-
-export { getAllClasses }
+export { setCurrentClass }

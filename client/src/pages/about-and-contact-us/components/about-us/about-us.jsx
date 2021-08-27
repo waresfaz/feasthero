@@ -22,7 +22,7 @@ class AboutUs extends React.Component {
                             to organizations that are looking for virtual team engagement opprotunites for their remove workforce
                         </p>
                         <p className='mt-4 mb-4'>
-                            We're also avaliable for private groups of 5 or more if you and your friends are looking for something fun to do together in
+                            We're also available for private groups of 5 or more if you and your friends are looking for something fun to do together in
                             te comfort of your own home
                         </p>
                         <Fade triggerOnce delay={1000}>

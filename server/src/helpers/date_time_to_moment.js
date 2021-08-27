@@ -7,7 +7,6 @@ function dateTimeToMoment(dateTime) {
             'dddd, MMMM D, YYYY - hh:mm a z',
             "US/Eastern"
         )
-        .utc();
 }
 
 module.exports = dateTimeToMoment;

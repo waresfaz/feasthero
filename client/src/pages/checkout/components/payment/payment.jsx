@@ -7,7 +7,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { bookClass } from '../../../../services/booking/api';
 import history from '../../../../history';
 import { settings } from '../../../../settings';
-import { sessionWrapper, statusEnum } from '../../../../helpers/session-wrapper';
+import { sessionActiveWrapper, statusEnum } from '../../../../helpers/session-active-wrapper';
 
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
@@ -28,8 +28,7 @@ class Payment extends React.Component {
         super();
         this.recaptchaRef = React.createRef();
         this.state = {
-            errors: '',
-            cardErrors: '',
+            errors: {},
             loading: false,
         }
     }
@@ -37,24 +36,21 @@ class Payment extends React.Component {
 
     handleChange = ({ error }) => {
         if (error)
-            this.setState({ cardErrors: error.message });
+            this.setState({ errors: { card: error.message } });
         else
-            this.setState({ cardErrors: '' })
+            this.setState({ errors: { card: '' } });
     };
 
     handleSubmit = async (event) => {
         event.preventDefault();
 
-        if (this.state.cardErrors)
+        if (this.state.errors['card'])
             return;
 
-        if (!this.checkReCaptcha())
+        if (this.stripeIsUnitialized())
             return;
 
         const { stripe, elements } = this.props;
-
-        if (!stripe || !elements)
-            return;
 
         this.setState({ loading: true });
 
@@ -63,21 +59,18 @@ class Payment extends React.Component {
 
         if (cardTokenResponse.error) {
             this.setState({
-                cardErrors: cardTokenResponse.error.message,
+                errors: { card: cardTokenResponse.error.message },
                 loading: false,
             })
             return;
         }
 
-        const bookingResponse = await sessionWrapper(bookClass, cardTokenResponse.token.id);
-        if (bookingResponse === statusEnum.error) {
-            this.setState({
-                errors: 'Payment failed, please try again or contact customer support',
-                loading: false,
-            });
-            return;
+        const bookingResponse = await sessionActiveWrapper(bookClass, cardTokenResponse.token.id, this.recaptchaRef.current.getValue());
+        this.resetReCaptcha();
+        if (bookingResponse.status === statusEnum.error) {
+            return this.handleBookingRequestError(bookingResponse.error);
         }
-        if (bookingResponse === statusEnum.sessionExpired)
+        if (bookingResponse.status === statusEnum.sessionNotActive)
             return;
 
         this.setState({
@@ -87,14 +80,30 @@ class Payment extends React.Component {
         history.push('booking-success');
     }
 
-    checkReCaptcha = () => {
-        if (!this.recaptchaRef.current.getValue()) {
+    stripeIsUnitialized = () => {
+        const { stripe, elements } = this.props;
+        return !stripe || !elements;
+    }
+
+    handleBookingRequestError = (errorResponse) => {
+        if (this.requestErrorHasMoreInfo(errorResponse))
             this.setState({
-                errors: 'Please submit the recaptcha',
+                errors: errorResponse.data['errors'],
+                loading: false,
             });
-            return false;
-        }
-        return true;
+        else
+            this.setState({
+                errors: { payment: 'booking failed' },
+                loading: false
+            });
+    }
+
+    requestErrorHasMoreInfo = (errorResponse) => {
+        return (errorResponse.status === 400) && errorResponse.data['errors'];
+    }
+
+    resetReCaptcha = () => {
+        window.grecaptcha.reset();
     }
 
     cardElementOptions = () => {
@@ -121,8 +130,7 @@ class Payment extends React.Component {
 
     clearErrors = () => {
         this.setState({
-            cardErrors: '',
-            errors: ''
+            errors: {}
         })
     }
 
@@ -134,12 +142,15 @@ class Payment extends React.Component {
                         <p className='text-center'>Pay with card</p>
                         <Form.Group>
                             <CardElement className='mb-3' onChange={this.handleChange} options={this.cardElementOptions()} />
-                            <span role="alert" className='text-danger mb-0'>{this.state.cardErrors}</span>
-                            <div className='d-flex justify-content-center my-4'>
-                                <ReCAPTCHA
-                                    ref={this.recaptchaRef}
-                                    sitekey={settings.RECAPTCHA_SITE_KEY}
-                                />
+                            <span className='text-danger'>{this.state.errors['card']}</span>
+                            <div className='my-4'>
+                                <div className='d-flex justify-content-center'>
+                                    <ReCAPTCHA
+                                        ref={this.recaptchaRef}
+                                        sitekey={settings.RECAPTCHA_SITE_KEY}
+                                    />
+                                </div>
+                                <span className='text-danger d-block text-center'>{this.state.errors['recaptcha']}</span>
                             </div>
 
                             <button className='pay-btn mat-btn' type='submit' disabled={!this.props.stripe}>
@@ -151,13 +162,8 @@ class Payment extends React.Component {
                             <button className='pay-btn mat-btn mt-3 danger' onClick={() => history.push('/')} type='submit' disabled={!this.props.stripe}>
                                 Cancel
                             </button>
-                            {
-                                this.state.errors
-                                    ?
-                                    <span role="alert" className='text-danger mt-3 d-block'>{this.state.errors}</span>
-                                    :
-                                    <></>
-                            }
+                            <span className='text-danger d-block text-center'>{this.state.errors['booking']}</span>
+                            <span className='text-danger d-block text-center'>{this.state.errors['payment']}</span>
                         </Form.Group>
                         <Row className='secure-checkout'>
                             <Col md={8} xs={8}>

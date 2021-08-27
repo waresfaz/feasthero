@@ -2,6 +2,7 @@ import React from 'react';
 import { Col, Row } from 'react-bootstrap';
 
 import dateTimeToString from '../../../../helpers/date-time-to-string';
+import getChefFullName from '../../../../helpers/get-chef-full-name';
 
 import './confirmation-details.scss';
 
@@ -11,7 +12,7 @@ class ConfirmationDetails extends React.Component {
         return (
             <section id='confirmation-details'>
                 <h2>Order Confirmation</h2>
-                <h3>{classData.title} with {classData.chefs[0].name}</h3>
+                <h3>{classData.title} with {getChefFullName(classData.chefs[0])}</h3>
                 <Row>
                     <Col xs={6}>
                         <h5>First Name:</h5>
@@ -73,7 +74,7 @@ class ConfirmationDetails extends React.Component {
                         <h5>Class Zoom Link</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5><a href={classData.chefs[0].zoom}>{classData.chefs[0].zoom}</a></h5>
+                        <h5><a href={classData.chefs[0].profile.zoom}>{classData.chefs[0].profile.zoom}</a></h5>
                     </Col>
                 </Row>
                 <Row>

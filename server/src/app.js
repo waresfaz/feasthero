@@ -2,21 +2,24 @@ const express = require("express");
 const cors = require("cors");
 const app = express();
 const cookieParser = require("cookie-parser");
-const cookieSession = require('cookie-session')
+const session = require('express-session');
+const MongoStore = require('connect-mongo');
 
 const { connectToDb } = require('./database/connect.js');
 const { settings } = require("./feasthero/settings.js");
 
 const classesRouter = require('./apps/classes/routes');
-const chefsRouter = require('./apps/chefs/routes');
 const bookingRouter = require('./apps/booking/routes');
 const contactRouter = require('./apps/contact/routes');
-const scheduleRouter = require('./apps/schedule/routes');
 const subscribeRouter = require("./apps/subscribe/routes");
 const blogRouter = require('./apps/blog/routes');
 
 const errorMiddleware = require('./middleware/error');
-const verifyReqFromClient = require('./middleware/verify_req_from_client');
+const verifyApiTkn = require('./middleware/verify_api_tkn');
+const authRouter = require("./apps/auth/routes.js");
+const accountsRouter = require("./apps/accounts/routes.js");
+const upload = require("./middleware/upload_image.js");
+const chefRouter = require("./apps/profiles/chef/routes.js");
 
 function init() {
   connectToDb();
@@ -31,24 +34,28 @@ function initMiddleware() {
   app.use(express.urlencoded({ extended: true }));
   app.use(errorMiddleware);
   app.use(cookieParser());
-  app.use(cookieSession({
-    name: 'session',
-    keys: [settings.SESSION_SECRET],
-    httpOnly: true,
-    maxAge: 900000, // 15 minutes
-    signed: true,
+  app.use(upload.any());
+  app.use(session({
+    secret: process.env.SESSION_SECRET,
+    resave: false,
+    saveUninitialized: false,
+    store: MongoStore.create({
+      mongoUrl: settings.MONGO_URI,
+    }),
   }));
-  app.use(verifyReqFromClient);
+  app.use(verifyApiTkn);
 }
+
 
 function initRoutes() {
   app.use('/classes', classesRouter);
-  app.use('/chefs', chefsRouter);
   app.use('/booking', bookingRouter);
   app.use('/contact', contactRouter);
-  app.use('/schedule', scheduleRouter);
   app.use('/subscribe', subscribeRouter);
   app.use('/blog', blogRouter);
+  app.use('/auth', authRouter);
+  app.use('/accounts', accountsRouter);
+  app.use('/chef', chefRouter);
 }
 
 init();

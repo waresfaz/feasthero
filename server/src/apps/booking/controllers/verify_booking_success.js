@@ -1,16 +1,17 @@
-const StatusCodes = require('http-status-codes');
-const findClass = require('../../classes/services/find_class');
+const { StatusCodes } = require("http-status-codes");
+const ClassQueryBuilder = require("../../classes/services/class_query_builder");
 const Booking = require('../schema/booking');
 
 async function verifyBookingSuccess(req, res) {
     const bookingId = req.session.bookingId;
     const bookingDetailsFromDoc = await Booking.findOne({ _id: bookingId });
     if (bookingDetailsFromDoc) {
-        const classData = await findClass(bookingDetailsFromDoc.classId);
-        res.status(StatusCodes.OK).json({ response: { bookingDetails: bookingDetailsFromDoc, classData: classData } });
+        const query = new ClassQueryBuilder().filterByClassId(bookingDetailsFromDoc.classId).includeChef().onlyFirstIndex();
+        const classData = await query.run();
+        return res.status(StatusCodes.OK).json({ bookingDetails: bookingDetailsFromDoc, classData: classData });
     }
-    else
-        res.status(StatusCodes.BAD_REQUEST).json({ response: 'not found' });
+
+    return res.status(StatusCodes.BAD_REQUEST).json({ error: 'not found' });
 }
 
 module.exports = verifyBookingSuccess;

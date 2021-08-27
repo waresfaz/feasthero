@@ -1,8 +1,8 @@
 export default class CalculateTotals {
-    static totals(bookingSize, costPerDevice, mealKitPrice, bookingSizeWithMealKit, mealKitsBooked) {
+    static totals(bookingSize, costPerDevice, mealKitCost, bookingSizeWithMealKit, mealKitsBooked) {
         let mealKitsTotal = 0;
         if (mealKitsBooked)
-            mealKitsTotal = this._mealKitsTotal(mealKitPrice, bookingSizeWithMealKit);
+            mealKitsTotal = this._mealKitsTotal(mealKitCost, bookingSizeWithMealKit);
 
         const devicesTotal = this._devicesTotal(costPerDevice, bookingSize)
         const subTotal = this._subTotal(devicesTotal, mealKitsTotal);
@@ -10,11 +10,11 @@ export default class CalculateTotals {
         const grandTotal = this._grandTotal(tax, subTotal);
 
         return {
-            tax: tax.toFixed(2),
-            mealKitsTotal: mealKitsTotal.toFixed(2),
-            devicesTotal: devicesTotal.toFixed(2),
-            grandTotal: grandTotal.toFixed(2),
-            subTotal: subTotal.toFixed(2),
+            tax: Number(tax.toFixed(2)),
+            mealKitsTotal:  Number(mealKitsTotal.toFixed(2)),
+            devicesTotal:  Number(devicesTotal.toFixed(2)),
+            grandTotal:  Number(grandTotal.toFixed(2)),
+            subTotal:  Number(subTotal.toFixed(2)),
         }
     }
 
@@ -22,8 +22,8 @@ export default class CalculateTotals {
         return costPerDevice * bookingSize;
     }
 
-    static _mealKitsTotal(mealKitPrice, bookingSizeWithMealKit) {
-        return mealKitPrice * bookingSizeWithMealKit;
+    static _mealKitsTotal(mealKitCost, bookingSizeWithMealKit) {
+        return mealKitCost * bookingSizeWithMealKit;
     }
 
     static _subTotal(devicesTotal, mealKitsTotal) {

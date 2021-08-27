@@ -6,19 +6,21 @@ import Select from 'react-select'
 import { connect } from 'react-redux';
 
 
-import { validBookingSizes, bookingSizeDropdownStyle, dateTimeBookingDropdownStyle } from '../../../../constants/app-constants';
+import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
+
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
-import NumberDropdownValidator from '../../../../validators/number-dropdown';
+import BookingSizeValidator from '../../../../validators/booking-size';
 import EmailValidator from '../../../../validators/email';
+import NotEmptyValidator from '../../../../validators/not-empty';
+import BooleanValidator from '../../../../validators/boolean';
 import DateTimeValidator from '../../../../validators/datetime';
+import NameValidator from '../../../../validators/name';
+
 import history from '../../../../history';
 import { initBookingDetailsSession } from '../../../../services/booking/api';
+import { setMealKitsBookedError, updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
 
 import Button from '../../../../components/button/button';
-
-import { updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
-import NameValidator from '../../../../validators/name';
-import NotEmptyValidator from '../../../../validators/not-empty';
 
 import './booking-details.scss';
 
@@ -28,20 +30,7 @@ class BookingDetails extends React.Component {
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
         this.state = {
             loading: false,
-            errors: [],
-            formErrors: {}
-        }
-    }
-
-    getGeneralBookerAndBookingDetails = () => {
-        const { bookingDetails } = this.props;
-        return {
-            customerFirstName: bookingDetails.customerFirstName,
-            customerLastName: bookingDetails.customerLastName,
-            selectedClassDateTime: bookingDetails.selectedClassDateTime,
-            companyName: bookingDetails.companyName,
-            customerEmail: bookingDetails.customerEmail,
-            bookingSize: bookingDetails.bookingSize,
+            errors: {}
         }
     }
 
@@ -49,46 +38,13 @@ class BookingDetails extends React.Component {
         let value = event.target.value;
         let name = event.target.name;
         this.props.updateGeneralBookerAndBookingDetails({
-            ...this.getGeneralBookerAndBookingDetails(), [name]: value
+            ...this.props.bookingDetails, [name]: value
         })
-    }
-
-    validate = () => {
-        let formErrors = {};
-        const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
-
-        formErrors['bookingSizeForBooking'] = this.validateBookingSize()
-        formErrors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
-        formErrors['customerEmail'] = EmailValidator.validate(customerEmail);
-        formErrors['customerFirstName'] = NameValidator.validate(customerFirstName);
-        formErrors['customerLastName'] = NameValidator.validate(customerLastName);
-        formErrors['comanyName'] = NotEmptyValidator.validate(companyName);
-
-        let valid = Object.values(formErrors).every(error => error === null);
-        if (!valid)
-            this.setState({ formErrors });
-
-        return valid;
-    }
-
-    validateBookingSize = () => {
-        const bookingSizeUpperBounds = validBookingSizes[validBookingSizes.length - 1].value;
-        const bookingSizeLowerBounds = validBookingSizes[0].value
-
-        const numberDropDownErrorMessage =
-            new NumberDropdownValidator(
-                {
-                    upperBounds: bookingSizeUpperBounds,
-                    lowerBounds: bookingSizeLowerBounds,
-                    mustBeInteger: true
-                })
-                .validate(this.props.bookingDetails.bookingSize);
-
-        return numberDropDownErrorMessage;
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
+        this.clearErrors();
 
         if (!this.validate())
             return;
@@ -96,20 +52,73 @@ class BookingDetails extends React.Component {
         this.setState({
             loading: true,
         })
-        if (!await initBookingDetailsSession(this.props.bookingDetails)) {
-            const error = 'Error creating checkout session, please try again later';
-            this.setState(prevState => ({
-                errors: [...prevState.errors, error],
-            }));
-        }
-        this.setState({
-            loading: false,
-        })
 
-        if (this.state.errors.length > 0)
+        if (!(await this.initBookingSession()))
             return;
 
         history.push('/checkout')
+    }
+
+    clearErrors = () => {
+        this.setState({
+            errors: {}
+        })
+    }
+
+    validate = () => {
+        let errors = {};
+        const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
+        errors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
+        errors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
+        errors['customerEmail'] = EmailValidator.validate(customerEmail);
+        errors['customerFirstName'] = NameValidator.validate(customerFirstName);
+        errors['customerLastName'] = NameValidator.validate(customerLastName);
+        errors['comanyName'] = NotEmptyValidator.validate(companyName);
+
+        let valid = Object.values(errors).every(error => error === null);
+        if (this.doesMealKitCheckHaveError())
+            valid = false;
+
+        if (!valid)
+            this.setState({ errors });
+
+        return valid;
+    }
+
+    doesMealKitCheckHaveError = () => {
+        let mealKitsBookedValidatedError = BooleanValidator.validate(this.props.bookingDetails.mealKitsBooked);
+        if (mealKitsBookedValidatedError) {
+            mealKitsBookedValidatedError = 'meal kit value ' + mealKitsBookedValidatedError;
+            this.props.setMealKitsBookedError(mealKitsBookedValidatedError)
+        }
+        return mealKitsBookedValidatedError;
+    }
+
+    initBookingSession = async () => {
+        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
+        if (initBookingSessionResult.error) {
+            this.handleInitBookingSessionError(initBookingSessionResult.error);
+            return false;
+        }
+        return true;
+    }
+
+    handleInitBookingSessionError = (errorResponse) => {
+        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
+            this.setState({
+                errors: errorResponse.data['errors'],
+                loading: false,
+            });
+        } else {
+            this.setState({
+                errors: { error: 'Error creating checkout session, please try again later' },
+                loading: false,
+            });
+        }
+    }
+
+    requestErrorHasAdditionalInfo = (errorResponse) => {
+        return errorResponse.status === 400 && errorResponse.data['errors']
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -122,7 +131,7 @@ class BookingDetails extends React.Component {
 
     render() {
         const { bookingDetails } = this.props;
-        const { formErrors } = this.state;
+        const { errors } = this.state;
 
         return (
             <div id='booking-details-container'>
@@ -144,26 +153,25 @@ class BookingDetails extends React.Component {
                             </Col>
                             <Col sm={12} lg={4}>
                                 <Select
-                                    styles={bookingSizeDropdownStyle}
+                                    styles={selectDropDownStyle}
                                     onChange={this.handleFormChange}
                                     value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
                                     options={validBookingSizes}
-                                >
-                                </Select>
-                                <span className='text-danger'>{formErrors['bookingSizeForBooking']}</span>
+                                />
+                                <span className='text-danger'>{errors['bookingSize']}</span>
                             </Col>
                         </Row>
                     </Form.Group>
                     <Form.Group>
                         <Select
                             required
-                            styles={dateTimeBookingDropdownStyle}
+                            styles={selectDropDownStyle}
                             onChange={this.handleFormChange}
                             value={this.scheduleOptions.filter((option) => option.target.value === bookingDetails.selectedClassDateTime)}
                             placeholder='Select Date & Time'
                             options={this.scheduleOptions}
                         />
-                        <span className='text-danger'>{formErrors['classDateTime']}</span>
+                        <span className='text-danger'>{errors['classDateTime']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -171,7 +179,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='First Name'
                             name='customerFirstName'
                         />
-                        <span className='text-danger'>{formErrors['customerFirstName']}</span>
+                        <span className='text-danger'>{errors['customerFirstName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -179,7 +187,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Last Name'
                             name='customerLastName'
                         />
-                        <span className='text-danger'>{formErrors['customerLastName']}</span>
+                        <span className='text-danger'>{errors['customerLastName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -187,7 +195,7 @@ class BookingDetails extends React.Component {
                             required type='text' placeholder='Company Name'
                             name='companyName'
                         />
-                        <span className='text-danger'>{formErrors['companyName']}</span>
+                        <span className='text-danger'>{errors['companyName']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
@@ -195,9 +203,9 @@ class BookingDetails extends React.Component {
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />
-                        <span className='text-danger error'>{formErrors['customerEmail']}</span>
+                        <span className='text-danger'>{errors['customerEmail']}</span>
                     </Form.Group>
-                    <p className='text-danger error'>{this.state.errors.map(error => <span>{error}<br /></span>)}</p>
+                    <span className='text-danger'>{errors['error']}</span>
                     <Row>
                         <Col md={6}>
                             <Button primary={true} type='submit'
@@ -215,7 +223,7 @@ class BookingDetails extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        bookingDetails: state.booking,
+        bookingDetails: state.booking.bookingDetails,
     }
 }
 
@@ -226,7 +234,8 @@ const mapDispatchToProps = (dispatch) => {
                 updateGeneralBookerAndBookingDetails(
                     generalBookerAndBookingDetails
                 )
-            )
+            ),
+        setMealKitsBookedError: (error) => dispatch(setMealKitsBookedError(error))
     }
 }
 

@@ -1,30 +1,44 @@
-import feastHeroApiTokenWrapper from '../helpers/feasthero-api-token-wrapper';
-import { settings, initSettings } from '../settings';
+const CLASSES_PATH = `/classes`;
+export const ALL_CLASSES_FILTERED_FOR_BOOKING = `${CLASSES_PATH}/filter/booking/all`;
+export const FIND_CLASS_FOR_BOOKING_PAGE_PREFIX = `${CLASSES_PATH}/filter/booking`;
+export const DELETE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
+export const UPDATE_CLASS_PREFIX = `${CLASSES_PATH}/class`;
+export const NEW_CLASS = `${CLASSES_PATH}/new`;
+export const ADD_TIME_SLOT_PREFIX = `${CLASSES_PATH}/schedule/add/timeslot`
 
+export function DELETE_TIME_SLOT(classId, timeSlotId) {
+    return `${CLASSES_PATH}/schedule/delete/timeslot/${timeSlotId}/class/${classId}`
+}
 
-initSettings();
+const BOOKING_PATH = `/booking`;
+export const INIT_BOOKING_DETAILS_SESSION = `${BOOKING_PATH}/init-session`;
+export const GET_BOOKING_DETAILS_FROM_SESSION = `${BOOKING_PATH}/details-from-session`;
+export const BOOK_CLASS = `${BOOKING_PATH}/book`;
+export const VERIFY_BOOKING_SUCCESS = `${BOOKING_PATH}/verify-success`;
+export const IS_BOOKING_SESSION_ACTIVE = `${BOOKING_PATH}/is-session-active`;
+export const SHARE_CONFIRMATION = `${BOOKING_PATH}/share-confirmation`;
 
-export const BASE_URL = settings.SERVER_ORIGIN;
+const CONTACT_PATH = `/contact`;
+export const EMAIL = `${CONTACT_PATH}/email`;
 
-const CLASSES_PATH = `${BASE_URL}/classes`;
-export const ALL_CLASSES = feastHeroApiTokenWrapper(`${CLASSES_PATH}/all`);
-export const FIND_CLASS = feastHeroApiTokenWrapper(`${CLASSES_PATH}/find`);
+const SUBSCRIBE_PATH = `/subscribe`;
+export const SUBSCRIBE = `${SUBSCRIBE_PATH}`;
 
-const BOOKING_PATH = `${BASE_URL}/booking`;
-export const INIT_BOOKING_DETAILS_SESSION = feastHeroApiTokenWrapper(`${BOOKING_PATH}/init-session`);
-export const GET_BOOKING_DETAILS_FROM_SESSION = feastHeroApiTokenWrapper(`${BOOKING_PATH}/details-from-session`);
-export const BOOK_CLASS = feastHeroApiTokenWrapper(`${BOOKING_PATH}/book`);
-export const VERIFY_BOOKING_SUCCESS = feastHeroApiTokenWrapper(`${BOOKING_PATH}/verify-success`);
-export const IS_BOOKING_SESSION_ACTIVE = feastHeroApiTokenWrapper(`${BOOKING_PATH}/is-session-active`);
-export const SHARE_CONFIRMATION = feastHeroApiTokenWrapper(`${BOOKING_PATH}/share-confirmation`);
-
-const CONTACT_PATH = `${BASE_URL}/contact`;
-export const EMAIL = feastHeroApiTokenWrapper(`${CONTACT_PATH}/email`);
-
-const SUBSCRIBE_PATH = `${BASE_URL}/subscribe`;
-export const SUBSCRIBE = feastHeroApiTokenWrapper(`${SUBSCRIBE_PATH}`);
-
-const BLOG_PATH = `${BASE_URL}/blog`;
+const BLOG_PATH = `/blog`;
 const BLOG_POSTS_PATH = `${BLOG_PATH}/posts`;
-export const ALL_BLOG_POSTS = feastHeroApiTokenWrapper(`${BLOG_POSTS_PATH}/all`);
-export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`;
+export const ALL_BLOG_POSTS = `${BLOG_POSTS_PATH}/all`;
+export const FIND_BLOG_POST = `${BLOG_POSTS_PATH}`
+
+const AUTH_PATH = `/auth`;
+export const STANDARD_REGISTER = `${AUTH_PATH}/register`;
+export const STANDARD_LOGIN = `${AUTH_PATH}/login`;
+export const OAUTH_REGISTER = `${AUTH_PATH}/oauth/register`;
+export const OAUTH_LOGIN = `${AUTH_PATH}/oauth/login`;
+export const LOGOUT = `${AUTH_PATH}/logout`;
+
+const ACCOUNTS_PATH = '/accounts';
+export const GET_ACCOUNT = `${ACCOUNTS_PATH}/get-account`;
+
+const CHEF_PATH = '/chef';
+export const FIND_CLASS_FOR_CHEF_PREFIX = `${CHEF_PATH}/classes`;
+export const ALL_CLASSES_FOR_CURRENT_CHEF = `${CHEF_PATH}/classes/all`

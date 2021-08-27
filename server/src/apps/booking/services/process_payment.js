@@ -2,7 +2,7 @@ const { settings } = require('../../../feasthero/settings');
 const stripe = require('stripe')(settings.stripe.SECRET_KEY);
 const SendConfirmedEmails = require('./send_confirmed_emails');
 
-class ProcessPayment {
+class ProcessPaymentService {
     constructor(bookingDetails, cardTokenId) {
         this.cardTokenId = cardTokenId;
         this.bookingDetails = bookingDetails;
@@ -36,4 +36,4 @@ class ProcessPayment {
 
 }
 
-module.exports = ProcessPayment;
+module.exports = ProcessPaymentService;

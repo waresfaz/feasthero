@@ -14,14 +14,13 @@ let settings = {
 
 function initSettings() {
     require("dotenv").config();
-    
+
     if (process.env.DEBUG === 'true')
         settings.DEBUG = true;
     else
         settings.DEBUG = false;
-        
+
     settings.PORT = normalizePort(process.env.PORT || '8080');
-    settings.SESSION_SECRET = process.env.SESSION_SECRET;
 
     if (settings.DEBUG) {
         settings.ORIGIN = `http://${process.env.DOMAIN_NAME}:${settings.PORT}`;

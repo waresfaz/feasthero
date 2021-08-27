@@ -18,33 +18,26 @@ export const validBookingSizes = [
     { target: { name: 'bookingSize', value: 20 }, label: 20 },
 ]
 
-export const SESSION_EXPIRED_ERROR = "error: session expired";
+export const BOOKING_SESSION_NOT_ACTIVE_ERROR = "error: booking session not actuve";
 
-export const bookingSizeDropdownStyle = {
+export const selectDropDownStyle = {
     control: (base, state) => ({
         ...base,
         boxShadow: 'none',
         borderRadius: '0.5rem',
-        padding: '0.89rem 0',
+        padding: '0.8rem 0',
         border: '1px solid #C7C8C8 !important',
+
     }),
-
-    dropdownIndicator: (base, state) => ({
-        ...base,
-        color: '#586168',
-    })
-}
-
-export const dateTimeBookingDropdownStyle = {
-    control: (base, state) => ({
-        ...base,
-        boxShadow: 'none',
-        borderRadius: '0.5rem',
-        padding: '0.9rem 0',
-        border: '1px solid #C7C8C8 !important'
+    singleValue: () => ({
+        color: '#495057',
     }),
     dropdownIndicator: (base, state) => ({
         ...base,
         color: '#586168',
     })
 }
+
+export const CUSTOMER = "CUSTOMER";
+export const ADMIN = "ADMIN";
+export const CHEF = "CHEF"

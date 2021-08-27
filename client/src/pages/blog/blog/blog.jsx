@@ -18,31 +18,29 @@ class Blog extends React.Component {
         };
     }
 
-    render() {
+    tryToRenderBlogPosts() {
         const { blogPosts, httpRequestError } = this.props;
+        if (httpRequestError)
+            return <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
+        if (blogPosts.length !== 0) {
+            return <div id='preview-blog-posts'>
+                {
+                    blogPosts.map((post, key) => {
+                        return <PreviewBlogPost postData={post} index={key} key={key} />
+
+                    })
+                }
+            </div>
+        }
+        return <h4 className='text-center mt-5'>No blog posts yet...</h4>
+    }
+
+    render() {
         return (
             <>
                 <Container id='blog'>
                     <Title className='mb-5'>Blog</Title>
-                    {
-                        httpRequestError
-                            ?
-                            <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
-                            :
-                            blogPosts.length !== 0
-                                ?
-                                <div id='preview-blog-posts'>
-                                    {
-                                        blogPosts.map((post, key) => {
-                                            return <PreviewBlogPost postData={post} index={key} key={key} />
-
-                                        })
-                                    }
-                                </div>
-                                :
-                                <h4 className='text-center mt-5'>No blog posts yet...</h4>
-
-                    }
+                    {this.tryToRenderBlogPosts()}
                 </Container>
             </>
         )

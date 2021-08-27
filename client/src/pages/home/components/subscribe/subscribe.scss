@@ -66,16 +66,23 @@
 		border-radius: 0.5rem;
 		padding-top: 1.3rem;
 		padding-bottom: 1.3rem;
+		font-size: 1.2rem;
 
 		@include for-large-desktop {
 			padding-top: 1.5rem;
 			padding-bottom: 1.5rem;
+
+		}
+
+		@include for-phone {
+			font-size: 1.1rem;
 		}
 	}
 
 	.button-secondary {
 		font-size: 1.1rem;
-		padding: 0.17rem 0;
+		padding: 0.15rem 0;
+		margin-top: 0.13rem;
 
 		@include for-large-desktop {
 			padding: 0.3rem 0;

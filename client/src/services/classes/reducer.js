@@ -1,12 +1,12 @@
-import { GET_CLASSES } from './types';
+import { SET_CURRENT_CLASS } from './types';
 
 function classesReducer(state = [], action) {
     switch (action.type) {
-        case GET_CLASSES:
+        case SET_CURRENT_CLASS:
             return {
                 ...state,
-                allClasses: action.value
-            };
+                currentClassForBooking: action.value,
+            }
         default:
             return state;
     }

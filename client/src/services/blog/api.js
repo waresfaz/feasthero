@@ -1,23 +1,18 @@
-import axios from 'axios';
 import { ALL_BLOG_POSTS, FIND_BLOG_POST } from '../../constants/api-constants';
-import feastHeroApiTokenWrapper from '../../helpers/feasthero-api-token-wrapper';
+import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function fetchAllBlogPosts() {
-    const response = await axios.get(ALL_BLOG_POSTS)
-        .then((response) => response)
+    const response = await feastHeroAxios.get(ALL_BLOG_POSTS)
+        .then((response) => response.data)
         .catch((_) => ({ error: true }));
-    if (response.error)
-        return response;
 
-    return response.data.response;
+    return response;
 }
 
 export async function fetchBlogPost(id) {
-    const response = await axios.get(feastHeroApiTokenWrapper(`${FIND_BLOG_POST}/${id}`))
-        .then((response) => response)
+    const response = await feastHeroAxios.get(`${FIND_BLOG_POST}/${id}`)
+        .then((response) => response.data)
         .catch((_) => ({ error: true }));
-    if (response.error)
-        return response;
 
-    return response.data.response;
+    return response;
 }

@@ -9,8 +9,6 @@ import { Container } from 'react-bootstrap';
 import { initSettings } from '../../settings';
 import history from '../../history';
 import Home from '../../pages/home/home';
-import BookClass from '../../pages/book-class/book-class';
-import Checkout from '../../pages/checkout/checkout';
 import BookingSuccess from '../../pages/booking-success/booking-success';
 import AboutAndContactUs from '../../pages/about-and-contact-us/about-and-contact-us';
 import Faq from '../../pages/faq/faq';
@@ -20,6 +18,13 @@ import Footer from '../footer/footer';
 import BlogPost from '../../pages/blog/blog-post/blog-post';
 import ScrollToTop from '../scroll-to-top/scroll-to-top';
 import Login from '../../pages/auth/login/login';
+import Register from '../../pages/auth/register/register';
+import Account from '../../pages/account/account';
+import BookClass from '../../pages/book-class/book-class';
+import ChefClass from '../../pages/chef/class/chef-class';
+import Checkout from '../../pages/checkout/checkout';
+
+import LoadAccount from '../../hoc/load-account/load-account';
 
 import './app.scss';
 
@@ -28,9 +33,6 @@ class App extends React.Component {
   constructor() {
     super();
     initSettings();
-  }
-
-  componentDidMount() {
   }
 
   render() {
@@ -50,6 +52,9 @@ class App extends React.Component {
                 <Route exact path='/blog' component={Blog} />
                 <Route exact path='/blog/post/:id' component={BlogPost} />
                 <Route exact path='/auth/login' component={Login} />
+                <Route exact path='/auth/register' component={Register} />
+                <Route exact path='/account' component={Account} />
+                <Route exact path='/account/class/:id' component={ChefClass} />
               </Switch>
             </Container>
             <Footer />
@@ -60,4 +65,4 @@ class App extends React.Component {
   }
 }
 
-export default App;
+export default LoadAccount(App);

@@ -1,1 +1,1 @@
-export const GET_CLASSES =  "GET_CLASSES";
+export const SET_CURRENT_CLASS = "SET_CURRENT_CLASS";

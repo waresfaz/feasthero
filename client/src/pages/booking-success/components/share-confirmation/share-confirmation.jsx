@@ -7,8 +7,7 @@ import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 import { sendConfirmations } from '../../../../services/booking/api';
-import { statusEnum } from '../../../../helpers/session-wrapper';
-import { sessionWrapper } from '../../../../helpers/session-wrapper';
+import { sessionActiveWrapper, statusEnum } from '../../../../helpers/session-active-wrapper';
 
 import './share-confirmation.scss';
 
@@ -47,12 +46,12 @@ class ShareConfirmation extends React.Component {
             return;
         }
 
-        const response = await sessionWrapper(sendConfirmations, emails);
+        const response = await sessionActiveWrapper(sendConfirmations, emails);
 
-        if (response === statusEnum.sessionExpired)
+        if (response.status === statusEnum.sessionNotActive)
             return
 
-        if (response === statusEnum.error)
+        if (response.status === statusEnum.error)
             this.setState({
                 didSend: false,
                 loading: false
@@ -73,8 +72,29 @@ class ShareConfirmation extends React.Component {
         return emails;
     }
 
+    tryToRenderSendIcon(index) {
+        if (index === 0) {
+            return (
+                <Col md={11} lg={1}>
+                    <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
+                </Col>
+            )
+        }
+        return <></>
+    }
+
+    didEmailSend() {
+        const { didSend } = this.state;
+
+        if (didSend === false)
+            return <p className='text-danger text-center mb-0'>Failed to send</p>
+        if (didSend === true)
+            return <p className='text-success text-center mb-0'>Sent</p>
+        return <></>
+    }
+
     render() {
-        const { inputs, loading, didSend } = this.state;
+        const { inputs, loading } = this.state;
         return (
             <section id='share-confirmation'>
                 <Loader show={loading} />
@@ -86,31 +106,12 @@ class ShareConfirmation extends React.Component {
                                     <Col md={11}>
                                         <Form.Control placeholder='Email Address' type='email' ref={ref} />
                                     </Col>
-                                    {
-                                        i === 0
-                                            ?
-                                            <Col md={11} lg={1}>
-                                                <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
-                                            </Col>
-                                            :
-                                            <></>
-                                    }
-
+                                    {this.tryToRenderSendIcon(i)}
                                 </Row>
                             )
                         })
                     }
-                    {
-                        didSend === false
-                            ?
-                            <p className='text-danger text-center mb-0'>Failed to send</p>
-                            :
-                            didSend === true
-                                ?
-                                <p className='text-success text-center mb-0'>Sent</p>
-                                :
-                                <></>
-                    }
+                    {this.didEmailSend()}
                     <Row className='justify-content-center'>
                         <Col lg={4}>
                             <Button isButton={true} secondary={true}>Send Confirmation</Button>
