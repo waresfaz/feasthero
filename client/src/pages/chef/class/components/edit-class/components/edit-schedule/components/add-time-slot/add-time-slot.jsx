@@ -9,7 +9,7 @@ import Button from '../../../../../../../../../components/button/button';
 
 import { getClass } from '../../../../../../../../../services/chef/actions'
 
-import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/classes/api';
+import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/schedule/api';
 
 import './add-time-slot.scss';
 

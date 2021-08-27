@@ -8,18 +8,14 @@ const verifyChefIsAccessingTheirClass = require('../../middleware/verify_chef_is
 const validateClassDataMiddleware = require('../../middleware/validate_class_data');
 const upload = require('../../middleware/upload_image');
 const parseClassData = require('../../middleware/parse_class_data');
-const verifyUserIsChef = require('../../middleware/verify_user_is_chef');
 const findClassFilteredForBooking = require('./controllers/find_class_filtered_for_booking');
 const allClassesFilteredForBooking = require('./controllers/all_classes_filtered_for_booking');
-const addTimeSlot = require('./controllers/add_time_slot');
-const deleteTimeSlot = require('./controllers/delete_time_slot');
+const verifyUserIsChef = require('../../middleware/verify_user_is_chef');
 
-classesRouter.post('/new', parseClassData, validateClassDataMiddleware, upload.single('thumbnail'), wait(newClass));
-classesRouter.delete('/class/:classId', wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
-classesRouter.patch('/class/:classId', parseClassData, wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, upload.single('thumbnail'), wait(updateClass))
+classesRouter.post('/new', verifyUserIsChef, parseClassData, validateClassDataMiddleware, upload.single('thumbnail'), wait(newClass));
+classesRouter.delete('/class/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass), wait(deleteClass))
+classesRouter.patch('/class/:classId', verifyUserIsChef, parseClassData, wait(verifyChefIsAccessingTheirClass), validateClassDataMiddleware, upload.single('thumbnail'), wait(updateClass))
 classesRouter.get('/filter/booking/all', wait(allClassesFilteredForBooking));
 classesRouter.get('/filter/booking/:classId', wait(findClassFilteredForBooking));
-classesRouter.post('/schedule/add/timeslot/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass), wait(addTimeSlot));
-classesRouter.delete('/schedule/delete/timeslot/:timeSlotId/class/:classId', verifyUserIsChef, wait(verifyChefIsAccessingTheirClass), wait(deleteTimeSlot))
 
 module.exports = classesRouter;

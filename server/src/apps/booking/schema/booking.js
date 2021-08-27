@@ -4,6 +4,7 @@ var ObjectId = mongoose.Types.ObjectId;
 
 let Booking = new Schema({
   classId: ObjectId,
+  timeSlotId: ObjectId,
   customerEmail: String,
   customerFirstName: String,
   customerLastName: String,

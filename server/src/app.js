@@ -20,6 +20,7 @@ const authRouter = require("./apps/auth/routes.js");
 const accountsRouter = require("./apps/accounts/routes.js");
 const upload = require("./middleware/upload_image.js");
 const chefRouter = require("./apps/profiles/chef/routes.js");
+const scheduleRouter = require("./apps/schedule/routes.js");
 
 function init() {
   connectToDb();
@@ -56,6 +57,7 @@ function initRoutes() {
   app.use('/auth', authRouter);
   app.use('/accounts', accountsRouter);
   app.use('/chef', chefRouter);
+  app.use('/schedule', scheduleRouter);
 }
 
 init();

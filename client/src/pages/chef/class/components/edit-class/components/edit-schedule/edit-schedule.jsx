@@ -9,10 +9,6 @@ import DeleteTimeSlot from './components/delete-time-slot/delete-time-slot';
 import './edit-schedule.scss';
 
 class EditSchedule extends React.Component {
-    timeSlotIsEmpty = (timeSlot) => {
-        return JSON.stringify(timeSlot) === '{}' || !timeSlot.dateTime;
-    }
-
     render() {
         return (
             <>
@@ -20,11 +16,9 @@ class EditSchedule extends React.Component {
                 <section id='edit-schedule'>
                     {
                         this.props.classData.schedule.map((timeSlot, key) => {
-                            if (this.timeSlotIsEmpty(timeSlot))
-                                return <></>
                             return (
-                                <div key={key} className='schedule'>
-                                    <Row className='justify-content-center'>
+                                <div key={key} className={`schedule ${timeSlot.available ? '' : 'time-slot-unavailable'}`}>
+                                    <Row className='justify-content-center pt-2'>
                                         <Col sm={1}>
                                             <DeleteTimeSlot timeSlotId={timeSlot._id} />
                                         </Col>

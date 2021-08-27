@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const Class = require('../schemas/class');
+const Class = require('../schema/class');
 
 async function newClass(req, res) {
     const { classData } = res.locals;

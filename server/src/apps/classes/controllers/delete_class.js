@@ -1,5 +1,5 @@
 const { StatusCodes } = require("http-status-codes");
-const Class = require("../schemas/class");
+const Class = require("../schema/class");
 
 async function deleteClass(req, res) {
     const classId = req.params.classId;

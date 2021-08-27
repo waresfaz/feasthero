@@ -17,6 +17,7 @@ class ValidateBookingDetails {
     async validate() {
         let errors = {};
         errors['error'] = this.validateBookingDetailsCosts.validate();
+        errors['selectedClassDateTime'] = this.selectedTimeSlotId();
         errors['selectedClassDateTime'] = this.selectedClassDateTime();
         errors['bookingSize'] = this.bookingSize();
         errors['customerEmail'] = this.customerEmail();
@@ -34,6 +35,10 @@ class ValidateBookingDetails {
 
     selectedClassDateTime() {
         return DateTimeValidator.validate(this.bookingDetails.selectedClassDateTime, this.classData.schedule)
+    }
+
+    selectedTimeSlotId() {
+        return NotEmptyValidator.validate(this.bookingDetails.timeSlotId);
     }
 
     customerEmail() {
