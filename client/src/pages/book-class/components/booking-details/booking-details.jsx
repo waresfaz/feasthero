@@ -35,10 +35,17 @@ class BookingDetails extends React.Component {
     }
 
     handleFormChange = (event) => {
-        let value = event.target.value;
-        let name = event.target.name;
+        const value = event.target.value;
+        const name = event.target.name;
         this.props.updateGeneralBookerAndBookingDetails({
             ...this.props.bookingDetails, [name]: value
+        })
+    }
+
+    handleDateTimeChange = (event) => {
+        const { value, id } = event.target;
+        this.props.updateGeneralBookerAndBookingDetails({
+            ...this.props.bookingDetails, 'selectedClassDateTime': value, 'timeSlotId': id
         })
     }
 
@@ -166,7 +173,7 @@ class BookingDetails extends React.Component {
                         <Select
                             required
                             styles={selectDropDownStyle}
-                            onChange={this.handleFormChange}
+                            onChange={this.handleDateTimeChange}
                             value={this.scheduleOptions.filter((option) => option.target.value === bookingDetails.selectedClassDateTime)}
                             placeholder='Select Date & Time'
                             options={this.scheduleOptions}

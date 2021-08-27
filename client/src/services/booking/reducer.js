@@ -10,6 +10,7 @@ import {
 
 const initialBookingDetails = {
     classId: '',
+    timeSlotId: '',
     grandTotal: 0.00,
     tax: 0.00,
     subTotal: 0.00,

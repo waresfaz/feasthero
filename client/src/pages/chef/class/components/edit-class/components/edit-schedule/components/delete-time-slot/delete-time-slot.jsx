@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Loader from '../../../../../../../../../components/loader/loader';
 
-import { deleteTimeSlot } from '../../../../../../../../../services/classes/api';
+import { deleteTimeSlot } from '../../../../../../../../../services/schedule/api';
 import { getClass } from '../../../../../../../../../services/chef/actions';
 
 import './delete-time-slot.scss';
