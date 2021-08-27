@@ -19,7 +19,7 @@ class ChefClass extends React.Component {
     }
 
     errorLoadingClassData = () => {
-        return this.props.currentClass === false;
+        return Boolean(this.props.currentClass.error);
     }
 
     classDataRequestHasCompleted = () => {

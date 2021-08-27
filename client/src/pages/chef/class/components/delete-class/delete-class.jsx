@@ -1,22 +1,32 @@
 import React from 'react'
+import { connect } from 'react-redux';
 
 import Button from '../../../../../components/button/button'
+import Loader from '../../../../../components/loader/loader';
 
 import history from '../../../../../history'
+import { getAllClasses } from '../../../../../services/chef/actions';
 import { deleteClass } from '../../../../../services/classes/api'
 
 class DeleteClass extends React.Component {
     constructor() {
         super();
         this.state = {
+            loading: false,
             errors: {}
         }
     }
 
     deleteClass = async () => {
+        this.setState({ loading: true })
+
         const response = await deleteClass(this.props.classData._id);
         if (response.error)
             return this.handleDeleteClassError(response.error)
+
+        await this.props.getAllClasses();
+
+        this.setState({ loading: false });
 
         history.push('/account');
     }
@@ -24,12 +34,14 @@ class DeleteClass extends React.Component {
     handleDeleteClassError = (errorResponse) => {
         if (this.errorHasMoreInfo(errorResponse)) {
             this.setState({
-                errors: errorResponse.data['errors']
+                errors: errorResponse.data['errors'],
+                loading: false,
             });
             return;
         }
         this.setState({
-            errors: 'error deleting class'
+            errors: 'error deleting class',
+            loading: false
         });
     }
 
@@ -40,12 +52,27 @@ class DeleteClass extends React.Component {
     render() {
         const { errors } = this.state;
         return (
-            <div className='mt-5'>
-                <Button className='w-25 py-3' onClick={this.deleteClass} secondary>Delete</Button>
-                <span className='text-danger d-block mt-2'>{errors['error']}</span>
-            </div>
+            <>
+                <Loader show={this.state.loading} />
+                <div className='mt-5'>
+                    <Button className='w-100 py-3' onClick={this.deleteClass} secondary>Delete</Button>
+                    <span className='text-danger d-block mt-2'>{errors['error']}</span>
+                </div>
+            </>
         )
     }
 }
 
-export default DeleteClass;
+const mapDispatchToProps = (dispatch) => {
+    return {
+        getAllClasses: () => dispatch(getAllClasses())
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        classData: state.chef.currentClass,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(DeleteClass);

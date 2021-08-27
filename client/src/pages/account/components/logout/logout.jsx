@@ -27,7 +27,7 @@ class Logout extends React.Component {
         return (
             <>
                 <Loader show={this.state.loading} />
-                <Button className='w-25 py-3 d-block' isButton={true} onClick={this.logout}>Logout</Button>
+                <Button secondary className='w-100 py-3 d-block mt-5' isButton={true} onClick={this.logout}>Logout</Button>
             </>
         )
     }

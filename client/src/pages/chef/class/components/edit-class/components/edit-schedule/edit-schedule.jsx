@@ -9,12 +9,20 @@ import DeleteTimeSlot from './components/delete-time-slot/delete-time-slot';
 import './edit-schedule.scss';
 
 class EditSchedule extends React.Component {
+    timeSlotIsEmpty = (timeSlot) => {
+        return JSON.stringify(timeSlot) === '{}';
+    }
+
     render() {
         return (
             <>
+                <h2 className='mt-5 mb-3 text-center'>Schedule</h2>
                 <section id='edit-schedule'>
                     {
                         this.props.classData.schedule.map((timeSlot, key) => {
+                            console.log(JSON.stringify(timeSlot))
+                            if (this.timeSlotIsEmpty(timeSlot))
+                                return <></>
                             return (
                                 <div key={key} className='schedule'>
                                     <Row className='justify-content-center'>

@@ -45,7 +45,7 @@ class AddClass extends React.Component {
         if (newClassResponse.error)
             return this.handleAddError(newClassResponse.error);
 
-        this.props.getAllClasses();
+        await this.props.getAllClasses();
 
         this.setState({
             loading: false,
@@ -135,7 +135,7 @@ class AddClass extends React.Component {
         const { errors } = this.state;
 
         return (
-            <div id='add-class'>
+            <div id='add-class' className='mt-5'>
                 <Button className='mb-4 p-3' onClick={this.showModal}>Add Class</Button>
                 <Modal size='lg' id='add-class-modal' show={this.state.showModal} onHide={this.closeModal}>
                     <Modal.Header>

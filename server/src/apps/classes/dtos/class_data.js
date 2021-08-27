@@ -19,7 +19,7 @@ class ClassDataDto {
             Number(json['duration']),
             Number(json['mealKitCost']),
             json['hasMealKit'] === 'true' ? true : false,
-            [],
+            [{}],
         )
     }
 
