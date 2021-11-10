@@ -94,6 +94,7 @@ class Login extends React.Component {
 
     handleLoginError = (errorResponse) => {
         if (this.requestErrorHasAdditionalInfo(errorResponse)) {
+            console.log(errorResponse.data['errors']);
             this.setState({
                 errors: errorResponse.data['errors'],
                 loading: false,
@@ -142,6 +143,7 @@ class Login extends React.Component {
                                 name='password' required
                                 type='password' placeholder='Password'
                             />
+                            <span className='text-danger'>{this.state.errors['password']}</span>
                         </div>
 
 
