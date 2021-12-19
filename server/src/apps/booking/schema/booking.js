@@ -20,4 +20,5 @@ let Booking = new Schema({
   mealKitsTotal: Number,
   devicesTotal: Number,
 });
+
 module.exports = mongoose.model("Booking", Booking);

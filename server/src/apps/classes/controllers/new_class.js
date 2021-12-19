@@ -1,17 +1,21 @@
-const StatusCodes = require('http-status-codes');
-const Class = require('../schema/class');
+const { StatusCodes } = require("http-status-codes");
+const Class = require('../schemas/class');
 
 async function newClass(req, res) {
-    let clasData = new Class(req.body);
-    return clasData
+    const { classData } = res.locals;
+
+    classData.chefId = req.session.account._id;
+
+    let class_ = new Class(classData);
+    return class_
         .save()
-        .then((clasData) => {
-            return res.status(StatusCodes.OK).json({ response: clasData._id });
+        .then((class_) => {
+            return res.status(StatusCodes.OK).json(class_._id);
         })
-        .catch(async (_) => {
-            return res.status(StatusCodes.BAD_REQUEST).send({
-                response: "Class insert Failed , please try again",
-            });
+        .catch((_) => {
+            return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(
+                "Class insert Failed , please try again"
+            );
         });
 };
 

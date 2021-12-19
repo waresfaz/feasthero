@@ -9,6 +9,6 @@ Most apps will have these subdirectories or files (depends on how much code is n
 - `routes`
     - Exposed endpoints consumed by the REST API
 - `controllers`
-    - The functions that carry out and process the route requests
+    - The functions that carry out and process a route's requests
 - `services`
     - Business logic used by the controllers

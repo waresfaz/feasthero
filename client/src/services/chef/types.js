@@ -1,0 +1,3 @@
+export const GET_ALL_CLASSES = "GET_ALL_CLASSES";
+export const SET_CURRENT_CLASS = "SET_CURRENT_CLASS";
+export const GET_CLASS = "GET_CLASS";
