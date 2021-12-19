@@ -1,11 +1,12 @@
 const { StatusCodes } = require("http-status-codes");
-const Class = require("../apps/classes/schemas/class");
+const Class = require("../apps/classes/schema/class");
 
 async function verifyChefIsAccessingTheirClass(req, res, next) {
     const account = req.session.account;
     let classId = req.params.classId;
     if (!classId)
         classId = req.body.classId;
+
 
     const classes = await getAllClassesForAChef(account._id);
 
@@ -15,7 +16,7 @@ async function verifyChefIsAccessingTheirClass(req, res, next) {
             return;
         }
     }
-    
+
     res.status(StatusCodes.UNAUTHORIZED).json({ errors: { error: 'unauthorized' } });
 }
 

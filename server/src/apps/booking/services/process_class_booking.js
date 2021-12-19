@@ -1,8 +1,8 @@
 const Booking = require('../schema/booking');
-const Class = require('../../classes/schemas/class');
 const { StatusCodes } = require("http-status-codes");
 const ProcessPaymentService = require('./process_payment');
-
+const TimeSlot = require('../../schedule/schema/time_slot');
+const ObjectId = require('mongoose').Types.ObjectId;
 
 class ProcessClassBookingService {
     constructor(bookingDetails, cardTokenId) {
@@ -42,18 +42,21 @@ class ProcessClassBookingService {
     }
 
     async _isClassBooked() {
-        const bookedTimeSlot = await Class.findOne(
-            { _id: this.bookingDetails.classId, },
-            { 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } }
-        ).then((doc) => doc.schedule[0])
-        return bookedTimeSlot.available === false;
+        const bookedSlot = await TimeSlot.findOne({
+            classId: ObjectId(this.bookingDetails.classId),
+            _id: ObjectId(this.bookingDetails.timeSlotId),
+        });
+        return bookedSlot.available === false;
     }
 
     async _bookSlot() {
-        await Class.updateOne(
-            { _id: this.bookingDetails.classId, 'schedule': { $elemMatch: { dateTime: this.bookingDetails.selectedClassDateTime } } },
-            { '$set': { 'schedule.$.available': false } },
-        );
+        await TimeSlot.updateOne(
+            {
+                classId: ObjectId(this.bookingDetails.classId),
+                _id: ObjectId(this.bookingDetails.timeSlotId),
+            },
+            { available: false }
+        )
     }
 
     async _saveBookedClass() {

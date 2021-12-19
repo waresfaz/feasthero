@@ -15,6 +15,7 @@ export default function datesTimesAsOption(datesTimes) {
                 target: {
                     name: 'selectedClassDateTime',
                     value: dateTimeElem.dateTime,
+                    id: dateTimeElem._id,
                 },
                 label: dateTimeString
             }

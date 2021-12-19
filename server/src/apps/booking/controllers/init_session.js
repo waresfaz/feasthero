@@ -37,7 +37,7 @@ async function initSession(req, res) {
 }
 
 async function validate(bookingDetails) {
-    const query = new ClassQueryBuilder().filterByClassId(bookingDetails.classId).onlyIncludeBookableTimeSlots().onlyFirstIndex();
+    const query = new ClassQueryBuilder().filterByClassId(bookingDetails.classId).includeSchedule().onlyIncludeBookableTimeSlots().onlyFirstIndex();
     const classData = await query.run();
     const validateBookingDetailsService = new ValidateBookingDetails(bookingDetails, classData);
     const errors = await validateBookingDetailsService.validate();

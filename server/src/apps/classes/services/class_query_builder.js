@@ -1,4 +1,4 @@
-const Class = require("../schemas/class");
+const Class = require("../schema/class");
 const moment = require('moment-timezone');
 const ObjectId = require('mongoose').Types.ObjectId;
 
@@ -51,25 +51,9 @@ class ClassQueryBuilder {
         return this;
     }
 
-    _rebuildUnwind() {
-        return {
-            $group: {
-                '_id': '$_id',
-                'recipe': { '$first': '$recipe' },
-                'title': { '$first': '$title' },
-                'cost': { '$first': '$cost' },
-                'thumbnail': { '$first': '$thumbnail' },
-                'description': { '$first': '$description' },
-                'duration': { '$first': '$duration' },
-                'chefId': { '$first': '$chefId' },
-                'hasMealKit': { '$first': '$hasMealKit' },
-                'costPerDevice': { '$first': '$costPerDevice' },
-                'mealKitCost': { '$first': '$mealKitCost' },
-                'schedule': { '$push': '$schedule' },
-                'chefs': { '$first': '$chefs' }
-
-            }
-        };
+    includeSchedule() {
+        this.includeScheduleVar = true;
+        return this;
     }
 
     _emptyStage() {
@@ -77,37 +61,53 @@ class ClassQueryBuilder {
     }
 
     _buildScheduleQuery() {
-        if (this.onlyIncludeBookableTimeSlotsVar || this.sortScheduleVar) {
-            return [
-                {
-                    $unwind: '$schedule'
-                },
-                this.onlyIncludeBookableTimeSlotsVar
-                    ?
-                    {
-                        $match: {
-                            "schedule.dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
-                            $expr: {
-                                $eq: ['$schedule.available', true]
+        if (this.includeScheduleVar && (this.onlyIncludeBookableTimeSlotsVar || this.sortScheduleVar)) {
+            return {
+                $lookup: {
+                    from: 'schedules',
+                    as: 'schedule',
+                    let: { id: '$_id' },
+                    pipeline: [
+                        {
+                            $match: {
+                                $expr: {
+                                    $and: [
+                                        { $eq: ['$classId', '$$id'] }
+                                    ]
+                                },
                             },
                         },
-                    }
-                    :
-                    this._emptyStage(),
-                this.sortScheduleVar
-                    ?
-                    {
-                        $sort: {
-                            'schedule.dateTime': 1
-                        }
-                    }
-                    :
-                    this._emptyStage(),
-                this._rebuildUnwind(),
-            ]
+                        this.onlyIncludeBookableTimeSlotsVar
+                            ?
+                            {
+                                $match: {
+                                    "dateTime": { "$gte": WEEK_FROM, "$lte": WEEK_TO },
+                                    $expr: {
+                                        $and: [
+                                            { $eq: ['$available', true] },
+
+                                        ]
+                                    },
+                                },
+                            }
+                            :
+                            this._emptyStage(),
+                        this.sortScheduleVar
+                            ?
+                            {
+                                $sort: {
+                                    'dateTime': 1
+                                }
+                            }
+                            :
+                            this._emptyStage(),
+                    ]
+                }
+            }
+
         }
 
-        return [this._emptyStage()]
+        return this._emptyStage()
     }
 
 
@@ -173,7 +173,7 @@ class ClassQueryBuilder {
             this._buildFilterByClassIdQuery(),
             this._buildFilterByChefIdQuery(),
             this._buildChefQuery(),
-            ...this._buildScheduleQuery(),
+            this._buildScheduleQuery(),
         ]);
 
         return this.onlyFirstIndexVar ? result[0] : result;

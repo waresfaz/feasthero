@@ -1,54 +1,23 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-
-import Loader from '../../components/loader/loader';
+import ls from 'local-storage'
 
 import { setAccount } from '../../services/accounts/actions';
-import { getAccount } from '../../services/accounts/api';
 
 const LoadAccount = WrappedComponent => {
     return class extends React.Component {
-        constructor() {
-            super();
-            this.state = {
-                loading: false,
-            }
-        }
 
         async componentDidMount() {
-            this.setState({
-                loading: true,
-            })
-
-            const account = await getAccount();
-            if (account.error) {
-                this.props.setAccount(null);
-
-                this.setState({
-                    loading: false,
-                })
+            if (!ls.get('account') || ls.get('account') === 'undefined')
                 return;
-            }
-
-
-            this.props.setAccount(account.data);
-
-            this.setState({
-                loading: false,
-            })
+            this.props.setAccount(JSON.parse(ls.get('account')));
         }
 
         render() {
             return (
                 <>
-                    {
-                        this.state.loading
-                            ?
-                            <Loader show={this.state.loading} />
-                            :
-                            <WrappedComponent {...this.props} />
-                    }
+                    <WrappedComponent {...this.props} />
                 </>
             );
         }
