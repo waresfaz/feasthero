@@ -4,7 +4,7 @@
 </div>
 
 <div style='width: 100%; text-align: center'>
-    <a target='_blank' href='https://www.feasthero.com'><img width='100px' src="https://www.feasthero.com/images/logo-small.png"></a>
+    <img width='100px' src="https://github.com/waresfaz/feasthero/blob/master/client/public/images/logo-small.png">
 </div>
 <div style='text-align: center; margin-bottom: 5rem'>
     <p>
