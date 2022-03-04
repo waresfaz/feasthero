@@ -1,10 +1,11 @@
+
 <section>
 <div style='text-align: center; width: 100%'>
     <h1>🍲 FeastHero 🍲</h1>
 </div>
 
 <div style='width: 100%; text-align: center'>
-    <a target='_blank' href='https://www.feasthero.com'><img width='100px' src="https://www.feasthero.com/images/logo-small.png"></a>
+    <a href="https://www.linkedin.com/company/feasthero/"><img width='100px' src="https://github.com/waresfaz/feasthero/blob/master/client/public/images/logo-small.png"></a>
 </div>
 <div style='text-align: center; margin-bottom: 5rem'>
     <p>
@@ -32,20 +33,34 @@
         <li>Sign up for online group cooking classes</li>
         <li>Straight forward booking process</li>
         <li>Fully online and secure payments</li>
-        <li>User friendly</li>
-        <li>Mobie friendly</li>
+        	<li>Chef and customer accounts</li>
+        <li>Mobile friendly</li>
     </ul>
 </section>
+
+<section >
+	<h2>Technological Features</h2>
+	<ul>
+		<li>Server-side and client-side validation</li>
+	<li>Checkout sessions</li>
+		<li>Secured API with token</li>
+		<li>Allowed chefs to directly create and update classes with their account</li>
+		<li>Stripe payment integration</li>
+   </ul>
+</section>
+
 
 <section>
     <h2>Run Locally</h1>
     <ol>
         <li><code>git clone https://github.com/waresfaz/feasthero</code></li>
-        <li>Make sure you have <a href='https://www.npmjs.com/'>npm</a> installed</li>
         <li><code>make install</code></li>
         <li><code>make run</code>
         <p>or</p>
-        <li><code>cd ./client && npm install && cd ../server && npm install</code></li>
-        <li><code>cd ./client && npm start</code>and<code>cd ./server && npm start</code></li>
-    <ol>
+        </ol>
+        <ol>
+                <li><code>cd ./client && npm install && cd ../server && npm install</code></li>
+        <li><code>cd ./client && npm start</code></li>
+        <li><code>cd ./server && npm start</code></li>
+        </ol>
 </section>
