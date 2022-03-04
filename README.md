@@ -17,14 +17,9 @@
 </div>
 </section>
 
-<section>
-    <h2>Demos</h2>
-    <p>Site Tour</p>
-    https://github.com/waresfaz/feasthero/blob/master/demos/site-tour.mov
-<br><br><br>
-<p>Booking Demo</p>
-    https://github.com/waresfaz/feasthero/blob/master/demos/booking-demo.mov
-</section>
+https://user-images.githubusercontent.com/67922410/156700597-e8b6425b-ddf2-45a7-b509-e3ab85a50bd8.mp4
+
+https://user-images.githubusercontent.com/67922410/156700593-f79a64ce-bbe5-47fc-be15-0a6dcaf82d40.mp4
 
 <section>
     <h2>Technologies</h2>
