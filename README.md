@@ -20,14 +20,10 @@
 <section>
     <h2>Demos</h2>
     <p>Site Tour</p>
-    <video controls>
-  <source src="https://youtu.be/pq82zl-jh90" type="video/mp4">
-</video>
+    https://github.com/waresfaz/feasthero/blob/master/demos/site-tour.mov
 <br><br><br>
 <p>Booking Demo</p>
-<video controls>
-  <source src="https://youtu.be/pq82zl-jh90" type="video/mp4">
-</video>
+    https://github.com/waresfaz/feasthero/blob/master/demos/booking-demo.mov
 </section>
 
 <section>
