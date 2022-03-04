@@ -63,7 +63,7 @@ https://user-images.githubusercontent.com/67922410/156700593-f79a64ce-bbe5-47fc-
         <p>or</p>
         </ol>
         <ol>
-                <li><code>cd ./client && npm install && cd ../server && npm install</code></li>
+        <li><code>cd ./client && npm install && cd ../server && npm install</code></li>
         <li><code>cd ./client && npm start</code></li>
         <li><code>cd ./server && npm start</code></li>
         </ol>

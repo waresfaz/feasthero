@@ -7,7 +7,7 @@ function verifyApiKey(req, res, next) {
 }
 
 function apiKeyValid(key) {
-    return key === process.env.FEASTHERO_API_TOKEN;
+    return key === process.env.FEASTHERO_API_KEY;
 }
 
 module.exports = verifyApiKey;
