@@ -18,6 +18,19 @@
 </section>
 
 <section>
+    <h2>Demos</h2>
+    <p>Booking</p>
+    <video controls>
+  <source src="demos/booking-demo.mov" type="video/mp4">
+</video>
+<br><br><br>
+<p>Site Tour</p>
+<video controls>
+  <source src="demos/site-tour.mov.mov" type="video/mp4">
+</video>
+</section>
+
+<section>
     <h2>Technologies</h2>
     <ul>
         <li>React</li>
