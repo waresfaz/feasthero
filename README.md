@@ -19,14 +19,14 @@
 
 <section>
     <h2>Demos</h2>
-    <p>Booking</p>
+    <p>Site Tour</p>
     <video controls>
-  <source src="demos/booking-demo.mov" type="video/mp4">
+  <source src="https://youtu.be/pq82zl-jh90" type="video/mp4">
 </video>
 <br><br><br>
-<p>Site Tour</p>
+<p>Booking Demo</p>
 <video controls>
-  <source src="demos/site-tour.mov.mov" type="video/mp4">
+  <source src="https://youtu.be/pq82zl-jh90" type="video/mp4">
 </video>
 </section>
 
