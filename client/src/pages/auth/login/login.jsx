@@ -4,11 +4,7 @@ import GoogleLogin from 'react-google-login';
 import Button from '../../../components/button/button';
 
 import { connect } from 'react-redux';
-import { isAtLoginPage } from '../../../services/auth/actions';
-import EmailValidator from '../../../validators/email';
-import { login, oAuthLogin } from '../../../services/auth/api';
-import history from '../../../history';
-import { setAccount } from '../../../services/accounts/actions';
+import { isAtLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
 
@@ -22,9 +18,15 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
-            errors: {},
-            loading: false,
         }
+    }
+
+    componentDidMount() {
+        this.props.atLoginPage();
+    }
+
+    componentWillUnmount() {
+        this.props.leftLoginPage();
     }
 
     handleChange = (evt) => {
@@ -36,95 +38,17 @@ class Login extends React.Component {
 
     handleSubmitStandardLogin = async (evt) => {
         evt.preventDefault();
-        this.clearErrors();
-
-        if (!this.validateStandardLoginData())
-            return;
-
-        this.setState({
-            loading: true
-        })
-
-        const loginRequestResult = await login(this.state);
-        if (!this.handleLoginRequestResult(loginRequestResult))
-            return;
-
-        this.setState({
-            loading: false
-        })
-
-        history.push('/account');
-    }
-
-    validateStandardLoginData = () => {
-        let errors = {};
-        errors['email'] = EmailValidator.validate(this.state.email);
-
-        let valid = Object.values(errors).every(error => error === null);
-        if (!valid)
-            this.setState({ errors });
-
-        return valid;
+        this.props.login(this.state.email, this.state.password);
     }
 
     handleSubmitForOAuthLogin = async (oAuthData) => {
-        this.clearErrors();
-
-        const loginRequestResult = await oAuthLogin(oAuthData.tokenId);
-        if (!this.handleLoginRequestResult(loginRequestResult))
-            return;
-
-        history.push('/account');
-    }
-
-    clearErrors = () => {
-        this.setState({
-            errors: {},
-        })
-    }
-
-    handleLoginRequestResult = (loginRequestResult) => {
-        if (loginRequestResult.error) {
-            this.handleLoginError(loginRequestResult.error);
-            return false;
-        }
-        this.props.setAccount(loginRequestResult.data);
-        return true;
-    }
-
-    handleLoginError = (errorResponse) => {
-        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
-            console.log(errorResponse.data['errors']);
-            this.setState({
-                errors: errorResponse.data['errors'],
-                loading: false,
-            })
-            return
-        }
-
-        this.setState({
-            errors: { error: 'failed to login, please try again later' },
-            loading: false,
-        })
-    }
-
-    requestErrorHasAdditionalInfo = (errorResponse) => {
-        return (errorResponse.status === 400 || errorResponse.status === 404 || errorResponse.status === 401) && errorResponse.data['errors'];
-    }
-
-
-    componentDidMount() {
-        this.props.atLoginPage();
-    }
-
-    componentWillUnmount() {
-        this.props.leftLoginPage();
+        this.props.oAuthLogin(oAuthData);
     }
 
     render() {
         return (
             <section id='login'>
-                <Loader show={this.state.loading} />
+                <Loader show={this.props.loading} />
                 <Container>
                     <form onSubmit={this.handleSubmitStandardLogin}>
                         <div className='mb-3'>
@@ -134,7 +58,7 @@ class Login extends React.Component {
                                 name='email' required
                                 type='email' placeholder='Email'
                             />
-                            <span className='text-danger'>{this.state.errors['email']}</span>
+                            <span className='text-danger'>{this.props.errors['email']}</span>
                         </div>
                         <div className='mb-3'>
                             <Form.Control
@@ -143,14 +67,14 @@ class Login extends React.Component {
                                 name='password' required
                                 type='password' placeholder='Password'
                             />
-                            <span className='text-danger'>{this.state.errors['password']}</span>
+                            <span className='text-danger'>{this.props.errors['password']}</span>
                         </div>
 
 
                         <Row className='justify-content-center'>
                             <Col md={12} className='text-center'>
                                 <Button isButton={true}>Sign In</Button>
-                                <span className='text-danger'>{this.state.errors['error']}</span>
+                                <span className='text-danger'>{this.props.errors['error']}</span>
                                 <div className="strike-through my-3">
                                     <span className='text-muted'>or sign in with google</span>
                                 </div>
@@ -169,12 +93,20 @@ class Login extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        errors: state.auth.errors,
+        loading: state.auth.loading,
+    }
+}
+
 const mapDispatchToProps = (dispatch) => {
     return {
         atLoginPage: () => dispatch(isAtLoginPage(true)),
         leftLoginPage: () => dispatch(isAtLoginPage(false)),
-        setAccount: (account) => dispatch(setAccount(account))
+        login: (email, password) => dispatch(login(email, password)),
+        oAuthLogin: (oAuthData) => dispatch(oAuthLogin(oAuthData))
     }
 }
 
-export default connect(null, mapDispatchToProps)(ShouldRedirectToAccount(Login));
+export default connect(mapStateToProps, mapDispatchToProps)(ShouldRedirectToAccount(Login));

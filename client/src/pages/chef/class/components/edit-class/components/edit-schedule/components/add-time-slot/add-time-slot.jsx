@@ -13,6 +13,8 @@ import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../se
 
 import './add-time-slot.scss';
 
+// TODO
+
 class AddTimeSlot extends React.Component {
     constructor() {
         super();

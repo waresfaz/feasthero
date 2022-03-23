@@ -20,6 +20,7 @@ class Blog extends React.Component {
 
     tryToRenderBlogPosts() {
         const { blogPosts, httpRequestError } = this.props;
+        
         if (httpRequestError)
             return <h4 className='text-danger mt-4'>Error loading blog, please try again</h4>
         if (blogPosts.length !== 0) {

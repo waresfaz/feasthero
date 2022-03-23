@@ -14,6 +14,8 @@ import Button from '../../../../../../components/button/button';
 
 import './add-class.scss'
 
+// TODO
+
 class AddClass extends React.Component {
     constructor() {
         super();

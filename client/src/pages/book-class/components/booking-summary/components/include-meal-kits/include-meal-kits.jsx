@@ -2,11 +2,14 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { updatemealKitsBooked } from '../../../../../../services/booking/actions';
+import { updateBookerAndBookingDetails } from '../../../../../../services/booking/actions';
 
 class IncludeMealKits extends React.Component {
     toggleIncludeMealKits = () => {
-        this.props.updatemealKitsBooked(!this.props.bookingDetails.mealKitsBooked);
+        this.props.updateBookerAndBookingDetails({
+            ...this.props.bookingDetails,
+            mealKitsBooked: !this.props.bookingDetails.mealKitsBooked
+        });
     }
 
     render() {
@@ -30,7 +33,7 @@ class IncludeMealKits extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updatemealKitsBooked: (mealKitsBooked) => dispatch(updatemealKitsBooked(mealKitsBooked)),
+        updateBookerAndBookingDetails: (bookingDetails) => dispatch(updateBookerAndBookingDetails(bookingDetails)),
     }
 }
 

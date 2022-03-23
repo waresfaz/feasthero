@@ -1,18 +1,14 @@
 import asAction from '../../helpers/as-redux-action';
 import {
-    UPDATE_MEAL_KITS_BOOKED, UPDATE_ALL_COSTS,
-    UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
+    UPDATE_ALL_COSTS,
+    UPDATE_BOOKER_AND_BOOKING_DETAILS,
     RESET,
     UPDATE_CLASS_ID,
     SET_MEAL_KITS_BOOKED_ERROR
 } from './types';
 
-export function updateGeneralBookerAndBookingDetails(generalBookerAndBookingDetails) {
-    return asAction(UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS, generalBookerAndBookingDetails)
-}
-
-export function updatemealKitsBooked(mealKitsBooked) {
-    return asAction(UPDATE_MEAL_KITS_BOOKED, mealKitsBooked);
+export function updateBookerAndBookingDetails(generalBookerAndBookingDetails) {
+    return asAction(UPDATE_BOOKER_AND_BOOKING_DETAILS, generalBookerAndBookingDetails)
 }
 
 export function updateAllCosts(costs) {

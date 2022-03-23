@@ -1,7 +1,6 @@
 import {
-    UPDATE_MEAL_KITS_BOOKED,
     UPDATE_ALL_COSTS,
-    UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS,
+    UPDATE_BOOKER_AND_BOOKING_DETAILS,
     RESET,
     UPDATE_CLASS_ID,
     SET_MEAL_KITS_BOOKED_ERROR
@@ -27,14 +26,6 @@ const initialBookingDetails = {
 
 function bookingReducer(state = { bookingDetails: initialBookingDetails }, action) {
     switch (action.type) {
-        case UPDATE_MEAL_KITS_BOOKED:
-            return {
-                ...state,
-                bookingDetails: {
-                    ...state.bookingDetails,
-                    mealKitsBooked: action.value
-                }
-            }
         case UPDATE_ALL_COSTS:
             return {
                 ...state,
@@ -43,7 +34,7 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails }, actio
                     ...action.value
                 }
             }
-        case UPDATE_GENERAL_BOOKER_AND_BOOKING_DETAILS:
+        case UPDATE_BOOKER_AND_BOOKING_DETAILS:
             return {
                 ...state,
                 bookingDetails: {

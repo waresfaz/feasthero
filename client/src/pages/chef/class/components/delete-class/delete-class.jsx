@@ -8,6 +8,8 @@ import history from '../../../../../history'
 import { getAllClasses } from '../../../../../services/chef/actions';
 import { deleteClass } from '../../../../../services/classes/api'
 
+// TODO
+
 class DeleteClass extends React.Component {
     constructor() {
         super();

@@ -18,6 +18,8 @@ import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/sho
 import './register.scss';
 import '../auth.scss';
 
+// TODO
+
 class Register extends React.Component {
     constructor() {
         super();

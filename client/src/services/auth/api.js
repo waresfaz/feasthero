@@ -19,10 +19,10 @@ export async function register(data) {
     return response;
 }
 
-export async function login(data) {
+export async function login(email, password) {
     const response = await feastHeroAxios.post(
         STANDARD_LOGIN,
-        { loginData: { email: data.email, password: data.password } },
+        { loginData: { email: email, password: password } },
         { withCredentials: true },
     )
         .then((response) => response)

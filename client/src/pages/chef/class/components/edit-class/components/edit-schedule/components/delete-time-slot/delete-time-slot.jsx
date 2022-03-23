@@ -10,6 +10,8 @@ import { getClass } from '../../../../../../../../../services/chef/actions';
 
 import './delete-time-slot.scss';
 
+// TODO
+
 class DeleteTimeSlot extends React.Component {
     constructor() {
         super();

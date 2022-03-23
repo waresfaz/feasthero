@@ -16,6 +16,7 @@ import './edit-class.scss'
 import { connect } from 'react-redux';
 import { getClass } from '../../../../../services/chef/actions';
 
+// TODO
 
 class EditClass extends React.Component {
     constructor(props) {

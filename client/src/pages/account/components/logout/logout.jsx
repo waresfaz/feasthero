@@ -1,43 +1,35 @@
 import React from 'react';
 import { connect } from 'react-redux';
 
-import { setAccount } from '../../../../services/accounts/actions';
-import history from '../../../../history';
-import { logout } from '../../../../services/auth/api';
+import { logout } from '../../../../services/auth/actions.js';
 import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 class Logout extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: false
-        }
-    }
-
-    logout = async () => {
-        this.setState({ loading: true });
-        await logout();
-        this.props.clearAccount();
-        this.setState({ loading: true });
-        history.push('/auth/login',);
+    logout = () => {
+        this.props.logout();
     }
 
     render() {
         return (
             <>
-                <Loader show={this.state.loading} />
+                <Loader show={this.props.loading} />
                 <Button secondary className='w-100 py-3 d-block mt-5' isButton={true} onClick={this.logout}>Logout</Button>
             </>
         )
     }
 }
 
-
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        clearAccount: () => dispatch(setAccount(undefined))
+        loading: state.auth.loading,
     }
 }
 
-export default connect(null, mapDispatchToProps)(Logout);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        logout: () => dispatch(logout())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(Logout);

@@ -18,11 +18,13 @@ import NameValidator from '../../../../validators/name';
 
 import history from '../../../../history';
 import { initBookingDetailsSession } from '../../../../services/booking/api';
-import { setMealKitsBookedError, updateGeneralBookerAndBookingDetails } from '../../../../services/booking/actions';
+import { setMealKitsBookedError, updateBookerAndBookingDetails } from '../../../../services/booking/actions';
 
 import Button from '../../../../components/button/button';
 
 import './booking-details.scss';
+
+// TODO
 
 class BookingDetails extends React.Component {
     constructor(props) {
@@ -37,14 +39,14 @@ class BookingDetails extends React.Component {
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
-        this.props.updateGeneralBookerAndBookingDetails({
+        this.props.updateBookerAndBookingDetails({
             ...this.props.bookingDetails, [name]: value
         })
     }
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
-        this.props.updateGeneralBookerAndBookingDetails({
+        this.props.updateBookerAndBookingDetails({
             ...this.props.bookingDetails, 'selectedClassDateTime': value, 'timeSlotId': id
         })
     }
@@ -236,9 +238,9 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateGeneralBookerAndBookingDetails:
+        updateBookerAndBookingDetails:
             (generalBookerAndBookingDetails) => dispatch(
-                updateGeneralBookerAndBookingDetails(
+                updateBookerAndBookingDetails(
                     generalBookerAndBookingDetails
                 )
             ),
