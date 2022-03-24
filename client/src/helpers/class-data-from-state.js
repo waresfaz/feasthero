@@ -1,11 +1,11 @@
-export default function classDataFromState(state){
+export default function classDataFromObj(obj){
     return {
-        title: state.title,
-        description: state.description,
-        duration: state.duration,
-        costPerDevice: state.costPerDevice,
-        mealKitCost: state.mealKitCost,
-        hasMealKit: state.hasMealKit,
-        thumbnail: state.thumbnail,
+        title: obj.title,
+        description: obj.description,
+        duration: obj.duration,
+        costPerDevice: obj.costPerDevice,
+        mealKitCost: obj.mealKitCost,
+        hasMealKit: obj.hasMealKit,
+        thumbnail: obj.thumbnail,
     }
 }

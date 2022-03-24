@@ -5,8 +5,8 @@ import { setAccount } from '../accounts/actions';
 import { IS_AT_LOGIN_PAGE, IS_LOADING, SET_ERRORS } from "./types";
 import {
     login as loginRequest, logout as logoutRequest,
-     oAuthLogin as oAuthLoginRequest, register as registerRequest,
-     oAuthRegister as oAuthRegisterRequest
+    oAuthLogin as oAuthLoginRequest, register as registerRequest,
+    oAuthRegister as oAuthRegisterRequest
 } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import history from '../../history';

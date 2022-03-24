@@ -1,3 +1,6 @@
 export const GET_ALL_CLASSES = "GET_ALL_CLASSES";
 export const SET_CURRENT_CLASS = "SET_CURRENT_CLASS";
 export const GET_CLASS = "GET_CLASS";
+export const SET_LOADING = "SET_LOADING";
+export const SET_ERRORS = "SET_ERRORS";
+export const SET_SHOW_ADD_CLASS_MODAL = "SET_SHOW_ADD_CLASS_MODAL";

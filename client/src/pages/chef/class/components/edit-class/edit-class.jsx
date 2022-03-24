@@ -2,7 +2,7 @@ import React from 'react'
 import { Form } from 'react-bootstrap'
 
 import { updateClass } from '../../../../../services/classes/api';
-import classDataFromState from '../../../../../helpers/class-data-from-state';
+import classDataFromObj from '../../../../../helpers/class-data-from-state';
 
 import BooleanValidator from '../../../../../validators/boolean';
 import NumberValidator from '../../../../../validators/number';
@@ -41,7 +41,7 @@ class EditClass extends React.Component {
         if (!this.validate())
             return;
         this.setState({ loading: true });
-        const updateClassResponse = await updateClass(this.props.classData._id, classDataFromState(this.state));
+        const updateClassResponse = await updateClass(this.props.classData._id, classDataFromObj(this.state));
         if (updateClassResponse.error)
             this.handleUpdateError(updateClassResponse.error);
 

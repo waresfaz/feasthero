@@ -2,19 +2,12 @@ import React from 'react'
 import { Form, Modal, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import BooleanValidator from '../../../../../../validators/boolean';
-import NotEmptyValidator from '../../../../../../validators/not-empty';
-import NumberValidator from '../../../../../../validators/number';
-
-import { newClass } from '../../../../../../services/classes/api';
-import { getAllClasses } from '../../../../../../services/chef/actions';
-import classDataFromState from '../../../../../../helpers/class-data-from-state';
+import { addClass, clearErrors, setShowAddClassModal } from '../../../../../../services/chef/actions';
 
 import Button from '../../../../../../components/button/button';
 
 import './add-class.scss'
 
-// TODO
 
 class AddClass extends React.Component {
     constructor() {
@@ -27,74 +20,12 @@ class AddClass extends React.Component {
             costPerDevice: null,
             mealKitCost: null,
             hasMealKit: false,
-            showModal: false,
-            loading: false,
-            errors: {}
         }
     }
 
     handleSubmit = async (evt) => {
         evt.preventDefault();
-
-        this.clearErrors();
-
-        if (!this.validate())
-            return;
-
-        this.setState({ loading: true });
-
-        const newClassResponse = await newClass(classDataFromState(this.state));
-        if (newClassResponse.error)
-            return this.handleAddError(newClassResponse.error);
-
-        await this.props.getAllClasses();
-
-        this.setState({
-            loading: false,
-            showModal: false,
-        });
-    }
-
-    clearErrors = () => {
-        this.setState({
-            errors: {}
-        });
-    }
-
-    validate = () => {
-        let errors = {};
-
-        errors['title'] = NotEmptyValidator.validate(this.state.title);
-        errors['description'] = NotEmptyValidator.validate(this.state.description);
-        errors['thumbnail'] = NotEmptyValidator.validate(this.state.thumbnail);
-        errors['costPerDevice'] = NumberValidator.validate(this.state.costPerDevice);
-        errors['duration'] = NumberValidator.validate(this.state.duration);
-        errors['mealKitCost'] = NumberValidator.validate(this.state.mealKitCost);
-        errors['hasMealKit'] = BooleanValidator.validate(this.state.hasMealKit);
-
-        let valid = Object.values(errors).every(error => error === null);
-        if (!valid)
-            this.setState({ errors });
-
-        return valid;
-    }
-
-    handleAddError = (errorResponse) => {
-        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
-            this.setState({
-                errors: errorResponse.data['errors'],
-                loading: false,
-            });
-            return;
-        }
-        this.setState({
-            errors: { error: 'Failed to add class, please try again' },
-            loading: false,
-        });
-    }
-
-    requestErrorHasAdditionalInfo = (errorResponse) => {
-        return (errorResponse.status === 400 || errorResponse.status === 409) && errorResponse.data['errors'];
+        this.props.addClass(this.state);
     }
 
     handleChange = (evt) => {
@@ -122,24 +53,24 @@ class AddClass extends React.Component {
     }
 
     showModal = () => {
-        this.setState({
-            showModal: true,
-        })
+        this.props.setShowAddClassModal(true);
     }
 
     closeModal = () => {
-        this.setState({
-            showModal: false,
-        })
+        this.props.setShowAddClassModal(false);
+    }
+
+    componentWillUnmount() {
+        this.props.clearErrors();
     }
 
     render() {
-        const { errors } = this.state;
+        const { errors } = this.props;
 
         return (
             <div id='add-class' className='mt-5'>
                 <Button className='mb-4 p-3' onClick={this.showModal}>Add Class</Button>
-                <Modal size='lg' id='add-class-modal' show={this.state.showModal} onHide={this.closeModal}>
+                <Modal size='lg' id='add-class-modal' show={this.props.showAddClassModal} onHide={this.closeModal}>
                     <Modal.Header>
                         <Modal.Title>Add Class</Modal.Title>
                     </Modal.Header>
@@ -217,7 +148,7 @@ class AddClass extends React.Component {
                             <span className='text-danger d-block text-center'>{errors['error']}</span>
 
                             {
-                                this.state.loading
+                                this.props.loading
                                     ?
                                     <div className='d-flex justify-content-center'>
                                         <Spinner animation='border' />
@@ -244,10 +175,20 @@ class AddClass extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        getAllClasses: () => dispatch(getAllClasses()),
+        errors: state.chef.errors,
+        loading: state.chef.loading,
+        showAddClassModal: state.chef.showAddClassModal
     }
 }
 
-export default connect(null, mapDispatchToProps)(AddClass);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        addClass: (classData) => dispatch(addClass(classData)),
+        clearErrors: () => dispatch(clearErrors()),
+        setShowAddClassModal: (showModal) => dispatch(setShowAddClassModal(showModal)),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(AddClass);
