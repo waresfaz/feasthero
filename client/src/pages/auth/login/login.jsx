@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login';
 import Button from '../../../components/button/button';
 
 import { connect } from 'react-redux';
-import { isAtLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
+import { clearErrors, isAtLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
 
@@ -27,6 +27,7 @@ class Login extends React.Component {
 
     componentWillUnmount() {
         this.props.leftLoginPage();
+        this.props.clearErrors();
     }
 
     handleChange = (evt) => {
@@ -105,7 +106,8 @@ const mapDispatchToProps = (dispatch) => {
         atLoginPage: () => dispatch(isAtLoginPage(true)),
         leftLoginPage: () => dispatch(isAtLoginPage(false)),
         login: (email, password) => dispatch(login(email, password)),
-        oAuthLogin: (oAuthData) => dispatch(oAuthLogin(oAuthData))
+        oAuthLogin: (oAuthData) => dispatch(oAuthLogin(oAuthData)),
+        clearErrors: () => dispatch(clearErrors()),
     }
 }
 

@@ -5,20 +5,13 @@ import { connect } from 'react-redux';
 
 import Button from '../../../components/button/button';
 import Loader from '../../../components/loader/loader';
-
-import EmailValidator from '../../../validators/email';
-import NameValidator from '../../../validators/name';
-import PasswordValidator from '../../../validators/password';
-
-import { oAuthRegister as oAuthRegisterRequest, register as registerRequest } from '../../../services/auth/api';
-import { setAccount } from '../../../services/accounts/actions';
-import history from '../../../history';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
+
+import { clearErrors, register, oAuthRegister } from '../../../services/auth/actions';
 
 import './register.scss';
 import '../auth.scss';
 
-// TODO
 
 class Register extends React.Component {
     constructor() {
@@ -29,9 +22,11 @@ class Register extends React.Component {
             lastName: '',
             passwordOne: '',
             passwordTwo: '',
-            errors: {},
-            loading: false,
         }
+    }
+
+    componentWillUnmount() {
+        this.props.clearErrors();
     }
 
     handleChange = (evt) => {
@@ -43,94 +38,19 @@ class Register extends React.Component {
 
     standardRegister = async (evt) => {
         evt.preventDefault();
-        this.clearErrors();
-
-        if (!this.validateDataForStandardRegistration())
-            return;
-
-        this.setState({
-            loading: true
-        })
-
-        const registerRequestResult = await registerRequest(this.state);
-        if (!this.handleRegisterRequestResult(registerRequestResult))
-            return;
-
-        this.setState({
-            loading: false
-        })
-        history.push('/account');
-    }
-
-    validateDataForStandardRegistration = () => {
-        let errors = {};
-        const { email, firstName, lastName, passwordOne, passwordTwo } = this.state;
-
-        errors['email'] = EmailValidator.validate(email);
-        errors['firstName'] = NameValidator.validate(firstName);
-        errors['lastName'] = NameValidator.validate(lastName);
-        errors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
-
-        if (!errors['passwordOne'])
-            errors['passwordOne'] = PasswordValidator.validate(passwordOne)
-
-
-        let valid = Object.values(errors).every(error => error === null);
-        if (!valid)
-            this.setState({ errors });
-
-        return valid;
+        this.props.register(this.state);
     }
 
     oAuthRegister = async (oAuthData) => {
-        this.clearErrors();
-
-        const registerRequestResult = await oAuthRegisterRequest(oAuthData.tokenId);
-        if (!this.handleRegisterRequestResult(registerRequestResult))
-            return;
-
-        history.push('/account');
-    }
-
-    clearErrors = () => {
-        this.setState({
-            errors: {},
-        })
-    }
-
-    handleRegisterRequestResult = (registerResult) => {
-        if (registerResult.error) {
-            this.handleRegisterError(registerResult.error);
-            return false;
-        }
-        this.props.setAccount(registerResult.data);
-        return true;
-    }
-
-    handleRegisterError = (errorResponse) => {
-        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
-            this.setState({
-                errors: errorResponse.data['errors'],
-                loading: false,
-            });
-            return;
-        }
-        this.setState({
-            errors: { error: 'Failed to register, please try again' },
-            loading: false,
-        });
-    }
-
-    requestErrorHasAdditionalInfo = (errorResponse) => {
-        return (errorResponse.status === 400 || errorResponse.status === 409) && errorResponse.data['errors'];
+        this.props.oAuthRegister(oAuthData);
     }
 
     render() {
-        const { errors } = this.state;
+        const { errors } = this.props;
 
         return (
             <section id='register'>
-                <Loader show={this.state.loading} />
+                <Loader show={this.props.loading} />
                 <Container>
                     <form onSubmit={this.standardRegister}>
                         <div className='mb-3'>
@@ -194,10 +114,19 @@ class Register extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
+const mapStateToProps = (state) => {
     return {
-        setAccount: (account) => dispatch(setAccount(account))
+        loading: state.auth.loading,
+        errors: state.auth.errors,
     }
 }
 
-export default connect(null, mapDispatchToProps)(ShouldRedirectToAccount(Register));
+const mapDispatchToProps = (dispatch) => {
+    return {
+        register: (registerData) => dispatch(register(registerData)),
+        oAuthRegister: (oAuthData) => dispatch(oAuthRegister(oAuthData)),
+        clearErrors: () => dispatch(clearErrors()),
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShouldRedirectToAccount(Register));

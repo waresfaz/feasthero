@@ -3,11 +3,18 @@ import ls from 'local-storage';
 import asAction from "../../helpers/as-redux-action";
 import { setAccount } from '../accounts/actions';
 import { IS_AT_LOGIN_PAGE, IS_LOADING, SET_ERRORS } from "./types";
-import { login as loginRequest, logout as logoutRequest, oAuthLogin as oAuthLoginRequest } from './api';
+import {
+    login as loginRequest, logout as logoutRequest,
+     oAuthLogin as oAuthLoginRequest, register as registerRequest,
+     oAuthRegister as oAuthRegisterRequest
+} from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import history from '../../history';
 import EmailValidator from '../../validators/email';
 import requestErrorHasAdditionalInfo from '../../helpers/request-error-has-additional-info';
+
+import NameValidator from '../../validators/name';
+import PasswordValidator from '../../validators/password'; 
 
 export function isAtLoginPage(isAtLoginPage) {
     return asAction(IS_AT_LOGIN_PAGE, isAtLoginPage);
@@ -21,8 +28,12 @@ export function setLoading(isLoading) {
     return asAction(IS_LOADING, isLoading);
 }
 
+export function clearErrors() {
+    return asAction(SET_ERRORS, {});
+}
+
 export function logout() {
-    return async dispatch => {
+    return async (dispatch) => {
         dispatch(setLoading(true));
 
         await logoutRequest();
@@ -46,7 +57,7 @@ export function login(email, password) {
 
     return async (dispatch) => {
         dispatch(setLoading(true));
-        
+
         let errors = validateStandardLoginData();
         if (!errorsAreEmpty(errors)) {
             dispatch(setErrors(errors));
@@ -55,7 +66,7 @@ export function login(email, password) {
         }
 
         const loginRequestResult = await loginRequest(email, password);
-        handleLoginRequestResponse(loginRequestResult, dispatch);        
+        handleLoginRequestResponse(loginRequestResult, dispatch);
     }
 }
 
@@ -84,18 +95,66 @@ function handleLoginRequestResponse(loginRequestResult, dispatch) {
 
     dispatch(setAccount(account));
     dispatch(setLoading(false));
-    dispatch(setErrors({}))
 
     history.push('/account');
 }
 
-export function register(email, password) {
-    return async (dispatch) => {
-        let account = null;
+export function register(registerData) {
+    const validateStandardRegistrationData = () => {
+        let errors = {};
+        const { email, firstName, lastName, passwordOne, passwordTwo } = registerData;
 
-        ls.set('account', JSON.stringify(account))
+        errors['email'] = EmailValidator.validate(email);
+        errors['firstName'] = NameValidator.validate(firstName);
+        errors['lastName'] = NameValidator.validate(lastName);
+        errors['passwordOne'] = PasswordValidator.passwordsEqual(passwordOne, passwordTwo);
 
-        dispatch(setAccount(account));
+        if (!errors['passwordOne'])
+            errors['passwordOne'] = PasswordValidator.validate(passwordOne)
 
+        return errors;
     }
+
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+
+        let errors = validateStandardRegistrationData();
+        if (!errorsAreEmpty(errors)) {
+            dispatch(setErrors(errors));
+            dispatch(setLoading(false));
+            return;
+        }
+
+        const registrationRequestResult = await registerRequest(registerData);
+        handleRegisterRequestResponse(registrationRequestResult, dispatch);
+    }
+}
+
+export function oAuthRegister(oAuthData) {
+    return async (dispatch) => {
+        dispatch(setLoading(true));
+
+        const oAuthRegistrationRequestResult = await oAuthRegisterRequest(oAuthData.tokenId);
+        handleRegisterRequestResponse(oAuthRegistrationRequestResult, dispatch);
+    }
+}
+
+function handleRegisterRequestResponse(registrationRequestResult, dispatch) {
+    if (registrationRequestResult.error) {
+        if (requestErrorHasAdditionalInfo(registrationRequestResult.error))
+            dispatch(setErrors(registrationRequestResult.error.data['errors']));
+        else
+            dispatch(setErrors({ error: 'failed to login, please try again later' }));
+        dispatch(setLoading(false));
+        return;
+    }
+
+    const account = registrationRequestResult.data;
+
+    ls.set('account', JSON.stringify(account));
+
+    dispatch(setAccount(account));
+    dispatch(setLoading(false));
+
+    history.push('/account');
 }
