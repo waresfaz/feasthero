@@ -1,5 +1,6 @@
 import React from 'react';
 import { Image } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import truncateString from '../../../../helpers/truncate-string';
 
@@ -20,12 +21,12 @@ class ClassSummary extends React.Component {
     }
 
     render() {
-        let { chef, classData } = this.props;
+        let { classData } = this.props;
         let { truncated } = this.state;
 
         return (
             <div id='class-summary'>
-                <Image src={chef.profile.photo} />
+                <Image src={classData.chefs[0].profile.photo} />
                 <h1>{classData.title}</h1>
                 <p id='content'>
                     {
@@ -42,4 +43,10 @@ class ClassSummary extends React.Component {
     }
 }
 
-export default ClassSummary;
+const mapStateToProps = (state) => {
+    return {
+        classData: state.booking.classData
+    }
+}
+
+export default connect(mapStateToProps, null)(ClassSummary);

@@ -13,15 +13,18 @@ import BooleanValidator from '../../validators/boolean';
 
 import {
     UPDATE_ALL_COSTS,
-    UPDATE_BOOKER_AND_BOOKING_DETAILS,
+    UPDATE_BOOKING_DETAILS,
     RESET,
-    UPDATE_CLASS_ID,
     SET_BOOKING_ERRORS,
     SET_BOOKING_SUBMIT_IS_LOADING,
+    SET_CLASS_DATA,
+    SET_LOADING_CLASS_DATA,
+    SET_ERROR_LOADING_CLASS_DATA,
 } from './types';
+import { getClassForBooking } from '../classes/api';
 
-export function updateBookingDetails(generalbookingDetails) {
-    return asAction(UPDATE_BOOKER_AND_BOOKING_DETAILS, generalbookingDetails)
+export function updateBookingDetails(bookingDetails) {
+    return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
 }
 
 export function updateAllCosts(costs) {
@@ -32,16 +35,45 @@ export function reset() {
     return asAction(RESET, '');
 }
 
-export function updateClassId(classId) {
-    return asAction(UPDATE_CLASS_ID, classId);
-}
-
 export function setBookingErrors(errors) {
     return asAction(SET_BOOKING_ERRORS, errors);
 }
 
 export function setBookingSubmitIsLoading(loading) {
     return asAction(SET_BOOKING_SUBMIT_IS_LOADING, loading);
+}
+
+export function setClassData(classData) {
+    return asAction(SET_CLASS_DATA, classData);
+}
+
+export function setLoadingClassData(loading) {
+    return asAction(SET_LOADING_CLASS_DATA, loading);
+}
+
+export function setErrorLoadingClassData(isError) {
+    return asAction(SET_ERROR_LOADING_CLASS_DATA, isError);
+}
+
+export function getClassDataForBooking(classId) {
+    return async (dispatch, getState) => {
+        let classData;
+
+        dispatch(setLoadingClassData(true));
+        if (!getState().booking.classData) {
+            classData = await getClassForBooking(classId);
+            if (classData.error === true) {
+                dispatch(setLoadingClassData(false));
+                dispatch(setErrorLoadingClassData(true));
+                return;
+            }
+        }
+        else
+            classData = getState().booking.classData;
+
+        dispatch(setClassData(classData));
+        dispatch(setLoadingClassData(false));
+    }
 }
 
 export function submitBooking(bookingDetails, scheduleOptions) {

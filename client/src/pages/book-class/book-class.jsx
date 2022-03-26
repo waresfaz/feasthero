@@ -2,8 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
-import { reset, updateClassId } from '../../services/booking/actions';
-import { getClassForBooking } from '../../services/classes/api';
+import { getClassDataForBooking, reset } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -28,75 +27,38 @@ import './book-class.scss'
 // TODO
 
 class BookClass extends React.Component {
-    constructor(props) {
-        super(props);
-        props.reset();
-        this.state = {
-            classData: null,
-        }
-    }
-
     async componentDidMount() {
-        await this.initClassData();
-    }
-
-    initClassData = async () => {
-        let classData;
-        if (!this.props.currentClassForBooking)
-            classData = await this.classDataFromApi();
-        else
-            classData = this.classDataFromRedux();
-        this.props.updateClassIdForBookingInfo(classData._id);
-        this.setState({
-            classData: classData
-        })
-    }
-
-    classDataFromApi = async () => {
-        return await getClassForBooking(this.props.match.params.id);
-    }
-
-    classDataFromRedux = () => {
-        return this.props.currentClassForBooking;
-    }
-
-    classDataRequestHasCompleted = () => {
-        return this.state.classData !== null;
-    }
-
-    errorLoadingClassData = () => {
-        return this.state.classData.error === true || this.state.classData === undefined;
+        // this.props.reset();
+        await this.props.getClassData(this.props.match.params.id);
     }
 
     tryToRenderBooking() {
-        let { classData } = this.state;
+        const { loading, error } = this.props;
 
-        if (this.classDataRequestHasCompleted()) {
-            if (this.errorLoadingClassData())
-                return <p className='text-danger text-center'>Error loading class</p>
+        if (loading) {
             return (
-                <>
-                    <ClassSummary classData={classData} chef={classData.chefs[0]} />
-                    <Row className='justify-content-center' id='booking-container'>
-                        <Col lg={5}>
-                            <BookingDetails classData={classData} />
-                        </Col>
-                        <Col lg={5}>
-                            <BookingSummary classData={classData} />
-                        </Col>
-                    </Row>
-                </>
+                <div className='d-flex justify-content-center'>
+                    <Spinner animation='border' />
+                </div>
             )
         }
-        return (
-            <div className='d-flex justify-content-center'>
-                <Spinner animation='border' />
-            </div>
-        )
-    }
 
-    classDataHasNotLoaded = () => {
-        return this.state.classData === null;
+        if (error)
+            return <p className='text-danger text-center'>Error loading class</p>
+
+        return (
+            <>
+                <ClassSummary />
+                <Row className='justify-content-center' id='booking-container'>
+                    <Col lg={5}>
+                        <BookingDetails />
+                    </Col>
+                    <Col lg={5}>
+                        <BookingSummary />
+                    </Col>
+                </Row>
+            </>
+        )
     }
 
     render() {
@@ -111,7 +73,8 @@ class BookClass extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        currentClassForBooking: state.classes.currentClassForBooking
+        loading: state.booking.loadingClassData,
+        error: state.booking.errorLoadingClassData
     }
 }
 
@@ -119,7 +82,7 @@ const mapStateToProps = (state) => {
 const mapDispatchToProps = (dispatch) => {
     return {
         reset: () => dispatch(reset()),
-        updateClassIdForBookingInfo: (classId) => dispatch(updateClassId(classId))
+        getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
     }
 }
 

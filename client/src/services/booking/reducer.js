@@ -1,10 +1,12 @@
 import {
     UPDATE_ALL_COSTS,
-    UPDATE_BOOKER_AND_BOOKING_DETAILS,
+    UPDATE_BOOKING_DETAILS,
     RESET,
-    UPDATE_CLASS_ID,
     SET_BOOKING_ERRORS,
-    SET_BOOKING_SUBMIT_IS_LOADING
+    SET_BOOKING_SUBMIT_IS_LOADING,
+    SET_CLASS_DATA,
+    SET_LOADING_CLASS_DATA,
+    SET_ERROR_LOADING_CLASS_DATA
 } from './types';
 
 
@@ -25,7 +27,15 @@ const initialBookingDetails = {
     customerEmail: '',
 }
 
-function bookingReducer(state = { bookingDetails: initialBookingDetails, bookingErrors: {}, bookingSubmitIsLoading: false }, action) {
+const initialState = {
+    bookingDetails: initialBookingDetails,
+    bookingErrors: {},
+    bookingSubmitIsLoading: false,
+    loadingClassData: true,
+    errorLoadingClassData: false
+}
+
+function bookingReducer(state = initialState, action) {
     switch (action.type) {
         case UPDATE_ALL_COSTS:
             return {
@@ -35,7 +45,7 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails, booking
                     ...action.value
                 }
             }
-        case UPDATE_BOOKER_AND_BOOKING_DETAILS:
+        case UPDATE_BOOKING_DETAILS:
             return {
                 ...state,
                 bookingDetails: {
@@ -50,14 +60,6 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails, booking
                     ...initialBookingDetails
                 }
             }
-        case UPDATE_CLASS_ID:
-            return {
-                ...state,
-                bookingDetails: {
-                    ...state.bookingDetails,
-                    classId: action.value
-                }
-            }
         case SET_BOOKING_SUBMIT_IS_LOADING:
             return {
                 ...state,
@@ -67,6 +69,21 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails, booking
             return {
                 ...state,
                 bookingErrors: action.value,
+            }
+        case SET_CLASS_DATA:
+            return {
+                ...state,
+                classData: action.value,
+            }
+        case SET_LOADING_CLASS_DATA:
+            return {
+                ...state,
+                loadingClassData: action.value,
+            }
+        case SET_ERROR_LOADING_CLASS_DATA:
+            return {
+                ...state,
+                errorLoadingClassData: action.value,
             }
         default:
             return state;

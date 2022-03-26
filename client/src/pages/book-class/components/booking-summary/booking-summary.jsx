@@ -107,6 +107,7 @@ const mapDispatchToProps = (dispatch) => {
 const mapStateToProps = (state) => {
     return {
         bookingDetails: state.booking.bookingDetails,
+        classData: state.booking.classData,
     }
 }
 

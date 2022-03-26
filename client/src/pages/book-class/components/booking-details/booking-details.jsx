@@ -4,20 +4,12 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
-
-
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
-
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
-
-
 import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
-
 import Button from '../../../../components/button/button';
 
 import './booking-details.scss';
-
-// TODO
 
 class BookingDetails extends React.Component {
     constructor(props) {
@@ -149,6 +141,7 @@ const mapStateToProps = (state) => {
         bookingDetails: state.booking.bookingDetails,
         loading: state.booking.bookingSubmitIsLoading,
         errors: state.booking.bookingErrors,
+        classData: state.booking.classData,
     }
 }
 

@@ -1,1 +1,0 @@
-export const SET_CURRENT_CLASS = "SET_CURRENT_CLASS";
