@@ -3,7 +3,8 @@ import {
     UPDATE_BOOKER_AND_BOOKING_DETAILS,
     RESET,
     UPDATE_CLASS_ID,
-    SET_MEAL_KITS_BOOKED_ERROR
+    SET_BOOKING_ERRORS,
+    SET_BOOKING_SUBMIT_IS_LOADING
 } from './types';
 
 
@@ -24,7 +25,7 @@ const initialBookingDetails = {
     customerEmail: '',
 }
 
-function bookingReducer(state = { bookingDetails: initialBookingDetails }, action) {
+function bookingReducer(state = { bookingDetails: initialBookingDetails, bookingErrors: {}, bookingSubmitIsLoading: false }, action) {
     switch (action.type) {
         case UPDATE_ALL_COSTS:
             return {
@@ -57,10 +58,15 @@ function bookingReducer(state = { bookingDetails: initialBookingDetails }, actio
                     classId: action.value
                 }
             }
-        case SET_MEAL_KITS_BOOKED_ERROR:
+        case SET_BOOKING_SUBMIT_IS_LOADING:
             return {
                 ...state,
-                mealKitsBookedError: action.value,
+                bookingSubmitIsLoading: action.value
+            }
+        case SET_BOOKING_ERRORS:
+            return {
+                ...state,
+                bookingErrors: action.value,
             }
         default:
             return state;

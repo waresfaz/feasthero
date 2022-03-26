@@ -25,6 +25,8 @@ import './book-class.scss'
  * @link https://en.wikipedia.org/wiki/Session_(computer_science)
  */
 
+// TODO
+
 class BookClass extends React.Component {
     constructor(props) {
         super(props);

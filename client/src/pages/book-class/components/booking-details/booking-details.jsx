@@ -9,16 +9,9 @@ import { connect } from 'react-redux';
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
 
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
-import BookingSizeValidator from '../../../../validators/booking-size';
-import EmailValidator from '../../../../validators/email';
-import NotEmptyValidator from '../../../../validators/not-empty';
-import BooleanValidator from '../../../../validators/boolean';
-import DateTimeValidator from '../../../../validators/datetime';
-import NameValidator from '../../../../validators/name';
 
-import history from '../../../../history';
-import { initBookingDetailsSession } from '../../../../services/booking/api';
-import { setMealKitsBookedError, updateBookerAndBookingDetails } from '../../../../services/booking/actions';
+
+import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
 
 import Button from '../../../../components/button/button';
 
@@ -30,104 +23,26 @@ class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
-        this.state = {
-            loading: false,
-            errors: {}
-        }
     }
 
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
-        this.props.updateBookerAndBookingDetails({
+        this.props.updateBookingDetails({
             ...this.props.bookingDetails, [name]: value
         })
     }
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
-        this.props.updateBookerAndBookingDetails({
+        this.props.updateBookingDetails({
             ...this.props.bookingDetails, 'selectedClassDateTime': value, 'timeSlotId': id
         })
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.clearErrors();
-
-        if (!this.validate())
-            return;
-
-        this.setState({
-            loading: true,
-        })
-
-        if (!(await this.initBookingSession()))
-            return;
-
-        history.push('/checkout')
-    }
-
-    clearErrors = () => {
-        this.setState({
-            errors: {}
-        })
-    }
-
-    validate = () => {
-        let errors = {};
-        const { customerFirstName, customerLastName, companyName, customerEmail, selectedClassDateTime } = this.props.bookingDetails;
-        errors['bookingSize'] = BookingSizeValidator.validate(this.props.bookingDetails.bookingSize)
-        errors['classDateTime'] = DateTimeValidator.validate(selectedClassDateTime, this.scheduleOptions);
-        errors['customerEmail'] = EmailValidator.validate(customerEmail);
-        errors['customerFirstName'] = NameValidator.validate(customerFirstName);
-        errors['customerLastName'] = NameValidator.validate(customerLastName);
-        errors['comanyName'] = NotEmptyValidator.validate(companyName);
-
-        let valid = Object.values(errors).every(error => error === null);
-        if (this.doesMealKitCheckHaveError())
-            valid = false;
-
-        if (!valid)
-            this.setState({ errors });
-
-        return valid;
-    }
-
-    doesMealKitCheckHaveError = () => {
-        let mealKitsBookedValidatedError = BooleanValidator.validate(this.props.bookingDetails.mealKitsBooked);
-        if (mealKitsBookedValidatedError) {
-            mealKitsBookedValidatedError = 'meal kit value ' + mealKitsBookedValidatedError;
-            this.props.setMealKitsBookedError(mealKitsBookedValidatedError)
-        }
-        return mealKitsBookedValidatedError;
-    }
-
-    initBookingSession = async () => {
-        const initBookingSessionResult = await initBookingDetailsSession(this.props.bookingDetails);
-        if (initBookingSessionResult.error) {
-            this.handleInitBookingSessionError(initBookingSessionResult.error);
-            return false;
-        }
-        return true;
-    }
-
-    handleInitBookingSessionError = (errorResponse) => {
-        if (this.requestErrorHasAdditionalInfo(errorResponse)) {
-            this.setState({
-                errors: errorResponse.data['errors'],
-                loading: false,
-            });
-        } else {
-            this.setState({
-                errors: { error: 'Error creating checkout session, please try again later' },
-                loading: false,
-            });
-        }
-    }
-
-    requestErrorHasAdditionalInfo = (errorResponse) => {
-        return errorResponse.status === 400 && errorResponse.data['errors']
+        this.props.submitBooking(this.props.bookingDetails, this.scheduleOptions);
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -139,8 +54,7 @@ class BookingDetails extends React.Component {
     );
 
     render() {
-        const { bookingDetails } = this.props;
-        const { errors } = this.state;
+        const { bookingDetails, errors } = this.props;
 
         return (
             <div id='booking-details-container'>
@@ -220,7 +134,7 @@ class BookingDetails extends React.Component {
                             <Button primary={true} type='submit'
                                 className='d-flex justify-content-center'
                                 isButton={true}>
-                                {this.state.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                                {this.props.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
                             </Button>
                         </Col>
                     </Row>
@@ -233,18 +147,15 @@ class BookingDetails extends React.Component {
 const mapStateToProps = (state) => {
     return {
         bookingDetails: state.booking.bookingDetails,
+        loading: state.booking.bookingSubmitIsLoading,
+        errors: state.booking.bookingErrors,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateBookerAndBookingDetails:
-            (generalBookerAndBookingDetails) => dispatch(
-                updateBookerAndBookingDetails(
-                    generalBookerAndBookingDetails
-                )
-            ),
-        setMealKitsBookedError: (error) => dispatch(setMealKitsBookedError(error))
+        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
+        submitBooking: (bookingDetails, scheduleOptions) => dispatch(submitBooking(bookingDetails, scheduleOptions)),
     }
 }
 

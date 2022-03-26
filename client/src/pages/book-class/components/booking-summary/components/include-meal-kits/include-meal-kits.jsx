@@ -2,18 +2,18 @@ import React from 'react'
 import { Form } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { updateBookerAndBookingDetails } from '../../../../../../services/booking/actions';
+import { updateBookingDetails } from '../../../../../../services/booking/actions';
 
 class IncludeMealKits extends React.Component {
     toggleIncludeMealKits = () => {
-        this.props.updateBookerAndBookingDetails({
+        this.props.updateBookingDetails({
             ...this.props.bookingDetails,
             mealKitsBooked: !this.props.bookingDetails.mealKitsBooked
         });
     }
 
     render() {
-        const { classData, bookingDetails, mealKitsBookedError } = this.props;
+        const { classData, bookingDetails, errors } = this.props;
 
         return (
             <form>
@@ -24,7 +24,7 @@ class IncludeMealKits extends React.Component {
                         value={bookingDetails.mealKitsBooked}
                         label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitCost}/device.</span></p>}
                     />
-                    <span className='text-danger error'>{mealKitsBookedError}</span>
+                    <span className='text-danger error'>{errors['mealKitsBooked']}</span>
                 </Form.Group>
             </form>
         )
@@ -33,14 +33,14 @@ class IncludeMealKits extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateBookerAndBookingDetails: (bookingDetails) => dispatch(updateBookerAndBookingDetails(bookingDetails)),
+        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
     }
 }
 
 const mapStateToProps = (state) => {
     return {
         bookingDetails: state.booking.bookingDetails,
-        mealKitsBookedError: state.booking.mealKitsBookedError
+        errors: state.booking.bookingErrors
     }
 }
 

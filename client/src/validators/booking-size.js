@@ -2,8 +2,8 @@ import { validBookingSizes } from "../constants/app-constants";
 
 class NumberDropdownValidator {
     static validate(value) {
-        const upperBounds = validBookingSizes[validBookingSizes.length - 1].value
-        const lowerBounds = validBookingSizes[0].value
+        const upperBounds = validBookingSizes[validBookingSizes.length - 1].target.value
+        const lowerBounds = validBookingSizes[0].target.value
 
         if (!value)
             return 'cannot be empty';
