@@ -23,8 +23,6 @@ async function initSession(req, res) {
         selectedClassDateTime: new Date(bookingDetailsFromBody.selectedClassDateTime)
     };
 
-    console.log(bookingDetails)
-
 
     const errors = await validate(bookingDetails);
     if (!isEmpty(errors))

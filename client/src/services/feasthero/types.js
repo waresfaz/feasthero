@@ -1,1 +1,1 @@
-export const NEW_ERROR = "NEW_ERROR";
+export const ERROR_VIEWED_AT_HOME_PAGE = "ERROR_VIEWED_AT_HOME_PAGE";

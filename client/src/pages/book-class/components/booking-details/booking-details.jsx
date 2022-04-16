@@ -21,14 +21,14 @@ class BookingDetails extends React.Component {
         const value = event.target.value;
         const name = event.target.name;
         this.props.updateBookingDetails({
-            ...this.props.bookingDetails, [name]: value
+            [name]: value
         })
     }
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
         this.props.updateBookingDetails({
-            ...this.props.bookingDetails, 'selectedClassDateTime': value, 'timeSlotId': id
+            'selectedClassDateTime': value, 'timeSlotId': id
         })
     }
 

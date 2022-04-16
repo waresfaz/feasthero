@@ -1,8 +1,8 @@
-import { NEW_ERROR } from './types';
+import { ERROR_VIEWED_AT_HOME_PAGE } from './types';
 
 function feastHeroReducer(state = [], action) {
     switch (action.type) {
-        case NEW_ERROR:
+        case ERROR_VIEWED_AT_HOME_PAGE:
             return {
                 ...state,
                 error: action.value

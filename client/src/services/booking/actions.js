@@ -39,6 +39,10 @@ export function setBookingErrors(errors) {
     return asAction(SET_BOOKING_ERRORS, errors);
 }
 
+export function clearBookingErrors() {
+    return asAction(SET_BOOKING_ERRORS, {});
+}
+
 export function setBookingSubmitIsLoading(loading) {
     return asAction(SET_BOOKING_SUBMIT_IS_LOADING, loading);
 }
@@ -71,7 +75,7 @@ export function getClassDataForBooking(classId) {
         else
             classData = getState().booking.classData;
 
-        dispatch(setClassData(classData));
+            dispatch(setClassData(classData));
         dispatch(setLoadingClassData(false));
     }
 }
@@ -101,6 +105,7 @@ export function submitBooking(bookingDetails, scheduleOptions) {
 
         dispatch(setBookingSubmitIsLoading(true));
 
+
         let errors = validateBookingDetails();
         if (!errorsAreEmpty(errors)) {
             dispatch(setBookingErrors(errors));
@@ -114,7 +119,7 @@ export function submitBooking(bookingDetails, scheduleOptions) {
             return;
         }
 
-        dispatch(setBookingErrors({}));
+        dispatch(clearBookingErrors());
         dispatch(setBookingSubmitIsLoading(false));
 
         history.push('/checkout');

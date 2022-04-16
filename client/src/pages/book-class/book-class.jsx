@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
 
-import { getClassDataForBooking, reset } from '../../services/booking/actions';
+import { clearBookingErrors, getClassDataForBooking, reset, updateBookingDetails } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -24,16 +24,20 @@ import './book-class.scss'
  * @link https://en.wikipedia.org/wiki/Session_(computer_science)
  */
 
-// TODO
 
 class BookClass extends React.Component {
     async componentDidMount() {
-        // this.props.reset();
+        this.props.reset();
         await this.props.getClassData(this.props.match.params.id);
+        this.props.updateBookingDetails({classId: this.props.match.params.id})
+    }
+
+    componentWillUnmount() {
+        this.props.clearBookingErrors();
     }
 
     tryToRenderBooking() {
-        const { loading, error } = this.props;
+        const { loading, errorLoadingClassData } = this.props;
 
         if (loading) {
             return (
@@ -43,7 +47,7 @@ class BookClass extends React.Component {
             )
         }
 
-        if (error)
+        if (errorLoadingClassData)
             return <p className='text-danger text-center'>Error loading class</p>
 
         return (
@@ -74,7 +78,7 @@ class BookClass extends React.Component {
 const mapStateToProps = (state) => {
     return {
         loading: state.booking.loadingClassData,
-        error: state.booking.errorLoadingClassData
+        errorLoadingClassData: state.booking.errorLoadingClassData
     }
 }
 
@@ -83,6 +87,8 @@ const mapDispatchToProps = (dispatch) => {
     return {
         reset: () => dispatch(reset()),
         getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
+        clearBookingErrors: () => dispatch(clearBookingErrors()),
+        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
     }
 }
 

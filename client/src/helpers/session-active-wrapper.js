@@ -1,9 +1,3 @@
-import store from '../redux/store/index';
-import history from '../history';
-
-import { newError } from '../services/feasthero/actions';
-import { BOOKING_SESSION_NOT_ACTIVE_ERROR } from '../constants/app-constants';
-
 export const statusEnum = { error: 1, sessionNotActive: 2 };
 
 
@@ -18,13 +12,10 @@ export const statusEnum = { error: 1, sessionNotActive: 2 };
 
 export async function sessionActiveWrapper(apiCallFn, ...args) {
     const response = await apiCallFn(...args);
-
     if (response.error) {
-        if (response.error.status === 408) {
-            store.dispatch(newError(BOOKING_SESSION_NOT_ACTIVE_ERROR));
-            history.push('/');
+        if (response.error.status === 408)
             return { status: statusEnum.sessionNotActive };
-        }
+        
         return { status: statusEnum.error, error: response.error };
 
     }

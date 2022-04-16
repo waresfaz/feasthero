@@ -1,8 +1,8 @@
-import { NEW_ERROR } from "./types";
+import { ERROR_VIEWED_AT_HOME_PAGE } from "./types";
 
-export function newError(error) {
+export function errorViewedAtHomePage(error) {
     return {
-        type: NEW_ERROR,
+        type: ERROR_VIEWED_AT_HOME_PAGE,
         value: error,
     }
 }
