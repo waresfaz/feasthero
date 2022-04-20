@@ -5,7 +5,6 @@ import history from '../../history';
 import { initBookingDetailsSession } from './api';
 import datesTimesAsOption from '../../helpers/dates-times-as-options';
 import { getClassForBooking } from '../classes/api';
-import bookingDetailsFromBookingState from '../../helpers/booking-details-from-booking-state';
 
 import BookingSizeValidator from '../../validators/booking-size';
 import DateTimeValidator from '../../validators/datetime';
@@ -33,10 +32,6 @@ export function reset() {
 
 export function setBookingErrors(errors) {
     return asAction(SET_BOOKING_ERRORS, errors);
-}
-
-export function clearBookingErrors() {
-    return asAction(SET_BOOKING_ERRORS, {});
 }
 
 export function setBookingSubmitIsLoading(loading) {
@@ -70,9 +65,9 @@ export function getClassDataForBooking(classId) {
     }
 }
 
-export function submitBooking(scheduleOptions) {
+export function submitBooking() {
     return async (dispatch, getState) => {
-        const bookingDetails = bookingDetailsFromBookingState(getState().booking);
+        const bookingDetails = getState().booking.bookingDetails;
         const scheduleOptions = datesTimesAsOption(getState().booking.classData.schedule);
 
         const validateBookingDetails = () => {
@@ -112,7 +107,6 @@ export function submitBooking(scheduleOptions) {
             return;
         }
 
-        dispatch(clearBookingErrors());
         dispatch(setBookingSubmitIsLoading(false));
 
         history.push('/checkout');

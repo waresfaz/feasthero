@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        mealKitsBooked: state.booking.mealKitsBooked,
+        mealKitsBooked: state.booking.bookingDetails.mealKitsBooked,
         errors: state.booking.bookingErrors
     }
 }

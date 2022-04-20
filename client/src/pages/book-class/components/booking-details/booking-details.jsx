@@ -138,13 +138,13 @@ class BookingDetails extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        bookingSize: state.booking.bookingSize,
+        bookingSize: state.booking.bookingDetails.bookingSize,
         loading: state.booking.bookingSubmitIsLoading,
         errors: state.booking.bookingErrors,
-        customerFirstName: state.booking.customerFirstName,
-        customerLastName: state.booking.customerLastName,
-        customerEmail: state.booking.customerEmail,
-        selectedClassDateTime: state.booking.selectedClassDateTime,
+        customerFirstName: state.booking.bookingDetails.customerFirstName,
+        customerLastName: state.booking.bookingDetails.customerLastName,
+        customerEmail: state.booking.bookingDetails.customerEmail,
+        selectedClassDateTime: state.booking.bookingDetails.selectedClassDateTime,
         classData: state.booking.classData
     }
 }

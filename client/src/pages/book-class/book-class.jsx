@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
-import { clearBookingErrors, getClassDataForBooking, reset, updateBookingDetails } from '../../services/booking/actions';
+import { getClassDataForBooking, reset, updateBookingDetails } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -27,13 +27,12 @@ import './book-class.scss'
 
 class BookClass extends React.Component {
     async componentDidMount() {
-        this.props.reset();
         await this.props.getClassData(this.props.match.params.id);
         this.props.updateBookingDetails({ classId: this.props.match.params.id });
     }
 
     componentWillUnmount() {
-        this.props.clearBookingErrors();
+        this.props.reset();
     }
 
     tryToRenderBooking() {
@@ -41,7 +40,6 @@ class BookClass extends React.Component {
 
         if (errorLoadingClassData)
             return <p className='text-danger text-center'>Error loading class</p>
-
 
         if (classData) {
             return (
@@ -88,7 +86,6 @@ const mapDispatchToProps = (dispatch) => {
     return {
         reset: () => dispatch(reset()),
         getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
-        clearBookingErrors: () => dispatch(clearBookingErrors()),
         updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
     }
 }

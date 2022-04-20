@@ -99,12 +99,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        bookingSize: state.booking.bookingSize,
+        bookingSize: state.booking.bookingDetails.bookingSize,
         classData: state.booking.classData,
-        mealKitsBooked: state.booking.mealKitsBooked,
-        grandTotal: state.booking.grandTotal,
-        tax: state.booking.tax,
-        mealKitsTotal: state.booking.mealKitsTotal
+        mealKitsBooked: state.booking.bookingDetails.mealKitsBooked,
+        grandTotal: state.booking.bookingDetails.grandTotal,
+        tax: state.booking.bookingDetails.tax,
+        mealKitsTotal: state.booking.bookingDetails.mealKitsTotal
     }
 }
 

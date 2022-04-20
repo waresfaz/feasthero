@@ -26,7 +26,7 @@ const initialBookingDetails = {
 }
 
 const initialState = {
-    ...initialBookingDetails,
+    bookingDetails: initialBookingDetails,
     bookingErrors: {},
     bookingSubmitIsLoading: false,
     errorLoadingClassData: false
@@ -37,12 +37,18 @@ function bookingReducer(state = initialState, action) {
         case UPDATE_BOOKING_DETAILS:
             return {
                 ...state,
-                ...action.value
+                bookingDetails: {
+                    ...state.bookingDetails,
+                    ...action.value
+                }
             }
         case RESET:
             return {
                 ...state,
-                ...initialBookingDetails
+                bookingErrors: {},
+                bookingDetails: {
+                    ...initialBookingDetails
+                }
             }
         case SET_BOOKING_SUBMIT_IS_LOADING:
             return {
