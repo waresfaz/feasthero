@@ -5,16 +5,15 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
-import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
-import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
+import { updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
 
 import './booking-details.scss';
 
 class BookingDetails extends React.Component {
-    constructor(props) {
-        super(props);
-        this.scheduleOptions = datesTimesAsOption(props.classData.schedule);
+    constructor() {
+        super();
+
         this.state = {
             customerFirstName: '',
             customerLastName: '',
@@ -23,6 +22,11 @@ class BookingDetails extends React.Component {
             selectedClassDateTime: '',
             timeSlotId: '',
         }
+    }
+
+    componentDidUpdate() {
+        if (this.props.submitted)
+            this.handleSubmit();
     }
 
     handleFormChange = (event) => {
@@ -45,10 +49,8 @@ class BookingDetails extends React.Component {
         })
     }
 
-    handleSubmit = async (event) => {
-        event.preventDefault();
+    handleSubmit = () => {
         this.props.updateBookingDetails({ ...this.state });
-        this.props.submitBooking(this.scheduleOptions);
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -65,7 +67,7 @@ class BookingDetails extends React.Component {
         return (
             <div id='booking-details-container'>
                 <h1>Booking Details</h1>
-                <form onSubmit={this.handleSubmit}>
+                <form onSubmit={this.props.handleSubmit}>
                     <Form.Group>
                         <Row className='justify-content-around' id='number-of-devices-for-booking'>
                             <Col xs={1} className='text-center' id='info-icon-container'>
@@ -96,9 +98,9 @@ class BookingDetails extends React.Component {
                             required
                             styles={selectDropDownStyle}
                             onChange={this.handleDateTimeChange}
-                            value={this.scheduleOptions.filter((option) => option.target.value === this.state.selectedClassDateTime)}
+                            value={this.props.scheduleOptions.filter((option) => option.target.value === this.state.selectedClassDateTime)}
                             placeholder='Select Date & Time'
-                            options={this.scheduleOptions}
+                            options={this.props.scheduleOptions}
                         />
                         <span className='text-danger'>{errors['classDateTime']}</span>
                     </Form.Group>
@@ -155,14 +157,12 @@ const mapStateToProps = (state) => {
         bookingSize: state.booking.bookingSize,
         loading: state.booking.bookingSubmitIsLoading,
         errors: state.booking.bookingErrors,
-        classData: state.booking.classData,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
-        submitBooking: (bookingDetails, scheduleOptions) => dispatch(submitBooking(bookingDetails, scheduleOptions)),
     }
 }
 

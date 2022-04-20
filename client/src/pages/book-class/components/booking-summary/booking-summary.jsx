@@ -11,6 +11,16 @@ import './booking-summary.scss';
 
 
 class BookingSummary extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            tax: 0.00,
+            mealKitsTotal: 0.00,
+            grandTotal: 0.00
+        }
+    }
+
     getValuesForCostCalculation = () => {
         let { bookingSize, mealKitsBooked } = this.props;
         let { mealKitCost, costPerDevice } = this.props.classData;
@@ -32,8 +42,20 @@ class BookingSummary extends React.Component {
         return bookingSize === null || bookingSize === undefined;
     }
 
-    componentDidUpdate() {
-        this.props.updateBookingDetails(this.calculateTotals())
+    componentDidUpdate(prevProps) {
+        if (this.costFactorsDidChange(prevProps))
+            this.setState(this.calculateTotals());
+
+        if (this.props.submitted)
+            this.handleSubmit();
+    }
+
+    costFactorsDidChange(prevProps) {
+        return prevProps.bookingSize !== this.props.bookingSize || prevProps.mealKitsBooked !== this.props.mealKitsBooked;
+    } 
+
+    handleSubmit = () => {
+        this.props.updateBookingDetails({ ...this.state });
     }
 
     calculateTotals = () => {
@@ -61,7 +83,7 @@ class BookingSummary extends React.Component {
                         <h5>Meal Kits</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.props.mealKitsTotal}</h5>
+                        <h5 className='dollar-amount'>${this.state.mealKitsTotal}</h5>
                     </Col>
                 </Row>
                 <Row>
@@ -69,7 +91,7 @@ class BookingSummary extends React.Component {
                         <h5>Tax</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.props.tax}</h5>
+                        <h5 className='dollar-amount'>${this.state.tax}</h5>
                     </Col>
                 </Row>
                 <div className='summary-divider' />
@@ -78,7 +100,7 @@ class BookingSummary extends React.Component {
                         <h5>Grand Total</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${this.props.grandTotal}</h5>
+                        <h5 className='dollar-amount'>${this.state.grandTotal}</h5>
                     </Col>
                 </Row>
             </section>
@@ -96,9 +118,6 @@ const mapStateToProps = (state) => {
     return {
         bookingSize: state.booking.bookingSize,
         classData: state.booking.classData,
-        grandTotal: state.booking.grandTotal,
-        tax: state.booking.tax,
-        mealKitsTotal: state.booking.mealKitsTotal,
         mealKitsBooked: state.booking.mealKitsBooked
     }
 }

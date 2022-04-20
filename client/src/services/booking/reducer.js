@@ -4,8 +4,7 @@ import {
     SET_BOOKING_ERRORS,
     SET_BOOKING_SUBMIT_IS_LOADING,
     SET_CLASS_DATA,
-    SET_LOADING_CLASS_DATA,
-    SET_ERROR_LOADING_CLASS_DATA
+    SET_ERROR_LOADING_CLASS_DATA,
 } from './types';
 
 
@@ -30,7 +29,6 @@ const initialState = {
     ...initialBookingDetails,
     bookingErrors: {},
     bookingSubmitIsLoading: false,
-    loadingClassData: true,
     errorLoadingClassData: false
 }
 
@@ -60,11 +58,6 @@ function bookingReducer(state = initialState, action) {
             return {
                 ...state,
                 classData: action.value,
-            }
-        case SET_LOADING_CLASS_DATA:
-            return {
-                ...state,
-                loadingClassData: action.value,
             }
         case SET_ERROR_LOADING_CLASS_DATA:
             return {
