@@ -10,12 +10,7 @@ import { getClass } from '../../../services/chef/actions'
 
 class ChefClass extends React.Component {
     async componentDidMount() {
-        await this.initClassData();
-    }
-
-    initClassData = async () => {
-        if (!this.props.currentClass)
-            await this.props.getClass(this.props.match.params.id)
+        await this.props.getClass(this.props.match.params.id)
     }
 
     errorLoadingClassData = () => {

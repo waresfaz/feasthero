@@ -16,7 +16,7 @@ import { email as sendEmail } from '../../../../services/contact/api';
 import './contact-us.scss';
 import { settings } from '../../../../settings';
 
-
+// TODO
 class ContactUs extends React.Component {
   constructor() {
     super();

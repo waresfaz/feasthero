@@ -31,7 +31,9 @@ export function setErrors(errors) {
 }
 
 export function getClass(classId) {
-    return async (dispatch) => {
+    return async (dispatch, state) => {
+        if (state.chef.currentClass)
+            return;
         const classData = await getClassForChef(classId);
         dispatch(asAction(GET_CLASS, classData));
     }

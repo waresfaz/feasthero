@@ -9,7 +9,7 @@ import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
-import { pay, setSendPaymentLoading } from '../../../../services/checkout/actions';
+import { checkout, setCheckoutLoading } from '../../../../services/checkout/actions';
 import { connect } from 'react-redux';
 import history from '../../../../history';
 
@@ -52,7 +52,7 @@ class Payment extends React.Component {
         const { stripe, elements } = this.props;
         
         const card = elements.getElement(CardElement);
-        await this.props.pay(card, stripe, this.recaptchaRef.current.getValue());
+        await this.props.checkout(card, stripe, this.recaptchaRef.current.getValue());
     }
 
     stripeIsUninitialized = () => {
@@ -130,7 +130,7 @@ class Payment extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.checkout.sendPaymentLoading,
+        loading: state.checkout.checkoutLoading,
         errors: state.checkout.checkoutErrors,
         recaptchaError: state.checkout.recaptchaError,
     }
@@ -138,8 +138,8 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLoading: (loading) => dispatch(setSendPaymentLoading(loading)),
-        pay: (card, stripe, recaptchaValue) => dispatch(pay(card, stripe, recaptchaValue)),
+        setLoading: (loading) => dispatch(setCheckoutLoading(loading)),
+        checkout: (card, stripe, recaptchaValue) => dispatch(checkout(card, stripe, recaptchaValue)),
     }
 }
 

@@ -9,6 +9,7 @@ import Loader from '../../../../components/loader/loader';
 
 import './subscribe.scss';
 
+// TODO
 class Subscribe extends React.Component {
     constructor() {
         super();

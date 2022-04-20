@@ -10,6 +10,7 @@ import { fetchAllBlogPosts } from '../../../services/blog/api';
 
 import './blog.scss';
 
+// TODO
 class Blog extends React.Component {
     constructor() {
         super();

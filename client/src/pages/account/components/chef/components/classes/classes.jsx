@@ -7,13 +7,6 @@ import ClassCard from './class-card/class-card';
 import { getAllClasses, setCurrentClass } from '../../../../../../services/chef/actions';
 
 class Classes extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: false,
-        }
-    }
-
     async componentDidMount() {
         await this.props.getAllClasses();
     }

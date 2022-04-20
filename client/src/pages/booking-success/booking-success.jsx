@@ -1,8 +1,6 @@
 import React from 'react';
 import { Spinner, Container } from 'react-bootstrap';
-
-import { verifyBookingSuccess as verifyBookingSuccessRequest } from '../../services/booking/api';
-import { sessionActiveWrapper, statusEnum } from '../../helpers/session-active-wrapper';
+import { connect } from 'react-redux'
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import Checkmark from './components/checkmark/checkmark';
@@ -10,6 +8,7 @@ import ShareConfirmation from './components/share-confirmation/share-confirmatio
 import ConfirmationDetails from './components/confirmation-details/confirmation-details';
 
 import './booking-success.scss';
+import { verifyBookingSuccess } from '../../services/booking-success/actions';
 
 /**
  * This component displays the user's full order upon booking success.
@@ -19,48 +18,19 @@ import './booking-success.scss';
  *    1. Displaying the user's full order upon booking success
  *    2. Giving the user the option to share their booking confirmation with other emails
  */
+
 class BookingSuccess extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            bookingDetails: null,
-            classData: null,
-            error: null
-        }
-    }
-
-    async componentDidMount() {
-        await this.verifyBookingSuccess();
-    }
-
-    verifyBookingSuccess = async () => {
-        const response = await sessionActiveWrapper(verifyBookingSuccessRequest);
-
-        if (response.status === statusEnum.sessionNotActive)
-            return;
-
-        if (response.status === statusEnum.error) {
-            this.setState({
-                error: 'Error fetching booking details, please contact customer service to make sure your class was placed'
-            })
-            return;
-        }
-
-        const { bookingDetails, classData } = response;
-
-        this.setState({
-            bookingDetails: bookingDetails,
-            classData: classData,
-        })
+    componentDidMount() {
+        this.props.verifyBookingSuccess();
     }
 
     dataHasLoaded = () => {
-        return this.state.bookingDetails && this.state.classData;
+        return this.props.bookingDetails && this.props.classData;
     }
 
     tryToRenderBookingSuccess = () => {
-        if (this.state.error)
-            return <p className='text-center text-danger'>{this.state.error}</p>
+        if (this.props.error)
+            return <p className='text-center text-danger'>{this.props.error}</p>
         if (this.dataHasLoaded())
             return (
                 <div id='booking-success'>
@@ -70,8 +40,8 @@ class BookingSuccess extends React.Component {
                         <p>An email will be sent shortly with your booking confirmation</p>
                     </div>
                     <Container id='booking-success-container'>
-                        <ConfirmationDetails classData={this.state.classData} bookingDetails={this.state.bookingDetails} />
-                        <ShareConfirmation bookingDetails={this.state.bookingDetails} />
+                        <ConfirmationDetails classData={this.props.classData} bookingDetails={this.props.bookingDetails} />
+                        <ShareConfirmation bookingDetails={this.props.bookingDetails} />
                     </Container>
                 </div>
             )
@@ -93,6 +63,18 @@ class BookingSuccess extends React.Component {
     }
 }
 
+const mapStateToProps = (state) => {
+    return {
+        classData: state.bookingSuccess.classData,
+        bookingDetails: state.bookingSuccess.bookingDetails,
+        error: state.bookingSuccess.error,
+    }
+}
 
+const mapDispatchToProps = (dispatch) => {
+    return {
+        verifyBookingSuccess: () => dispatch(verifyBookingSuccess())
+    }
+}
 
-export default BookingSuccess;
+export default connect(mapStateToProps, mapDispatchToProps)(BookingSuccess);

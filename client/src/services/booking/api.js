@@ -2,9 +2,6 @@ import feastHeroAxios from '../axios/feast-hero-axios';
 
 import {
     INIT_BOOKING_DETAILS_SESSION,
-    GET_BOOKING_DETAILS_FROM_SESSION,
-    BOOK_CLASS,
-    VERIFY_BOOKING_SUCCESS,
     IS_BOOKING_SESSION_ACTIVE,
     SHARE_CONFIRMATION
 } from '../../constants/api-constants';
@@ -14,30 +11,6 @@ export async function initBookingDetailsSession(bookingDetails) {
     const response = await feastHeroAxios.post(INIT_BOOKING_DETAILS_SESSION, bookingDetails, { withCredentials: true })
         .then((response) => response)
         .catch((err) => ({ error: err.response.data }));
-
-    return response;
-}
-
-export async function getBookingDetailsFromSession() {
-    const response = await feastHeroAxios.get(GET_BOOKING_DETAILS_FROM_SESSION, { withCredentials: true })
-        .then((response) => response)
-        .catch((error) => ({ error: didCorsFail(error) }));
-
-    return response;
-}
-
-export async function bookClass(cardTokenId, recaptchaData) {
-    const response = await feastHeroAxios.post(BOOK_CLASS, { 'cardTokenId': cardTokenId, 'recaptchaData': recaptchaData }, { withCredentials: true })
-        .then((response) => response)
-        .catch((err) => ({ error: didCorsFail(err) }));
-
-    return response;
-}
-
-export async function verifyBookingSuccess() {
-    const response = await feastHeroAxios.get(VERIFY_BOOKING_SUCCESS, { withCredentials: true })
-        .then((response) => response)
-        .catch((err) => ({ error: didCorsFail(err) }));
 
     return response;
 }

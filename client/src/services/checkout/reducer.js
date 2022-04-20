@@ -1,6 +1,6 @@
-import { SET_BOOKING_DETAILS, SET_LOAD_BOOKING_DETAILS_ERROR, SET_CHECKOUT_ERRORS, SET_RECAPTCHA_ERROR, SET_SEND_PAYMENT_LOADING } from "./types";
+import { SET_BOOKING_DETAILS, SET_LOAD_BOOKING_DETAILS_ERROR, SET_CHECKOUT_ERRORS, SET_RECAPTCHA_ERROR, SET_CHECKOUT_LOADING } from "./types";
 
-export default function checkoutReducer(state = {checkoutErrors: {}, sendPaymentLoading: false}, action) {
+export default function checkoutReducer(state = {checkoutErrors: {}, checkoutLoading: false}, action) {
     switch (action.type) {
         case SET_LOAD_BOOKING_DETAILS_ERROR:
             return {
@@ -22,10 +22,10 @@ export default function checkoutReducer(state = {checkoutErrors: {}, sendPayment
                 ...state,
                 bookingDetails: action.value,
             }
-        case SET_SEND_PAYMENT_LOADING:
+        case SET_CHECKOUT_LOADING:
             return {
                 ...state,
-                sendPaymentLoading: action.value
+                checkoutLoading: action.value
         }
         default:
             return state;

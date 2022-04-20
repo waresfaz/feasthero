@@ -11,7 +11,7 @@ import { sessionActiveWrapper, statusEnum } from '../../../../helpers/session-ac
 
 import './share-confirmation.scss';
 
-
+// TODO
 class ShareConfirmation extends React.Component {
     constructor() {
         super();

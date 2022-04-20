@@ -1,0 +1,3 @@
+export const SET_ERROR = 'SET_ERROR';
+export const SET_BOOKING_DETAILS = 'SET_BOOKING_DETAILS';
+export const SET_CLASS_DATA = 'SET_CLASS_DATA';
