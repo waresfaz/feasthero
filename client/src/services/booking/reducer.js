@@ -1,5 +1,4 @@
 import {
-    UPDATE_ALL_COSTS,
     UPDATE_BOOKING_DETAILS,
     RESET,
     SET_BOOKING_ERRORS,
@@ -37,14 +36,6 @@ const initialState = {
 
 function bookingReducer(state = initialState, action) {
     switch (action.type) {
-        case UPDATE_ALL_COSTS:
-            return {
-                ...state,
-                bookingDetails: {
-                    ...state.bookingDetails,
-                    ...action.value
-                }
-            }
         case UPDATE_BOOKING_DETAILS:
             return {
                 ...state,

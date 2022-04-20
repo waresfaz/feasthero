@@ -78,7 +78,8 @@ class BookClass extends React.Component {
 const mapStateToProps = (state) => {
     return {
         loading: state.booking.loadingClassData,
-        errorLoadingClassData: state.booking.errorLoadingClassData
+        errorLoadingClassData: state.booking.errorLoadingClassData,
+        bookingDetails: state.booking.bookingDetails,
     }
 }
 

@@ -4,18 +4,13 @@ import { Row, Col } from 'react-bootstrap';
 
 
 import CalculateTotals from '../../../../helpers/calculate-totals';
-import { updateAllCosts } from '../../../../services/booking/actions';
+import { updateBookingDetails } from '../../../../services/booking/actions';
 import IncludeMealKits from './components/include-meal-kits/include-meal-kits';
 
 import './booking-summary.scss';
 
 
 class BookingSummary extends React.Component {
-    constructor(props) {
-        super(props);
-        props.updateAllCosts(this.calculateTotals())
-    }
-
     getValuesForCostCalculation = () => {
         let { bookingSize, mealKitsBooked } = this.props.bookingDetails;
         let { mealKitCost, costPerDevice } = this.props.classData;
@@ -38,9 +33,8 @@ class BookingSummary extends React.Component {
     }
 
     componentDidUpdate(prevProps) {
-        if (this.costsFactorsHaveChanged(prevProps)) {
-            this.props.updateAllCosts(this.calculateTotals())
-        }
+        if (this.costsFactorsHaveChanged(prevProps))
+            this.props.updateBookingDetails(this.calculateTotals())
     }
 
     costsFactorsHaveChanged = (prevProps) => {
@@ -49,12 +43,12 @@ class BookingSummary extends React.Component {
     }
 
     calculateTotals = () => {
-        // mealkits are ordered for every devices if meakit is selected
         return CalculateTotals.totals(...Object.values(this.getValuesForCostCalculation()))
     }
 
     render() {
         const { classData, bookingDetails } = this.props;
+
         return (
             <section id='booking-summary'>
                 <h4>
@@ -100,7 +94,7 @@ class BookingSummary extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateAllCosts: (allCosts) => dispatch(updateAllCosts(allCosts)),
+        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
     }
 }
 

@@ -16,48 +16,46 @@ class BookingDetails extends React.Component {
         super(props);
         this.scheduleOptions = datesTimesAsOption(props.classData.schedule);
         this.state = {
-            bookingDetails: {
-                customerFirstName: '',
-                customerLastName: '',
-                companyName: '',
-                customerEmail: '',
-                selectedClassDateTime: '',
-                timeSlotId: '',
-                bookingSize: 0,
-            }
+            customerFirstName: '',
+            customerLastName: '',
+            companyName: '',
+            customerEmail: '',
+            selectedClassDateTime: '',
+            timeSlotId: '',
         }
+    }
+
+    shouldComponentUpdate(prevProps) {
+        if (prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked)
+            return false;
+        if (prevProps.bookingDetails.grandTotal !== this.props.bookingDetails.grandTotal)
+            return false;
+        return true;
     }
 
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
         this.setState({
-            bookingDetails: {
-                ...this.state.bookingDetails,
-                [name]: value,
-            }
+            [name]: value,
         });
     }
 
     handleBookingSizeChange = (event) => {
-        this.setState({ bookingDetails: { bookingSize: event.target.value } });
         this.props.updateBookingDetails({ bookingSize: event.target.value });
     }
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
         this.setState({
-            bookingDetails: {
-                ...this.state.bookingDetails,
-                'selectedClassDateTime': value,
-                'timeSlotId': id
-            }
+            'selectedClassDateTime': value,
+            'timeSlotId': id
         })
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.props.updateBookingDetails({ ...this.state.bookingDetails });
+        this.props.updateBookingDetails({ ...this.state });
         this.props.submitBooking(this.scheduleOptions);
     }
 
@@ -71,7 +69,7 @@ class BookingDetails extends React.Component {
 
     render() {
         const { errors } = this.props;
-        const { bookingDetails } = this.state;
+        const { bookingSize } = this.props.bookingDetails;
 
         return (
             <div id='booking-details-container'>
@@ -95,7 +93,7 @@ class BookingDetails extends React.Component {
                                 <Select
                                     styles={selectDropDownStyle}
                                     onChange={this.handleBookingSizeChange}
-                                    value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
+                                    value={validBookingSizes.filter((option) => option.target.value === bookingSize)}
                                     options={validBookingSizes}
                                 />
                                 <span className='text-danger'>{errors['bookingSize']}</span>
@@ -107,7 +105,7 @@ class BookingDetails extends React.Component {
                             required
                             styles={selectDropDownStyle}
                             onChange={this.handleDateTimeChange}
-                            value={this.scheduleOptions.filter((option) => option.target.value === bookingDetails.selectedClassDateTime)}
+                            value={this.scheduleOptions.filter((option) => option.target.value === this.state.selectedClassDateTime)}
                             placeholder='Select Date & Time'
                             options={this.scheduleOptions}
                         />
@@ -115,7 +113,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={bookingDetails.customerFirstName} onChange={this.handleFormChange}
+                            value={this.state.customerFirstName} onChange={this.handleFormChange}
                             required type='text' placeholder='First Name'
                             name='customerFirstName'
                         />
@@ -123,7 +121,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={bookingDetails.customerLastName} onChange={this.handleFormChange}
+                            value={this.state.customerLastName} onChange={this.handleFormChange}
                             required type='text' placeholder='Last Name'
                             name='customerLastName'
                         />
@@ -131,7 +129,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={bookingDetails.companyName} onChange={this.handleFormChange}
+                            value={this.state.companyName} onChange={this.handleFormChange}
                             required type='text' placeholder='Company Name'
                             name='companyName'
                         />
@@ -139,7 +137,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={bookingDetails.customerEmail} onChange={this.handleFormChange}
+                            value={this.state.customerEmail} onChange={this.handleFormChange}
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />

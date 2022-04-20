@@ -12,7 +12,6 @@ import NotEmptyValidator from '../../validators/not-empty';
 import BooleanValidator from '../../validators/boolean';
 
 import {
-    UPDATE_ALL_COSTS,
     UPDATE_BOOKING_DETAILS,
     RESET,
     SET_BOOKING_ERRORS,
@@ -25,10 +24,6 @@ import { getClassForBooking } from '../classes/api';
 
 export function updateBookingDetails(bookingDetails) {
     return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
-}
-
-export function updateAllCosts(costs) {
-    return asAction(UPDATE_ALL_COSTS, costs);
 }
 
 export function reset() {
