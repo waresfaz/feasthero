@@ -12,7 +12,7 @@ import './booking-summary.scss';
 
 class BookingSummary extends React.Component {
     getValuesForCostCalculation = () => {
-        let { bookingSize, mealKitsBooked } = this.props.bookingDetails;
+        let { bookingSize, mealKitsBooked } = this.props;
         let { mealKitCost, costPerDevice } = this.props.classData;
 
         if (this.bookingSizeDoesNotExist())
@@ -28,18 +28,12 @@ class BookingSummary extends React.Component {
     }
 
     bookingSizeDoesNotExist = () => {
-        let { bookingSize } = this.props.bookingDetails;
+        let { bookingSize } = this.props;
         return bookingSize === null || bookingSize === undefined;
     }
 
-    componentDidUpdate(prevProps) {
-        if (this.costsFactorsHaveChanged(prevProps))
-            this.props.updateBookingDetails(this.calculateTotals())
-    }
-
-    costsFactorsHaveChanged = (prevProps) => {
-        return prevProps.bookingDetails.bookingSize !== this.props.bookingDetails.bookingSize
-            || prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked
+    componentDidUpdate() {
+        this.props.updateBookingDetails(this.calculateTotals())
     }
 
     calculateTotals = () => {
@@ -47,7 +41,7 @@ class BookingSummary extends React.Component {
     }
 
     render() {
-        const { classData, bookingDetails } = this.props;
+        const { classData } = this.props;
 
         return (
             <section id='booking-summary'>
@@ -67,7 +61,7 @@ class BookingSummary extends React.Component {
                         <h5>Meal Kits</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${bookingDetails.mealKitsTotal}</h5>
+                        <h5 className='dollar-amount'>${this.props.mealKitsTotal}</h5>
                     </Col>
                 </Row>
                 <Row>
@@ -75,7 +69,7 @@ class BookingSummary extends React.Component {
                         <h5>Tax</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${bookingDetails.tax}</h5>
+                        <h5 className='dollar-amount'>${this.props.tax}</h5>
                     </Col>
                 </Row>
                 <div className='summary-divider' />
@@ -84,7 +78,7 @@ class BookingSummary extends React.Component {
                         <h5>Grand Total</h5>
                     </Col>
                     <Col xs={6}>
-                        <h5 className='dollar-amount'>${bookingDetails.grandTotal}</h5>
+                        <h5 className='dollar-amount'>${this.props.grandTotal}</h5>
                     </Col>
                 </Row>
             </section>
@@ -100,8 +94,12 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        bookingDetails: state.booking.bookingDetails,
+        bookingSize: state.booking.bookingSize,
         classData: state.booking.classData,
+        grandTotal: state.booking.grandTotal,
+        tax: state.booking.tax,
+        mealKitsTotal: state.booking.mealKitsTotal,
+        mealKitsBooked: state.booking.mealKitsBooked
     }
 }
 

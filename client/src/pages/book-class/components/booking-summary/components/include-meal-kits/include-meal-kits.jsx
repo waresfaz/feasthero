@@ -7,20 +7,20 @@ import { updateBookingDetails } from '../../../../../../services/booking/actions
 class IncludeMealKits extends React.Component {
     toggleIncludeMealKits = () => {
         this.props.updateBookingDetails({
-            mealKitsBooked: !this.props.bookingDetails.mealKitsBooked
+            mealKitsBooked: !this.props.mealKitsBooked
         });
     }
 
     render() {
-        const { classData, bookingDetails, errors } = this.props;
+        const { classData, mealKitsBooked, errors } = this.props;
 
         return (
             <form>
                 <Form.Group>
                     <Form.Check
                         onChange={this.toggleIncludeMealKits} type='checkbox'
-                        defaultChecked={bookingDetails.mealKitsBooked}
-                        value={bookingDetails.mealKitsBooked}
+                        defaultChecked={mealKitsBooked}
+                        value={mealKitsBooked}
                         label={<p>Include pre-portioned ingredient kit for class. (4 servings per kit) <span>Additional ${classData.mealKitCost}/device.</span></p>}
                     />
                     <span className='text-danger error'>{errors['mealKitsBooked']}</span>
@@ -38,7 +38,7 @@ const mapDispatchToProps = (dispatch) => {
 
 const mapStateToProps = (state) => {
     return {
-        bookingDetails: state.booking.bookingDetails,
+        mealKitsBooked: state.booking.mealKitsBooked,
         errors: state.booking.bookingErrors
     }
 }

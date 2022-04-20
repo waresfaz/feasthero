@@ -21,6 +21,7 @@ import {
     SET_ERROR_LOADING_CLASS_DATA,
 } from './types';
 import { getClassForBooking } from '../classes/api';
+import bookingDetailsFromBookingState from '../../helpers/booking-details-from-booking-state';
 
 export function updateBookingDetails(bookingDetails) {
     return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
@@ -77,7 +78,7 @@ export function getClassDataForBooking(classId) {
 
 export function submitBooking(scheduleOptions) {
     return async (dispatch, getState) => {
-        const bookingDetails = getState().booking.bookingDetails;
+        const bookingDetails = bookingDetailsFromBookingState(getState().booking);
 
         const validateBookingDetails = () => {
             let errors = {};

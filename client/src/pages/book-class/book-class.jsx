@@ -29,7 +29,7 @@ class BookClass extends React.Component {
     async componentDidMount() {
         this.props.reset();
         await this.props.getClassData(this.props.match.params.id);
-        this.props.updateBookingDetails({classId: this.props.match.params.id})
+        this.props.updateBookingDetails({ classId: this.props.match.params.id });
     }
 
     componentWillUnmount() {
@@ -79,7 +79,6 @@ const mapStateToProps = (state) => {
     return {
         loading: state.booking.loadingClassData,
         errorLoadingClassData: state.booking.errorLoadingClassData,
-        bookingDetails: state.booking.bookingDetails,
     }
 }
 

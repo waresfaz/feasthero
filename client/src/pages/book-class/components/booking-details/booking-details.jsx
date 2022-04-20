@@ -25,14 +25,6 @@ class BookingDetails extends React.Component {
         }
     }
 
-    shouldComponentUpdate(prevProps) {
-        if (prevProps.bookingDetails.mealKitsBooked !== this.props.bookingDetails.mealKitsBooked)
-            return false;
-        if (prevProps.bookingDetails.grandTotal !== this.props.bookingDetails.grandTotal)
-            return false;
-        return true;
-    }
-
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
@@ -68,8 +60,7 @@ class BookingDetails extends React.Component {
     );
 
     render() {
-        const { errors } = this.props;
-        const { bookingSize } = this.props.bookingDetails;
+        const { errors, loading, bookingSize } = this.props;
 
         return (
             <div id='booking-details-container'>
@@ -149,7 +140,7 @@ class BookingDetails extends React.Component {
                             <Button primary={true} type='submit'
                                 className='d-flex justify-content-center'
                                 isButton={true}>
-                                {this.props.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                                {loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
                             </Button>
                         </Col>
                     </Row>
@@ -161,7 +152,7 @@ class BookingDetails extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        bookingDetails: state.booking.bookingDetails,
+        bookingSize: state.booking.bookingSize,
         loading: state.booking.bookingSubmitIsLoading,
         errors: state.booking.bookingErrors,
         classData: state.booking.classData,
