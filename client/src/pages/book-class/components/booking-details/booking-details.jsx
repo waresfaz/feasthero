@@ -14,27 +14,51 @@ import './booking-details.scss';
 class BookingDetails extends React.Component {
     constructor(props) {
         super(props);
-        this.scheduleOptions = datesTimesAsOption(props.classData.schedule)
+        this.scheduleOptions = datesTimesAsOption(props.classData.schedule);
+        this.state = {
+            bookingDetails: {
+                customerFirstName: '',
+                customerLastName: '',
+                companyName: '',
+                customerEmail: '',
+                selectedClassDateTime: '',
+                timeSlotId: '',
+                bookingSize: 0,
+            }
+        }
     }
 
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
-        this.props.updateBookingDetails({
-            [name]: value
-        })
+        this.setState({
+            bookingDetails: {
+                ...this.state.bookingDetails,
+                [name]: value,
+            }
+        });
+    }
+
+    handleBookingSizeChange = (event) => {
+        this.setState({ bookingDetails: { bookingSize: event.target.value } });
+        this.props.updateBookingDetails({ bookingSize: event.target.value });
     }
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
-        this.props.updateBookingDetails({
-            'selectedClassDateTime': value, 'timeSlotId': id
+        this.setState({
+            bookingDetails: {
+                ...this.state.bookingDetails,
+                'selectedClassDateTime': value,
+                'timeSlotId': id
+            }
         })
     }
 
     handleSubmit = async (event) => {
         event.preventDefault();
-        this.props.submitBooking(this.props.bookingDetails, this.scheduleOptions);
+        this.props.updateBookingDetails({ ...this.state.bookingDetails });
+        this.props.submitBooking(this.scheduleOptions);
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -46,7 +70,8 @@ class BookingDetails extends React.Component {
     );
 
     render() {
-        const { bookingDetails, errors } = this.props;
+        const { errors } = this.props;
+        const { bookingDetails } = this.state;
 
         return (
             <div id='booking-details-container'>
@@ -69,7 +94,7 @@ class BookingDetails extends React.Component {
                             <Col sm={12} lg={4}>
                                 <Select
                                     styles={selectDropDownStyle}
-                                    onChange={this.handleFormChange}
+                                    onChange={this.handleBookingSizeChange}
                                     value={validBookingSizes.filter((option) => option.target.value === bookingDetails.bookingSize)}
                                     options={validBookingSizes}
                                 />

@@ -80,8 +80,10 @@ export function getClassDataForBooking(classId) {
     }
 }
 
-export function submitBooking(bookingDetails, scheduleOptions) {
-    return async (dispatch) => {
+export function submitBooking(scheduleOptions) {
+    return async (dispatch, getState) => {
+        const bookingDetails = getState().booking.bookingDetails;
+
         const validateBookingDetails = () => {
             let errors = {};
             errors['bookingSize'] = BookingSizeValidator.validate(bookingDetails.bookingSize)

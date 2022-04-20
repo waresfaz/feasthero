@@ -12,7 +12,6 @@ import { verifyBookingSuccess } from '../../services/booking-success/actions';
 
 /**
  * This component displays the user's full order upon booking success.
- * @link https://reactjs.org/docs/higher-order-components.html
  * 
  * This system is responsible for
  *    1. Displaying the user's full order upon booking success

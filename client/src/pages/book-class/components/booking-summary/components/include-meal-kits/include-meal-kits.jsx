@@ -7,7 +7,6 @@ import { updateBookingDetails } from '../../../../../../services/booking/actions
 class IncludeMealKits extends React.Component {
     toggleIncludeMealKits = () => {
         this.props.updateBookingDetails({
-            ...this.props.bookingDetails,
             mealKitsBooked: !this.props.bookingDetails.mealKitsBooked
         });
     }
