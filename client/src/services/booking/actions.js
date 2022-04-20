@@ -3,6 +3,9 @@ import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import requestErrorHasAdditionalInfo from '../../helpers/request-error-has-additional-info';
 import history from '../../history';
 import { initBookingDetailsSession } from './api';
+import datesTimesAsOption from '../../helpers/dates-times-as-options';
+import { getClassForBooking } from '../classes/api';
+import bookingDetailsFromBookingState from '../../helpers/booking-details-from-booking-state';
 
 import BookingSizeValidator from '../../validators/booking-size';
 import DateTimeValidator from '../../validators/datetime';
@@ -19,8 +22,6 @@ import {
     SET_CLASS_DATA,
     SET_ERROR_LOADING_CLASS_DATA,
 } from './types';
-import { getClassForBooking } from '../classes/api';
-import bookingDetailsFromBookingState from '../../helpers/booking-details-from-booking-state';
 
 export function updateBookingDetails(bookingDetails) {
     return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
@@ -72,6 +73,7 @@ export function getClassDataForBooking(classId) {
 export function submitBooking(scheduleOptions) {
     return async (dispatch, getState) => {
         const bookingDetails = bookingDetailsFromBookingState(getState().booking);
+        const scheduleOptions = datesTimesAsOption(getState().booking.classData.schedule);
 
         const validateBookingDetails = () => {
             let errors = {};

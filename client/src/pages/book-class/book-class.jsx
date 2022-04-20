@@ -1,8 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
-import datesTimesAsOption from '../../helpers/dates-times-as-options';
-import { clearBookingErrors, getClassDataForBooking, reset, submitBooking, updateBookingDetails } from '../../services/booking/actions';
+import { clearBookingErrors, getClassDataForBooking, reset, updateBookingDetails } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -27,21 +26,9 @@ import './book-class.scss'
 
 
 class BookClass extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            submitted: false,
-            scheduleOptions: null
-        }
-    }
-
     async componentDidMount() {
         this.props.reset();
         await this.props.getClassData(this.props.match.params.id);
-        this.setState({
-            scheduleOptions: datesTimesAsOption(this.props.classData.schedule)
-        })
         this.props.updateBookingDetails({ classId: this.props.match.params.id });
     }
 
@@ -49,33 +36,23 @@ class BookClass extends React.Component {
         this.props.clearBookingErrors();
     }
 
-    handleSubmitCallback = (evt) => {
-        evt.preventDefault();
-        this.setState({ submitted: true }, () => this.props.submitBooking(this.state.scheduleOptions));
-    }
-
     tryToRenderBooking() {
         const { errorLoadingClassData, classData } = this.props;
-        const { scheduleOptions } = this.state;
 
         if (errorLoadingClassData)
             return <p className='text-danger text-center'>Error loading class</p>
 
 
-        if (classData && scheduleOptions) {
+        if (classData) {
             return (
                 <>
                     <ClassSummary />
                     <Row className='justify-content-center' id='booking-container'>
                         <Col lg={5}>
-                            <BookingDetails
-                                handleSubmit={this.handleSubmitCallback}
-                                submitted={this.state.submitted}
-                                scheduleOptions={this.state.scheduleOptions}
-                            />
+                            <BookingDetails />
                         </Col>
                         <Col lg={5}>
-                            <BookingSummary submitted={this.state.submitted} handleSubmit={this.handleSubmitCallback} />
+                            <BookingSummary />
                         </Col>
                     </Row>
                 </>
@@ -113,7 +90,6 @@ const mapDispatchToProps = (dispatch) => {
         getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
         clearBookingErrors: () => dispatch(clearBookingErrors()),
         updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
-        submitBooking: (scheduleOptions) => dispatch(submitBooking(scheduleOptions)),
     }
 }
 

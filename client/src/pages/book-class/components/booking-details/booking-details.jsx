@@ -5,36 +5,18 @@ import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
 import { connect } from 'react-redux';
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
-import { updateBookingDetails } from '../../../../services/booking/actions';
+import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
+import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
 
 import './booking-details.scss';
 
+
 class BookingDetails extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            customerFirstName: '',
-            customerLastName: '',
-            companyName: '',
-            customerEmail: '',
-            selectedClassDateTime: '',
-            timeSlotId: '',
-        }
-    }
-
-    componentDidUpdate() {
-        if (this.props.submitted)
-            this.handleSubmit();
-    }
-
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
-        this.setState({
-            [name]: value,
-        });
+        this.props.updateBookingDetails({ [name]: value })
     }
 
     handleBookingSizeChange = (event) => {
@@ -43,14 +25,15 @@ class BookingDetails extends React.Component {
 
     handleDateTimeChange = (event) => {
         const { value, id } = event.target;
-        this.setState({
+        this.props.updateBookingDetails({
             'selectedClassDateTime': value,
             'timeSlotId': id
         })
     }
 
-    handleSubmit = () => {
-        this.props.updateBookingDetails({ ...this.state });
+    handleSubmit = (evt) => {
+        evt.preventDefault()
+        this.props.submitBooking();
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -62,12 +45,13 @@ class BookingDetails extends React.Component {
     );
 
     render() {
-        const { errors, loading, bookingSize } = this.props;
+        const { errors } = this.props;
+        const scheduleOptions = datesTimesAsOption(this.props.classData.schedule);
 
         return (
             <div id='booking-details-container'>
                 <h1>Booking Details</h1>
-                <form onSubmit={this.props.handleSubmit}>
+                <form onSubmit={this.handleSubmit}>
                     <Form.Group>
                         <Row className='justify-content-around' id='number-of-devices-for-booking'>
                             <Col xs={1} className='text-center' id='info-icon-container'>
@@ -86,7 +70,7 @@ class BookingDetails extends React.Component {
                                 <Select
                                     styles={selectDropDownStyle}
                                     onChange={this.handleBookingSizeChange}
-                                    value={validBookingSizes.filter((option) => option.target.value === bookingSize)}
+                                    value={validBookingSizes.filter((option) => option.target.value === this.props.bookingSize)}
                                     options={validBookingSizes}
                                 />
                                 <span className='text-danger'>{errors['bookingSize']}</span>
@@ -98,15 +82,15 @@ class BookingDetails extends React.Component {
                             required
                             styles={selectDropDownStyle}
                             onChange={this.handleDateTimeChange}
-                            value={this.props.scheduleOptions.filter((option) => option.target.value === this.state.selectedClassDateTime)}
+                            value={scheduleOptions.filter((option) => option.target.value === this.props.selectedClassDateTime)}
                             placeholder='Select Date & Time'
-                            options={this.props.scheduleOptions}
+                            options={scheduleOptions}
                         />
                         <span className='text-danger'>{errors['classDateTime']}</span>
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={this.state.customerFirstName} onChange={this.handleFormChange}
+                            value={this.props.customerFirstName} onChange={this.handleFormChange}
                             required type='text' placeholder='First Name'
                             name='customerFirstName'
                         />
@@ -114,7 +98,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={this.state.customerLastName} onChange={this.handleFormChange}
+                            value={this.props.customerLastName} onChange={this.handleFormChange}
                             required type='text' placeholder='Last Name'
                             name='customerLastName'
                         />
@@ -122,7 +106,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={this.state.companyName} onChange={this.handleFormChange}
+                            value={this.props.companyName} onChange={this.handleFormChange}
                             required type='text' placeholder='Company Name'
                             name='companyName'
                         />
@@ -130,7 +114,7 @@ class BookingDetails extends React.Component {
                     </Form.Group>
                     <Form.Group>
                         <Form.Control
-                            value={this.state.customerEmail} onChange={this.handleFormChange}
+                            value={this.props.customerEmail} onChange={this.handleFormChange}
                             required type='email' placeholder='Email Address'
                             name='customerEmail'
                         />
@@ -142,7 +126,7 @@ class BookingDetails extends React.Component {
                             <Button primary={true} type='submit'
                                 className='d-flex justify-content-center'
                                 isButton={true}>
-                                {loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                                {this.props.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
                             </Button>
                         </Col>
                     </Row>
@@ -157,12 +141,18 @@ const mapStateToProps = (state) => {
         bookingSize: state.booking.bookingSize,
         loading: state.booking.bookingSubmitIsLoading,
         errors: state.booking.bookingErrors,
+        customerFirstName: state.booking.customerFirstName,
+        customerLastName: state.booking.customerLastName,
+        customerEmail: state.booking.customerEmail,
+        selectedClassDateTime: state.booking.selectedClassDateTime,
+        classData: state.booking.classData
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
+        submitBooking: () => dispatch(submitBooking()),
     }
 }
 
