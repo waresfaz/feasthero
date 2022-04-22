@@ -1,21 +1,55 @@
-import { IS_AT_LOGIN_PAGE, IS_LOADING, SET_ERRORS } from "./types";
+import {
+    AT_LOGIN_PAGE,
+    LEFT_LOGIN_PAGE,
+    LOAD_ACCOUNT,
+    LOGIN_FAILED,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    REGISTER_FAILED,
+    REGISTER_SUCCESS
+} from "./types";
 
-export default function authReducer(state = {errors: {}, loading: false}, action) {
+export default function authReducer(state = { loginErrors: {}, registerErrors: {} }, action) {
     switch (action.type) {
-        case IS_AT_LOGIN_PAGE:
+        case AT_LOGIN_PAGE:
             return {
                 ...state,
-                isAtLoginPage: action.value
+                atLoginPage: true
             }
-        case SET_ERRORS:
+        case LEFT_LOGIN_PAGE:
             return {
                 ...state,
-                errors: action.value
+                atLoginPage: false
             }
-        case IS_LOADING:
+        case LOAD_ACCOUNT:
             return {
                 ...state,
-                loading: action.value
+                account: action.value
+            }
+        case LOGIN_SUCCESS:
+            return {
+                ...state,
+                account: action.value
+            }
+        case LOGIN_FAILED:
+            return {
+                ...state,
+                loginErrors: action.value,
+            }
+        case REGISTER_SUCCESS:
+            return {
+                ...state,
+                account: action.value
+            }
+        case REGISTER_FAILED:
+            return {
+                ...state,
+                registerErrors: action.value
+            }
+        case LOGOUT_SUCCESS:
+            return {
+                ...state,
+                account: null
             }
         default:
             return state;

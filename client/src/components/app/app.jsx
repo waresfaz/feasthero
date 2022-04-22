@@ -24,7 +24,7 @@ import BookClass from '../../pages/book-class/book-class';
 import ChefClass from '../../pages/chef/class/chef-class';
 import Checkout from '../../pages/checkout/checkout';
 
-import LoadAccount from '../../hoc/load-account/load-account';
+import LoadAccount from '../../hoc/load-account';
 
 import './app.scss';
 

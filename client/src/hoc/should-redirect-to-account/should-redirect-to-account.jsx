@@ -6,7 +6,7 @@ import { compose } from 'redux';
 const ShouldRedirectToAccount = WrappedComponent => {
     return class extends React.Component {
         accountDataIsNotPresent = () => {
-            return this.props.accountData === null || this.props.accountData === undefined
+            return !this.props.accountData;
         }
 
         render() {
@@ -23,7 +23,7 @@ const ShouldRedirectToAccount = WrappedComponent => {
 
 const mapStateToProps = (state) => {
     return {
-        accountData: state.account.accountData,
+        accountData: state.auth.account,
     }
 }
 

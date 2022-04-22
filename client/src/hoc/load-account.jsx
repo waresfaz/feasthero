@@ -1,17 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux';
 import { compose } from 'redux';
-import ls from 'local-storage'
 
-import { setAccount } from '../../services/accounts/actions';
+import { loadAccount } from '../services/auth/actions';
 
 const LoadAccount = WrappedComponent => {
     return class extends React.Component {
 
         async componentDidMount() {
-            if (!ls.get('account') || ls.get('account') === 'undefined')
-                return;
-            this.props.setAccount(JSON.parse(ls.get('account')));
+            await this.props.loadAccount();
         }
 
         render() {
@@ -26,7 +23,7 @@ const LoadAccount = WrappedComponent => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setAccount: (account) => dispatch(setAccount(account)),
+        loadAccount: () => dispatch(loadAccount()),
     }
 }
 

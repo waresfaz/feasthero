@@ -1,8 +1,16 @@
 import ls from 'local-storage';
 
 import asAction from "../../helpers/as-redux-action";
-import { setAccount } from '../accounts/actions';
-import { IS_AT_LOGIN_PAGE, IS_LOADING, SET_ERRORS } from "./types";
+import {
+    AT_LOGIN_PAGE,
+    LEFT_LOGIN_PAGE,
+    LOAD_ACCOUNT,
+    LOGIN_FAILED,
+    LOGIN_SUCCESS,
+    LOGOUT_SUCCESS,
+    REGISTER_FAILED,
+    REGISTER_SUCCESS
+} from "./types";
 import {
     login as loginRequest, logout as logoutRequest,
     oAuthLogin as oAuthLoginRequest, register as registerRequest,
@@ -10,40 +18,57 @@ import {
 } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import history from '../../history';
-import EmailValidator from '../../validators/email';
 import requestErrorHasAdditionalInfo from '../../helpers/request-error-has-additional-info';
 
 import NameValidator from '../../validators/name';
-import PasswordValidator from '../../validators/password'; 
+import PasswordValidator from '../../validators/password';
+import EmailValidator from '../../validators/email';
 
-export function isAtLoginPage(isAtLoginPage) {
-    return asAction(IS_AT_LOGIN_PAGE, isAtLoginPage);
+
+function loginSuccess(user) {
+    return asAction(LOGIN_SUCCESS, user);
 }
 
-export function setErrors(errors) {
-    return asAction(SET_ERRORS, errors);
+function loginFailed(errors) {
+    return asAction(LOGIN_FAILED, errors);
 }
 
-export function setLoading(isLoading) {
-    return asAction(IS_LOADING, isLoading);
+function registerSuccess(user) {
+    return asAction(REGISTER_SUCCESS, user);
 }
 
-export function clearErrors() {
-    return asAction(SET_ERRORS, {});
+function registerFailed(errors) {
+    return asAction(REGISTER_FAILED, errors);
+}
+
+function logoutSuccess() {
+    return asAction(LOGOUT_SUCCESS);
+}
+
+export function leftLoginPage() {
+    return asAction(LEFT_LOGIN_PAGE);
+}
+
+export function atLoginPage() {
+    return asAction(AT_LOGIN_PAGE);
 }
 
 export function logout() {
     return async (dispatch) => {
-        dispatch(setLoading(true));
-
         await logoutRequest();
-
         ls.set('account', null);
-
-        dispatch(setAccount(null));
-        dispatch(setLoading(false));
-
+        dispatch(logoutSuccess());
         history.push('/auth/login');
+    }
+}
+
+export function loadAccount() {
+    return async (dispatch) => {
+        const account = ls.get('account');
+        if (!account || account === 'undefined')
+            return;
+        
+        dispatch(asAction(LOAD_ACCOUNT, JSON.parse(account)));
     }
 }
 
@@ -56,12 +81,9 @@ export function login(email, password) {
     }
 
     return async (dispatch) => {
-        dispatch(setLoading(true));
-
         let errors = validateStandardLoginData();
         if (!errorsAreEmpty(errors)) {
-            dispatch(setErrors(errors));
-            dispatch(setLoading(false));
+            loginFailed(errors);
             return;
         }
 
@@ -72,8 +94,6 @@ export function login(email, password) {
 
 export function oAuthLogin(oAuthData) {
     return async (dispatch) => {
-        dispatch(setLoading(true));
-
         const loginRequestResult = await oAuthLoginRequest(oAuthData.tokenId);
         handleLoginRequestResponse(loginRequestResult, dispatch);
     }
@@ -82,19 +102,17 @@ export function oAuthLogin(oAuthData) {
 function handleLoginRequestResponse(loginRequestResult, dispatch) {
     if (loginRequestResult.error) {
         if (requestErrorHasAdditionalInfo(loginRequestResult.error))
-            dispatch(setErrors(loginRequestResult.error.data['errors']));
+            dispatch(loginFailed(loginRequestResult.error.data['errors']));
         else
-            dispatch(setErrors({ error: 'failed to login, please try again later' }));
-        dispatch(setLoading(false));
+            dispatch(loginFailed({ error: 'failed to login, please try again later' }));
         return;
     }
 
     const account = loginRequestResult.data;
-
+    console.log(account)
     ls.set('account', JSON.stringify(account));
 
-    dispatch(setAccount(account));
-    dispatch(setLoading(false));
+    dispatch(loginSuccess(account));
 
     history.push('/account');
 }
@@ -116,12 +134,9 @@ export function register(registerData) {
     }
 
     return async (dispatch) => {
-        dispatch(setLoading(true));
-
         let errors = validateStandardRegistrationData();
         if (!errorsAreEmpty(errors)) {
-            dispatch(setErrors(errors));
-            dispatch(setLoading(false));
+            dispatch(registerFailed(errors));
             return;
         }
 
@@ -132,8 +147,6 @@ export function register(registerData) {
 
 export function oAuthRegister(oAuthData) {
     return async (dispatch) => {
-        dispatch(setLoading(true));
-
         const oAuthRegistrationRequestResult = await oAuthRegisterRequest(oAuthData.tokenId);
         handleRegisterRequestResponse(oAuthRegistrationRequestResult, dispatch);
     }
@@ -142,10 +155,9 @@ export function oAuthRegister(oAuthData) {
 function handleRegisterRequestResponse(registrationRequestResult, dispatch) {
     if (registrationRequestResult.error) {
         if (requestErrorHasAdditionalInfo(registrationRequestResult.error))
-            dispatch(setErrors(registrationRequestResult.error.data['errors']));
+            dispatch(registerFailed(registrationRequestResult.error.data['errors']));
         else
-            dispatch(setErrors({ error: 'failed to login, please try again later' }));
-        dispatch(setLoading(false));
+            dispatch(registerFailed({ error: 'failed to login, please try again later' }));
         return;
     }
 
@@ -153,8 +165,7 @@ function handleRegisterRequestResponse(registrationRequestResult, dispatch) {
 
     ls.set('account', JSON.stringify(account));
 
-    dispatch(setAccount(account));
-    dispatch(setLoading(false));
+    dispatch(registerSuccess(account));
 
     history.push('/account');
 }

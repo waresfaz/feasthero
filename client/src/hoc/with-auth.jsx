@@ -6,20 +6,18 @@ import { compose } from 'redux';
 const WithAuth = WrappedComponent => {
     return class extends React.Component {
         render() {
-            if (this.props.accountData === null)
+            console.log(this.props.accountData);
+            if (!this.props.accountData)
                 return <Redirect to='/auth/login' />
 
-            if (this.props.accountData)
-                return <WrappedComponent {...this.props} />
-
-            return <></>
+            return <WrappedComponent {...this.props} />
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        accountData: state.account.accountData,
+        accountData: state.auth.account,
     }
 }
 

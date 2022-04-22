@@ -2,16 +2,18 @@ import React from 'react';
 import { connect } from 'react-redux';
 
 import Logout from './components/logout/logout';
-import WithAuth from '../../hoc/with-auth/with-auth';
+import WithAuth from '../../hoc/with-auth';
 import { CHEF, CUSTOMER } from '../../constants/app-constants';
 
-import './account.scss';
 import ChefAccount from './components/chef/chef-account';
 import CustomerAccount from './components/customer/customer-account';
 
+import './account.scss';
+
 class Account extends React.Component {
     chooseWhichAccountComponentToRender() {
-        const accountType = this.props.account.accountData.type;
+        console.log(this.props.account)
+        const accountType = this.props.account.type;
         if (accountType === CHEF)
             return <ChefAccount account={this.props.account} />
         if (accountType === CUSTOMER)
@@ -31,7 +33,7 @@ class Account extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        account: state.account,
+        account: state.auth.account,
     }
 }
 

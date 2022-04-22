@@ -47,8 +47,8 @@ class TopNavbar extends React.Component {
 
 const mapStateToProps = (state) => {
   return {
-    isAtLoginPage: state.auth.isAtLoginPage,
-    accountData: state.account.accountData,
+    isAtLoginPage: state.auth.atLoginPage,
+    accountData: state.auth.account,
   }
 }
 

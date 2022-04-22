@@ -23,7 +23,7 @@ const MustBeChef = WrappedComponent => {
 
 const mapStateToProps = (state) => {
     return {
-        accountData: state.account.accountData,
+        accountData: state.auth.accountData,
     }
 }
 

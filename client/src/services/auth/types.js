@@ -1,3 +1,9 @@
-export const IS_AT_LOGIN_PAGE = "IS_AT_LOGIN_PAGE";
-export const SET_ERRORS = "SET_ERROR"; 
-export const IS_LOADING = "IS_LOADING";
+export const AT_LOGIN_PAGE = "AT_LOGIN_PAGE";
+export const LEFT_LOGIN_PAGE = "LEFT_LOGIN_PAGE";
+export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
+export const LOGIN_FAILED = "LOGIN_FAILED";
+export const REGISTER_SUCCESS = "REGISTER_SUCCESS";
+export const REGISTER_FAILED = "REGISTER_FAILED";
+export const LOAD_ACCOUNT = "LOAD_ACCOUNT";
+export const LOGOUT_SUCCESS = "LOGOUT_SUCCESS";
+export const CLEAR_ERRORS = "CLEAR_ERRORS";

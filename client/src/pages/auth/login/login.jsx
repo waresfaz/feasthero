@@ -4,7 +4,7 @@ import GoogleLogin from 'react-google-login';
 import Button from '../../../components/button/button';
 
 import { connect } from 'react-redux';
-import { clearErrors, isAtLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
+import { atLoginPage, leftLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
 
@@ -18,6 +18,7 @@ class Login extends React.Component {
         this.state = {
             email: '',
             password: '',
+            loading: false,
         }
     }
 
@@ -27,7 +28,6 @@ class Login extends React.Component {
 
     componentWillUnmount() {
         this.props.leftLoginPage();
-        this.props.clearErrors();
     }
 
     handleChange = (evt) => {
@@ -39,17 +39,21 @@ class Login extends React.Component {
 
     handleSubmitStandardLogin = async (evt) => {
         evt.preventDefault();
-        this.props.login(this.state.email, this.state.password);
+        this.setState({ loading: true });
+        await this.props.login(this.state.email, this.state.password);
+        this.setState({ loading: false });
     }
 
     handleSubmitForOAuthLogin = async (oAuthData) => {
-        this.props.oAuthLogin(oAuthData);
+        this.setState({ loading: true });
+        await this.props.oAuthLogin(oAuthData);
+        this.setState({ loading: false });
     }
 
     render() {
         return (
             <section id='login'>
-                <Loader show={this.props.loading} />
+                <Loader show={this.state.loading} />
                 <Container>
                     <form onSubmit={this.handleSubmitStandardLogin}>
                         <div className='mb-3'>
@@ -96,18 +100,16 @@ class Login extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        errors: state.auth.errors,
-        loading: state.auth.loading,
+        errors: state.auth.loginErrors,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        atLoginPage: () => dispatch(isAtLoginPage(true)),
-        leftLoginPage: () => dispatch(isAtLoginPage(false)),
+        atLoginPage: () => dispatch(atLoginPage()),
+        leftLoginPage: () => dispatch(leftLoginPage()),
         login: (email, password) => dispatch(login(email, password)),
         oAuthLogin: (oAuthData) => dispatch(oAuthLogin(oAuthData)),
-        clearErrors: () => dispatch(clearErrors()),
     }
 }
 

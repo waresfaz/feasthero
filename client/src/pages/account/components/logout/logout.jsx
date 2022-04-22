@@ -6,23 +6,27 @@ import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 class Logout extends React.Component {
+    constructor(props) {
+        super(props);
+
+        this.state = {
+            loading: false
+        }
+    }
+
     logout = () => {
+        this.setState({ loading: true })
         this.props.logout();
+        this.setState({ loading: false })
     }
 
     render() {
         return (
             <>
-                <Loader show={this.props.loading} />
+                <Loader show={this.state.loading} />
                 <Button secondary className='w-100 py-3 d-block mt-5' isButton={true} onClick={this.logout}>Logout</Button>
             </>
         )
-    }
-}
-
-const mapStateToProps = (state) => {
-    return {
-        loading: state.auth.loading,
     }
 }
 
@@ -32,4 +36,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(Logout);
+export default connect(null, mapDispatchToProps)(Logout);
