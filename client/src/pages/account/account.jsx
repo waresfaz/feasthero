@@ -12,7 +12,6 @@ import './account.scss';
 
 class Account extends React.Component {
     chooseWhichAccountComponentToRender() {
-        console.log(this.props.account)
         const accountType = this.props.account.type;
         if (accountType === CHEF)
             return <ChefAccount account={this.props.account} />

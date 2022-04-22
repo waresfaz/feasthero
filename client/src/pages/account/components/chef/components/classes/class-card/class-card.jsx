@@ -8,10 +8,11 @@ import { connect } from 'react-redux'
 import Button from '../../../../../../../components/button/button';
 
 import './class-card.scss';
+import { selectClass } from '../../../../../../../services/chef/actions';
 
 class ClassCard extends React.Component {
     handleSelect = () => {
-        // this.props.setCurrentClass(this.props.classData);
+        this.props.selectClass(this.props.classData);
     }
 
     render() {
@@ -49,7 +50,7 @@ class ClassCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        //setCurrentClass: (classData) => dispatch(setCurrentClass(classData))
+        selectClass: (classData) => dispatch(selectClass(classData))
     }
 }
 

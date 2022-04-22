@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
-import { getClassDataForBooking } from '../../services/booking/actions';
+import { loadClassDataForBooking } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -93,7 +93,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
+        getClassData: (classId) => dispatch(loadClassDataForBooking(classId)),
     }
 }
 

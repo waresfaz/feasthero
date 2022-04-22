@@ -6,7 +6,7 @@ import { connect } from 'react-redux';
 import Loader from '../../../../../../../../../components/loader/loader';
 
 import { deleteTimeSlot } from '../../../../../../../../../services/schedule/api';
-import { getClass } from '../../../../../../../../../services/chef/actions';
+import { loadClass } from '../../../../../../../../../services/chef/actions';
 
 import './delete-time-slot.scss';
 
@@ -78,7 +78,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateClassData: (classId) => dispatch(getClass(classId))
+        updateClassData: (classId) => dispatch(loadClass(classId))
     }
 }
 

@@ -7,7 +7,7 @@ import { connect } from 'react-redux';
 
 import Button from '../../../../../../../../../components/button/button';
 
-import { getClass } from '../../../../../../../../../services/chef/actions'
+import { loadClass } from '../../../../../../../../../services/chef/actions'
 
 import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/schedule/api';
 
@@ -124,7 +124,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        updateClassData: (classId) => dispatch(getClass(classId))
+        updateClassData: (classId) => dispatch(loadClass(classId))
     }
 }
 

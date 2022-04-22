@@ -4,22 +4,34 @@ import { connect } from 'react-redux';
 
 import ClassCard from './class-card/class-card';
 
-import { getAllClasses, setCurrentClass } from '../../../../../../services/chef/actions';
+import { loadAllClasses } from '../../../../../../services/chef/actions';
 
 class Classes extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loading: false,
+        }
+    }
+
     async componentDidMount() {
-        await this.props.getAllClasses();
+        this.setState({ loading: true });
+        await this.props.loadAllClasses();
+        console.log(this.props.allClasses)
+        this.setState({ loading: false });
     }
 
     tryToRenderAllClasses() {
-        if (!this.props.allClasses)
+        if (this.state.loading) {
             return (
                 <div className='d-flex justify-content-center'>
                     <Spinner animation='border' />
                 </div>
             )
+        }
 
-        if (this.props.allClasses.error)
+        if (this.props.error)
             return <h4 className='text-center text-danger'>Error loading classes</h4>
 
 
@@ -41,9 +53,8 @@ class Classes extends React.Component {
             )
         }
 
-        return (
-            <></>
-        )
+        return <></>
+
     }
 
     render() {
@@ -59,13 +70,13 @@ class Classes extends React.Component {
 const mapStateToProps = (state) => {
     return {
         allClasses: state.chef.allClasses,
+        error: state.chef.loadAllClassesError,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setCurrentClass: (classData) => dispatch(setCurrentClass(classData)),
-        getAllClasses: () => dispatch(getAllClasses()),
+        loadAllClasses: () => dispatch(loadAllClasses()),
     }
 }
 

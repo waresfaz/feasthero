@@ -14,7 +14,7 @@ import EditSchedule from './components/edit-schedule/edit-schedule';
 
 import './edit-class.scss'
 import { connect } from 'react-redux';
-import { getClass } from '../../../../../services/chef/actions';
+import { loadClass } from '../../../../../services/chef/actions';
 
 // TODO
 
@@ -45,7 +45,7 @@ class EditClass extends React.Component {
         if (updateClassResponse.error)
             this.handleUpdateError(updateClassResponse.error);
 
-        await this.props.getClass(this.props.classData._id);
+        await this.props.loadClass(this.props.classData._id);
 
         this.setState({ loading: false });
     }
@@ -181,7 +181,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getClass: (classId) => dispatch(getClass(classId))
+        loadClass: (classId) => dispatch(loadClass(classId))
     }
 }
 

@@ -6,11 +6,11 @@ import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
 import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
-import { getClass } from '../../../services/chef/actions'
+import { loadClass } from '../../../services/chef/actions'
 
 class ChefClass extends React.Component {
     async componentDidMount() {
-        await this.props.getClass(this.props.match.params.id)
+        await this.props.loadClass(this.props.match.params.id)
     }
 
     errorLoadingClassData = () => {
@@ -49,7 +49,7 @@ const mapStateToProps = (state) => {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        getClass: (classId) => dispatch(getClass(classId))
+        loadClass: (classId) => dispatch(loadClass(classId))
     }
 }
 

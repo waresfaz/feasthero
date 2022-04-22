@@ -2,7 +2,7 @@ import React from 'react'
 import { Form, Modal, Spinner } from 'react-bootstrap';
 import { connect } from 'react-redux';
 
-import { addClass, clearErrors, setShowAddClassModal } from '../../../../../../services/chef/actions';
+import { addClass, hideAddClassModal, showAddClassModal } from '../../../../../../services/chef/actions';
 
 import Button from '../../../../../../components/button/button';
 
@@ -13,55 +13,65 @@ class AddClass extends React.Component {
     constructor() {
         super();
         this.state = {
-            title: '',
-            description: '',
-            thumbnail: '',
-            duration: null,
-            costPerDevice: null,
-            mealKitCost: null,
-            hasMealKit: false,
+            classData: {
+                title: '',
+                description: '',
+                thumbnail: '',
+                duration: null,
+                costPerDevice: null,
+                mealKitCost: null,
+                hasMealKit: false,
+            },
+            loading: false,
         }
     }
 
     handleSubmit = async (evt) => {
         evt.preventDefault();
-        this.props.addClass(this.state);
+        this.setState({ loading: true });
+        await this.props.addClass(this.state.classData);
+        this.setState({ loading: false });
     }
 
     handleChange = (evt) => {
         const { name, value } = evt.target;
-        this.setState({
-            [name]: value,
-        })
+        this.setState(prevState => ({
+            classData: {
+                ...prevState.classData,
+                [name]: value,
+            }
+        }));
     }
 
     handleCheckBoxChange = (evt) => {
         const { name } = evt.target;
         let value = !this.state[name];
-        this.setState({
-            [name]: value,
-        })
+        this.setState(prevState => ({
+            classData: {
+                ...prevState.classData,
+                [name]: value,
+            },
+        }));
     }
 
     handleFileUploadChange = (evt) => {
         const file = evt.target.files[0];
         const { name } = evt.target;
 
-        this.setState({
-            [name]: file
-        });
+        this.setState(prevState => ({
+            classData: {
+                ...prevState.classData,
+                [name]: file,
+            }
+        }));
     }
 
     showModal = () => {
-        this.props.setShowAddClassModal(true);
+        this.props.showAddClassModal();
     }
 
     closeModal = () => {
-        this.props.setShowAddClassModal(false);
-    }
-
-    componentWillUnmount() {
-        this.props.clearErrors();
+        this.props.hideAddClassModal();
     }
 
     render() {
@@ -70,7 +80,7 @@ class AddClass extends React.Component {
         return (
             <div id='add-class' className='mt-5'>
                 <Button className='mb-4 p-3' onClick={this.showModal}>Add Class</Button>
-                <Modal size='lg' id='add-class-modal' show={this.props.showAddClassModal} onHide={this.closeModal}>
+                <Modal size='lg' id='add-class-modal' show={this.props.shouldShowAddClassModal} onHide={this.closeModal}>
                     <Modal.Header>
                         <Modal.Title>Add Class</Modal.Title>
                     </Modal.Header>
@@ -79,7 +89,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Control
                                     onChange={this.handleChange}
-                                    value={this.state.title}
+                                    value={this.state.classData.title}
                                     type='text'
                                     placeholder='title'
                                     name='title'
@@ -89,7 +99,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Control
                                     onChange={this.handleChange}
-                                    value={this.state.description}
+                                    value={this.state.classData.description}
                                     type='text'
                                     as='textarea'
                                     placeholder='description'
@@ -108,7 +118,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Control
                                     onChange={this.handleChange}
-                                    value={this.state.duration}
+                                    value={this.state.classData.duration}
                                     type='number'
                                     placeholder='duration'
                                     name='duration'
@@ -118,7 +128,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Control
                                     onChange={this.handleChange}
-                                    value={this.state.costPerDevice}
+                                    value={this.state.classData.costPerDevice}
                                     type='number'
                                     placeholder='cost per device'
                                     name='costPerDevice'
@@ -128,7 +138,7 @@ class AddClass extends React.Component {
                             <Form.Group>
                                 <Form.Control
                                     onChange={this.handleChange}
-                                    value={this.state.mealKitCost}
+                                    value={this.state.classData.mealKitCost}
                                     type='number'
                                     placeholder='meal kit cost'
                                     name='mealKitCost'
@@ -139,7 +149,7 @@ class AddClass extends React.Component {
                                 <Form.Label>Offers Meal Kit</Form.Label>
                                 <Form.Check
                                     onChange={this.handleCheckBoxChange}
-                                    value={this.state.hasMealKit}
+                                    value={this.state.classData.hasMealKit}
                                     name='hasMealKit'
                                 />
                                 <span className='text-danger'>{errors['hasMealKit']}</span>
@@ -148,7 +158,7 @@ class AddClass extends React.Component {
                             <span className='text-danger d-block text-center'>{errors['error']}</span>
 
                             {
-                                this.props.loading
+                                this.state.loading
                                     ?
                                     <div className='d-flex justify-content-center'>
                                         <Spinner animation='border' />
@@ -177,17 +187,16 @@ class AddClass extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        errors: state.chef.errors,
-        loading: state.chef.loading,
-        showAddClassModal: state.chef.showAddClassModal
+        errors: state.chef.addClassErrors,
+        shouldShowAddClassModal: state.chef.showAddClassModal
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
         addClass: (classData) => dispatch(addClass(classData)),
-        clearErrors: () => dispatch(clearErrors()),
-        setShowAddClassModal: (showModal) => dispatch(setShowAddClassModal(showModal)),
+        showAddClassModal: () => dispatch(showAddClassModal()),
+        hideAddClassModal: () => dispatch(hideAddClassModal()),
     }
 }
 

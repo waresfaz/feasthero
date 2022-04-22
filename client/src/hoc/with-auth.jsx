@@ -6,7 +6,6 @@ import { compose } from 'redux';
 const WithAuth = WrappedComponent => {
     return class extends React.Component {
         render() {
-            console.log(this.props.accountData);
             if (!this.props.accountData)
                 return <Redirect to='/auth/login' />
 

@@ -9,7 +9,7 @@ import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import './payment.scss';
-import { checkout, setCheckoutLoading } from '../../../../services/checkout/actions';
+import { checkout } from '../../../../services/checkout/actions';
 import { connect } from 'react-redux';
 import history from '../../../../history';
 
@@ -28,6 +28,7 @@ class Payment extends React.Component {
         super();
         this.recaptchaRef = React.createRef();
         this.state = {
+            loading: false,
             cardError: '',
         }
     }
@@ -50,9 +51,12 @@ class Payment extends React.Component {
             return;
 
         const { stripe, elements } = this.props;
-        
+
         const card = elements.getElement(CardElement);
+
+        this.setState({ loading: true });
         await this.props.checkout(card, stripe, this.recaptchaRef.current.getValue());
+        this.setState({ loading: false });
     }
 
     stripeIsUninitialized = () => {
@@ -103,7 +107,7 @@ class Payment extends React.Component {
 
                             <button className='pay-btn mat-btn' type='submit' disabled={!this.props.stripe}>
                                 {
-                                    this.props.loading ? <div className='loader'></div> : <p>Pay ${this.props.bookingDetails.grandTotal}</p>
+                                    this.state.loading ? <div className='loader'></div> : <p>Pay ${this.props.bookingDetails.grandTotal}</p>
 
                                 }
                             </button>
@@ -130,15 +134,12 @@ class Payment extends React.Component {
 
 const mapStateToProps = (state) => {
     return {
-        loading: state.checkout.checkoutLoading,
         errors: state.checkout.checkoutErrors,
-        recaptchaError: state.checkout.recaptchaError,
     }
 }
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setLoading: (loading) => dispatch(setCheckoutLoading(loading)),
         checkout: (card, stripe, recaptchaValue) => dispatch(checkout(card, stripe, recaptchaValue)),
     }
 }

@@ -3,74 +3,67 @@ import requestErrorHasAdditionalInfo from '../../helpers/request-error-has-addit
 import { sessionActiveWrapper, statusEnum } from '../../helpers/session-active-wrapper';
 import history from '../../history';
 import { bookClass, getBookingDetailsFromSession } from './api';
-import { errorViewedAtHomePage } from '../feasthero/actions';
-import { SET_BOOKING_DETAILS, SET_LOAD_BOOKING_DETAILS_ERROR, SET_CHECKOUT_ERRORS, SET_CHECKOUT_LOADING } from './types';
+import { CHECKOUT_FAILED, CHECKOUT_SUCCESS, LOAD_BOOKING_DETAILS_FAILED, LOAD_BOOKING_DETAILS_SUCCESS } from './types';
 
-export function setBookingDetails(bookingDetails) {
-    return asAction(SET_BOOKING_DETAILS, bookingDetails);
+function loadBookingDetailsSuccess(bookingDetails) {
+    return asAction(LOAD_BOOKING_DETAILS_SUCCESS, bookingDetails);
 }
 
-export function setLoadBookingDetailsError(error) {
-    return asAction(SET_LOAD_BOOKING_DETAILS_ERROR, error);
+function loadBookingDetailsFailed(errors) {
+    return asAction(LOAD_BOOKING_DETAILS_FAILED, errors);
 }
 
-export function setCheckoutErrors(errors) {
-    return asAction(SET_CHECKOUT_ERRORS, errors);
+function checkoutSuccess() {
+    return asAction(CHECKOUT_SUCCESS);
 }
 
-export function setCheckoutLoading(loading) {
-    return asAction(SET_CHECKOUT_LOADING, loading);
+function checkoutFailed(errors) {
+    return asAction(CHECKOUT_FAILED, errors);
 }
 
 export function loadBookingDetails() {
     return async (dispatch) => {
         const bookingDetails = await sessionActiveWrapper(getBookingDetailsFromSession);
         if (bookingDetails.status === statusEnum.sessionNotActive) {
-            dispatch(errorViewedAtHomePage('Session not active'));
+            dispatch(loadBookingDetailsFailed({error: 'Session not active'}));
             history.push('/');
             return;
         }
 
         if (bookingDetails.status === statusEnum.error) {
-            dispatch(setLoadBookingDetailsError('Error loading booking details'));
+            dispatch(loadBookingDetailsFailed(bookingDetails.error));
             return;
         }
 
-        dispatch(setBookingDetails(bookingDetails));
+        dispatch(loadBookingDetailsSuccess(bookingDetails));
     }
 }
 
 export function checkout(card, stripe, recaptchaValue) {
-    return async (dispatch) => {
-        dispatch(setCheckoutLoading(true));
-        
+    return async (dispatch) => {        
         const cardTokenResponse = await stripe.createToken(card)
 
         if (cardTokenResponse.error) {
-            dispatch(setCheckoutErrors({'payment': cardTokenResponse.error.message}));
-            dispatch(setCheckoutLoading(false));
+            dispatch(checkoutFailed({'payment': cardTokenResponse.error.message}));
             return;
         }
 
         const bookingResponse = await sessionActiveWrapper(bookClass, cardTokenResponse.token.id, recaptchaValue);
         if (bookingResponse.status === statusEnum.error) {
             if (requestErrorHasAdditionalInfo(bookingResponse.error))
-                dispatch(setCheckoutErrors(bookingResponse.error.data['errors']));
+                dispatch(checkoutFailed(bookingResponse.error.data['errors']));
             else
-                dispatch(setCheckoutErrors({payment: 'Payment failed, please try again'}));
-
-            dispatch(setCheckoutLoading(false));
+                dispatch(checkoutFailed({payment: 'Payment failed, please try again'}));
             return
         }
 
         if (bookingResponse.status === statusEnum.sessionNotActive) {
-            dispatch(errorViewedAtHomePage('Session not active'));
+            dispatch(checkoutFailed({error: 'Session not active'}));
             history.push('/');
             return;
         }
 
-        dispatch(setCheckoutLoading(false));
-
+        dispatch(checkoutSuccess());
         history.push('booking-success');
     }
 

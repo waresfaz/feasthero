@@ -15,22 +15,35 @@ import CheckoutDetails from './components/checkout-details/checkout-details';
  */
 
 class Checkout extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loading: false,
+        }
+    }
+
     async componentDidMount() {
+        this.setState({ loading: true });
         await this.props.loadBookingDetails();
+        this.setState({ loading: false });
     }
 
 
     tryToRenderCheckout = () => {
+        if (this.state.loading)
+            return (
+                <div className='d-flex justify-content-center'>
+                    <Spinner animation='border' />
+                </div>
+            )
         if (this.props.error)
             return <p className='text-center text-danger'>{this.props.error}</p>
         if (this.props.bookingDetails)
             return <CheckoutDetails bookingDetails={this.props.bookingDetails} {...this.props} />
 
-        return (
-            <div className='d-flex justify-content-center'>
-                <Spinner animation='border' />
-            </div>
-        )
+        return <></>
+
     }
 
     render() {
@@ -46,7 +59,6 @@ class Checkout extends React.Component {
 const mapStateToProps = (state) => {
     return {
         bookingDetails: state.checkout.bookingDetails,
-        error: state.checkout.loadBookingDetailsError,
     }
 }
 

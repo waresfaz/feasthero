@@ -1,5 +1,9 @@
 import asAction from '../../helpers/as-redux-action';
-import { GET_ALL_CLASSES, GET_CLASS, SET_CURRENT_CLASS, SET_ERRORS, SET_LOADING, SET_SHOW_ADD_CLASS_MODAL } from "./types";
+import {
+    ADD_CLASS_FAILED, ADD_CLASS_SUCCESS, HIDE_ADD_CLASS_MODAL,
+    LOAD_ALL_CLASSES_FAILED, LOAD_ALL_CLASSES_SUCCESS, LOAD_CLASS_FAILED,
+    LOAD_CLASS_SUCCESS, SELECT_CLASS, SHOW_ADD_CLASS_MODAL
+} from "./types";
 import { allChefsClasses, getClassForChef } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import { newClass } from '../classes/api';
@@ -10,56 +14,70 @@ import NotEmptyValidator from '../../validators/not-empty';
 import BooleanValidator from '../../validators/boolean';
 import NumberValidator from '../../validators/number';
 
+function addClassFailed(errors) {
+    return asAction(ADD_CLASS_FAILED, errors);
+}
 
-export function getAllClasses() {
+function addClassSuccess() {
+    return asAction(ADD_CLASS_SUCCESS);
+}
+
+function loadAllClassesSuccess(classes) {
+    return asAction(LOAD_ALL_CLASSES_SUCCESS, classes);
+}
+
+function loadAllClassesFailed() {
+    return asAction(LOAD_ALL_CLASSES_FAILED);
+}
+
+function loadClassSuccess(classData) {
+    return asAction(LOAD_CLASS_SUCCESS, classData);
+}
+
+function loadClassFailed() {
+    return asAction(LOAD_CLASS_FAILED);
+}
+
+export function showAddClassModal() {
+    return asAction(SHOW_ADD_CLASS_MODAL);
+}
+
+export function hideAddClassModal() {
+    return asAction(HIDE_ADD_CLASS_MODAL);
+}
+
+export function selectClass(classData) {
+    return asAction(SELECT_CLASS, classData);
+}
+
+export function loadAllClasses() {
     return async (dispatch) => {
         const classes = await allChefsClasses();
-        dispatch(asAction(GET_ALL_CLASSES, classes));
+        if (classes.error) {
+            dispatch(loadAllClassesFailed());
+            return;
+        }
+        dispatch(loadAllClassesSuccess(classes));
     }
 }
 
-export function setCurrentClass(classData) {
-    return asAction(SET_CURRENT_CLASS, classData);
-}
-
-export function setLoading(isLoading) {
-    return asAction(SET_LOADING, isLoading);
-}
-
-export function setErrors(errors) {
-    return asAction(SET_ERRORS, errors);
-}
-
-export function getClass(classId) {
-    return async (dispatch, state) => {
-        if (state.chef.currentClass)
+export function loadClass(classId) {
+    return async (dispatch, getState) => {
+        if (getState().chef.currentClass)
             return;
         const classData = await getClassForChef(classId);
-        dispatch(asAction(GET_CLASS, classData));
+        if (classData.error) {
+            dispatch(loadClassFailed())
+        }
+        dispatch(loadClassSuccess(classData));
     }
-}
-
-export function clearErrors() {
-    return asAction(SET_ERRORS, {});
-}
-
-export function setShowAddClassModal(showAddClassModal) {
-    return asAction(SET_SHOW_ADD_CLASS_MODAL, showAddClassModal);
 }
 
 export function addClass(classData) {
     return async (dispatch) => {
-        const handleError = (errorResponse) => {
-            if (requestErrorHasAdditionalInfo(errorResponse))
-                dispatch(setErrors(errors));
-            else
-                dispatch(setErrors('Failed to add class, please try again'));
-            dispatch(setLoading(false));
-        }
-
         const validateClassData = () => {
             let errors = {};
-    
+
             errors['title'] = NotEmptyValidator.validate(classData.title);
             errors['description'] = NotEmptyValidator.validate(classData.description);
             errors['thumbnail'] = NotEmptyValidator.validate(classData.thumbnail);
@@ -67,25 +85,27 @@ export function addClass(classData) {
             errors['duration'] = NumberValidator.validate(classData.duration);
             errors['mealKitCost'] = NumberValidator.validate(classData.mealKitCost);
             errors['hasMealKit'] = BooleanValidator.validate(classData.hasMealKit);
-    
+
             return errors;
         }
 
-        dispatch(setLoading(true));
-
         const errors = validateClassData();
         if (!errorsAreEmpty(errors)) {
-            dispatch(setErrors(errors));
-            dispatch(setLoading(false));
+            dispatch(addClassFailed(errors))
             return;
         }
 
         const newClassResponse = await newClass(classDataFromObj(classData));
-        if (newClassResponse.error)
-            return handleError(newClassResponse.error);
+        const errorResponse = newClassResponse.errors;
+        if (errorResponse) {
+            if (requestErrorHasAdditionalInfo(errorResponse))
+                dispatch(addClassFailed(errorResponse));
+            else
+                dispatch(addClassFailed({ error: 'Failed to add class, please try again' }));
+            return;
+        }
 
-        dispatch(getAllClasses());
-        dispatch(setShowAddClassModal(false));
-        dispatch(setLoading(false));
+        dispatch(loadAllClasses());
+        dispatch(addClassSuccess());
     }
 }

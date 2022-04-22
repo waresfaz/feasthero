@@ -5,7 +5,6 @@ import Button from '../../../../../components/button/button'
 import Loader from '../../../../../components/loader/loader';
 
 import history from '../../../../../history'
-import { getAllClasses } from '../../../../../services/chef/actions';
 import { deleteClass } from '../../../../../services/classes/api'
 
 // TODO
@@ -63,16 +62,10 @@ class DeleteClass extends React.Component {
     }
 }
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getAllClasses: () => dispatch(getAllClasses())
-    }
-}
-
 const mapStateToProps = (state) => {
     return {
         classData: state.chef.currentClass,
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DeleteClass);
+export default connect(mapStateToProps)(DeleteClass);

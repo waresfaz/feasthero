@@ -30,7 +30,7 @@ async function updateClass(id, newClassData) {
 async function newClass(classData) {
     const response = await feastHeroAxios.post(NEW_CLASS, formDataFromObject(classData), { withCredentials: true })
         .then((response) => response)
-        .catch((err) => ({ error: err.response }));
+        .catch((err) => ({ errors: err.response }));
 
     return response;
 }

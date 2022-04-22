@@ -9,8 +9,8 @@ import { getClassForBooking } from '../classes/api';
 import * as validators from '../../validators';
 
 import {
-    GET_CLASS_DATA_FAILED,
-    GET_ClASS_DATA_SUCCESS,
+    LOAD_CLASS_DATA_FAILED,
+    LOAD_ClASS_DATA_SUCCESS,
     SELECT_CLASS_FOR_BOOKING,
     SUBMIT_BOOKING_FAILED,
     SUBMIT_BOOKING_SUCCESS,
@@ -21,12 +21,12 @@ export function updateBookingDetails(bookingDetails) {
     return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
 }
 
-function getClassDataSuccess(classData) {
-    return asAction(GET_ClASS_DATA_SUCCESS, classData);
+function loadClassDataSuccess(classData) {
+    return asAction(LOAD_ClASS_DATA_SUCCESS, classData);
 }
 
-function getClassDataFailed(errors) {
-    return asAction(GET_CLASS_DATA_FAILED, errors);
+function loadClassDataFailed(errors) {
+    return asAction(LOAD_CLASS_DATA_FAILED, errors);
 }
 
 function submitBookingSuccess() {
@@ -41,21 +41,21 @@ export function selectClassForBooking(classData) {
     return asAction(SELECT_CLASS_FOR_BOOKING, classData);
 }
 
-export function getClassDataForBooking(classId) {
+export function loadClassDataForBooking(classId) {
     return async (dispatch, getState) => {
         let classData;
 
         if (!getState().booking.classData) {
             classData = await getClassForBooking(classId);
             if (classData.error === true) {
-                dispatch(getClassDataFailed());
+                dispatch(loadClassDataFailed());
                 return;
             }
         }
         else
             classData = getState().booking.classData;
 
-        dispatch(getClassDataSuccess(classData));
+        dispatch(loadClassDataSuccess(classData));
     }
 }
 

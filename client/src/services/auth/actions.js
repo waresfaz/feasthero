@@ -109,7 +109,6 @@ function handleLoginRequestResponse(loginRequestResult, dispatch) {
     }
 
     const account = loginRequestResult.data;
-    console.log(account)
     ls.set('account', JSON.stringify(account));
 
     dispatch(loginSuccess(account));
