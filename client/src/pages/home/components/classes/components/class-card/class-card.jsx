@@ -5,7 +5,7 @@ import { faArrowRight } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux'
 
 import getChefFullName from '../../../../../../helpers/get-chef-full-name'
-import { setClassData } from '../../../../../../services/booking/actions';
+import { selectClassForBooking } from '../../../../../../services/booking/actions';
 
 import Button from '../../../../../../components/button/button';
 
@@ -13,7 +13,7 @@ import './class-card.scss';
 
 class ClassCard extends React.Component {
     handleSelect = () => {
-        this.props.setClassData(this.props.classData);
+        this.props.selectClassForBooking(this.props.classData);
     }
 
     render() {
@@ -89,7 +89,7 @@ class ClassCard extends React.Component {
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        setClassData: (classData) => dispatch(setClassData(classData))
+        selectClassForBooking: (classData) => dispatch(selectClassForBooking(classData))
     }
 }
 

@@ -29,7 +29,8 @@ export default function authReducer(state = { loginErrors: {}, registerErrors: {
         case LOGIN_SUCCESS:
             return {
                 ...state,
-                account: action.value
+                account: action.value,
+                loginErrors: {},
             }
         case LOGIN_FAILED:
             return {
@@ -39,7 +40,8 @@ export default function authReducer(state = { loginErrors: {}, registerErrors: {
         case REGISTER_SUCCESS:
             return {
                 ...state,
-                account: action.value
+                account: action.value,
+                registerErrors: {}
             }
         case REGISTER_FAILED:
             return {

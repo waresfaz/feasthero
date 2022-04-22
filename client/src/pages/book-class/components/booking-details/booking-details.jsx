@@ -13,6 +13,14 @@ import './booking-details.scss';
 
 
 class BookingDetails extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loading: false,
+        }
+    }
+
     handleFormChange = (event) => {
         const value = event.target.value;
         const name = event.target.name;
@@ -31,9 +39,11 @@ class BookingDetails extends React.Component {
         })
     }
 
-    handleSubmit = (evt) => {
+    handleSubmit = async (evt) => {
         evt.preventDefault()
-        this.props.submitBooking();
+        this.setState({ loading: true });
+        await this.props.submitBooking();
+        this.setState({ loading: false });
     }
 
     renderBookingSizeTooltip = (props) => (
@@ -126,7 +136,7 @@ class BookingDetails extends React.Component {
                             <Button primary={true} type='submit'
                                 className='d-flex justify-content-center'
                                 isButton={true}>
-                                {this.props.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                                {this.state.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
                             </Button>
                         </Col>
                     </Row>
@@ -139,13 +149,12 @@ class BookingDetails extends React.Component {
 const mapStateToProps = (state) => {
     return {
         bookingSize: state.booking.bookingDetails.bookingSize,
-        loading: state.booking.bookingSubmitIsLoading,
-        errors: state.booking.bookingErrors,
         customerFirstName: state.booking.bookingDetails.customerFirstName,
         customerLastName: state.booking.bookingDetails.customerLastName,
         customerEmail: state.booking.bookingDetails.customerEmail,
         selectedClassDateTime: state.booking.bookingDetails.selectedClassDateTime,
-        classData: state.booking.classData
+        classData: state.booking.classData,
+        errors: state.booking.bookingErrors,
     }
 }
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import { connect } from 'react-redux';
 import { Spinner, Row, Col } from 'react-bootstrap';
-import { getClassDataForBooking, reset, updateBookingDetails } from '../../services/booking/actions';
+import { getClassDataForBooking } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import BookingDetails from './components/booking-details/booking-details';
@@ -26,19 +26,32 @@ import './book-class.scss'
 
 
 class BookClass extends React.Component {
-    async componentDidMount() {
-        await this.props.getClassData(this.props.match.params.id);
-        this.props.updateBookingDetails({ classId: this.props.match.params.id });
+    constructor() {
+        super();
+
+        this.state = {
+            loading: false,
+        }
     }
 
-    componentWillUnmount() {
-        this.props.reset();
+    async componentDidMount() {
+        this.setState({ loading: true });
+        await this.props.getClassData(this.props.match.params.id);
+        this.setState({ loading: false });
     }
 
     tryToRenderBooking() {
-        const { errorLoadingClassData, classData } = this.props;
+        const { getClassDataError, classData } = this.props;
 
-        if (errorLoadingClassData)
+        if (this.state.loading) {
+            return (
+                <div className='d-flex justify-content-center'>
+                    <Spinner animation='border' />
+                </div>
+            )
+        }
+
+        if (getClassDataError)
             return <p className='text-danger text-center'>Error loading class</p>
 
         if (classData) {
@@ -57,11 +70,7 @@ class BookClass extends React.Component {
             )
         }
 
-        return (
-            <div className='d-flex justify-content-center'>
-                <Spinner animation='border' />
-            </div>
-        )
+        return <></>
     }
 
     render() {
@@ -77,16 +86,14 @@ class BookClass extends React.Component {
 const mapStateToProps = (state) => {
     return {
         classData: state.booking.classData,
-        errorLoadingClassData: state.booking.errorLoadingClassData,
+        getClassDataError: state.booking.getClassDataError,
     }
 }
 
 
 const mapDispatchToProps = (dispatch) => {
     return {
-        reset: () => dispatch(reset()),
         getClassData: (classId) => dispatch(getClassDataForBooking(classId)),
-        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
     }
 }
 

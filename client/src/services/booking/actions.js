@@ -6,44 +6,39 @@ import { initBookingDetailsSession } from './api';
 import datesTimesAsOption from '../../helpers/dates-times-as-options';
 import { getClassForBooking } from '../classes/api';
 
-import BookingSizeValidator from '../../validators/booking-size';
-import DateTimeValidator from '../../validators/datetime';
-import EmailValidator from '../../validators/email';
-import NameValidator from '../../validators/name';
-import NotEmptyValidator from '../../validators/not-empty';
-import BooleanValidator from '../../validators/boolean';
+import * as validators from '../../validators';
 
 import {
+    GET_CLASS_DATA_FAILED,
+    GET_ClASS_DATA_SUCCESS,
+    SELECT_CLASS_FOR_BOOKING,
+    SUBMIT_BOOKING_FAILED,
+    SUBMIT_BOOKING_SUCCESS,
     UPDATE_BOOKING_DETAILS,
-    RESET,
-    SET_BOOKING_ERRORS,
-    SET_BOOKING_SUBMIT_IS_LOADING,
-    SET_CLASS_DATA,
-    SET_ERROR_LOADING_CLASS_DATA,
 } from './types';
 
 export function updateBookingDetails(bookingDetails) {
     return asAction(UPDATE_BOOKING_DETAILS, bookingDetails)
 }
 
-export function reset() {
-    return asAction(RESET, '');
+function getClassDataSuccess(classData) {
+    return asAction(GET_ClASS_DATA_SUCCESS, classData);
 }
 
-export function setBookingErrors(errors) {
-    return asAction(SET_BOOKING_ERRORS, errors);
+function getClassDataFailed(errors) {
+    return asAction(GET_CLASS_DATA_FAILED, errors);
 }
 
-export function setBookingSubmitIsLoading(loading) {
-    return asAction(SET_BOOKING_SUBMIT_IS_LOADING, loading);
+function submitBookingSuccess() {
+    return asAction(SUBMIT_BOOKING_SUCCESS);
 }
 
-export function setClassData(classData) {
-    return asAction(SET_CLASS_DATA, classData);
+function submitBookingFailed() {
+    return asAction(SUBMIT_BOOKING_FAILED);
 }
 
-export function setErrorLoadingClassData(isError) {
-    return asAction(SET_ERROR_LOADING_CLASS_DATA, isError);
+export function selectClassForBooking(classData) {
+    return asAction(SELECT_CLASS_FOR_BOOKING, classData);
 }
 
 export function getClassDataForBooking(classId) {
@@ -53,15 +48,14 @@ export function getClassDataForBooking(classId) {
         if (!getState().booking.classData) {
             classData = await getClassForBooking(classId);
             if (classData.error === true) {
-                dispatch(setErrorLoadingClassData(true));
+                dispatch(getClassDataFailed());
                 return;
             }
         }
-        else {
+        else
             classData = getState().booking.classData;
-        }
 
-        dispatch(setClassData(classData));
+        dispatch(getClassDataSuccess(classData));
     }
 }
 
@@ -72,32 +66,26 @@ export function submitBooking() {
 
         const validateBookingDetails = () => {
             let errors = {};
-            errors['bookingSize'] = BookingSizeValidator.validate(bookingDetails.bookingSize)
-            errors['classDateTime'] = DateTimeValidator.validate(bookingDetails.selectedClassDateTime, scheduleOptions);
-            errors['customerEmail'] = EmailValidator.validate(bookingDetails.customerEmail);
-            errors['customerFirstName'] = NameValidator.validate(bookingDetails.customerFirstName);
-            errors['customerLastName'] = NameValidator.validate(bookingDetails.customerLastName);
-            errors['comanyName'] = NotEmptyValidator.validate(bookingDetails.companyName);
-            errors['mealKitsBooked'] = BooleanValidator.validate(bookingDetails.mealKitsBooked);
+            errors['bookingSize'] = validators.BookingSizeValidator.validate(bookingDetails.bookingSize)
+            errors['classDateTime'] = validators.DateTimeValidator.validate(bookingDetails.selectedClassDateTime, scheduleOptions);
+            errors['customerEmail'] = validators.EmailValidator.validate(bookingDetails.customerEmail);
+            errors['customerFirstName'] = validators.NameValidator.validate(bookingDetails.customerFirstName);
+            errors['customerLastName'] = validators.NameValidator.validate(bookingDetails.customerLastName);
+            errors['companyName'] = validators.NotEmptyValidator.validate(bookingDetails.companyName);
+            errors['mealKitsBooked'] = validators.BooleanValidator.validate(bookingDetails.mealKitsBooked);
             return errors;
         }
 
         const handleInitBookingSessionError = (errorResponse) => {
             if (requestErrorHasAdditionalInfo(errorResponse))
-                dispatch(setBookingErrors(errorResponse.data['errors']));
+                dispatch(submitBookingFailed(errorResponse.data['errors']));
             else
-                dispatch(setBookingErrors({ error: 'Error creating checkout session, please try again later' }));
-
-            dispatch(setBookingSubmitIsLoading(false));
+                dispatch(submitBookingFailed({ error: 'Error creating checkout session, please try again later' }));
         }
-
-        dispatch(setBookingSubmitIsLoading(true));
-
 
         let errors = validateBookingDetails();
         if (!errorsAreEmpty(errors)) {
-            dispatch(setBookingErrors(errors));
-            dispatch(setBookingSubmitIsLoading(false));
+            dispatch(submitBookingFailed(errors));
             return;
         }
 
@@ -107,7 +95,7 @@ export function submitBooking() {
             return;
         }
 
-        dispatch(setBookingSubmitIsLoading(false));
+        dispatch(submitBookingSuccess());
 
         history.push('/checkout');
     }
