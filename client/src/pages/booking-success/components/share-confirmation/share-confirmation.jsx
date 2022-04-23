@@ -2,16 +2,16 @@ import React from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
+import { connect } from 'react-redux';
 
 import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
-import { sendConfirmations } from '../../../../services/booking/api';
-import { sessionActiveWrapper, statusEnum } from '../../../../helpers/session-active-wrapper';
+import valsFromRefs from '../../../../helpers/values-from-refs';
+import { sendConfirmations } from '../../../../services/booking-success/actions';
 
 import './share-confirmation.scss';
 
-// TODO
 class ShareConfirmation extends React.Component {
     constructor() {
         super();
@@ -19,7 +19,6 @@ class ShareConfirmation extends React.Component {
         this.state = {
             inputs: [firstInput],
             loading: false,
-            didSend: null,
         }
     }
 
@@ -32,69 +31,28 @@ class ShareConfirmation extends React.Component {
 
     handleSubmit = async (evt) => {
         evt.preventDefault();
-        this.setState({
-            loading: true,
-            didSend: null,
-        })
-        let refs = this.state.inputs;
-        let emails = this.emailsFromRefs(refs);
+        this.setState({ loading: true });
 
-        if (emails.length === 0) {
-            this.setState({
-                loading: false,
-            });
-            return;
-        }
+        const refs = this.state.inputs;
+        const emails = valsFromRefs(refs);
+        console.log(emails);
+        await this.props.sendConfirmations(emails);
 
-        const response = await sessionActiveWrapper(sendConfirmations, emails);
-
-        if (response.status === statusEnum.sessionNotActive)
-            return
-
-        if (response.status === statusEnum.error)
-            this.setState({
-                didSend: false,
-                loading: false
-            });
-        else
-            this.setState({
-                didSend: true,
-                loading: false
-            });
-    }
-
-    emailsFromRefs = (refs) => {
-        let emails = [];
-        refs.forEach(ref => {
-            if (ref.current.value)
-                emails.push(ref.current.value);
-        })
-        return emails;
-    }
-
-    tryToRenderSendIcon(index) {
-        if (index === 0) {
-            return (
-                <Col md={11} lg={1}>
-                    <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
-                </Col>
-            )
-        }
-        return <></>
-    }
-
-    didEmailSend() {
-        const { didSend } = this.state;
-
-        if (didSend === false)
-            return <p className='text-danger text-center mb-0'>Failed to send</p>
-        if (didSend === true)
-            return <p className='text-success text-center mb-0'>Sent</p>
-        return <></>
+        this.setState({ loading: false });
     }
 
     render() {
         const { inputs, loading } = this.state;
+        let didSend;
+
+        if (this.props.confirmationsDidSend === false)
+            didSend =  <p className='text-danger text-center mb-0'>Failed to send</p>
+        else if (this.props.confirmationsDidSend === true)
+            didSend = <p className='text-success text-center mb-0'>Sent</p>
+        else
+            didSend = <></>
+
+
         return (
             <section id='share-confirmation'>
                 <Loader show={loading} />
@@ -104,14 +62,19 @@ class ShareConfirmation extends React.Component {
                             return (
                                 <Row>
                                     <Col md={11}>
-                                        <Form.Control placeholder='Email Address' type='email' ref={ref} />
+                                        <Form.Control required placeholder='Email Address' type='email' ref={ref} />
                                     </Col>
-                                    {this.tryToRenderSendIcon(i)}
+                                    {i === 0 ?
+                                        <Col md={11} lg={1}>
+                                            <FontAwesomeIcon size={'2x'} style={{ color: '#FA7580' }} onClick={this.appendInput} icon={faPlus} />
+                                        </Col>
+                                        : <></>
+                                    }
                                 </Row>
                             )
                         })
                     }
-                    {this.didEmailSend()}
+                    {didSend}
                     <Row className='justify-content-center'>
                         <Col lg={4}>
                             <Button isButton={true} secondary={true}>Send Confirmation</Button>
@@ -123,4 +86,16 @@ class ShareConfirmation extends React.Component {
     }
 }
 
-export default ShareConfirmation;
+const mapStateToProps = (state) => {
+    return {
+        confirmationsDidSend: state.bookingSuccess.confirmationsDidSend
+    }
+}
+
+const mapDispatchToProps = (dispatch) => {
+    return {
+        sendConfirmations: (emails) => dispatch(sendConfirmations(emails))
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(ShareConfirmation);

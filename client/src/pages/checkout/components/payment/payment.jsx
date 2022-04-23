@@ -3,15 +3,15 @@ import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import ReCAPTCHA from 'react-google-recaptcha';
 
-
 import { settings } from '../../../../settings';
-
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
-import './payment.scss';
 import { checkout } from '../../../../services/checkout/actions';
 import { connect } from 'react-redux';
 import history from '../../../../history';
+
+import './payment.scss';
+
 
 const InjectedPaymentForm = (props) => {
     return (

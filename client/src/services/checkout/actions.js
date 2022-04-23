@@ -58,8 +58,7 @@ export function checkout(card, stripe, recaptchaValue) {
         }
 
         if (bookingResponse.status === statusEnum.sessionNotActive) {
-            dispatch(checkoutFailed({error: 'Session not active'}));
-            history.push('/');
+            dispatch(checkoutFailed({booking: 'Session not active'}));
             return;
         }
 

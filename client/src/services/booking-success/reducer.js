@@ -1,21 +1,27 @@
-import { SET_BOOKING_DETAILS, SET_CLASS_DATA, SET_ERROR } from "./types";
+import { BOOKING_SUCCESS_VERIFIED, FAILED_TO_VERIFY_BOOKING_SUCCESS, SEND_CONFIRMATIONS_FAILED, SEND_CONFIRMATIONS_SUCCESS } from "./types";
 
 export default function bookingSuccessReducer(state = {}, action) {
     switch (action.type) {
-        case SET_BOOKING_DETAILS:
+        case FAILED_TO_VERIFY_BOOKING_SUCCESS:
             return {
                 ...state,
-                bookingDetails: action.value
+                verifyBookingSuccessError: action.value,
             }
-        case SET_CLASS_DATA:
+        case BOOKING_SUCCESS_VERIFIED:
             return {
                 ...state,
-                classData: action.value
+                bookingDetails: action.value.bookingDetails,
+                classData: action.value.classData,
             }
-        case SET_ERROR:
+        case SEND_CONFIRMATIONS_SUCCESS:
             return {
                 ...state,
-                error: action.value,
+                confirmationsDidSend: true,
+            }
+        case SEND_CONFIRMATIONS_FAILED:
+            return {
+                ...state,
+                confirmationsDidSend: false,
             }
         default:
             return state;
