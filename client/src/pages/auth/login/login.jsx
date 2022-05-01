@@ -6,7 +6,7 @@ import Button from '../../../components/button/button';
 import { connect } from 'react-redux';
 import { atLoginPage, leftLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
-import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
+import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
 
 import './login.scss';
 import '../auth.scss';

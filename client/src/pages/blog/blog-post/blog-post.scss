@@ -2,10 +2,15 @@
 
 #post {
    p {
-        font-size: 1.2rem;
+        font-size: 1.1rem;
         line-height: 2;
 
         @include content-breakpoints;
+   }
+
+   img {
+      max-width: 40%;
+      min-width: 20%;
    }
 
    h2 {

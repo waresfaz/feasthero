@@ -33,8 +33,8 @@ function submitBookingSuccess() {
     return asAction(SUBMIT_BOOKING_SUCCESS);
 }
 
-function submitBookingFailed() {
-    return asAction(SUBMIT_BOOKING_FAILED);
+function submitBookingFailed(errors) {
+    return asAction(SUBMIT_BOOKING_FAILED, errors);
 }
 
 export function selectClassForBooking(classData) {
@@ -47,7 +47,7 @@ export function loadClassDataForBooking(classId) {
 
         if (!getState().booking.classData) {
             classData = await getClassForBooking(classId);
-            if (classData.error === true) {
+            if (classData.error) {
                 dispatch(loadClassDataFailed());
                 return;
             }

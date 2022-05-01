@@ -2,7 +2,7 @@ import React from 'react'
 import { connect } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 
-import MustBeChef from '../../../hoc/must-be-chef/must-be-chef'
+import MustBeChef from '../../../hoc/must-be-chef'
 import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 

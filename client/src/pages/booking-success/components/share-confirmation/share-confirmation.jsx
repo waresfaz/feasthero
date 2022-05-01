@@ -35,7 +35,7 @@ class ShareConfirmation extends React.Component {
 
         const refs = this.state.inputs;
         const emails = valsFromRefs(refs);
-        console.log(emails);
+
         await this.props.sendConfirmations(emails);
 
         this.setState({ loading: false });

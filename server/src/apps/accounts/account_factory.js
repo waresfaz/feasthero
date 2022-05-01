@@ -1,5 +1,6 @@
 const { CHEF, CUSTOMER } = require("../../constants/app_constants");
-const ProfileFactory = require("../profiles/profile_factory");
+const Chef = require("../profiles/chef/schema/chef");
+const Customer = require("../profiles/customer/schema/customer");
 const Account = require("./schema/account");
 
 class AccountFactory {
@@ -7,13 +8,11 @@ class AccountFactory {
         switch (type) {
             case CHEF:
                 let chefAccount = new Account(data);
-                chefAccount.set({ type: CHEF })
-                chefAccount.set({ profile: ProfileFactory.getProfile(CHEF, data) });
+                chefAccount.set({ type: CHEF, profile: new Chef(data) });
                 return chefAccount;
             case CUSTOMER:
                 let customerAccount = new Account(data);
-                customerAccount.set({ type: CUSTOMER })
-                customerAccount.set({ profile: ProfileFactory.getProfile(CUSTOMER, data) });
+                customerAccount.set({ type: CUSTOMER, profile: new Customer(data) })
                 return customerAccount;
         }
     }

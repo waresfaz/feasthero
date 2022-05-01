@@ -5,7 +5,7 @@ import { connect } from 'react-redux';
 
 import Button from '../../../components/button/button';
 import Loader from '../../../components/loader/loader';
-import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account/should-redirect-to-account';
+import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
 
 import { register, oAuthRegister } from '../../../services/auth/actions';
 

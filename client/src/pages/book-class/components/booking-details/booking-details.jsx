@@ -153,6 +153,7 @@ const mapStateToProps = (state) => {
         customerLastName: state.booking.bookingDetails.customerLastName,
         customerEmail: state.booking.bookingDetails.customerEmail,
         selectedClassDateTime: state.booking.bookingDetails.selectedClassDateTime,
+        companyName: state.booking.bookingDetails.companyName,
         classData: state.booking.classData,
         errors: state.booking.bookingErrors,
     }

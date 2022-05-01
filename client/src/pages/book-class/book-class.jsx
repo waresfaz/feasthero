@@ -1,14 +1,8 @@
 import React from 'react';
-import { connect } from 'react-redux';
-import { Spinner, Row, Col } from 'react-bootstrap';
-import { loadClassDataForBooking } from '../../services/booking/actions';
 
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
-import BookingDetails from './components/booking-details/booking-details';
-import BookingSummary from './components/booking-summary/booking-summary';
-import ClassSummary from './components/class-summary/class-summary';
 
-import './book-class.scss'
+import Booking from './components/booking/booking';
 
 
 /**
@@ -25,76 +19,13 @@ import './book-class.scss'
  */
 
 
-class BookClass extends React.Component {
-    constructor() {
-        super();
-
-        this.state = {
-            loading: false,
-        }
-    }
-
-    async componentDidMount() {
-        this.setState({ loading: true });
-        await this.props.getClassData(this.props.match.params.id);
-        this.setState({ loading: false });
-    }
-
-    tryToRenderBooking() {
-        const { getClassDataError, classData } = this.props;
-
-        if (this.state.loading) {
-            return (
-                <div className='d-flex justify-content-center'>
-                    <Spinner animation='border' />
-                </div>
-            )
-        }
-
-        if (getClassDataError)
-            return <p className='text-danger text-center'>Error loading class</p>
-
-        if (classData) {
-            return (
-                <>
-                    <ClassSummary />
-                    <Row className='justify-content-center' id='booking-container'>
-                        <Col lg={5}>
-                            <BookingDetails />
-                        </Col>
-                        <Col lg={5}>
-                            <BookingSummary />
-                        </Col>
-                    </Row>
-                </>
-            )
-        }
-
-        return <></>
-    }
-
+export default class BookClass extends React.Component {
     render() {
         return (
             <>
                 <OrderProgressBar bookingDetails />
-                {this.tryToRenderBooking()}
+                <Booking classId={this.props.match.params.id} />
             </>
         )
     }
 }
-
-const mapStateToProps = (state) => {
-    return {
-        classData: state.booking.classData,
-        getClassDataError: state.booking.getClassDataError,
-    }
-}
-
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        getClassData: (classId) => dispatch(loadClassDataForBooking(classId)),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BookClass);

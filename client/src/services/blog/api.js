@@ -11,7 +11,7 @@ export async function fetchAllBlogPosts() {
 
 export async function fetchBlogPost(id) {
     const response = await feastHeroAxios.get(`${FIND_BLOG_POST}/${id}`)
-        .then((response) => response.data)
+        .then((response) => response.data[0])
         .catch((_) => ({ error: true }));
 
     return response;

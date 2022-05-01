@@ -2,7 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import { Redirect } from 'react-router';
 import { compose } from 'redux';
-import { CHEF } from '../../constants/app-constants';
+import { CHEF } from '../constants/app-constants';
 
 const MustBeChef = WrappedComponent => {
     return class extends React.Component {

@@ -1,33 +1,58 @@
 import React from 'react';
-import { Container } from 'react-bootstrap';
+import { Container, Image, Spinner } from 'react-bootstrap';
+import { connect } from 'react-redux';
 
 import Title from '../../../components/title/title';
-import HttpRequestDidSucceed from '../../../hoc/http-request-did-succeed/http-request-did-succeed';
-
-import { fetchBlogPost } from '../../../services/blog/api';
+import { loadPost } from '../../../services/blog/actions';
 import timeSince from '../../../helpers/time-since-date';
 
 import './blog-post.scss';
 
 
+
 class BlogPost extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({ loading: true });
+        await this.props.loadPost(this.props.match.params.id);
+        this.setState({ loading: false });
+    }
+
     render() {
-        let { postData, httpRequestError } = this.props;
-        if (!httpRequestError)
-            postData = postData[0];
+        const { postData, error } = this.props;
+        const { loading } = this.state;
+
+        if (loading)
+            return (
+                <div className='d-flex justify-content-center'>
+                    <Spinner animation='border' />
+                </div>
+            )
 
         return (
             <>
                 <Container className='mt-5'>
                     {
-                        httpRequestError
+                        error
                             ?
-                            <h4 className='text-danger mt-4'>Error loading blog post, please try again</h4>
+                            <h4 className='text-danger mt-4'>{error}</h4>
                             :
                             <section id='post'>
-                                <Title className='mb-4'>{postData.title}</Title>
-                                <div id='content' dangerouslySetInnerHTML={{ __html: postData.content }} />
-                                <div className='d-flex'>
+                                <Title>{postData.title}</Title>
+                                <div className='text-center my-4'>
+                                    <Image src={postData.image} alt={postData.title} />
+                                </div>
+                                <div>
+                                    <p dangerouslySetInnerHTML={{ __html: postData.content }} />
+                                </div>
+                                <div className='d-flex content'>
                                     <p>By <b>{postData.author}</b>,</p>
                                     <p className='ml-2'>{timeSince(new Date(postData.datePosted))} ago</p>
                                 </div>
@@ -40,4 +65,17 @@ class BlogPost extends React.Component {
     }
 }
 
-export default HttpRequestDidSucceed(BlogPost, fetchBlogPost, 'postData', 'id');
+const mapDispatchToProps = (dispatch) => {
+    return {
+        loadPost: (postId) => dispatch(loadPost(postId)),
+    }
+}
+
+const mapStateToProps = (state) => {
+    return {
+        error: state.blog.loadPostError,
+        postData: state.blog.selectedPost,
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BlogPost);

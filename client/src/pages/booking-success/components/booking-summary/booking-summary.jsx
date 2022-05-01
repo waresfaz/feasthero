@@ -5,14 +5,29 @@ import ConfirmationDetails from '../confirmation-details/confirmation-details';
 
 import { Spinner, Container } from 'react-bootstrap';
 import { connect } from 'react-redux';
+import { verifyBookingSuccess } from '../../../../services/booking-success/actions';
 
 
 class BookingSummary extends React.Component {
+    constructor() {
+        super();
+
+        this.state = {
+            loading: true,
+        }
+    }
+
+    async componentDidMount() {
+        this.setState({ loading: true });
+        await this.props.verifyBookingSuccess();
+        this.setState({ loading: false });
+    }
+
     render() {
         if (this.props.error)
             return <p className='text-center text-danger'>{this.props.error}</p>
 
-        if (this.props.loading)
+        if (this.state.loading)
             return (
                 <div className='d-flex justify-content-center'>
                     <Spinner animation='border' />
@@ -46,4 +61,10 @@ const mapStateToProps = (state) => {
     }
 }
 
-export default connect(mapStateToProps)(BookingSummary);
+const mapDispatchToProps = (dispatch) => {
+    return {
+        verifyBookingSuccess: () => dispatch(verifyBookingSuccess())
+    }
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(BookingSummary);
