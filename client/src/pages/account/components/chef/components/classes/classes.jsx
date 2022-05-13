@@ -18,7 +18,6 @@ class Classes extends React.Component {
     async componentDidMount() {
         this.setState({ loading: true });
         await this.props.loadAllClasses();
-        console.log(this.props.allClasses)
         this.setState({ loading: false });
     }
 

@@ -1,6 +1,6 @@
 const RegistrationService = require('../services/register');
 const { StatusCodes } = require("http-status-codes");
-const putAccountInSession = require('../helpers/put_account_in_session');
+const putAccountInSession = require('../../../helpers/put_account_in_session');
 
 async function register(req, res) {
     const regData = req.body.regData;

@@ -14,7 +14,8 @@ import {
 import {
     login as loginRequest, logout as logoutRequest,
     oAuthLogin as oAuthLoginRequest, register as registerRequest,
-    oAuthRegister as oAuthRegisterRequest
+    oAuthRegister as oAuthRegisterRequest,
+    putAccountInSession as putAccountInSessionRequest
 } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
 import history from '../../history';
@@ -68,6 +69,8 @@ export function loadAccount() {
         if (!account || account === 'undefined')
             return;
         
+        putAccountInSessionRequest(account);
+
         dispatch(asAction(LOAD_ACCOUNT, JSON.parse(account)));
     }
 }

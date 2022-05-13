@@ -33,6 +33,7 @@ export const LOGOUT = `${AUTH_PATH}/logout`;
 
 const ACCOUNTS_PATH = '/accounts';
 export const GET_ACCOUNT = `${ACCOUNTS_PATH}/get-account`;
+export const PUT_ACCOUNT_IN_SESSION = `${ACCOUNTS_PATH}/put-account-in-session`;
 
 const CHEF_PATH = '/chef';
 export const FIND_CLASS_FOR_CHEF_PREFIX = `${CHEF_PATH}/classes`;

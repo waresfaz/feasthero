@@ -1,6 +1,6 @@
 const { StatusCodes } = require("http-status-codes");
 const OAuthRegistrationService = require("../services/oauth_register");
-const putAccountInSession = require('../helpers/put_account_in_session');
+const putAccountInSession = require('../../../helpers/put_account_in_session');
 
 async function oAuthRegister(req, res) {
     const { token } = req.body;

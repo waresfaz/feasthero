@@ -18,8 +18,8 @@ function addClassFailed(errors) {
     return asAction(ADD_CLASS_FAILED, errors);
 }
 
-function addClassSuccess() {
-    return asAction(ADD_CLASS_SUCCESS);
+function addClassSuccess(newClass) {
+    return asAction(ADD_CLASS_SUCCESS, newClass);
 }
 
 function loadAllClassesSuccess(classes) {
@@ -53,6 +53,7 @@ export function selectClass(classData) {
 export function loadAllClasses() {
     return async (dispatch) => {
         const classes = await allChefsClasses();
+
         if (classes.error) {
             dispatch(loadAllClassesFailed());
             return;
@@ -74,7 +75,7 @@ export function loadClass(classId) {
 }
 
 export function addClass(classData) {
-    return async (dispatch) => {
+    return async (dispatch, getState) => {
         const validateClassData = () => {
             let errors = {};
 
@@ -105,7 +106,6 @@ export function addClass(classData) {
             return;
         }
 
-        dispatch(loadAllClasses());
-        dispatch(addClassSuccess());
+        dispatch(addClassSuccess(newClassResponse.data));
     }
 }

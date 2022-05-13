@@ -41,6 +41,7 @@ export default function chefReducer(state = {loadClassError: false, addClassErro
             return {
                 ...state,
                 showAddClassModal: false,
+                allClasses: [...state.allClasses, action.value]
             }
         case SHOW_ADD_CLASS_MODAL:
             return {

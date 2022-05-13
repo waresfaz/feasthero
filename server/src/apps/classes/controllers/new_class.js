@@ -10,7 +10,7 @@ async function newClass(req, res) {
     return class_
         .save()
         .then((class_) => {
-            return res.status(StatusCodes.OK).json(class_._id);
+            return res.status(StatusCodes.OK).json(class_);
         })
         .catch((_) => {
             return res.status(StatusCodes.INTERNAL_SERVER_ERROR).send(

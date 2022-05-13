@@ -7,23 +7,19 @@ import { CHEF } from '../constants/app-constants';
 const MustBeChef = WrappedComponent => {
     return class extends React.Component {
         render() {
-            if (this.props.accountData === null)
+            if (!this.props.accountData)
                 return <Redirect to='/auth/login' />
 
-            if (this.props.accountData) {
-                if (this.props.accountData.type === CHEF)
-                    return <WrappedComponent {...this.props} />
-                return <Redirect to='/auth/login' />
-            }
-            
-            return <></>
+            if (this.props.accountData.type === CHEF)
+                return <WrappedComponent {...this.props} />
+            return <Redirect to='/auth/login' />
         }
     }
 }
 
 const mapStateToProps = (state) => {
     return {
-        accountData: state.auth.accountData,
+        accountData: state.auth.account,
     }
 }
 

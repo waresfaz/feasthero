@@ -1,4 +1,4 @@
-import { LOGOUT, OAUTH_REGISTER, STANDARD_LOGIN, STANDARD_REGISTER, OAUTH_LOGIN } from '../../constants/api-constants';
+import { LOGOUT, OAUTH_REGISTER, STANDARD_LOGIN, STANDARD_REGISTER, OAUTH_LOGIN, PUT_ACCOUNT_IN_SESSION } from '../../constants/api-constants';
 import feastHeroAxios from '../axios/feast-hero-axios';
 
 export async function register(data) {
@@ -15,6 +15,18 @@ export async function register(data) {
         })
         .then((response) => response)
         .catch((err) => ({ error: err.response }));
+
+    return response;
+}
+
+export async function putAccountInSession(account) {
+    const response = await feastHeroAxios.post(
+        PUT_ACCOUNT_IN_SESSION,
+        { account: account },
+        { withCredentials: true }
+    )
+    .then((response) => response)
+    .catch((err) => ({ error: err.response }));
 
     return response;
 }
