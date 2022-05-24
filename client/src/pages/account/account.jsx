@@ -1,40 +1,32 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
-import Logout from './components/logout/logout';
+import Logout from '../auth/logout/logout';
 import WithAuth from '../../hoc/with-auth';
 import { CHEF, CUSTOMER } from '../../constants/app-constants';
+import { selectAccount } from '../../services/auth/selectors';
 
 import ChefAccount from './components/chef/chef-account';
 import CustomerAccount from './components/customer/customer-account';
 
 import './account.scss';
 
-class Account extends React.Component {
-    chooseWhichAccountComponentToRender() {
-        const accountType = this.props.account.type;
-        if (accountType === CHEF)
-            return <ChefAccount account={this.props.account} />
-        if (accountType === CUSTOMER)
-            return <CustomerAccount account={this.props.account} />
-        return <></>
-    }
+function Account() {
+    const account = useSelector(selectAccount);
+    let accountComponent;
 
-    render() {
-        return (
-            <>
-                {this.chooseWhichAccountComponentToRender()}
-                <Logout />
-            </>
-        )
-    }
-}
+    if (account.type === CHEF)
+        accountComponent = <ChefAccount account={account} />
+    if (account.type === CUSTOMER)
+        accountComponent = <CustomerAccount account={account} />
 
-const mapStateToProps = (state) => {
-    return {
-        account: state.auth.account,
-    }
+    return (
+        <>
+            {accountComponent}
+            <Logout />
+        </>
+    );
 }
 
 
-export default connect(mapStateToProps)(WithAuth(Account));
+export default WithAuth(Account);

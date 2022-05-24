@@ -5,11 +5,11 @@ import { Modal, Spinner } from 'react-bootstrap';
 import DateTimePicker from 'react-datetime-picker';
 import { connect } from 'react-redux';
 
-import Button from '../../../../../../../../../components/button/button';
+import Button from '../../../../../../../../../../../../components/button/button';
 
-import { loadClass } from '../../../../../../../../../services/chef/actions'
+import { loadClass } from '../../../../../../../../../../../../services/chef/actions'
 
-import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../services/schedule/api';
+import { addTimeSlot as addTimeSlotRequest } from '../../../../../../../../../../../../services/schedule/api';
 
 import './add-time-slot.scss';
 

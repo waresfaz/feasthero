@@ -5,7 +5,7 @@ export default function checkoutReducer(state = {loadBookingDetailsErrors: {}, c
         case LOAD_BOOKING_DETAILS_FAILED:
             return {
                 ...state,
-                loadBookingDetailsErrors: action.value
+                loadBookingDetailsError: action.value
             }
         case LOAD_BOOKING_DETAILS_SUCCESS:
             return {

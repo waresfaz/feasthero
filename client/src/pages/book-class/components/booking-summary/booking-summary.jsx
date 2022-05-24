@@ -56,7 +56,7 @@ class BookingSummary extends React.Component {
                 {
                     classData.hasMealKit
                         ?
-                        <IncludeMealKits classData={classData} />
+                        <IncludeMealKits />
                         :
                         <></>
                 }

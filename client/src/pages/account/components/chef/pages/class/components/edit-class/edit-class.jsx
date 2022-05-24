@@ -1,20 +1,20 @@
 import React from 'react'
 import { Form } from 'react-bootstrap'
 
-import { updateClass } from '../../../../../services/classes/api';
-import classDataFromObj from '../../../../../helpers/class-data-from-state';
+import { updateClass } from '../../../../../../../../services/classes/api';
+import classDataFromObj from '../../../../../../../../helpers/class-data-from-state';
 
-import BooleanValidator from '../../../../../validators/boolean';
-import NumberValidator from '../../../../../validators/number';
-import NotEmptyValidator from '../../../../../validators/not-empty';
+import BooleanValidator from '../../../../../../../../validators/boolean';
+import NumberValidator from '../../../../../../../../validators/number';
+import NotEmptyValidator from '../../../../../../../../validators/not-empty';
 
-import Button from '../../../../../components/button/button'
-import Loader from '../../../../../components/loader/loader'
+import Button from '../../../../../../../../components/button/button'
+import Loader from '../../../../../../../../components/loader/loader'
 import EditSchedule from './components/edit-schedule/edit-schedule';
 
 import './edit-class.scss'
 import { connect } from 'react-redux';
-import { loadClass } from '../../../../../services/chef/actions';
+import { loadClass } from '../../../../../../../../services/chef/actions';
 
 // TODO
 

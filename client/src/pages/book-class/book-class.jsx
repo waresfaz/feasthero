@@ -19,13 +19,11 @@ import Booking from './components/booking/booking';
  */
 
 
-export default class BookClass extends React.Component {
-    render() {
-        return (
-            <>
-                <OrderProgressBar bookingDetails />
-                <Booking classId={this.props.match.params.id} />
-            </>
-        )
-    }
+export default function BookClass(props) {
+    return (
+        <>
+            <OrderProgressBar bookingDetails />
+            <Booking classId={props.match.params.id} />
+        </>
+    )
 }

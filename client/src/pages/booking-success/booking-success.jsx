@@ -14,13 +14,11 @@ import './booking-success.scss';
  *    2. Giving the user the option to share their booking confirmation with other emails
  */
 
-export default class BookingSuccess extends React.Component {
-    render() {
-        return (
-            <>
-                <OrderProgressBar confirmation={true} />
-                <BookingSummary />
-            </>
-        )
-    }
+export default function BookingSuccess() {
+    return (
+        <>
+            <OrderProgressBar confirmation={true} />
+            <BookingSummary />
+        </>
+    );
 }

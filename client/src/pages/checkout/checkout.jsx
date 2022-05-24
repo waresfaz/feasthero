@@ -1,8 +1,9 @@
-import React from 'react'
 import { Spinner } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
+import useFetch from '../../redux/hooks/fetch';
 import { loadBookingDetails } from '../../services/checkout/actions';
+import { selectBookingDetails } from '../../services/checkout/selectors';
 import CheckoutDetails from './components/checkout-details/checkout-details';
 
 /**
@@ -14,58 +15,30 @@ import CheckoutDetails from './components/checkout-details/checkout-details';
  *    3. call the `booking/book` endpoint in order for the booking and payment to be processed
  */
 
-class Checkout extends React.Component {
-    constructor() {
-        super();
+function Checkout(props) {
+    const error = useSelector(state => state.checkout.loadBookingDetailsError);
+    const bookingDetails = useSelector(selectBookingDetails);
+    let checkoutState = <></>;
+    const loading = useFetch(loadBookingDetails);
 
-        this.state = {
-            loading: true,
-        }
-    }
-
-    async componentDidMount() {
-        this.setState({ loading: true });
-        await this.props.loadBookingDetails();
-        this.setState({ loading: false });
-    }
-
-
-    tryToRenderCheckout = () => {
-        if (this.state.loading)
-            return (
-                <div className='d-flex justify-content-center'>
-                    <Spinner animation='border' />
-                </div>
-            )
-        if (this.props.error)
-            return <p className='text-center text-danger'>{this.props.error}</p>
-        if (this.props.bookingDetails)
-            return <CheckoutDetails bookingDetails={this.props.bookingDetails} {...this.props} />
-
-        return <></>
-
-    }
-
-    render() {
-        return (
-            <>
-                <OrderProgressBar paymentDetails />
-                {this.tryToRenderCheckout()}
-            </>
+    if (loading)
+        checkoutState = (
+            <div className='d-flex justify-content-center'>
+                <Spinner animation='border' />
+            </div>
         )
-    }
+    else if (error)
+        checkoutState = <p className='text-center text-danger'>{error}</p>
+    else if (bookingDetails)
+        checkoutState = <CheckoutDetails {...props} />
+
+    return (
+        <>
+            <OrderProgressBar paymentDetails />
+            {checkoutState}
+        </>
+    )
+
 }
 
-const mapStateToProps = (state) => {
-    return {
-        bookingDetails: state.checkout.bookingDetails,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadBookingDetails: () => dispatch(loadBookingDetails()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Checkout);
+export default Checkout;

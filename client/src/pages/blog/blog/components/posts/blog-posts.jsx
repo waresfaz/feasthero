@@ -1,60 +1,36 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import { connect } from "react-redux";
+import { useSelector } from "react-redux";
+import useFetch from "../../../../../redux/hooks/fetch";
 import { loadPosts } from "../../../../../services/blog/actions";
 import PreviewBlogPost from "../preview-blog/preview-blog-post";
 
-class BlogPosts extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            loading: true,
-        };
-    }
+function BlogPosts() {
+    const posts = useSelector(state => state.blog.posts);
+    const error = useSelector(state => state.blog.loadPostsError);
 
-    async componentDidMount() {
-        this.setState({ loading: true });
-        await this.props.loadPosts();
-        this.setState({ loading: false });
-    }
+    const loading = useFetch(loadPosts);
 
-    render() {
-        const { posts, error } = this.props;
-        const { loading } = this.state;
-
-        if (loading)
-            return (
-                <div className='d-flex justify-content-center'>
-                    <Spinner animation='border' />
-                </div>
-            )
-        if (error)
-            return <h4 className='text-danger mt-4'>{error}</h4>
-        if (posts.length !== 0) {
-            return <div id='preview-blog-posts'>
-                {
-                    posts.map((post, key) => {
-                        return <PreviewBlogPost postData={post} index={key} key={key} />
-
-                    })
-                }
+    if (loading)
+        return (
+            <div className='d-flex justify-content-center'>
+                <Spinner animation='border' />
             </div>
-        }
-        return <h4 className='text-center mt-5'>No blog posts yet...</h4>
+        )
+    if (error)
+        return <h4 className='text-danger mt-4'>{error}</h4>
+    if (posts.length !== 0) {
+        return <div id='preview-blog-posts'>
+            {
+                posts.map((post, key) => {
+                    return <PreviewBlogPost postData={post} index={key} key={key} />
+
+                })
+            }
+        </div>
     }
+    return <h4 className='text-center mt-5'>No blog posts yet...</h4>
+
 }
 
-const mapStateToProps = (state) => {
-    return {
-        error: state.blog.loadPostsError,
-        posts: state.blog.posts,
-    }
-}
-
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadPosts: () => dispatch(loadPosts()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BlogPosts);
+export default BlogPosts;

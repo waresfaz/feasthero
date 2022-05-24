@@ -21,7 +21,7 @@ import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
 import Account from '../../pages/account/account';
 import BookClass from '../../pages/book-class/book-class';
-import ChefClass from '../../pages/chef/class/chef-class';
+import ChefClass from '../../pages/account/components/chef/pages/class/chef-class';
 import Checkout from '../../pages/checkout/checkout';
 
 import LoadAccount from '../../hoc/load-account';
@@ -29,40 +29,35 @@ import LoadAccount from '../../hoc/load-account';
 import './app.scss';
 
 
-class App extends React.Component {
-  constructor() {
-    super();
-    initSettings();
-  }
+function App() {
+  initSettings();
 
-  render() {
-    return (
-      <>
-        <Router history={history}>
-          <ScrollToTop>
-            <Container fluid id='main-container'>
-              <TopNavbar />
-              <Switch>
-                <Route exact path='/' component={Home} />
-                <Route exact path='/book/:id' component={BookClass} />
-                <Route exact path='/checkout' component={Checkout} />
-                <Route exact path='/booking-success' component={BookingSuccess} />
-                <Route exact path='/contact' component={AboutAndContactUs} />
-                <Route exact path='/faq' component={Faq} />
-                <Route exact path='/blog' component={Blog} />
-                <Route exact path='/blog/post/:id' component={BlogPost} />
-                <Route exact path='/auth/login' component={Login} />
-                <Route exact path='/auth/register' component={Register} />
-                <Route exact path='/account' component={Account} />
-                <Route exact path='/account/class/:id' component={ChefClass} />
-              </Switch>
-            </Container>
-            <Footer />
-          </ScrollToTop>
-        </Router>
-      </>
-    )
-  }
+  return (
+    <>
+      <Router history={history}>
+        <ScrollToTop>
+          <Container fluid id='main-container'>
+            <TopNavbar />
+            <Switch>
+              <Route exact path='/' component={Home} />
+              <Route exact path='/book/:id' component={BookClass} />
+              <Route exact path='/checkout' component={Checkout} />
+              <Route exact path='/booking-success' component={BookingSuccess} />
+              <Route exact path='/contact' component={AboutAndContactUs} />
+              <Route exact path='/faq' component={Faq} />
+              <Route exact path='/blog' component={Blog} />
+              <Route exact path='/blog/post/:id' component={BlogPost} />
+              <Route exact path='/auth/login' component={Login} />
+              <Route exact path='/auth/register' component={Register} />
+              <Route exact path='/account' component={Account} />
+              <Route exact path='/account/class/:id' component={ChefClass} />
+            </Switch>
+          </Container>
+          <Footer />
+        </ScrollToTop>
+      </Router>
+    </>
+  )
 }
 
 export default LoadAccount(App);

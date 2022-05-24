@@ -64,7 +64,7 @@ export function logout() {
 }
 
 export function loadAccount() {
-    return async (dispatch) => {
+    return (dispatch) => {
         const account = ls.get('account');
         if (!account || account === 'undefined')
             return;
@@ -112,6 +112,7 @@ function handleLoginRequestResponse(loginRequestResult, dispatch) {
     }
 
     const account = loginRequestResult.data;
+
     ls.set('account', JSON.stringify(account));
 
     dispatch(loginSuccess(account));

@@ -1,26 +1,19 @@
 import React from 'react';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 import { Redirect } from 'react-router';
-import { compose } from 'redux';
+import { selectAccount } from '../services/auth/selectors';
 
 const WithAuth = WrappedComponent => {
-    return class extends React.Component {
-        render() {
-            if (!this.props.accountData)
-                return <Redirect to='/auth/login' />
+    const NewComponent = (props) => {
+        const account = useSelector(selectAccount);
 
-            return <WrappedComponent {...this.props} />
-        }
+        if (!account)
+            return <Redirect to='/auth/login' />
+
+        return <WrappedComponent {...props} />
     }
+
+    return NewComponent;
 }
 
-const mapStateToProps = (state) => {
-    return {
-        accountData: state.auth.account,
-    }
-}
-
-export default compose(
-    connect(mapStateToProps),
-    WithAuth
-);
+export default WithAuth;

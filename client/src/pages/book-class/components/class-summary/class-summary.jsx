@@ -1,52 +1,36 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Image } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import truncateString from '../../../../helpers/truncate-string';
+import { selectCurrentClass } from '../../../../services/booking/selectors';
 
 import './class-summary.scss';
 
-class ClassSummary extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            truncated: true
-        }
+function ClassSummary() {
+    const [truncated, setTruncated] = useState(true);
+    const classData = useSelector(selectCurrentClass);
+
+    const toggleTruncate = () => {
+        setTruncated(!truncated);
     }
 
-    toggleTruncate = () => {
-        this.setState(prevState => ({
-            truncated: !prevState.truncated
-        }))
-    }
-
-    render() {
-        let { classData } = this.props;
-        let { truncated } = this.state;
-
-        return (
-            <div id='class-summary'>
-                <Image src={classData.chefs[0].profile.photo} />
-                <h1>{classData.title}</h1>
-                <p id='content'>
-                    {
-                        this.state.truncated
+    return (
+        <div id='class-summary'>
+            <Image src={classData.chefs[0].profile.photo} />
+            <h1>{classData.title}</h1>
+            <p id='content'>
+                {
+                    truncated
                         ? truncateString(classData.description, 90)
                         : classData.description
-                    }
-                </p>
-                <p id='toggle-truncate' onClick={this.toggleTruncate}>
-                    { truncated ? 'Learn More' : 'Less' }
-                </p>
-            </div>
-        )
-    }
+                }
+            </p>
+            <p id='toggle-truncate' onClick={toggleTruncate}>
+                {truncated ? 'Learn More' : 'Less'}
+            </p>
+        </div>
+    )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        classData: state.booking.classData
-    }
-}
-
-export default connect(mapStateToProps, null)(ClassSummary);
+export default ClassSummary;

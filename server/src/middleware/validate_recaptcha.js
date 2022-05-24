@@ -13,7 +13,7 @@ async function validateReCaptcha(req, res, next) {
         },
         body: `secret=${process.env.RECAPTCHA_SECRET_KEY}&response=${recaptchaData}`
     })
-        .then(res => {console.log(res); return res.json()})
+        .then(res => res.json())
         .then(json => json.success)
         .catch(_ => false)
 

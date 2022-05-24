@@ -3,10 +3,10 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTrash } from '@fortawesome/free-solid-svg-icons'
 import { connect } from 'react-redux';
 
-import Loader from '../../../../../../../../../components/loader/loader';
+import Loader from '../../../../../../../../../../../../components/loader/loader';
 
-import { deleteTimeSlot } from '../../../../../../../../../services/schedule/api';
-import { loadClass } from '../../../../../../../../../services/chef/actions';
+import { deleteTimeSlot } from '../../../../../../../../../../../../services/schedule/api';
+import { loadClass } from '../../../../../../../../../../../../services/chef/actions';
 
 import './delete-time-slot.scss';
 

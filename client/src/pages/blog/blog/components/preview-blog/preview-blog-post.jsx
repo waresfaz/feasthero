@@ -6,40 +6,39 @@ import Content from './components/content';
 
 import './preview-blog-post.scss';
 
-class PreviewBlogPost extends React.Component {
-    render() {
-        const { index, postData } = this.props;
-        return (
-            <>
-                <Row style={{ marginBottom: '6rem' }}>
-                    {
-                        index % 2 === 0
-                            ?
-                            <Col lg={4}>
-                                <Image fluid src={postData.image} alt={postData.title} />
-                            </Col>
-                            :
-                            <Col lg={7}>
-                                <Content postData={postData} />
-                            </Col>
+function PreviewBlogPost(props) {
+    const { index, postData } = props;
 
-                    }
-                    {
-                        index % 2 === 0
-                            ?
-                            <Col lg={7}>
-                                <Content postData={postData} />
-                            </Col>
-                            :
-                            <Col lg={4}>
-                                <Image className='w-100' fluid src={postData.image} alt={postData.title} />
-                            </Col>
+    return (
+        <>
+            <Row style={{ marginBottom: '6rem' }}>
+                {
+                    index % 2 === 0
+                        ?
+                        <Col lg={4}>
+                            <Image fluid src={postData.image} alt={postData.title} />
+                        </Col>
+                        :
+                        <Col lg={7}>
+                            <Content postData={postData} />
+                        </Col>
 
-                    }
-                </Row>
-            </>
-        );
-    }
+                }
+                {
+                    index % 2 === 0
+                        ?
+                        <Col lg={7}>
+                            <Content postData={postData} />
+                        </Col>
+                        :
+                        <Col lg={4}>
+                            <Image className='w-100' fluid src={postData.image} alt={postData.title} />
+                        </Col>
+
+                }
+            </Row>
+        </>
+    );
 }
 
 export default PreviewBlogPost;

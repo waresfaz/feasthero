@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Row, Col } from 'react-bootstrap';
 
 import ClassCard from './components/class-card/class-card';
@@ -7,27 +7,25 @@ import { getAllClassesForBooking } from '../../../../services/classes/api';
 
 import './classes.scss';
 
-class Classes extends React.Component {
-    constructor() {
-        super();
-        this.state = {
-            classes: null,
+// TODO
+
+function Classes() {
+    const [classes, setClasses] = useState(null);
+    let classesState = <></>;
+
+    useEffect(() => {
+        const fetchClasses = async () => {
+            const data = await getAllClassesForBooking();
+            setClasses(data);
         }
-    }
+        fetchClasses();
+    }, []);
 
-    async componentDidMount() {
-        const classes = await getAllClassesForBooking();
-        this.setState({ classes });
-    }
-
-    tryToRenderAllClasses() {
-        const { classes } = this.state;
-
-        if (classes) {
-            if (classes.error)
-                return <h4 className='text-center text-danger'>Error loading classes</h4>
-
-            return (
+    if (classes) {
+        if (classes.error)
+            classesState = <h4 className='text-center text-danger'>Error loading classes</h4>
+        else
+            classesState = (
                 <Row className='justify-content-center' id='classes'>
                     {
                         classes.map((classData, key) => {
@@ -39,23 +37,19 @@ class Classes extends React.Component {
                         })
                     }
                 </Row>
-            )
-        }
-
-
-
-        return <h4 className='text-center'>Loading...</h4>
+            );
+    } else {
+        classesState = <h4 className='text-center'>Loading...</h4>
     }
 
-    render() {
-        return (
-            <section id='classes'>
-                <Title className='mb-4 text-center'>Hands-on cooking classes taught by world class chefs</Title>
 
-                {this.tryToRenderAllClasses()}
-            </section>
-        )
-    }
+    return (
+        <section id='classes'>
+            <Title className='mb-4 text-center'>Hands-on cooking classes taught by world class chefs</Title>
+
+            {classesState}
+        </section>
+    )
 }
 
 export default Classes;

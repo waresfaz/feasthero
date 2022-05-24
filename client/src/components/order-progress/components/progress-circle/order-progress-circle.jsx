@@ -2,17 +2,15 @@ import React from 'react';
 
 import './order-progress-circle.scss';
 
-class OrderProgressCircle extends React.Component {
-    render() {
-        return (
-            <div>
-                <div className={`circle ${this.props.active ? 'active' : 'inactive'}`}>
-                    <span>{this.props.number}</span>
-                </div>
-                <p className='text-center'>{this.props.step}</p>
+function OrderProgressCircle(props) {
+    return (
+        <div>
+            <div className={`circle ${props.active ? 'active' : 'inactive'}`}>
+                <span>{props.number}</span>
             </div>
-        )
-    }
+            <p className='text-center'>{props.step}</p>
+        </div>
+    );
 }
 
 export default OrderProgressCircle

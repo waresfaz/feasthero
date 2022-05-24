@@ -1,82 +1,58 @@
 import React from 'react';
 import { Col, Row, Spinner } from 'react-bootstrap';
-import { connect } from 'react-redux';
+import { useSelector } from 'react-redux';
 
 import ClassCard from './class-card/class-card';
 
 import { loadAllClasses } from '../../../../../../services/chef/actions';
+import useFetch from '../../../../../../redux/hooks/fetch';
 
-class Classes extends React.Component {
-    constructor() {
-        super();
+function Classes() {
+    const error = useSelector(state => state.chef.loadAllClassesError);
+    const allClasses = useSelector(state => state.chef.allClasses);
 
-        this.state = {
-            loading: true,
-        }
+    const loading = useFetch(loadAllClasses);
+
+    let loadClassesResult = <></>;
+
+
+    if (loading) {
+        loadClassesResult = (
+            <div className='d-flex justify-content-center'>
+                <Spinner animation='border' />
+            </div>
+        )
     }
 
-    async componentDidMount() {
-        this.setState({ loading: true });
-        await this.props.loadAllClasses();
-        this.setState({ loading: false });
-    }
-
-    tryToRenderAllClasses() {
-        if (this.state.loading) {
-            return (
-                <div className='d-flex justify-content-center'>
-                    <Spinner animation='border' />
-                </div>
-            )
-        }
-
-        if (this.props.error)
-            return <h4 className='text-center text-danger'>Error loading classes</h4>
+    if (error)
+        loadClassesResult = <h4 className='text-center text-danger'>Error loading classes</h4>
 
 
-        if (this.props.allClasses) {
-            return (
-                <>
-                    <Row className='justify-content-center' id='chef-classes'>
-                        {
-                            this.props.allClasses.map((classData, key) => {
-                                return (
-                                    <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
-                                        <ClassCard classData={classData} />
-                                    </Col>
-                                )
-                            })
-                        }
-                    </Row>
-                </>
-            )
-        }
-
-        return <></>
-
-    }
-
-    render() {
-        return (
+    if (allClasses) {
+        loadClassesResult = (
             <>
-                <h2 className='text-center font-weight-bold'>Classes</h2>
-                {this.tryToRenderAllClasses()}
+                <Row className='justify-content-center' id='chef-classes'>
+                    {
+                        allClasses.map((classData, key) => {
+                            return (
+                                <Col key={key} className='class-card-container' md={11} lg={6} xl={5}>
+                                    <ClassCard classData={classData} />
+                                </Col>
+                            )
+                        })
+                    }
+                </Row>
             </>
         )
     }
+
+    return (
+        <>
+            <h2 className='text-center font-weight-bold'>Classes</h2>
+            {loadClassesResult}
+        </>
+    )
 }
 
-const mapStateToProps = (state) => {
-    return {
-        allClasses: state.chef.allClasses,
-        error: state.chef.loadAllClassesError,
-    }
-}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        loadAllClasses: () => dispatch(loadAllClasses()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(Classes);
+export default Classes;

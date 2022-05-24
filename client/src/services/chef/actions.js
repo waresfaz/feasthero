@@ -46,7 +46,7 @@ export function hideAddClassModal() {
     return asAction(HIDE_ADD_CLASS_MODAL);
 }
 
-export function selectClass(classData) {
+export function selectClassForEdit(classData) {
     return asAction(SELECT_CLASS, classData);
 }
 

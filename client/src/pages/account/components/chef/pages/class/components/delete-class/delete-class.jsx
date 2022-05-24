@@ -1,11 +1,11 @@
 import React from 'react'
 import { connect } from 'react-redux';
 
-import Button from '../../../../../components/button/button'
-import Loader from '../../../../../components/loader/loader';
+import Button from '../../../../../../../../components/button/button'
+import Loader from '../../../../../../../../components/loader/loader';
 
-import history from '../../../../../history'
-import { deleteClass } from '../../../../../services/classes/api'
+import history from '../../../../../../../../history'
+import { deleteClass } from '../../../../../../../../services/classes/api'
 
 // TODO
 

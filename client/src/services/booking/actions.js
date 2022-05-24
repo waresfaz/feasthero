@@ -37,7 +37,7 @@ function submitBookingFailed(errors) {
     return asAction(SUBMIT_BOOKING_FAILED, errors);
 }
 
-export function selectClassForBooking(classData) {
+export function chooseClassForBooking(classData) {
     return asAction(SELECT_CLASS_FOR_BOOKING, classData);
 }
 

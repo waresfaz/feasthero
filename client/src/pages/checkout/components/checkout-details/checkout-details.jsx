@@ -11,28 +11,23 @@ import BookingSummary from '../booking-summary/booking-summary';
 import './checkout-details.scss';
 
 
-class CheckoutDetails extends React.Component {
-    constructor() {
-        super();
-        this.stripe = loadStripe(settings.STRIPE_PUBLISHABLE_KEY);
-    }
+function CheckoutDetails() {
+    const stripe = loadStripe(settings.STRIPE_PUBLISHABLE_KEY);
 
-    render() {
-        return (
-            <>
-                <Row className='justify-content-around'>
-                    <Col lg={4} id='payment-col'>
-                        <Elements stripe={this.stripe}>
-                            <InjectedPaymentForm bookingDetails={this.props.bookingDetails} />
-                        </Elements>
-                    </Col>
-                    <Col lg={5}>
-                        <BookingSummary bookingDetails={this.props.bookingDetails} />
-                    </Col>
-                </Row>
-            </>
-        )
-    }
+    return (
+        <>
+            <Row className='justify-content-around'>
+                <Col lg={4} id='payment-col'>
+                    <Elements stripe={stripe}>
+                        <InjectedPaymentForm />
+                    </Elements>
+                </Col>
+                <Col lg={5}>
+                    <BookingSummary />
+                </Col>
+            </Row>
+        </>
+    );
 }
 
 
