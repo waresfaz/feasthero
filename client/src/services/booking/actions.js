@@ -78,7 +78,7 @@ export function submitBooking() {
 
         const handleInitBookingSessionError = (errorResponse) => {
             if (requestErrorHasAdditionalInfo(errorResponse))
-                dispatch(submitBookingFailed(errorResponse.data['errors']));
+                dispatch(submitBookingFailed(errorResponse.data.errors));
             else
                 dispatch(submitBookingFailed({ error: 'Error creating checkout session, please try again later' }));
         }

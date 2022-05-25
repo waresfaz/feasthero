@@ -104,6 +104,7 @@ export function oAuthLogin(oAuthData) {
 
 function handleLoginRequestResponse(loginRequestResult, dispatch) {
     if (loginRequestResult.error) {
+        console.log(loginRequestResult.error)
         if (requestErrorHasAdditionalInfo(loginRequestResult.error))
             dispatch(loginFailed(loginRequestResult.error.data['errors']));
         else

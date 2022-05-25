@@ -8,7 +8,7 @@ import {
 export async function initBookingDetailsSession(bookingDetails) {
     const response = await feastHeroAxios.post(INIT_BOOKING_DETAILS_SESSION, bookingDetails, { withCredentials: true })
         .then((response) => response)
-        .catch((err) => ({ error: err.response.data }));
+        .catch((err) => ({ error: err.response }));
 
     return response;
 }

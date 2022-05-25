@@ -1,52 +1,57 @@
-import React from 'react';
+import React, { useState } from 'react';
 import { Row, Col, Tooltip, OverlayTrigger, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
-import { connect } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
 import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
 
 import './booking-details.scss';
+import { selectCurrentClass } from '../../../../services/booking/selectors';
 
 
-class BookingDetails extends React.Component {
-    constructor() {
-        super();
+function BookingDetails() {
+    const [loading, setLoading] = useState(false);
 
-        this.state = {
-            loading: false,
-        }
+    const bookingSize = useSelector(state => state.booking.bookingDetails.bookingSize);
+    const customerFirstName = useSelector(state => state.booking.bookingDetails.customerFirstName);
+    const customerLastName = useSelector(state => state.booking.bookingDetails.customerLastName);
+    const customerEmail = useSelector(state => state.booking.bookingDetails.customerEmail);
+    const selectedClassDateTime = useSelector(state => state.booking.bookingDetails.selectedClassDateTime);
+    const companyName = useSelector(state => state.booking.bookingDetails.companyName);
+
+
+    const classData = useSelector(selectCurrentClass);
+    const scheduleOptions = datesTimesAsOption(classData.schedule);
+    const errors = useSelector(state => state.booking.bookingErrors);
+    const dispatch = useDispatch();
+
+    const handleFormChange = (evt) => {
+        const { value, name } = evt.target;
+        dispatch(updateBookingDetails({ [name]: value }));
     }
 
-    handleFormChange = (event) => {
-        const value = event.target.value;
-        const name = event.target.name;
-        this.props.updateBookingDetails({ [name]: value })
+    const handleBookingSizeChange = (evt) => {
+        dispatch(updateBookingDetails({ bookingSize: evt.target.value }));
     }
 
-    handleBookingSizeChange = (event) => {
-        this.props.updateBookingDetails({ bookingSize: event.target.value });
+    const handleDateTimeChange = (evt) => {
+        const { value, id } = evt.target;
+        dispatch(updateBookingDetails({ selectedClassDateTime: value, timeSlotId: id }));
     }
 
-    handleDateTimeChange = (event) => {
-        const { value, id } = event.target;
-        this.props.updateBookingDetails({
-            'selectedClassDateTime': value,
-            'timeSlotId': id
-        })
-    }
-
-    handleSubmit = async (evt) => {
+    const handleSubmit = async (evt) => {
         evt.preventDefault()
-        this.setState({ loading: true });
-        await this.props.submitBooking();
-        this.setState({ loading: false });
+        setLoading(true);
+        await dispatch(submitBooking());
+        setLoading(false);
     }
 
-    renderBookingSizeTooltip = (props) => (
+
+    const renderBookingSizeTooltip = (props) => (
         <Tooltip {...props}>
             <span id='booking-size-tooltip-content'>
                 The number of screens that will be attending the class
@@ -54,116 +59,93 @@ class BookingDetails extends React.Component {
         </Tooltip>
     );
 
-    render() {
-        const { errors } = this.props;
-        const scheduleOptions = datesTimesAsOption(this.props.classData.schedule);
 
-        return (
-            <div id='booking-details-container'>
-                <h1>Booking Details</h1>
-                <form onSubmit={this.handleSubmit}>
-                    <Form.Group>
-                        <Row className='justify-content-around' id='number-of-devices-for-booking'>
-                            <Col xs={1} className='text-center' id='info-icon-container'>
-                                <OverlayTrigger
-                                    placement='top'
-                                    overlay={this.renderBookingSizeTooltip}
-                                >
-                                    <FontAwesomeIcon id='info-icon' icon={faInfoCircle} />
-                                </OverlayTrigger>
-                            </Col>
+    return (
+        <div id='booking-details-container'>
+            <h1>Booking Details</h1>
+            <form onSubmit={handleSubmit}>
+                <Form.Group>
+                    <Row className='justify-content-around' id='number-of-devices-for-booking'>
+                        <Col xs={1} className='text-center' id='info-icon-container'>
+                            <OverlayTrigger
+                                placement='top'
+                                overlay={renderBookingSizeTooltip}
+                            >
+                                <FontAwesomeIcon id='info-icon' icon={faInfoCircle} />
+                            </OverlayTrigger>
+                        </Col>
 
-                            <Col xs={9} lg={7} className='text-right'>
-                                <h5>Number of devices for booking</h5>
-                            </Col>
-                            <Col sm={12} lg={4}>
-                                <Select
-                                    styles={selectDropDownStyle}
-                                    onChange={this.handleBookingSizeChange}
-                                    value={validBookingSizes.filter((option) => option.target.value === this.props.bookingSize)}
-                                    options={validBookingSizes}
-                                />
-                                <span className='text-danger'>{errors['bookingSize']}</span>
-                            </Col>
-                        </Row>
-                    </Form.Group>
-                    <Form.Group>
-                        <Select
-                            required
-                            styles={selectDropDownStyle}
-                            onChange={this.handleDateTimeChange}
-                            value={scheduleOptions.filter((option) => option.target.value === this.props.selectedClassDateTime)}
-                            placeholder='Select Date & Time'
-                            options={scheduleOptions}
-                        />
-                        <span className='text-danger'>{errors['classDateTime']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            value={this.props.customerFirstName} onChange={this.handleFormChange}
-                            required type='text' placeholder='First Name'
-                            name='customerFirstName'
-                        />
-                        <span className='text-danger'>{errors['customerFirstName']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            value={this.props.customerLastName} onChange={this.handleFormChange}
-                            required type='text' placeholder='Last Name'
-                            name='customerLastName'
-                        />
-                        <span className='text-danger'>{errors['customerLastName']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            value={this.props.companyName} onChange={this.handleFormChange}
-                            required type='text' placeholder='Company Name'
-                            name='companyName'
-                        />
-                        <span className='text-danger'>{errors['companyName']}</span>
-                    </Form.Group>
-                    <Form.Group>
-                        <Form.Control
-                            value={this.props.customerEmail} onChange={this.handleFormChange}
-                            required type='email' placeholder='Email Address'
-                            name='customerEmail'
-                        />
-                        <span className='text-danger'>{errors['customerEmail']}</span>
-                    </Form.Group>
-                    <span className='text-danger'>{errors['error']}</span>
-                    <Row>
-                        <Col md={6}>
-                            <Button primary={true} type='submit'
-                                className='d-flex justify-content-center'
-                                isButton={true}>
-                                {this.state.loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
-                            </Button>
+                        <Col xs={9} lg={7} className='text-right'>
+                            <h5>Number of devices for booking</h5>
+                        </Col>
+                        <Col sm={12} lg={4}>
+                            <Select
+                                styles={selectDropDownStyle}
+                                onChange={handleBookingSizeChange}
+                                value={validBookingSizes.filter((option) => option.target.value === bookingSize)}
+                                options={validBookingSizes}
+                            />
+                            <span className='text-danger'>{errors['bookingSize']}</span>
                         </Col>
                     </Row>
-                </form>
-            </div>
-        )
-    }
+                </Form.Group>
+                <Form.Group>
+                    <Select
+                        required
+                        styles={selectDropDownStyle}
+                        onChange={handleDateTimeChange}
+                        value={scheduleOptions.filter((option) => option.target.value === selectedClassDateTime)}
+                        placeholder='Select Date & Time'
+                        options={scheduleOptions}
+                    />
+                    <span className='text-danger'>{errors['classDateTime']}</span>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control
+                        value={customerFirstName} onChange={handleFormChange}
+                        required type='text' placeholder='First Name'
+                        name='customerFirstName'
+                    />
+                    <span className='text-danger'>{errors['customerFirstName']}</span>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control
+                        value={customerLastName} onChange={handleFormChange}
+                        required type='text' placeholder='Last Name'
+                        name='customerLastName'
+                    />
+                    <span className='text-danger'>{errors['customerLastName']}</span>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control
+                        value={companyName} onChange={handleFormChange}
+                        required type='text' placeholder='Company Name'
+                        name='companyName'
+                    />
+                    <span className='text-danger'>{errors['companyName']}</span>
+                </Form.Group>
+                <Form.Group>
+                    <Form.Control
+                        value={customerEmail} onChange={handleFormChange}
+                        required type='email' placeholder='Email Address'
+                        name='customerEmail'
+                    />
+                    <span className='text-danger'>{errors['customerEmail']}</span>
+                </Form.Group>
+                <span className='text-danger'>{errors['error']}</span>
+                <Row>
+                    <Col md={6}>
+                        <Button primary={true} type='submit'
+                            className='d-flex justify-content-center'
+                            isButton={true}>
+                            {loading ? <div className="loader"></div> : <span>Proceed to Payment</span>}
+                        </Button>
+                    </Col>
+                </Row>
+            </form>
+        </div>
+    );
 }
 
-const mapStateToProps = (state) => {
-    return {
-        bookingSize: state.booking.bookingDetails.bookingSize,
-        customerFirstName: state.booking.bookingDetails.customerFirstName,
-        customerLastName: state.booking.bookingDetails.customerLastName,
-        customerEmail: state.booking.bookingDetails.customerEmail,
-        selectedClassDateTime: state.booking.bookingDetails.selectedClassDateTime,
-        companyName: state.booking.bookingDetails.companyName,
-        classData: state.booking.classData,
-        errors: state.booking.bookingErrors,
-    }
-}
 
-const mapDispatchToProps = (dispatch) => {
-    return {
-        updateBookingDetails: (bookingDetails) => dispatch(updateBookingDetails(bookingDetails)),
-        submitBooking: () => dispatch(submitBooking()),
-    }
-}
-
-export default connect(mapStateToProps, mapDispatchToProps)(BookingDetails);
+export default BookingDetails;
