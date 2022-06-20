@@ -9,7 +9,7 @@ import useFetch from '../../../../../../redux/hooks/fetch'
 
 
 function ChefClass(props) {
-    const [loading, error, data] = useFetch(loadClass, props.match.params.id);
+    const [loading, error, data] = useFetch(loadClass, { withDispatch: true }, props.match.params.id);
 
     if (data) {
         if (error)

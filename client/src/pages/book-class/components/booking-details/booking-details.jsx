@@ -28,7 +28,7 @@ function BookingDetails() {
     const classData = useSelector(selectCurrentClass);
     const dispatch = useDispatch();
     const scheduleOptions = datesTimesAsOption(classData.schedule);
-    const [mutationCallback, loading, errors] = useMutate();
+    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
 
     const handleFormChange = (evt) => {
         const { value, name } = evt.target;

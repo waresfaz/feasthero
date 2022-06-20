@@ -1,7 +1,7 @@
 import { Spinner } from 'react-bootstrap';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import useFetch from '../../redux/hooks/fetch';
-import { loadBookingDetails } from '../../services/checkout/actions';
+import { loadBookingDetails } from '../../services/checkout/services';
 import CheckoutDetails from './components/checkout-details/checkout-details';
 
 /**
@@ -15,7 +15,7 @@ import CheckoutDetails from './components/checkout-details/checkout-details';
 
 function Checkout() {
     let checkoutState = <></>;
-    const [loading, error, data] = useFetch(loadBookingDetails);
+    const [loading, error, data] = useFetch(loadBookingDetails, { withDispatch: false });
 
     if (loading)
         checkoutState = (

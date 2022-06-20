@@ -8,7 +8,7 @@ import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 import valsFromRefs from '../../../../helpers/values-from-refs';
-import { sendConfirmations } from '../../../../services/booking-success/actions';
+import { sendConfirmations } from '../../../../services/booking-success/services';
 import useMutate from '../../../../redux/hooks/mutate';
 
 import './share-confirmation.scss';
@@ -16,7 +16,7 @@ import './share-confirmation.scss';
 function ShareConfirmation() {
     const firstInput = React.createRef();
     const [inputs, setInputs] = useState([firstInput]);
-    const [mutationCallback, loading, error, data] = useMutate();
+    const [mutationCallback, loading, error, data] = useMutate({ withDispatch: false });
     let didSend = <></>;
 
     const appendInput = () => {

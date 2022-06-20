@@ -5,7 +5,7 @@ import { loadPosts } from "../../../../../services/blog/actions";
 import PreviewBlogPost from "../preview-blog/preview-blog-post";
 
 function BlogPosts() {
-    const [loading, error, data] = useFetch(loadPosts);
+    const [loading, error, data] = useFetch(loadPosts, { withDispatch: true });
 
     if (loading || !data)
         return (

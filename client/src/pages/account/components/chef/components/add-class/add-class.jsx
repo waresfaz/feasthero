@@ -12,7 +12,7 @@ import { useEffect } from 'react';
 
 function AddClass() {
     const [classData, setClassData] = useState({hasMealKit: false});
-    const [mutationCallback, loading, errors, data] = useMutate();
+    const [mutationCallback, loading, errors, data] = useMutate({ withDispatch: true });
     const [shouldShowModal, setShowModal] = useState(false);
 
     useEffect(() => {

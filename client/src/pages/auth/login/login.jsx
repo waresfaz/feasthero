@@ -15,7 +15,7 @@ import '../auth.scss';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [mutationCallback, loading, errors] = useMutate();
+    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
 
     const dispatch = useDispatch();
 

@@ -1,17 +1,19 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
-const useMutate = () => {
+const useMutate = ({ withDispatch }) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [data, setData] = useState(null);
     const dispatch = useDispatch();
 
-    const callable = async (asyncActionCreator, ...args) => {
+    const callable = async (asyncCallback, ...args) => {
         setLoading(true);
         try {
-            const res = await dispatch(asyncActionCreator(...args));
-            setData(res);
+            if (withDispatch)
+                setData(await dispatch(asyncCallback(...args)));
+            else
+                setData(await asyncCallback(...args));
         } catch (e) {
             setError(e);
         }

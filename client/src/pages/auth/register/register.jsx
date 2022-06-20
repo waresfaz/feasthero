@@ -14,7 +14,7 @@ import '../auth.scss';
 
 function Register() {
     const [registerData, setRegisterData] = useState({});
-    const [mutationCallback, loading, errors] = useMutate();
+    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
 
 
     const handleChange = (evt) => {

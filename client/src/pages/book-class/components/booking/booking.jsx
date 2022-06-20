@@ -13,7 +13,7 @@ import useFetch from "../../../../redux/hooks/fetch";
 function Booking(props) {
     const classData = useSelector(selectCurrentClass);
 
-    const [loading, error] = useFetch(loadClassDataForBooking, props.classId);
+    const [loading, error] = useFetch(loadClassDataForBooking, { withDispatch: true }, props.classId);
 
     if (loading) {
         return (

@@ -10,7 +10,7 @@ import useFetch from '../../../redux/hooks/fetch';
 
 
 function BlogPost(props) {
-    const [loading, error, data] = useFetch(loadPost, props.match.params.id);
+    const [loading, error, data] = useFetch(loadPost, { withDispatch: true }, props.match.params.id);
 
 
     if (loading || !data)

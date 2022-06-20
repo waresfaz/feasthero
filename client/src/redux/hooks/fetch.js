@@ -1,7 +1,7 @@
 import { useDispatch } from 'react-redux';
 import { useState, useEffect } from 'react';
 
-const useFetch = (asyncActionCreator, ...args) => {
+const useFetch = (asyncCallback, { withDispatch }, ...args) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState('');
     const [data, setData] = useState(null);
@@ -11,7 +11,10 @@ const useFetch = (asyncActionCreator, ...args) => {
         const fetch = async () => {
             setLoading(true);
             try {
-                setData(await dispatch(asyncActionCreator(...args)));
+                if (withDispatch)
+                    setData(await dispatch(asyncCallback(...args)));
+                else
+                    setData(await asyncCallback(...args));
             } catch (e) {
                 setError(e);
             }

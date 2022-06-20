@@ -8,7 +8,7 @@ import useFetch from '../../../../../../redux/hooks/fetch';
 import { useSelector } from 'react-redux';
 
 function Classes() {
-    const [loading, error] = useFetch(loadAllClasses);
+    const [loading, error] = useFetch(loadAllClasses, { withDispatch: true });
     const allClasses = useSelector(state => state.chef.allClasses);
 
     let loadClassesResult = <></>;
