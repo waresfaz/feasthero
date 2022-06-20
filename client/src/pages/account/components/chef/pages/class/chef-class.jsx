@@ -1,38 +1,36 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
 import { Spinner } from 'react-bootstrap'
 
 import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
 import { loadClass } from '../../../../../../services/chef/actions'
-import { selectCurrentClass } from '../../../../../../services/chef/selectors'
 import useFetch from '../../../../../../redux/hooks/fetch'
 
 
 function ChefClass(props) {
-    const currentClass = useSelector(selectCurrentClass);
-    const loadClassError = useSelector(state => state.chef.loadClassError);
+    const [loading, error, data] = useFetch(loadClass, props.match.params.id);
 
-    useFetch(loadClass, props.match.params.id);
-
-    if (currentClass) {
-        if (loadClassError)
+    if (data) {
+        if (error)
             return <p className='text-danger text-center'>Error loading class</p>
         else
             return (
                 <>
-                    <EditClass />
+                    <EditClass classData={data} />
                     <DeleteClass />
                 </>
             )
     }
 
-    return (
-        <div className='d-flex justify-content-center'>
-            <Spinner animation='border' />
-        </div>
-    )
+    if (loading)
+        return (
+            <div className='d-flex justify-content-center'>
+                <Spinner animation='border' />
+            </div>
+        );
+
+    return <></>
 }
 
 

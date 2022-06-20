@@ -2,6 +2,7 @@ const Booking = require('../schema/booking');
 const { StatusCodes } = require("http-status-codes");
 const ProcessPaymentService = require('./process_payment');
 const TimeSlot = require('../../schedule/schema/time_slot');
+const dateTimeToMoment = require('../../../helpers/date_time_to_moment')
 const ObjectId = require('mongoose').Types.ObjectId;
 
 class ProcessClassBookingService {

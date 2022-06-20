@@ -2,14 +2,13 @@ import React, { useState } from 'react';
 import { CardElement, ElementsConsumer } from '@stripe/react-stripe-js';
 import { Col, Form, Row, Image } from 'react-bootstrap';
 import ReCAPTCHA from 'react-google-recaptcha';
-import { useDispatch, useSelector } from 'react-redux';
 
 import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
 import { checkout as checkoutAction } from '../../../../services/checkout/actions';
 import history from '../../../../history';
-import { selectBookingDetails } from '../../../../services/checkout/selectors';
+import useMutate from '../../../../redux/hooks/mutate';
 
 import './payment.scss';
 
@@ -25,15 +24,14 @@ const InjectedPaymentForm = (props) => {
 };
 
 function Payment(props) {
-    const [loading, setLoading] = useState(false);
     const [cardError, setCardError] = useState('');
     const recaptchaRef = React.createRef();
-    const dispatch = useDispatch();
+    const [mutationCallback, loading, errors] = useMutate();
+    console.log(errors);
 
     const { stripe, elements } = props;
 
-    const errors = useSelector(state => state.checkout.checkoutErrors);
-    const bookingDetails = useSelector(selectBookingDetails);
+    const bookingDetails = props.bookingDetails;
 
     const handleChange = ({ error }) => {
         if (error)
@@ -54,10 +52,7 @@ function Payment(props) {
 
         const card = elements.getElement(CardElement);
 
-        setLoading(true);
-        await dispatch(checkoutAction(card, stripe, recaptchaRef.current.getValue()));
-        setLoading(false);
-
+        await mutationCallback(checkoutAction, card, stripe, recaptchaRef.current.getValue());
     }
 
     const stripeIsUninitialized = () => {

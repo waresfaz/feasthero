@@ -11,10 +11,9 @@ import ClassSummary from '../class-summary/class-summary';
 import useFetch from "../../../../redux/hooks/fetch";
 
 function Booking(props) {
-    const getClassDataError = useSelector(state => state.booking.getClassDataError);
     const classData = useSelector(selectCurrentClass);
 
-    const loading = useFetch(loadClassDataForBooking, props.classId);
+    const [loading, error] = useFetch(loadClassDataForBooking, props.classId);
 
     if (loading) {
         return (
@@ -24,7 +23,7 @@ function Booking(props) {
         )
     }
 
-    if (getClassDataError)
+    if (error)
         return <p className='text-danger text-center'>Error loading class</p>
 
     if (classData) {

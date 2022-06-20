@@ -1,9 +1,7 @@
 import { Spinner } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import OrderProgressBar from '../../components/order-progress/order-progress-bar';
 import useFetch from '../../redux/hooks/fetch';
 import { loadBookingDetails } from '../../services/checkout/actions';
-import { selectBookingDetails } from '../../services/checkout/selectors';
 import CheckoutDetails from './components/checkout-details/checkout-details';
 
 /**
@@ -15,11 +13,9 @@ import CheckoutDetails from './components/checkout-details/checkout-details';
  *    3. call the `booking/book` endpoint in order for the booking and payment to be processed
  */
 
-function Checkout(props) {
-    const error = useSelector(state => state.checkout.loadBookingDetailsError);
-    const bookingDetails = useSelector(selectBookingDetails);
+function Checkout() {
     let checkoutState = <></>;
-    const loading = useFetch(loadBookingDetails);
+    const [loading, error, data] = useFetch(loadBookingDetails);
 
     if (loading)
         checkoutState = (
@@ -29,8 +25,9 @@ function Checkout(props) {
         )
     else if (error)
         checkoutState = <p className='text-center text-danger'>{error}</p>
-    else if (bookingDetails)
-        checkoutState = <CheckoutDetails {...props} />
+
+    else if (data)
+        checkoutState = <CheckoutDetails bookingDetails={data} />
 
     return (
         <>

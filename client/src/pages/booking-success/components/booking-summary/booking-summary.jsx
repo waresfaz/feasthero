@@ -4,17 +4,11 @@ import ShareConfirmation from '../share-confirmation/share-confirmation';
 import ConfirmationDetails from '../confirmation-details/confirmation-details';
 
 import { Spinner, Container } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 import { verifyBookingSuccess } from '../../../../services/booking-success/actions';
-import { selectBookingDetails, selectCurrentClass } from '../../../../services/booking-success/selectors';
 import useFetch from '../../../../redux/hooks/fetch';
 
 function BookingSummary() {
-    const error = useSelector(state => state.bookingSuccess.verifyBookingSuccessError);
-    const classData = useSelector(selectCurrentClass);
-    const bookingDetails = useSelector(selectBookingDetails);
-
-    const loading = useFetch(verifyBookingSuccess);
+    const [loading, error, data] = useFetch(verifyBookingSuccess);
 
     if (error)
         return <p className='text-center text-danger'>{error}</p>
@@ -26,7 +20,7 @@ function BookingSummary() {
             </div>
         )
 
-    if (classData && bookingDetails)
+    if (data)
         return (
             <div id='booking-success'>
                 <div className='text-center'>
@@ -35,7 +29,7 @@ function BookingSummary() {
                     <p>An email will be sent shortly with your booking confirmation</p>
                 </div>
                 <Container id='booking-success-container'>
-                    <ConfirmationDetails />
+                    <ConfirmationDetails classData={data.classData} bookingDetails={data.bookingDetails} />
                     <ShareConfirmation />
                 </Container>
             </div>

@@ -2,22 +2,21 @@ import React, { useState } from 'react';
 import { Col, Form, Row } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus } from '@fortawesome/free-solid-svg-icons';
-import { useDispatch, useSelector } from 'react-redux';
+
 
 import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 import valsFromRefs from '../../../../helpers/values-from-refs';
 import { sendConfirmations } from '../../../../services/booking-success/actions';
+import useMutate from '../../../../redux/hooks/mutate';
 
 import './share-confirmation.scss';
 
 function ShareConfirmation() {
     const firstInput = React.createRef();
     const [inputs, setInputs] = useState([firstInput]);
-    const [loading, setLoading] = useState(false);
-    const dispatch = useDispatch();
-    const confirmationsDidSend = useSelector(state => state.bookingSuccess.confirmationsDidSend);
+    const [mutationCallback, loading, error, data] = useMutate();
     let didSend = <></>;
 
     const appendInput = () => {
@@ -28,16 +27,14 @@ function ShareConfirmation() {
     const handleSubmit = async (evt) => {
         evt.preventDefault();
 
-        setLoading(true);
         const emails = valsFromRefs(inputs);
-        await dispatch(sendConfirmations(emails));
-        setLoading(false);
+        await mutationCallback(sendConfirmations, emails);
     }
 
 
-    if (confirmationsDidSend === false)
+    if (error)
         didSend = <p className='text-danger text-center mb-0'>Failed to send</p>
-    else if (confirmationsDidSend === true)
+    else if (data === true)
         didSend = <p className='text-success text-center mb-0'>Sent</p>
 
 

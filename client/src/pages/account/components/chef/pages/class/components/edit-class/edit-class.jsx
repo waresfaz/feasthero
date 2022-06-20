@@ -24,6 +24,7 @@ class EditClass extends React.Component {
         const { classData } = props;
 
         this.state = {
+            classData,
             title: classData.title,
             description: classData.description,
             duration: classData.duration,
@@ -166,16 +167,10 @@ class EditClass extends React.Component {
                     </form>
                 </section>
                 <section className='mt-4'>
-                    <EditSchedule />
+                    <EditSchedule classData={this.state.classData} />
                 </section>
             </>
         )
-    }
-}
-
-const mapStateToProps = (state) => {
-    return {
-        classData: state.chef.currentClass,
     }
 }
 
@@ -185,4 +180,4 @@ const mapDispatchToProps = (dispatch) => {
     }
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(EditClass);
+export default connect(null, mapDispatchToProps)(EditClass);

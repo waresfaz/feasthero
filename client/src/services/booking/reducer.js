@@ -1,8 +1,6 @@
 import {
-    LOAD_CLASS_DATA_FAILED,
     LOAD_ClASS_DATA_SUCCESS,
     SELECT_CLASS_FOR_BOOKING,
-    SUBMIT_BOOKING_FAILED,
     SUBMIT_BOOKING_SUCCESS,
     UPDATE_BOOKING_DETAILS,
 } from './types';
@@ -45,16 +43,6 @@ function bookingReducer(state = initialState, action) {
                     ...state.bookingDetails,
                     classId: action.value._id,
                 }
-            }
-        case LOAD_CLASS_DATA_FAILED:
-            return {
-                ...state,
-                getClassDataError: true,
-            }
-        case SUBMIT_BOOKING_FAILED:
-            return {
-                ...state,
-                bookingErrors: action.value
             }
         case SUBMIT_BOOKING_SUCCESS:
             return {

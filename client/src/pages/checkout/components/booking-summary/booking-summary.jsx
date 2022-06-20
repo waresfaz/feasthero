@@ -1,15 +1,11 @@
 import React from 'react';
 
 import { Col, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
-import { selectBookingDetails } from '../../../../services/checkout/selectors';
 
 import './booking-summary.scss';
 
 
-function BookingSummary() {
-    const bookingDetails = useSelector(selectBookingDetails);
-
+function BookingSummary({ bookingDetails }) {
     return (
         <section id='payment-booking-summary'>
             <h4>Booking Summary</h4>

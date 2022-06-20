@@ -11,7 +11,7 @@ import BookingSummary from '../booking-summary/booking-summary';
 import './checkout-details.scss';
 
 
-function CheckoutDetails() {
+function CheckoutDetails({ bookingDetails }) {
     const stripe = loadStripe(settings.STRIPE_PUBLISHABLE_KEY);
 
     return (
@@ -19,11 +19,11 @@ function CheckoutDetails() {
             <Row className='justify-content-around'>
                 <Col lg={4} id='payment-col'>
                     <Elements stripe={stripe}>
-                        <InjectedPaymentForm />
+                        <InjectedPaymentForm bookingDetails={bookingDetails} />
                     </Elements>
                 </Col>
                 <Col lg={5}>
-                    <BookingSummary />
+                    <BookingSummary bookingDetails={bookingDetails} />
                 </Col>
             </Row>
         </>

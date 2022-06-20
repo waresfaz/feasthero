@@ -9,10 +9,8 @@ import { getClassForBooking } from '../classes/api';
 import * as validators from '../../validators';
 
 import {
-    LOAD_CLASS_DATA_FAILED,
     LOAD_ClASS_DATA_SUCCESS,
     SELECT_CLASS_FOR_BOOKING,
-    SUBMIT_BOOKING_FAILED,
     SUBMIT_BOOKING_SUCCESS,
     UPDATE_BOOKING_DETAILS,
 } from './types';
@@ -25,16 +23,8 @@ function loadClassDataSuccess(classData) {
     return asAction(LOAD_ClASS_DATA_SUCCESS, classData);
 }
 
-function loadClassDataFailed(errors) {
-    return asAction(LOAD_CLASS_DATA_FAILED, errors);
-}
-
 function submitBookingSuccess() {
     return asAction(SUBMIT_BOOKING_SUCCESS);
-}
-
-function submitBookingFailed(errors) {
-    return asAction(SUBMIT_BOOKING_FAILED, errors);
 }
 
 export function chooseClassForBooking(classData) {
@@ -47,10 +37,8 @@ export function loadClassDataForBooking(classId) {
 
         if (!getState().booking.classData) {
             classData = await getClassForBooking(classId);
-            if (classData.error) {
-                dispatch(loadClassDataFailed());
-                return;
-            }
+            if (classData.error)
+                throw new Error('Failed to load class data');
         }
         else
             classData = getState().booking.classData;
@@ -78,16 +66,16 @@ export function submitBooking() {
 
         const handleInitBookingSessionError = (errorResponse) => {
             if (requestErrorHasAdditionalInfo(errorResponse))
-                dispatch(submitBookingFailed(errorResponse.data.errors));
-            else
-                dispatch(submitBookingFailed({ error: 'Error creating checkout session, please try again later' }));
+                throw errorResponse.data.errors;
+            else {
+                const error = { error: 'Error creating checkout session, please try again later' }
+                throw error;
+            }
         }
 
         let errors = validateBookingDetails();
-        if (!errorsAreEmpty(errors)) {
-            dispatch(submitBookingFailed(errors));
-            return;
-        }
+        if (!errorsAreEmpty(errors))
+            throw errors;
 
         const initBookingSessionResult = await initBookingDetailsSession(bookingDetails);
         if (initBookingSessionResult.error) {

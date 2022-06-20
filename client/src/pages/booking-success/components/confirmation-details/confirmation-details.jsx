@@ -1,17 +1,12 @@
 import React from 'react';
 import { Col, Row } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 
 import dateTimeToString from '../../../../helpers/date-time-to-string';
 import getChefFullName from '../../../../helpers/get-chef-full-name';
-import { selectBookingDetails, selectCurrentClass } from '../../../../services/booking-success/selectors';
 
 import './confirmation-details.scss';
 
-function ConfirmationDetails() {
-    const classData = useSelector(selectCurrentClass);
-    const bookingDetails = useSelector(selectBookingDetails);
-    
+function ConfirmationDetails({ classData, bookingDetails }) {
     return (
         <section id='confirmation-details'>
             <h2>Order Confirmation</h2>

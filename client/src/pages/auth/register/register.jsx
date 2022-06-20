@@ -1,73 +1,34 @@
-import React, { useReducer } from 'react';
+import React, { useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
 import GoogleLogin from 'react-google-login';
-import { useDispatch, useSelector } from 'react-redux';
 
 import Button from '../../../components/button/button';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
-
+import useMutate from '../../../redux/hooks/mutate';
 import { register, oAuthRegister as oAuthRegisterActionCreator } from '../../../services/auth/actions';
 
 import './register.scss';
 import '../auth.scss';
 
 
-function registerReducer(state, action) {
-    switch (action.type) {
-        case 'FIELD': {
-            return {
-                ...state,
-                registerData: {
-                    ...state.registerData,
-                    [action.fieldName]: action.payload,
-                }
-            }
-        }
-        case 'REGISTER_STARTED': {
-            return {
-                ...state,
-                loading: true
-            }
-        }
-        case 'REGISTER_FINISHED': {
-            return {
-                ...state,
-                loading: false,
-            }
-        }
-        default: return state;
-    }
-}
-
 function Register() {
-    const [state, localDispatch] = useReducer(registerReducer, {registerData: {}});
-    const reduxDispatch = useDispatch();
+    const [registerData, setRegisterData] = useState({});
+    const [mutationCallback, loading, errors] = useMutate();
 
-    const { registerData, loading } = state;
-    const errors = useSelector(state => state.auth.registerErrors);
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
-
-        localDispatch({
-            type: 'FIELD',
-            fieldName: name,
-            payload: value,
-        });
+        setRegisterData((prev) => ({ ...prev, [name]: value }))
     }
 
     const standardRegister = async (evt) => {
         evt.preventDefault();
-        localDispatch({ type: 'REGISTER_STARTED' });
-        await reduxDispatch(register(registerData));
-        localDispatch({ type: 'REGISTER_FINISHED' });
+        await mutationCallback(register, registerData);
     }
 
     const oAuthRegister = async (oAuthData) => {
-        localDispatch({ type: 'REGISTER_STARTED' });
-        await reduxDispatch(oAuthRegisterActionCreator(oAuthData));
-        localDispatch({ type: 'REGISTER_FINISHED' });
+        await mutationCallback(oAuthRegisterActionCreator, oAuthData);
     }
 
     return (

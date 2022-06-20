@@ -1,74 +1,40 @@
-import React, { useReducer, useState } from 'react'
+import React, { useState } from 'react'
 import { Form, Modal, Spinner } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
 
-import { addClass, hideAddClassModal, showAddClassModal } from '../../../../../../services/chef/actions';
+import useMutate from '../../../../../../redux/hooks/mutate';
+import { addClass as addClassAction } from '../../../../../../services/chef/actions';
 
 import Button from '../../../../../../components/button/button';
 
 import './add-class.scss'
-
-function addClassReducer(state, action) {
-    switch (action.type) {
-        case 'FIELD': {
-            return {
-                ...state,
-                classData: {
-                    ...state.classData,
-                    [action.fieldName]: action.payload,
-                }
-            }
-        }
-        case 'ADD_CLASS_STARTED': {
-            return {
-                ...state,
-                loading: true
-            }
-        }
-        case 'ADD_CLASS_FINISHED': {
-            return {
-                ...state,
-                loading: false,
-            }
-        }
-        default: return state;
-    }
-}
+import { useEffect } from 'react';
 
 
 function AddClass() {
-    const [state, localDispatch] = useReducer(addClassReducer, { classData: {hasMealKit: false} });
-    const errors = useSelector(state => state.chef.addClassErrors);
-    const shouldShowAddClassModal = useSelector(state => state.chef.showAddClassModal);
-    const [loading, setLoading] = useState(false);
+    const [classData, setClassData] = useState({hasMealKit: false});
+    const [mutationCallback, loading, errors, data] = useMutate();
+    const [shouldShowModal, setShowModal] = useState(false);
 
-    const reduxDispatch = useDispatch();
+    useEffect(() => {
+        if (data)
+            setShowModal(false);
+    }, [data, setShowModal]);
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        setLoading(true);
-        await reduxDispatch(addClass(state.classData));
-        setLoading(false);
+        await mutationCallback(addClassAction, classData);
     }
 
     const handleChange = (evt) => {
         const { name, value } = evt.target;
 
-        localDispatch({
-            type: 'FIELD',
-            fieldName: [name],
-            payload: [value],
-        });
+        setClassData((prev) => ({ ...prev, [name]: value }))
     }
 
     const handleCheckBoxChange = (evt) => {
         const { name } = evt.target;
-        let value = !state[name];
-        localDispatch({
-            type: 'FIELD',
-            fieldName: [name],
-            payload: [value],
-        });
+        let value = !classData[name];
+        setClassData((prev) => ({ ...prev, [name]: value }))
     }
 
 
@@ -76,26 +42,13 @@ function AddClass() {
         const file = evt.target.files[0];
         const { name } = evt.target;
 
-        localDispatch({
-            type: 'FIELD',
-            fieldName: [name],
-            payload: file,
-        });
+        setClassData((prev) => ({ ...prev, [name]: file }))
     }
-
-    const showModal = () => {
-        reduxDispatch(showAddClassModal());
-    }
-
-    const closeModal = () => {
-        reduxDispatch(hideAddClassModal());
-    }
-
 
     return (
         <div id='add-class' className='mt-5'>
-            <Button className='mb-4 p-3' onClick={showModal}>Add Class</Button>
-            <Modal size='lg' id='add-class-modal' show={shouldShowAddClassModal} onHide={closeModal}>
+            <Button className='mb-4 p-3' onClick={() => setShowModal(true)}>Add Class</Button>
+            <Modal size='lg' id='add-class-modal' show={shouldShowModal} onHide={() => setShowModal(false)}>
                 <Modal.Header>
                     <Modal.Title>Add Class</Modal.Title>
                 </Modal.Header>
@@ -104,7 +57,7 @@ function AddClass() {
                         <Form.Group>
                             <Form.Control
                                 onChange={handleChange}
-                                value={state.classData.title}
+                                value={classData.title}
                                 type='text'
                                 placeholder='title'
                                 name='title'
@@ -114,7 +67,7 @@ function AddClass() {
                         <Form.Group>
                             <Form.Control
                                 onChange={handleChange}
-                                value={state.classData.description}
+                                value={classData.description}
                                 type='text'
                                 as='textarea'
                                 placeholder='description'
@@ -133,7 +86,7 @@ function AddClass() {
                         <Form.Group>
                             <Form.Control
                                 onChange={handleChange}
-                                value={state.classData.duration}
+                                value={classData.duration}
                                 type='number'
                                 placeholder='duration'
                                 name='duration'
@@ -143,7 +96,7 @@ function AddClass() {
                         <Form.Group>
                             <Form.Control
                                 onChange={handleChange}
-                                value={state.classData.costPerDevice}
+                                value={classData.costPerDevice}
                                 type='number'
                                 placeholder='cost per device'
                                 name='costPerDevice'
@@ -153,7 +106,7 @@ function AddClass() {
                         <Form.Group>
                             <Form.Control
                                 onChange={handleChange}
-                                value={state.classData.mealKitCost}
+                                value={classData.mealKitCost}
                                 type='number'
                                 placeholder='meal kit cost'
                                 name='mealKitCost'
@@ -164,7 +117,7 @@ function AddClass() {
                             <Form.Label>Offers Meal Kit</Form.Label>
                             <Form.Check
                                 onChange={handleCheckBoxChange}
-                                value={state.classData.hasMealKit}
+                                value={classData.hasMealKit}
                                 name='hasMealKit'
                             />
                             <span className='text-danger'>{errors['hasMealKit']}</span>
@@ -184,7 +137,7 @@ function AddClass() {
 
 
                         <Modal.Footer>
-                            <Button className='modal-btn' secondary onClick={closeModal}>
+                            <Button className='modal-btn' secondary onClick={() => setShowModal(false)}>
                                 Close
                             </Button>
                             <Button type='submit' isButton={true} className='modal-btn'>

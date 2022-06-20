@@ -3,7 +3,8 @@ import { Col, Container, Form, Row } from 'react-bootstrap';
 import GoogleLogin from 'react-google-login';
 import Button from '../../../components/button/button';
 
-import { useDispatch, useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
+import useMutate from '../../../redux/hooks/mutate';
 import { atLoginPage, leftLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
@@ -14,9 +15,7 @@ import '../auth.scss';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [loading, setLoading] = useState(false);
-
-    const errors = useSelector(state => state.auth.loginErrors);
+    const [mutationCallback, loading, errors] = useMutate();
 
     const dispatch = useDispatch();
 
@@ -31,16 +30,11 @@ function Login() {
 
     const handleSubmitStandardLogin = async (evt) => {
         evt.preventDefault();
-
-        setLoading(true);
-        await dispatch(login(email, password));
-        setLoading(false);
+        await mutationCallback(login, email, password);
     }
 
     const handleSubmitForOAuthLogin = async (oAuthData) => {
-        setLoading(true);
-        await dispatch(oAuthLogin(oAuthData));
-        setLoading(false);
+        await mutationCallback(oAuthLogin, oAuthData);
     }
 
     return (

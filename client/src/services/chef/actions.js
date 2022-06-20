@@ -1,8 +1,8 @@
 import asAction from '../../helpers/as-redux-action';
 import {
-    ADD_CLASS_FAILED, ADD_CLASS_SUCCESS, HIDE_ADD_CLASS_MODAL,
-    LOAD_ALL_CLASSES_FAILED, LOAD_ALL_CLASSES_SUCCESS, LOAD_CLASS_FAILED,
-    LOAD_CLASS_SUCCESS, SELECT_CLASS, SHOW_ADD_CLASS_MODAL
+    ADD_CLASS_SUCCESS,
+    LOAD_ALL_CLASSES_SUCCESS,
+    LOAD_CLASS_SUCCESS, SELECT_CLASS
 } from "./types";
 import { allChefsClasses, getClassForChef } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
@@ -14,9 +14,6 @@ import NotEmptyValidator from '../../validators/not-empty';
 import BooleanValidator from '../../validators/boolean';
 import NumberValidator from '../../validators/number';
 
-function addClassFailed(errors) {
-    return asAction(ADD_CLASS_FAILED, errors);
-}
 
 function addClassSuccess(newClass) {
     return asAction(ADD_CLASS_SUCCESS, newClass);
@@ -26,24 +23,8 @@ function loadAllClassesSuccess(classes) {
     return asAction(LOAD_ALL_CLASSES_SUCCESS, classes);
 }
 
-function loadAllClassesFailed() {
-    return asAction(LOAD_ALL_CLASSES_FAILED);
-}
-
 function loadClassSuccess(classData) {
     return asAction(LOAD_CLASS_SUCCESS, classData);
-}
-
-function loadClassFailed() {
-    return asAction(LOAD_CLASS_FAILED);
-}
-
-export function showAddClassModal() {
-    return asAction(SHOW_ADD_CLASS_MODAL);
-}
-
-export function hideAddClassModal() {
-    return asAction(HIDE_ADD_CLASS_MODAL);
 }
 
 export function selectClassForEdit(classData) {
@@ -54,10 +35,9 @@ export function loadAllClasses() {
     return async (dispatch) => {
         const classes = await allChefsClasses();
 
-        if (classes.error) {
-            dispatch(loadAllClassesFailed());
-            return;
-        }
+        if (classes.error)
+            throw new Error(classes.error);
+
         dispatch(loadAllClassesSuccess(classes));
     }
 }
@@ -65,17 +45,19 @@ export function loadAllClasses() {
 export function loadClass(classId) {
     return async (dispatch, getState) => {
         if (getState().chef.currentClass)
-            return;
+            return getState().chef.currentClass;
         const classData = await getClassForChef(classId);
-        if (classData.error) {
-            dispatch(loadClassFailed())
-        }
+        if (classData.error)
+            throw new Error(classData.error);
+
         dispatch(loadClassSuccess(classData));
+
+        return classData;
     }
 }
 
 export function addClass(classData) {
-    return async (dispatch, getState) => {
+    return async (dispatch) => {
         const validateClassData = () => {
             let errors = {};
 
@@ -91,21 +73,23 @@ export function addClass(classData) {
         }
 
         const errors = validateClassData();
-        if (!errorsAreEmpty(errors)) {
-            dispatch(addClassFailed(errors))
-            return;
-        }
+        if (!errorsAreEmpty(errors))
+            throw errors;
+
 
         const newClassResponse = await newClass(classDataFromObj(classData));
         const errorResponse = newClassResponse.errors;
         if (errorResponse) {
             if (requestErrorHasAdditionalInfo(errorResponse))
-                dispatch(addClassFailed(errorResponse));
-            else
-                dispatch(addClassFailed({ error: 'Failed to add class, please try again' }));
-            return;
+                throw errorResponse;
+            else {
+                const error = { error: 'Failed to add class, please try again' }
+                throw error;
+            }
         }
 
         dispatch(addClassSuccess(newClassResponse.data));
+
+        return true;
     }
 }

@@ -2,7 +2,7 @@ const nodemailer = require('nodemailer');
 const { settings } = require('../../../feasthero/settings');
 
 async function sendEmail(msg) {
-    let transporter = new TransporterSingleton();
+    const transporter = new TransporterSingleton();
     return transporter.transporterInstance.sendMail(msg, (error) => {
         return false;
     });

@@ -1,20 +1,21 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { Row, Col, Tooltip, OverlayTrigger, Form } from 'react-bootstrap';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faInfoCircle } from '@fortawesome/free-solid-svg-icons';
 import Select from 'react-select'
-import { useDispatch, useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
+
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
 import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
+import { selectCurrentClass } from '../../../../services/booking/selectors';
+import useMutate from '../../../../redux/hooks/mutate';
 
 import './booking-details.scss';
-import { selectCurrentClass } from '../../../../services/booking/selectors';
 
 
 function BookingDetails() {
-    const [loading, setLoading] = useState(false);
 
     const bookingSize = useSelector(state => state.booking.bookingDetails.bookingSize);
     const customerFirstName = useSelector(state => state.booking.bookingDetails.customerFirstName);
@@ -25,9 +26,9 @@ function BookingDetails() {
 
 
     const classData = useSelector(selectCurrentClass);
-    const scheduleOptions = datesTimesAsOption(classData.schedule);
-    const errors = useSelector(state => state.booking.bookingErrors);
     const dispatch = useDispatch();
+    const scheduleOptions = datesTimesAsOption(classData.schedule);
+    const [mutationCallback, loading, errors] = useMutate();
 
     const handleFormChange = (evt) => {
         const { value, name } = evt.target;
@@ -44,10 +45,8 @@ function BookingDetails() {
     }
 
     const handleSubmit = async (evt) => {
-        evt.preventDefault()
-        setLoading(true);
-        await dispatch(submitBooking());
-        setLoading(false);
+        evt.preventDefault();
+        await mutationCallback(submitBooking);
     }
 
 

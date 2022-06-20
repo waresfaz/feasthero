@@ -5,10 +5,8 @@ import {
     AT_LOGIN_PAGE,
     LEFT_LOGIN_PAGE,
     LOAD_ACCOUNT,
-    LOGIN_FAILED,
     LOGIN_SUCCESS,
     LOGOUT_SUCCESS,
-    REGISTER_FAILED,
     REGISTER_SUCCESS
 } from "./types";
 import {
@@ -30,16 +28,8 @@ function loginSuccess(user) {
     return asAction(LOGIN_SUCCESS, user);
 }
 
-function loginFailed(errors) {
-    return asAction(LOGIN_FAILED, errors);
-}
-
 function registerSuccess(user) {
     return asAction(REGISTER_SUCCESS, user);
-}
-
-function registerFailed(errors) {
-    return asAction(REGISTER_FAILED, errors);
 }
 
 function logoutSuccess() {
@@ -68,7 +58,7 @@ export function loadAccount() {
         const account = ls.get('account');
         if (!account || account === 'undefined')
             return;
-        
+
         putAccountInSessionRequest(account);
 
         dispatch(asAction(LOAD_ACCOUNT, JSON.parse(account)));
@@ -85,10 +75,8 @@ export function login(email, password) {
 
     return async (dispatch) => {
         let errors = validateStandardLoginData();
-        if (!errorsAreEmpty(errors)) {
-            loginFailed(errors);
-            return;
-        }
+        if (!errorsAreEmpty(errors))
+            throw errors;
 
         const loginRequestResult = await loginRequest(email, password);
         handleLoginRequestResponse(loginRequestResult, dispatch);
@@ -104,12 +92,12 @@ export function oAuthLogin(oAuthData) {
 
 function handleLoginRequestResponse(loginRequestResult, dispatch) {
     if (loginRequestResult.error) {
-        console.log(loginRequestResult.error)
         if (requestErrorHasAdditionalInfo(loginRequestResult.error))
-            dispatch(loginFailed(loginRequestResult.error.data['errors']));
-        else
-            dispatch(loginFailed({ error: 'failed to login, please try again later' }));
-        return;
+            throw loginRequestResult.error.data['errors'];
+        else {
+            const error = { error: 'failed to login, please try again later' };
+            throw error;
+        }
     }
 
     const account = loginRequestResult.data;
@@ -139,10 +127,8 @@ export function register(registerData) {
 
     return async (dispatch) => {
         let errors = validateStandardRegistrationData();
-        if (!errorsAreEmpty(errors)) {
-            dispatch(registerFailed(errors));
-            return;
-        }
+        if (!errorsAreEmpty(errors))
+            throw errors;
 
         const registrationRequestResult = await registerRequest(registerData);
         handleRegisterRequestResponse(registrationRequestResult, dispatch);
@@ -159,10 +145,11 @@ export function oAuthRegister(oAuthData) {
 function handleRegisterRequestResponse(registrationRequestResult, dispatch) {
     if (registrationRequestResult.error) {
         if (requestErrorHasAdditionalInfo(registrationRequestResult.error))
-            dispatch(registerFailed(registrationRequestResult.error.data['errors']));
-        else
-            dispatch(registerFailed({ error: 'failed to login, please try again later' }));
-        return;
+            throw registrationRequestResult.error.data['errors']
+        else {
+            const error = { error: 'failed to login, please try again later' };
+            throw error;
+        }
     }
 
     const account = registrationRequestResult.data;

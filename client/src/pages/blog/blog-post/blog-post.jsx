@@ -1,6 +1,5 @@
 import React from 'react';
 import { Container, Image, Spinner } from 'react-bootstrap';
-import { useSelector } from 'react-redux';
 
 import Title from '../../../components/title/title';
 import { loadPost } from '../../../services/blog/actions';
@@ -11,13 +10,10 @@ import useFetch from '../../../redux/hooks/fetch';
 
 
 function BlogPost(props) {
-    const postData = useSelector(state => state.blog.selectedPost);
-    const error = useSelector(state => state.blog.loadPostError);
-
-    const loading = useFetch(loadPost, props.match.params.id);
+    const [loading, error, data] = useFetch(loadPost, props.match.params.id);
 
 
-    if (loading)
+    if (loading || !data)
         return (
             <div className='d-flex justify-content-center'>
                 <Spinner animation='border' />
@@ -33,16 +29,16 @@ function BlogPost(props) {
                         <h4 className='text-danger mt-4'>{error}</h4>
                         :
                         <section id='post'>
-                            <Title>{postData.title}</Title>
+                            <Title>{data.title}</Title>
                             <div className='text-center my-4'>
-                                <Image src={postData.image} alt={postData.title} />
+                                <Image src={data.image} alt={data.title} />
                             </div>
                             <div>
-                                <p dangerouslySetInnerHTML={{ __html: postData.content }} />
+                                <p dangerouslySetInnerHTML={{ __html: data.content }} />
                             </div>
                             <div className='d-flex content'>
-                                <p>By <b>{postData.author}</b>,</p>
-                                <p className='ml-2'>{timeSince(new Date(postData.datePosted))} ago</p>
+                                <p>By <b>{data.author}</b>,</p>
+                                <p className='ml-2'>{timeSince(new Date(data.datePosted))} ago</p>
                             </div>
                         </section>
                 }
