@@ -6,11 +6,11 @@ import Select from 'react-select'
 import { useSelector, useDispatch } from 'react-redux';
 
 import { validBookingSizes, selectDropDownStyle } from '../../../../constants/app-constants';
-import { submitBooking, updateBookingDetails } from '../../../../services/booking/actions';
+import { submitBooking as submitBookingAction, updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
 import { selectCurrentClass } from '../../../../services/booking/selectors';
-import useMutate from '../../../../redux/hooks/mutate';
+import useMutate from '../../../../hooks/mutate';
 
 import './booking-details.scss';
 
@@ -28,7 +28,7 @@ function BookingDetails() {
     const classData = useSelector(selectCurrentClass);
     const dispatch = useDispatch();
     const scheduleOptions = datesTimesAsOption(classData.schedule);
-    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
+    const { callback: submitBooking, loading, errors } = useMutate(submitBookingAction, { withDispatch: true });
 
     const handleFormChange = (evt) => {
         const { value, name } = evt.target;
@@ -46,7 +46,7 @@ function BookingDetails() {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        await mutationCallback(submitBooking);
+        await submitBooking();
     }
 
 

@@ -1,13 +1,13 @@
 import { useDispatch } from 'react-redux';
 import { useState } from 'react';
 
-const useMutate = ({ withDispatch }) => {
+const useMutate = (asyncCallback, { withDispatch }) => {
     const [loading, setLoading] = useState(false);
-    const [error, setError] = useState('');
+    const [errors, setErrors] = useState({});
     const [data, setData] = useState(null);
     const dispatch = useDispatch();
 
-    const callable = async (asyncCallback, ...args) => {
+    const callback = async (...args) => {
         setLoading(true);
         try {
             if (withDispatch)
@@ -15,12 +15,12 @@ const useMutate = ({ withDispatch }) => {
             else
                 setData(await asyncCallback(...args));
         } catch (e) {
-            setError(e);
+            setErrors(e);
         }
         setLoading(false);
     }
 
-    return [callable, loading, error, data];
+    return { callback, loading, errors, data };
 }
 
 export default useMutate;

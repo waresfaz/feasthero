@@ -5,10 +5,10 @@ import ConfirmationDetails from '../confirmation-details/confirmation-details';
 
 import { Spinner, Container } from 'react-bootstrap';
 import { verifyBookingSuccess } from '../../../../services/booking-success/services';
-import useFetch from '../../../../redux/hooks/fetch';
+import useFetch from '../../../../hooks/fetch';
 
 function BookingSummary() {
-    const [loading, error, data] = useFetch(verifyBookingSuccess, { withDispatch: false });
+    const { loading, error, data } = useFetch(verifyBookingSuccess, { withDispatch: false });
 
     if (error)
         return <p className='text-center text-danger'>{error}</p>

@@ -8,15 +8,15 @@ import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 
 import valsFromRefs from '../../../../helpers/values-from-refs';
-import { sendConfirmations } from '../../../../services/booking-success/services';
-import useMutate from '../../../../redux/hooks/mutate';
+import { sendConfirmations as sendConfirmationsService } from '../../../../services/booking-success/services';
+import useMutate from '../../../../hooks/mutate';
 
 import './share-confirmation.scss';
 
 function ShareConfirmation() {
     const firstInput = React.createRef();
     const [inputs, setInputs] = useState([firstInput]);
-    const [mutationCallback, loading, error, data] = useMutate({ withDispatch: false });
+    const { callback: sendConfirmations, loading, errors, data } = useMutate(sendConfirmationsService, { withDispatch: false });
     let didSend = <></>;
 
     const appendInput = () => {
@@ -28,11 +28,11 @@ function ShareConfirmation() {
         evt.preventDefault();
 
         const emails = valsFromRefs(inputs);
-        await mutationCallback(sendConfirmations, emails);
+        await sendConfirmations(emails);
     }
 
 
-    if (error)
+    if (Object.keys(errors).length > 0)
         didSend = <p className='text-danger text-center mb-0'>Failed to send</p>
     else if (data === true)
         didSend = <p className='text-success text-center mb-0'>Sent</p>

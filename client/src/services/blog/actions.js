@@ -1,7 +1,10 @@
 import asAction from "../../helpers/as-redux-action"
 import { fetchAllBlogPosts, fetchBlogPost } from "./api";
-import { LOAD_POST_SUCCESS, SELECT_BLOG_POST } from "./types"
+import { LOAD_ALL_POSTS_SUCCESS, LOAD_POST_SUCCESS, SELECT_BLOG_POST } from "./types"
 
+function loadAllPostsSuccess(posts) {
+    return asAction(LOAD_ALL_POSTS_SUCCESS, posts);
+}
 
 function loadPostSuccess(postData) {
     return asAction(LOAD_POST_SUCCESS, postData);
@@ -12,11 +15,16 @@ export function selectBlogPost(postData) {
 }
 
 export function loadPosts() {
-    return async () => {
+    return async (dispatch, getState) => {
+        if (getState().blog.posts)
+            return getState().blog.posts;
+
         const blogPosts = await fetchAllBlogPosts();
 
         if (blogPosts.error)
             throw new Error('Error loading blog, please try again.')
+
+        dispatch(loadAllPostsSuccess(blogPosts));
 
         return blogPosts;
     }

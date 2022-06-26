@@ -4,11 +4,11 @@ import { Col, Row, Spinner } from 'react-bootstrap';
 import ClassCard from './class-card/class-card';
 
 import { loadAllClasses } from '../../../../../../services/chef/actions';
-import useFetch from '../../../../../../redux/hooks/fetch';
+import useFetch from '../../../../../../hooks/fetch';
 import { useSelector } from 'react-redux';
 
 function Classes() {
-    const [loading, error] = useFetch(loadAllClasses, { withDispatch: true });
+    const { loading, error } = useFetch(loadAllClasses, { withDispatch: true });
     const allClasses = useSelector(state => state.chef.allClasses);
 
     let loadClassesResult = <></>;

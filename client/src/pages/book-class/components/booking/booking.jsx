@@ -8,12 +8,12 @@ import { selectCurrentClass } from "../../../../services/booking/selectors";
 import BookingDetails from '../booking-details/booking-details';
 import BookingSummary from '../booking-summary/booking-summary';
 import ClassSummary from '../class-summary/class-summary';
-import useFetch from "../../../../redux/hooks/fetch";
+import useFetch from "../../../../hooks/fetch";
 
 function Booking(props) {
     const classData = useSelector(selectCurrentClass);
 
-    const [loading, error] = useFetch(loadClassDataForBooking, { withDispatch: true }, props.classId);
+    const { loading, error } = useFetch(loadClassDataForBooking, { withDispatch: true }, props.classId);
 
     if (loading) {
         return (

@@ -5,11 +5,11 @@ import EditClass from './components/edit-class/edit-class'
 import DeleteClass from './components/delete-class/delete-class'
 
 import { loadClass } from '../../../../../../services/chef/actions'
-import useFetch from '../../../../../../redux/hooks/fetch'
+import useFetch from '../../../../../../hooks/fetch'
 
 
 function ChefClass(props) {
-    const [loading, error, data] = useFetch(loadClass, { withDispatch: true }, props.match.params.id);
+    const { loading, error, data } = useFetch(loadClass, { withDispatch: true }, props.match.params.id);
 
     if (data) {
         if (error)

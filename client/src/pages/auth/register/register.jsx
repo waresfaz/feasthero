@@ -1,12 +1,12 @@
 import React, { useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
-import GoogleLogin from 'react-google-login';
 
 import Button from '../../../components/button/button';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
-import useMutate from '../../../redux/hooks/mutate';
-import { register, oAuthRegister as oAuthRegisterActionCreator } from '../../../services/auth/actions';
+import useMutate from '../../../hooks/mutate';
+import { register as registerAction } from '../../../services/auth/actions';
+import OAuthRegister from './oauth-register';
 
 import './register.scss';
 import '../auth.scss';
@@ -14,7 +14,7 @@ import '../auth.scss';
 
 function Register() {
     const [registerData, setRegisterData] = useState({});
-    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
+    const { callback: register, loading, errors } = useMutate(registerAction, { withDispatch: true });
 
 
     const handleChange = (evt) => {
@@ -24,11 +24,7 @@ function Register() {
 
     const standardRegister = async (evt) => {
         evt.preventDefault();
-        await mutationCallback(register, registerData);
-    }
-
-    const oAuthRegister = async (oAuthData) => {
-        await mutationCallback(oAuthRegisterActionCreator, oAuthData);
+        await register(registerData);
     }
 
     return (
@@ -81,13 +77,7 @@ function Register() {
                             <div className="strike-through my-3">
                                 <span className='text-muted'>or sign up with google</span>
                             </div>
-                            <GoogleLogin
-                                className='sign-up-with-google'
-                                buttonText='Sign up with Google'
-                                clientId={process.env.REACT_APP_OAUTH_CLIENT_ID}
-                                onSuccess={oAuthRegister}
-                                cookiePolicy={'single_host_origin'}
-                            />
+                            <OAuthRegister />
                         </Col>
                     </Row>
                 </form>

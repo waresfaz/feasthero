@@ -1,13 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { Col, Container, Form, Row } from 'react-bootstrap';
-import GoogleLogin from 'react-google-login';
 import Button from '../../../components/button/button';
 
 import { useDispatch } from 'react-redux';
-import useMutate from '../../../redux/hooks/mutate';
-import { atLoginPage, leftLoginPage, login, oAuthLogin } from '../../../services/auth/actions';
+import useMutate from '../../../hooks/mutate';
+import { atLoginPage, leftLoginPage, login as loginRequest } from '../../../services/auth/actions';
 import Loader from '../../../components/loader/loader';
 import ShouldRedirectToAccount from '../../../hoc/should-redirect-to-account';
+import OAuthLogin from './oauth-login';
 
 import './login.scss';
 import '../auth.scss';
@@ -15,7 +15,7 @@ import '../auth.scss';
 function Login() {
     const [email, setEmail] = useState('');
     const [password, setPassword] = useState('');
-    const [mutationCallback, loading, errors] = useMutate({ withDispatch: true });
+    const { callback: login, loading, errors } = useMutate(loginRequest, { withDispatch: true });
 
     const dispatch = useDispatch();
 
@@ -30,11 +30,7 @@ function Login() {
 
     const handleSubmitStandardLogin = async (evt) => {
         evt.preventDefault();
-        await mutationCallback(login, email, password);
-    }
-
-    const handleSubmitForOAuthLogin = async (oAuthData) => {
-        await mutationCallback(oAuthLogin, oAuthData);
+        await login(email, password);
     }
 
     return (
@@ -61,7 +57,6 @@ function Login() {
                         <span className='text-danger'>{errors['password']}</span>
                     </div>
 
-
                     <Row className='justify-content-center'>
                         <Col md={12} className='text-center'>
                             <Button isButton={true}>Sign In</Button>
@@ -69,12 +64,7 @@ function Login() {
                             <div className="strike-through my-3">
                                 <span className='text-muted'>or sign in with google</span>
                             </div>
-                            <GoogleLogin
-                                className='sign-in-with-google'
-                                clientId='585615552509-ve5qcffqars3nnrg10d2o6do4jhnp7ep.apps.googleusercontent.com'
-                                onSuccess={handleSubmitForOAuthLogin}
-                                cookiePolicy={'single_host_origin'}
-                            />
+                            <OAuthLogin />
                         </Col>
                     </Row>
                 </form>

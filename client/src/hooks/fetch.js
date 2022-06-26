@@ -24,7 +24,7 @@ const useFetch = (asyncCallback, { withDispatch }, ...args) => {
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 
-    return [loading, error, data];
+    return { loading, error, data };
 }
 
 export default useFetch;

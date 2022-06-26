@@ -8,7 +8,7 @@ import poweredbystripe from '../../../../assets/resources/images/powered-by-stri
 
 import { checkout as checkoutAction } from '../../../../services/checkout/services';
 import history from '../../../../history';
-import useMutate from '../../../../redux/hooks/mutate';
+import useMutate from '../../../../hooks/mutate';
 
 import './payment.scss';
 
@@ -26,8 +26,7 @@ const InjectedPaymentForm = (props) => {
 function Payment(props) {
     const [cardError, setCardError] = useState('');
     const recaptchaRef = React.createRef();
-    const [mutationCallback, loading, errors] = useMutate({ withDispatch: false });
-    console.log(errors);
+    const { callback: checkout, loading, errors } = useMutate(checkoutAction, { withDispatch: false });
 
     const { stripe, elements } = props;
 
@@ -52,7 +51,7 @@ function Payment(props) {
 
         const card = elements.getElement(CardElement);
 
-        await mutationCallback(checkoutAction, card, stripe, recaptchaRef.current.getValue());
+        await checkout(card, stripe, recaptchaRef.current.getValue());
     }
 
     const stripeIsUninitialized = () => {

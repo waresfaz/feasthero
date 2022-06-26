@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { Form, Modal, Spinner } from 'react-bootstrap';
 
-import useMutate from '../../../../../../redux/hooks/mutate';
+import useMutate from '../../../../../../hooks/mutate';
 import { addClass as addClassAction } from '../../../../../../services/chef/actions';
 
 import Button from '../../../../../../components/button/button';
@@ -11,8 +11,8 @@ import { useEffect } from 'react';
 
 
 function AddClass() {
-    const [classData, setClassData] = useState({hasMealKit: false});
-    const [mutationCallback, loading, errors, data] = useMutate({ withDispatch: true });
+    const [classData, setClassData] = useState({ hasMealKit: false });
+    const { callback: addClass, loading, errors, data } = useMutate(addClassAction, { withDispatch: true });
     const [shouldShowModal, setShowModal] = useState(false);
 
     useEffect(() => {
@@ -22,7 +22,7 @@ function AddClass() {
 
     const handleSubmit = async (evt) => {
         evt.preventDefault();
-        await mutationCallback(addClassAction, classData);
+        await addClass(classData);
     }
 
     const handleChange = (evt) => {

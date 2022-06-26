@@ -6,11 +6,11 @@ import { loadPost } from '../../../services/blog/actions';
 import timeSince from '../../../helpers/time-since-date';
 
 import './blog-post.scss';
-import useFetch from '../../../redux/hooks/fetch';
+import useFetch from '../../../hooks/fetch';
 
 
 function BlogPost(props) {
-    const [loading, error, data] = useFetch(loadPost, { withDispatch: true }, props.match.params.id);
+    const { loading, error, data } = useFetch(loadPost, { withDispatch: true }, props.match.params.id);
 
 
     if (loading || !data)

@@ -1,11 +1,11 @@
 import React from "react";
 import { Spinner } from "react-bootstrap";
-import useFetch from "../../../../../redux/hooks/fetch";
+import useFetch from "../../../../../hooks/fetch";
 import { loadPosts } from "../../../../../services/blog/actions";
 import PreviewBlogPost from "../preview-blog/preview-blog-post";
 
 function BlogPosts() {
-    const [loading, error, data] = useFetch(loadPosts, { withDispatch: true });
+    const { loading, error, data } = useFetch(loadPosts, { withDispatch: true });
 
     if (loading || !data)
         return (
