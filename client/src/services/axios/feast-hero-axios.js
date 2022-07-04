@@ -5,8 +5,6 @@ initSettings();
 
 const feastHeroAxios = axios.create({
     baseURL: settings.SERVER_ORIGIN,
-    headers: {'Authorization': process.env.REACT_APP_FEASTHERO_API_TOKEN
-    }
 })
 
 export default feastHeroAxios;

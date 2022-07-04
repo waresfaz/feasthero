@@ -47,7 +47,7 @@ https://user-images.githubusercontent.com/67922410/156700593-f79a64ce-bbe5-47fc-
 	<ul>
 		<li>Server-side and client-side validation</li>
 	<li>Checkout sessions</li>
-		<li>Secured API with key and CAPTCHA</li>
+		<li>Secured API with CAPTCHA</li>
 		<li>Allowed chefs to directly create and update classes with their account</li>
 		<li>Stripe payment integration</li>
    </ul>

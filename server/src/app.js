@@ -15,7 +15,6 @@ const subscribeRouter = require("./apps/subscribe/routes");
 const blogRouter = require('./apps/blog/routes');
 
 const errorMiddleware = require('./middleware/error');
-const verifyApiKey = require('./middleware/verify_api_key');
 const authRouter = require("./apps/auth/routes.js");
 const accountsRouter = require("./apps/accounts/routes.js");
 const upload = require("./middleware/upload_image.js");
@@ -44,7 +43,6 @@ function initMiddleware() {
       mongoUrl: settings.MONGO_URI,
     }),
   }));
-  app.use(verifyApiKey);
 }
 
 
