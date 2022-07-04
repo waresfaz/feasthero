@@ -37,7 +37,8 @@ https://user-images.githubusercontent.com/67922410/156700593-f79a64ce-bbe5-47fc-
         <li>Sign up for online group cooking classes</li>
         <li>Straight forward booking process</li>
         <li>Fully online and secure payments</li>
-        	<li>Chef and customer accounts</li>
+        <li>Chef and customer accounts</li>
+        <li>Google OAuth login and registration</li>
         <li>Mobile friendly</li>
     </ul>
 </section>
