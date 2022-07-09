@@ -1,36 +1,37 @@
-import React, { useState, useRef } from 'react';
+import React, { useState, useRef, useEffect } from 'react';
 import { Col, Form, Row, Modal } from 'react-bootstrap';
 import ReCAPTCHA from "react-google-recaptcha";
-import { useDispatch, useSelector } from 'react-redux';
 
 import Title from '../../../../components/title/title';
 import Button from '../../../../components/button/button';
 import Loader from '../../../../components/loader/loader';
 import { settings } from '../../../../settings';
-import { resetContact, sendEmail } from '../../../../services/contact/actions';
+import useMutate from '../../../../hooks/mutate';
+import { contact } from '../../../../services/contact/services';
 
 import './contact-us.scss';
 
 
 export default function ContactUs() {
   const [formState, setFormState] = useState({});
-  const [loading, setLoading] = useState(false);
-  const dispatch = useDispatch();
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
   const reCaptchaRef = useRef();
-  const errors = useSelector(state => state.contact.errors);
-  const emailSent = useSelector(state => state.contact.emailSent);
+  const [email, { loading, errors, data }] = useMutate(contact, { withDispatch: false });
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    setLoading(true);
-    await dispatch(sendEmail(formState, reCaptchaRef.current.value));
-    setLoading(false);
+    await email(formState, reCaptchaRef.current.value);
   }
 
   const handleFormChange = (event) => {
     const { name, value } = event.target;
     setFormState((prev) => ({ ...prev, [name]: value }))
   }
+
+  useEffect(() => {
+    if (data === true)
+      setShowSuccessModal(true);
+  }, [data])
 
   return (
     <>
@@ -40,8 +41,8 @@ export default function ContactUs() {
           backdropClassName='p-5'
           contentClassName='text-center p-5'
           centered
-          onHide={() => dispatch(resetContact())}
-          show={emailSent}
+          onHide={() => setShowSuccessModal(false)}
+          show={showSuccessModal}
         >
           <h4 className='text-success'>Sent! We will get back to you shortly...</h4>
         </Modal>

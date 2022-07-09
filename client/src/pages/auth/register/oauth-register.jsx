@@ -5,7 +5,7 @@ import useMutate from '../../../hooks/mutate';
 import { oAuthRegister as oAuthRegisterRequest } from '../../../services/auth/actions';
 
 export default function OAuthRegister() {
-    const { callback: register, loading, errors } = useMutate(oAuthRegisterRequest, { withDispatch: true });
+    const [register, { loading, errors }] = useMutate(oAuthRegisterRequest, { withDispatch: true });
 
     const oAuthRegister = async (oAuthData) => {
         await register(oAuthData);

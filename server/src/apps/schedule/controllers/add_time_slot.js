@@ -8,7 +8,7 @@ async function addTimeSlot(req, res) {
 
     return timeSlot.save()
         .then((_) => {
-            return res.status(StatusCodes.OK).send(timeSlot._id);
+            return res.status(StatusCodes.OK).json({ timeSlot });
         })
         .catch((_) => {
             return res.status(StatusCodes.BAD_REQUEST).json({ errors: { error: 'add time slot failed' } })

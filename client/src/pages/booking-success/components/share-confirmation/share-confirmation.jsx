@@ -16,7 +16,7 @@ import './share-confirmation.scss';
 function ShareConfirmation() {
     const firstInput = React.createRef();
     const [inputs, setInputs] = useState([firstInput]);
-    const { callback: sendConfirmations, loading, errors, data } = useMutate(sendConfirmationsService, { withDispatch: false });
+    const [sendConfirmations, { loading, errors, data }] = useMutate(sendConfirmationsService, { withDispatch: false });
     let didSend = <></>;
 
     const appendInput = () => {

@@ -20,7 +20,7 @@ const useMutate = (asyncCallback, { withDispatch }) => {
         setLoading(false);
     }
 
-    return { callback, loading, errors, data };
+    return [callback, { loading, errors, data }];
 }
 
 export default useMutate;

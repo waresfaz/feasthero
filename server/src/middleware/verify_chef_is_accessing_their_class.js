@@ -9,7 +9,6 @@ async function verifyChefIsAccessingTheirClass(req, res, next) {
 
 
     const classes = await getAllClassesForAChef(account._id);
-
     for (let i = 0; i < classes.length; i++) {
         if (classes[i]._id.toString() === classId) {
             next();

@@ -3,6 +3,9 @@ import {
     LOAD_ALL_CLASSES_SUCCESS,
     LOAD_CLASS_SUCCESS,
     SELECT_CLASS,
+    DELETE_CLASS,
+    ADD_TIME_SLOT,
+    DELETE_TIME_SLOT
 } from "./types";
 
 export default function chefReducer(state = [], action) {
@@ -27,6 +30,42 @@ export default function chefReducer(state = [], action) {
             return {
                 ...state,
                 currentClass: action.value
+            }
+        case DELETE_CLASS:
+            const allClasses = state.allClasses.filter(function (class_) {
+                return class_._id !== action.value;
+            });
+
+            return {
+                ...state,
+                allClasses
+            }
+        case ADD_TIME_SLOT:
+            const { currentClass } = state;
+            const updatedCurrentClass = {
+                ...currentClass,
+                schedule: [
+                    ...currentClass.schedule, 
+                    action.value
+                ]
+            }
+            return {
+                ...state,
+                currentClass: updatedCurrentClass
+            }
+        case DELETE_TIME_SLOT:
+            const scheduleWithoutDeletedTimeSlot = state.currentClass.schedule.filter(function (schedule) {
+                return schedule._id !== action.value;
+            });
+                        
+            return {
+                ...state,
+                currentClass: {
+                    ...state.currentClass,
+                    schedule: [
+                        ...scheduleWithoutDeletedTimeSlot
+                    ]
+                }
             }
         default:
             return state;

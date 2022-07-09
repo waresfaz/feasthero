@@ -21,7 +21,7 @@ import Login from '../../pages/auth/login/login';
 import Register from '../../pages/auth/register/register';
 import Account from '../../pages/account/account';
 import BookClass from '../../pages/book-class/book-class';
-import ChefClass from '../../pages/account/components/chef/pages/class/chef-class';
+import ChefClass from '../../pages/account/chef/pages/class/chef-class';
 import Checkout from '../../pages/checkout/checkout';
 
 import LoadAccount from '../../hoc/load-account';

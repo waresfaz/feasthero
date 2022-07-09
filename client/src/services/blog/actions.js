@@ -32,7 +32,7 @@ export function loadPosts() {
 
 export function loadPost(postId) {
     return async (dispatch, getState) => {
-        if (getState().blog.selectedPost)
+        if (getState().blog.selectedPost._id === postId)
             return getState().blog.selectedPost;
 
         const postData = await fetchBlogPost(postId);

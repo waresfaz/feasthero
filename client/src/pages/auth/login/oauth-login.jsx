@@ -5,7 +5,7 @@ import useMutate from "../../../hooks/mutate";
 import { oAuthLogin as oAuthLoginRequest } from '../../../services/auth/actions';
 
 export default function OAuthLogin() {
-    const { callback: oAuthLogin, loading, errors } = useMutate(oAuthLoginRequest, { withDispatch: true });
+    const [oAuthLogin, { loading, errors }] = useMutate(oAuthLoginRequest, { withDispatch: true });
     console.log(errors)
     const handleLogin = async (oAuthData) => {
         await oAuthLogin(oAuthData);

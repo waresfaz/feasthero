@@ -6,8 +6,8 @@ import WithAuth from '../../hoc/with-auth';
 import { CHEF, CUSTOMER } from '../../constants/app-constants';
 import { selectAccount } from '../../services/auth/selectors';
 
-import ChefAccount from './components/chef/chef-account';
-import CustomerAccount from './components/customer/customer-account';
+import ChefAccount from './chef/chef-account';
+import CustomerAccount from './customer/customer-account';
 
 import './account.scss';
 

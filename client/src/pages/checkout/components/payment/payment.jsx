@@ -6,7 +6,7 @@ import ReCAPTCHA from 'react-google-recaptcha';
 import { settings } from '../../../../settings';
 import poweredbystripe from '../../../../assets/resources/images/powered-by-stripe.png';
 
-import { checkout as checkoutAction } from '../../../../services/checkout/services';
+import { checkout as checkoutService } from '../../../../services/checkout/services';
 import history from '../../../../history';
 import useMutate from '../../../../hooks/mutate';
 
@@ -26,7 +26,7 @@ const InjectedPaymentForm = (props) => {
 function Payment(props) {
     const [cardError, setCardError] = useState('');
     const recaptchaRef = React.createRef();
-    const { callback: checkout, loading, errors } = useMutate(checkoutAction, { withDispatch: false });
+    const [checkout, { loading, errors }] = useMutate(checkoutService, { withDispatch: false });
 
     const { stripe, elements } = props;
 
