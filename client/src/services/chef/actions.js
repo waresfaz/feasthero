@@ -2,10 +2,11 @@ import asAction from '../../helpers/as-redux-action';
 import {
     ADD_CLASS_SUCCESS,
     ADD_TIME_SLOT,
+    LOAD_ALL_CHEF_CLASSES_SUCCESS,
     DELETE_CLASS,
     DELETE_TIME_SLOT,
-    LOAD_ALL_CLASSES_SUCCESS,
-    LOAD_CLASS_SUCCESS, SELECT_CLASS
+    LOAD_CLASS_SUCCESS, 
+    SELECT_CLASS
 } from "./types";
 import { allChefsClasses, getClassForChef } from './api';
 import errorsAreEmpty from '../../helpers/no-errors-in-map';
@@ -26,7 +27,7 @@ function addClassSuccess(newClass) {
 }
 
 function loadAllClassesSuccess(classes) {
-    return asAction(LOAD_ALL_CLASSES_SUCCESS, classes);
+    return asAction(LOAD_ALL_CHEF_CLASSES_SUCCESS, classes);
 }
 
 function loadClassSuccess(classData) {
@@ -115,7 +116,6 @@ export function addClass(classData) {
 export function deleteClass(id) {
     return async (dispatch) => {
         const response = await deleteClassRequest(id);
-
         if (response.error) {
             if (requestErrorHasAdditionalInfo(response.error))
                 throw response.error.data['errors'];
@@ -126,7 +126,6 @@ export function deleteClass(id) {
         }
 
         dispatch(deleteClassSuccess(id))
-
         history.push('/account');
     }
 }
@@ -138,9 +137,7 @@ export function addTimeSlot(classId, classDateTime) {
             const error = { error: 'error adding schedule' };
             throw error;
         }
-
-        console.log(response)
-
+        
         dispatch(addTimeSlotSuccess(response.timeSlot));
     }
 }

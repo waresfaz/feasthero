@@ -5,7 +5,6 @@ function parseClassData(req, res, next) {
     const classData = ClassDataDto.fromJson(req.body);
     classData.setThumbnail(getThumbnailUrlFromReqFiles(req.files));
     res.locals.classData = classData;
-    console.log(classData)
     next();
 }
 

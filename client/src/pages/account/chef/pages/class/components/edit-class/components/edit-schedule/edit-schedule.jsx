@@ -13,7 +13,7 @@ function EditSchedule({ classData }) {
             <h2 className='mt-5 mb-3 text-center'>Schedule</h2>
             <section id='edit-schedule'>
                 {
-                    classData.schedule.map((timeSlot, key) => {
+                    classData.schedule?.map((timeSlot, key) => {
                         return (
                             <div key={key} className={`schedule ${timeSlot.available ? '' : 'time-slot-unavailable'}`}>
                                 <Row className='justify-content-center pt-2'>

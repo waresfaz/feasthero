@@ -7,6 +7,7 @@ async function newClass(req, res) {
     classData.chefId = req.session.account._id;
 
     let class_ = new Class(classData);
+
     return class_
         .save()
         .then((class_) => {

@@ -1,11 +1,11 @@
 import {
     ADD_CLASS_SUCCESS,
-    LOAD_ALL_CLASSES_SUCCESS,
     LOAD_CLASS_SUCCESS,
     SELECT_CLASS,
     DELETE_CLASS,
     ADD_TIME_SLOT,
-    DELETE_TIME_SLOT
+    DELETE_TIME_SLOT,
+    LOAD_ALL_CHEF_CLASSES_SUCCESS
 } from "./types";
 
 export default function chefReducer(state = [], action) {
@@ -15,7 +15,7 @@ export default function chefReducer(state = [], action) {
                 ...state,
                 currentClass: action.value
             }
-        case LOAD_ALL_CLASSES_SUCCESS:
+        case LOAD_ALL_CHEF_CLASSES_SUCCESS:
             return {
                 ...state,
                 allClasses: action.value
