@@ -9,7 +9,7 @@ import { validBookingSizes, selectDropDownStyle } from '../../../../constants/ap
 import { submitBooking as submitBookingAction, updateBookingDetails } from '../../../../services/booking/actions';
 import Button from '../../../../components/button/button';
 import datesTimesAsOption from '../../../../helpers/dates-times-as-options';
-import { selectCurrentClass } from '../../../../services/booking/selectors';
+import { selectBookingErrors, selectCurrentClass } from '../../../../services/booking/selectors';
 import useMutate from '../../../../hooks/mutate';
 
 import './booking-details.scss';
@@ -26,9 +26,10 @@ function BookingDetails() {
 
 
     const classData = useSelector(selectCurrentClass);
+    const errors = useSelector(selectBookingErrors)
     const dispatch = useDispatch();
     const scheduleOptions = datesTimesAsOption(classData.schedule);
-    const [submitBooking, { loading, errors }] = useMutate(submitBookingAction, { withDispatch: true });
+    const [submitBooking, { loading }] = useMutate(submitBookingAction, { withDispatch: true });
 
     const handleFormChange = (evt) => {
         const { value, name } = evt.target;

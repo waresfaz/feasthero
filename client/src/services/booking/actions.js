@@ -11,6 +11,7 @@ import * as validators from '../../validators';
 import {
     LOAD_ClASS_DATA_SUCCESS,
     SELECT_CLASS_FOR_BOOKING,
+    SUBMIT_BOOKING_FAILED,
     SUBMIT_BOOKING_SUCCESS,
     UPDATE_BOOKING_DETAILS,
 } from './types';
@@ -25,6 +26,10 @@ function loadClassDataSuccess(classData) {
 
 function submitBookingSuccess() {
     return asAction(SUBMIT_BOOKING_SUCCESS);
+}
+
+function submitBookingFailed(bookingErrors) {
+    return asAction(SUBMIT_BOOKING_FAILED, bookingErrors);
 }
 
 export function chooseClassForBooking(classData) {
@@ -66,16 +71,19 @@ export function submitBooking() {
 
         const handleInitBookingSessionError = (errorResponse) => {
             if (requestErrorHasAdditionalInfo(errorResponse))
-                throw errorResponse.data.errors;
+                dispatch(submitBookingFailed(errorResponse.data.errors))
             else {
                 const error = { error: 'Error creating checkout session, please try again later' }
-                throw error;
+                dispatch(submitBookingFailed(error))
+                return;
             }
         }
 
         let errors = validateBookingDetails();
-        if (!errorsAreEmpty(errors))
-            throw errors;
+        if (!errorsAreEmpty(errors)) {
+            dispatch(submitBookingFailed(errors))
+            return;
+        }
 
         const initBookingSessionResult = await initBookingDetailsSession(bookingDetails);
         if (initBookingSessionResult.error) {

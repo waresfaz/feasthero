@@ -3,13 +3,13 @@ import { Form } from 'react-bootstrap';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { updateBookingDetails } from '../../../../../../services/booking/actions';
-import { selectCurrentClass } from '../../../../../../services/booking/selectors';
+import { selectBookingErrors, selectCurrentClass } from '../../../../../../services/booking/selectors';
 
 function IncludeMealKits() {
     const dispatch = useDispatch();
     const mealKitsBooked = useSelector(state => state.booking.bookingDetails.mealKitsBooked);
     const classData = useSelector(selectCurrentClass);
-    const errors = useSelector(state => state.booking.bookingErrors);
+    const errors = useSelector(selectBookingErrors);
 
     const toggleIncludeMealKits = () => {
         dispatch(updateBookingDetails({ mealKitsBooked: !mealKitsBooked }));

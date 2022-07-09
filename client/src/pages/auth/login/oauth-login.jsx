@@ -6,7 +6,6 @@ import { oAuthLogin as oAuthLoginRequest } from '../../../services/auth/actions'
 
 export default function OAuthLogin() {
     const [oAuthLogin, { loading, errors }] = useMutate(oAuthLoginRequest, { withDispatch: true });
-    console.log(errors)
     const handleLogin = async (oAuthData) => {
         await oAuthLogin(oAuthData);
     }

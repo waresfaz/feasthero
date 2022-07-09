@@ -1,6 +1,7 @@
 import {
     LOAD_ClASS_DATA_SUCCESS,
     SELECT_CLASS_FOR_BOOKING,
+    SUBMIT_BOOKING_FAILED,
     SUBMIT_BOOKING_SUCCESS,
     UPDATE_BOOKING_DETAILS,
 } from './types';
@@ -48,7 +49,11 @@ function bookingReducer(state = initialState, action) {
             return {
                 ...state,
                 bookingDetails: {},
-                bookingErrors: {}
+            }
+        case SUBMIT_BOOKING_FAILED:
+            return {
+                ...state,
+                bookingErrors: action.value
             }
         case UPDATE_BOOKING_DETAILS:
             return {

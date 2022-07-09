@@ -7,7 +7,7 @@ import {
     REGISTER_SUCCESS
 } from "./types";
 
-export default function authReducer(state = { loginErrors: {}, registerErrors: {} }, action) {
+export default function authReducer(state = { }, action) {
     switch (action.type) {
         case AT_LOGIN_PAGE:
             return {
@@ -28,13 +28,11 @@ export default function authReducer(state = { loginErrors: {}, registerErrors: {
             return {
                 ...state,
                 account: action.value,
-                loginErrors: {},
             }
         case REGISTER_SUCCESS:
             return {
                 ...state,
                 account: action.value,
-                registerErrors: {}
             }
         case LOGOUT_SUCCESS:
             return {
